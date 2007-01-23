@@ -1,0 +1,216 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{85C03311-3C25-4EB5-97BA-FDC6F3C63005}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SharpWired</RootNamespace>
+    <AssemblyName>SharpWired</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Connection\Bookmarks\Bookmark.cs" />
+    <Compile Include="Connection\Commands.cs" />
+    <Compile Include="Connection\ConnectionException.cs" />
+    <Compile Include="Connection\Server.cs" />
+    <Compile Include="Connection\Sockets\ConnectionManager.cs" />
+    <Compile Include="Connection\Sockets\SecureSocket.cs" />
+    <Compile Include="Connection\UserInformation.cs" />
+    <Compile Include="Gui\Chat\ChatUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Chat\ChatUserControl.Designer.cs">
+      <DependentUpon>ChatUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MessageEvents\MessageEventArgs.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_200.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_201.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_203.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_300301.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_302310.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_303331332.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_304.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_305309.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_306307.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_308.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_311330.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_320322.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_340.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_341.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_400.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_401.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_402.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_410420.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_411.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_600.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_601.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_602.cs" />
+    <Compile Include="MessageEvents\MessageEventArgs_Messages.cs" />
+    <Compile Include="Gui\SharpWiredForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gui\SharpWiredForm.Designer.cs">
+      <DependentUpon>SharpWiredForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Chat\UserItemControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Chat\UserItemControl.Designer.cs">
+      <DependentUpon>UserItemControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Chat\UserListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Chat\UserListControl.Designer.cs">
+      <DependentUpon>UserListControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MessageEvents\MessageEventArgs_Path.cs" />
+    <Compile Include="Connection\Messages.cs" />
+    <Compile Include="Model\Chat\ChatActionMessageObject.cs" />
+    <Compile Include="Model\Chat\ChatMessageObject.cs" />
+    <Compile Include="Model\Chat\ChatModel.cs" />
+    <Compile Include="Model\Chat\ChatObject.cs" />
+    <Compile Include="Model\Chat\ChatHandler.cs" />
+    <Compile Include="Model\Chat\ChatTopicObject.cs" />
+    <Compile Include="Model\Users\Group.cs" />
+    <Compile Include="Model\Users\Groups.cs" />
+    <Compile Include="Model\LogicManager.cs" />
+    <Compile Include="Model\HandlerBase.cs" />
+    <Compile Include="Model\Users\UserItem.cs" />
+    <Compile Include="Model\Users\UserHandler.cs" />
+    <Compile Include="Model\Users\Privileges.cs" />
+    <Compile Include="Model\Users\UserModel.cs" />
+    <Compile Include="Utility.cs" />
+    <Compile Include="SharpWiredMain.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Gui\BookmarkEntryControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BookmarkEntryControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\BookmarkManagerDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BookmarkManagerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\BookmarkManagerGUI.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BookmarkManagerGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Chat\ChatUserControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ChatUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\News\NewsUserControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NewsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\SharpWiredForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SharpWiredForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Chat\UserItemControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UserItemControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Chat\UserListControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UserListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Tango22px\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Tango22px\format-justify-left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Tango22px\internet-group-chat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Tango22px\mail-send-receive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Connection\Bookmarks\BookmarkManager.cs" />
+    <Compile Include="Gui\BookmarkEntryControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\BookmarkEntryControl.Designer.cs">
+      <DependentUpon>BookmarkEntryControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\BookmarkManagerDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gui\BookmarkManagerDialog.Designer.cs">
+      <DependentUpon>BookmarkManagerDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\BookmarkManagerGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\BookmarkManagerGUI.Designer.cs">
+      <DependentUpon>BookmarkManagerGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\News\NewsUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\News\NewsUserControl.Designer.cs">
+      <DependentUpon>NewsUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\News\NewsHandler.cs" />
+    <Compile Include="Model\News\NewsModel.cs" />
+    <Compile Include="Model\News\NewsObject.cs" />
+    <None Include="Icons\Tango22px\system-log-out.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

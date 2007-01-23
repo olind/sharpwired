@@ -1,0 +1,159 @@
+/**
+ * WinWiredStyleSheet.css
+ * Created by Ola Lindberg, 2006-12-20
+ * 
+ * WinWired - a Wired client.
+ * See: http://www.zankasoftware.com/wired/ for more infromation about Wired
+ * 
+ * Copyright (C) Ola Lindberg (http://olalindberg.com)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+ */
+ 
+/**
+ * TODO: This file is today placed in both debug folder and release folder. We should
+ * have some smarter functionallity for this. Include it as a project file maybe?
+ */
+
+/**
+ * General settings
+ */
+html, body {
+	color: Black;
+	font-family: 'Lucida Grande', Helvetica, Verdana, Arial, Sans-Serif;
+	font-size: small;
+	margin: 0;
+	padding: 0;
+	background: #FFF;
+}
+
+.alternative {
+	background-color: #EAEAEA;
+}
+
+.standard {
+}
+
+/**
+ * Topics
+ */
+ 
+.topicEntry {
+	border-bottom: 1px solid #92CC78;
+	padding: 2px 6px;
+	background-color: #B5FF93;
+}
+
+.topicEntry .time {
+	font-size: x-small;
+	float: right;
+}
+
+.topicEntry .userName {
+	font: bold;
+	font-size: x-small;
+}
+
+.topicEntry .message {
+	
+}
+
+/**
+ * Chats
+ */
+ 
+/* Standard chat messages */
+.chatEntry {
+	border-bottom: 1px solid #ccc;
+	padding: 2px 6px;
+}
+
+.chatEntry .time {
+	font-size: x-small;
+	float: right;
+}
+
+.chatEntry .userName {
+	font: bold;
+	font-size: x-small;
+}
+
+.chatEntry .message {
+}
+
+ /* Action chat messages */
+
+.actionChatEntry {
+	border-bottom: 1px solid #ccc;
+	padding: 2px 6px;
+}
+
+.actionChatEntry .time {
+	font-size: x-small;
+	float: right;
+}
+
+.actionChatEntry .userName {
+	font: bold;
+	font-size: x-small;
+}
+
+.actionChatEntry .message {
+	color: red;
+}
+
+/**
+ * News
+ */
+ 
+/* Standard news messages */
+.newsEntry {
+	border-bottom: 1px solid #ccc;
+	padding: 2px 6px;
+}
+
+.newsEntry .time {
+	font-size: x-small;
+	float: right;
+}
+
+.newsEntry .nickName {
+	font: bold;
+	font-size: x-small;
+}
+
+.newsEntry .message {
+}
+ 
+ 
+newsEntry
+ 
+/**
+ * Overrides
+ *
+ * Adjustment for IE5, the fonts will now be in the same size
+ * Check out: http://www.simplebits.com/publications/bulletproof/
+ */
+
+body {
+	font-size: x-small; /* IE5 Win */
+  	voice-family: "\"}\""; 
+  	voice-family: inherit;
+  	font-size: small;
+}
+
+html>body { /* be nice to Opera */
+	font-size: small;
+}	
