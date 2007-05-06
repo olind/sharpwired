@@ -24,7 +24,7 @@
  */
 #endregion
 
-namespace SharpWired.Gui
+namespace SharpWired.Gui.Bookmarks
 {
 	partial class BookmarkEntryControl
 	{

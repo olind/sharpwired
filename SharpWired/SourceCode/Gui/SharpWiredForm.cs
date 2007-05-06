@@ -40,6 +40,7 @@ using SharpWired.Connection;
 using SharpWired.Model;
 using SharpWired.Gui.Chat;
 using SharpWired.Connection.Bookmarks;
+using SharpWired.Gui.Bookmarks;
 
 namespace SharpWired.Gui
 {

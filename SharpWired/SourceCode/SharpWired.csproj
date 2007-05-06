@@ -110,17 +110,17 @@
     <Compile Include="Utility.cs" />
     <Compile Include="SharpWiredMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Gui\BookmarkEntryControl.resx">
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="Gui\Bookmarks\BookmarkEntryControl.resx">
       <DependentUpon>BookmarkEntryControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Gui\BookmarkManagerDialog.resx">
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Bookmarks\BookmarkManagerDialog.resx">
       <DependentUpon>BookmarkManagerDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Gui\BookmarkManagerGUI.resx">
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Bookmarks\BookmarkManagerGUI.resx">
       <DependentUpon>BookmarkManagerGUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Chat\ChatUserControl.resx">
       <SubType>Designer</SubType>
@@ -180,22 +180,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\Bookmarks\BookmarkManager.cs" />
-    <Compile Include="Gui\BookmarkEntryControl.cs">
+    <Compile Include="Gui\Bookmarks\BookmarkEntryControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Gui\BookmarkEntryControl.Designer.cs">
+    <Compile Include="Gui\Bookmarks\BookmarkEntryControl.Designer.cs">
       <DependentUpon>BookmarkEntryControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\BookmarkManagerDialog.cs">
+    <Compile Include="Gui\Bookmarks\BookmarkManagerDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Gui\BookmarkManagerDialog.Designer.cs">
+    <Compile Include="Gui\Bookmarks\BookmarkManagerDialog.Designer.cs">
       <DependentUpon>BookmarkManagerDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\BookmarkManagerGUI.cs">
+    <Compile Include="Gui\Bookmarks\BookmarkManagerGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Gui\BookmarkManagerGUI.Designer.cs">
+    <Compile Include="Gui\Bookmarks\BookmarkManagerGUI.Designer.cs">
       <DependentUpon>BookmarkManagerGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\Files\FilesUserControl.cs">

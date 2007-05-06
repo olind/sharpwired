@@ -24,7 +24,7 @@
  */
 #endregion
 
-namespace SharpWired.Gui
+namespace SharpWired.Gui.Bookmarks
 {
 	partial class BookmarkManagerGUI
 	{
@@ -58,7 +58,7 @@ namespace SharpWired.Gui
 			this.deleteButton = new System.Windows.Forms.Button();
 			this.addButton = new System.Windows.Forms.Button();
 			this.applyButton = new System.Windows.Forms.Button();
-			this.bookmarkEntryControl1 = new SharpWired.Gui.BookmarkEntryControl();
+			this.bookmarkEntryControl1 = new SharpWired.Gui.Bookmarks.BookmarkEntryControl();
 			this.SuspendLayout();
 			// 
 			// bookmarkList
@@ -117,7 +117,7 @@ namespace SharpWired.Gui
 			this.bookmarkEntryControl1.Name = "bookmarkEntryControl1";
 			this.bookmarkEntryControl1.Size = new System.Drawing.Size(325, 223);
 			this.bookmarkEntryControl1.TabIndex = 0;
-			this.bookmarkEntryControl1.ValueChanged += new SharpWired.Gui.BookmarkEntryControl.ValueChangedDelegate(this.bookmarkEntryControl1_ValueChanged);
+			this.bookmarkEntryControl1.ValueChanged += new SharpWired.Gui.Bookmarks.BookmarkEntryControl.ValueChangedDelegate(this.bookmarkEntryControl1_ValueChanged);
 			// 
 			// BookmarkManagerGUI
 			// 

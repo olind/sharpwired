@@ -24,7 +24,7 @@
  */
 #endregion
 
-namespace SharpWired.Gui
+namespace SharpWired.Gui.Bookmarks
 {
 	partial class BookmarkManagerDialog
 	{
@@ -56,7 +56,7 @@ namespace SharpWired.Gui
 		{
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.connectButton = new System.Windows.Forms.Button();
-			this.bookmarkManagerGUI1 = new SharpWired.Gui.BookmarkManagerGUI();
+			this.bookmarkManagerGUI1 = new SharpWired.Gui.Bookmarks.BookmarkManagerGUI();
 			this.SuspendLayout();
 			// 
 			// cancelButton
@@ -92,7 +92,7 @@ namespace SharpWired.Gui
 			this.bookmarkManagerGUI1.Name = "bookmarkManagerGUI1";
 			this.bookmarkManagerGUI1.Size = new System.Drawing.Size(354, 417);
 			this.bookmarkManagerGUI1.TabIndex = 0;
-			this.bookmarkManagerGUI1.CurrentBookmarkChangedEvent += new SharpWired.Gui.BookmarkManagerGUI.CurrentBookmarkChangedDelegate(this.bookmarkManagerGUI1_CurrentBookmarkChangedEvent);
+			this.bookmarkManagerGUI1.CurrentBookmarkChangedEvent += new SharpWired.Gui.Bookmarks.BookmarkManagerGUI.CurrentBookmarkChangedDelegate(this.bookmarkManagerGUI1_CurrentBookmarkChangedEvent);
 			// 
 			// BookmarkManagerDialog
 			// 

@@ -33,7 +33,7 @@ using System.Text;
 using System.Windows.Forms;
 using SharpWired.Connection.Bookmarks;
 
-namespace SharpWired.Gui
+namespace SharpWired.Gui.Bookmarks
 {
 	public partial class BookmarkManagerGUI : UserControl
 	{
