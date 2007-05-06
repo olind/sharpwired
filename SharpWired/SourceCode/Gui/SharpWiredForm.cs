@@ -54,6 +54,7 @@ namespace SharpWired.Gui
             InitializeComponent();
             chatUserControl1.Init(logicManager);
             newsUserControl1.Init(logicManager);
+            filesUserControl1.Init(logicManager);
         }
 
         private void ExitToolStripButton_Click(object sender, EventArgs e)

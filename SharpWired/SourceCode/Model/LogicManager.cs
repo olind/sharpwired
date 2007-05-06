@@ -32,6 +32,7 @@ using SharpWired.Model.Users;
 using SharpWired.Connection;
 using SharpWired.Connection.Bookmarks;
 using SharpWired.Model.News;
+using SharpWired.Model.Files;
 
 namespace SharpWired.Model
 {
@@ -43,6 +44,7 @@ namespace SharpWired.Model
         private ChatHandler chatHandler;
         private UserHandler userHandler;
         private NewsHandler newsHandler;
+        private FileListingHandler fileListingHandler;
 
         #endregion
 
@@ -66,6 +68,11 @@ namespace SharpWired.Model
         public NewsHandler NewsHandler
         {
             get { return newsHandler; }
+        }
+
+        public FileListingHandler FileListingHandler
+        {
+            get { return fileListingHandler;}
         }
 
         #endregion
@@ -92,6 +99,7 @@ namespace SharpWired.Model
         {
             chatHandler.Init(connectionManager);
             newsHandler.Init(connectionManager);
+            fileListingHandler.Init(connectionManager);
         }
 
         void Messages_LoginFailedEvent(object sender, global::SharpWired.MessageEvents.MessageEventArgs_Messages messageEventArgs)
@@ -113,6 +121,7 @@ namespace SharpWired.Model
             chatHandler = new ChatHandler(this);
             userHandler = new UserHandler(this);
             newsHandler = new NewsHandler(this);
+            fileListingHandler = new FileListingHandler(this);
         }
 
         #endregion

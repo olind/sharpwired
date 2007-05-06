@@ -1,7 +1,7 @@
 #region Information and licence agreements
 /**
- * MessageEventArgs_411.cs 
- * Created by Ola Lindberg, 2006-09-28
+ * FolderNodeUploads.cs 
+ * Created by Ola Lindberg, 2007-05-01
  * 
  * SharpWired - a Wired client.
  * See: http://www.zankasoftware.com/wired/ for more infromation about Wired
@@ -27,35 +27,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SharpWired.MessageEvents;
 
-namespace SharpWired.MessageEvents
+namespace SharpWired.Model.Files
 {
-    public class MessageEventArgs_411 : MessageEventArgs
+    /// <summary>
+    /// Represents a Wired Folder Upload Folder
+    /// </summary>
+    public class FolderNodeUploads : FolderNode 
     {
-        private long free;
-        private string path;
-
-        public long Free
+        public FolderNodeUploads(MessageEventArgs_410420 messageEventArgs)
+            : base(messageEventArgs)
         {
-            get
-            {
-                return free;
-            }
-        }
-
-        public string Path
-        {
-            get
-            {
-                return Path;
-            }
-        }
-
-        public MessageEventArgs_411(int messageId, string messageName, string path, long free)
-            : base(messageId, messageName)
-        {
-            this.free = free;
-            this.path = path;
         }
     }
 }

@@ -1,7 +1,7 @@
 #region Information and licence agreements
 /**
- * MessageEventArgs_411.cs 
- * Created by Ola Lindberg, 2006-09-28
+ * FileNode.cs 
+ * Created by Ola Lindberg, 2007-05-01
  * 
  * SharpWired - a Wired client.
  * See: http://www.zankasoftware.com/wired/ for more infromation about Wired
@@ -27,35 +27,40 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SharpWired.MessageEvents;
 
-namespace SharpWired.MessageEvents
+namespace SharpWired.Model.Files
 {
-    public class MessageEventArgs_411 : MessageEventArgs
+    /// <summary>
+    /// Representation of a "Wired File"
+    /// </summary>
+    public class FileNode : FileSystemEntry
     {
-        private long free;
-        private string path;
+        #region Variables
+        private int size;
+        #endregion
 
-        public long Free
+        #region Properties
+
+        /// <summary>
+        /// Get the file size for this file.
+        /// If this object is a folder 0 is returned.
+        /// </summary>
+        public int Size
         {
-            get
-            {
-                return free;
-            }
+            get { return size; }
         }
 
-        public string Path
-        {
-            get
-            {
-                return Path;
-            }
-        }
+        #endregion
 
-        public MessageEventArgs_411(int messageId, string messageName, string path, long free)
-            : base(messageId, messageName)
+        /// <summary>
+        /// Construtor
+        /// </summary>
+        /// <param name="messageEventArgs"></param>
+        public FileNode(MessageEventArgs_410420 messageEventArgs)
+            : base(messageEventArgs)
         {
-            this.free = free;
-            this.path = path;
+            this.size = messageEventArgs.Size;
         }
     }
 }

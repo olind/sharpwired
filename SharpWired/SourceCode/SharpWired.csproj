@@ -126,6 +126,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>ChatUserControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Files\FilesUserControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FilesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Gui\News\NewsUserControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>NewsUserControl.cs</DependentUpon>
@@ -194,12 +198,25 @@
     <Compile Include="Gui\BookmarkManagerGUI.Designer.cs">
       <DependentUpon>BookmarkManagerGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Files\FilesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Files\FilesUserControl.Designer.cs">
+      <DependentUpon>FilesUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Gui\News\NewsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Gui\News\NewsUserControl.Designer.cs">
       <DependentUpon>NewsUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Files\FileListingHandler.cs" />
+    <Compile Include="Model\Files\FileListingModel.cs" />
+    <Compile Include="Model\Files\FileNode.cs" />
+    <Compile Include="Model\Files\FileSystemEntry.cs" />
+    <Compile Include="Model\Files\FolderNode.cs" />
+    <Compile Include="Model\Files\FolderNodeDropBox.cs" />
+    <Compile Include="Model\Files\FolderNodeUploads.cs" />
     <Compile Include="Model\News\NewsHandler.cs" />
     <Compile Include="Model\News\NewsModel.cs" />
     <Compile Include="Model\News\NewsObject.cs" />

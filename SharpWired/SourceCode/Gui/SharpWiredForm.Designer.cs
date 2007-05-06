@@ -76,6 +76,7 @@ namespace SharpWired.Gui
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.newsUserControl1 = new SharpWired.Gui.News.NewsUserControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.filesUserControl1 = new SharpWired.Gui.Files.FilesUserControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.publicChatToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -89,6 +90,7 @@ namespace SharpWired.Gui
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -265,6 +267,7 @@ namespace SharpWired.Gui
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.filesUserControl1);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -272,6 +275,14 @@ namespace SharpWired.Gui
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Files";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // filesUserControl1
+            // 
+            this.filesUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.filesUserControl1.Location = new System.Drawing.Point(3, 3);
+            this.filesUserControl1.Name = "filesUserControl1";
+            this.filesUserControl1.Size = new System.Drawing.Size(603, 393);
+            this.filesUserControl1.TabIndex = 0;
             // 
             // tabPage4
             // 
@@ -295,7 +306,6 @@ namespace SharpWired.Gui
             this.toolStrip1.Size = new System.Drawing.Size(617, 25);
             this.toolStrip1.TabIndex = 6;
             this.toolStrip1.Text = "toolStrip1";
-
             // 
             // publicChatToolStripButton
             // 
@@ -373,6 +383,7 @@ namespace SharpWired.Gui
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -414,6 +425,7 @@ namespace SharpWired.Gui
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_ServerStatus;
         private SharpWired.Gui.News.NewsUserControl newsUserControl1;
+        private SharpWired.Gui.Files.FilesUserControl filesUserControl1;
     }
 }
 

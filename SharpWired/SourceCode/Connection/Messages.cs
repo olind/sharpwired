@@ -730,7 +730,7 @@ namespace SharpWired.Connection
             {
                 string[] w = SplitMessage(message);
                 string path = w[0];
-                int free = int.Parse(w[1]);
+                long free = long.Parse(w[1]);
 
                 MessageEventArgs_411 m = new MessageEventArgs_411(messageId, messageName, path, free);
 
