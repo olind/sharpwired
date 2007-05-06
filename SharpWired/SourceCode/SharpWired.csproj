@@ -180,6 +180,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\Bookmarks\BookmarkManager.cs" />
+    <Compile Include="Gui\Bookmarks\BookmarkBackgroundLoader.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Gui\Bookmarks\BookmarkEntryControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

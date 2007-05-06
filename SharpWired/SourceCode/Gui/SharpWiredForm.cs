@@ -62,13 +62,19 @@ namespace SharpWired.Gui
         {
             logicManager.ConnectionManager.Commands.Leave(1);
             Application.Exit();
-        }
+		}
 
-
+		#region Bookmark in the menu.
+		/// <summary>
+		/// User wants to manage bookmarks. Open the bookmarmanager gui.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void manageBookmarksToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			using (BookmarkManagerDialog diag = new BookmarkManagerDialog())
 			{
+				// NOTE: Bookmark mangar could be shown as a modless dialog?
 				if (diag.ShowDialog(this) == DialogResult.Yes)
 				{
 					Bookmark bookmark = diag.BookmarkToConnect;
@@ -77,44 +83,100 @@ namespace SharpWired.Gui
 			}
 		}
 
+		/// <summary>
+		/// When opening the Bookmark menu item, we start a background worker that
+		/// reads the bookmark file (which takes some time > 0.1s) and adds the items
+		/// as they are created.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void bookmarksToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
 		{
-			AddBookmarks();
-		}
-
-		private void AddBookmarks()
-		{
-			this.UseWaitCursor = true;
-
+			// Removing should be quick, even if its n^2 or so.
 			if (bookmarkItems.Count > 0)
-			{
 				foreach (ToolStripMenuItem item in bookmarkItems)
-				{
-					this.bookmarksToolStripMenuItem.DropDownItems.Remove(item);
-				}
-			}
-			bookmarkItems.Clear();
+					bookmarksToolStripMenuItem.DropDownItems.Remove(item);
 
-			List<Bookmark> bookmarks = BookmarkManager.GetBookmarks();
-			
-			foreach (Bookmark bookmark in bookmarks)
+			if (mLoadingToolStripMenuItem == null
+				|| !bookmarksToolStripMenuItem.DropDownItems.Contains(mLoadingToolStripMenuItem))
 			{
-				ToolStripMenuItem item = new ToolStripMenuItem(bookmark.ToShortString());
-				item.Tag = bookmark;
-				item.Click += new EventHandler(item_Click);
-				bookmarkItems.Add(item);
-				this.bookmarksToolStripMenuItem.DropDownItems.Add(item);
+				// Add the haxxor (Loading...) item again.
+				mLoadingToolStripMenuItem = new ToolStripMenuItem("(Loading...)");
+				bookmarksToolStripMenuItem.DropDownItems.Add(mLoadingToolStripMenuItem);
 			}
 
-			this.UseWaitCursor = false;
+			// Create a loader that can read the bookmark file in the background and then
+			// report to us the items to add.
+			if(mBookmarkBackgroundLoader == null)
+				mBookmarkBackgroundLoader = new BookmarkBackgroundLoader();
+
+			mBookmarkBackgroundLoader.ProgressChanged += new ProgressChangedEventHandler(mBookmarkBackgroundLoader_ProgressChanged);
+			mBookmarkBackgroundLoader.RunWorkerCompleted += new RunWorkerCompletedEventHandler(mBookmarkBackgroundLoader_RunWorkerCompleted);
+
+			// If the loader is working, try cancel and the invoke again.
+			if (mBookmarkBackgroundLoader.IsBusy)
+				mBookmarkBackgroundLoader.CancelAsync();
+			if (!mBookmarkBackgroundLoader.IsBusy)
+			{
+				mBookmarkLoadingTimer.Start();
+				mBookmarkBackgroundLoader.LoadBookmarks(bookmarkItems, bookmarksToolStripMenuItem, BookmarkItemClick);
+			}
 		}
 
-		void item_Click(object sender, EventArgs e)
+		/// <summary>
+		/// The background loader for bookmarks.
+		/// </summary>
+		BookmarkBackgroundLoader mBookmarkBackgroundLoader = null;
+
+		/// <summary>
+		/// The worker is done. Remove the (Loading...) menu item and remove event listeners.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void mBookmarkBackgroundLoader_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			this.bookmarksToolStripMenuItem.DropDownItems.Remove(mLoadingToolStripMenuItem);
+			mBookmarkBackgroundLoader.ProgressChanged -= new ProgressChangedEventHandler(mBookmarkBackgroundLoader_ProgressChanged);
+			mBookmarkBackgroundLoader.RunWorkerCompleted -= new RunWorkerCompletedEventHandler(mBookmarkBackgroundLoader_RunWorkerCompleted);
+			mBookmarkLoadingTimer.Stop();
+		}
+
+		/// <summary>
+		/// The loader have loaded something. Add it to the menu.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void mBookmarkBackgroundLoader_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			if (e.UserState is ToolStripMenuItem)
+				bookmarksToolStripMenuItem.DropDownItems.Add(e.UserState as ToolStripMenuItem);
+		}
+		
+		/// <summary>
+		/// The method that is invoked when a bookmark item is clicked.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void BookmarkItemClick(object sender, EventArgs e)
 		{
 			if ((sender as ToolStripMenuItem).Tag is Bookmark)
 				logicManager.Connect((sender as ToolStripMenuItem).Tag as Bookmark);
 		}
 
+		/// <summary>
+		/// A list of the ToolStripMenuItems that represents bookmarks.
+		/// </summary>
 		private List<ToolStripMenuItem> bookmarkItems = new List<ToolStripMenuItem>();
-    }
+		#endregion
+
+		private void mBookmarkLoadingTimer_Tick(object sender, EventArgs e)
+		{
+			string text = mLoadingToolStripMenuItem.Text;
+			// cut out loading.
+			string t = text.Substring(1, text.Length - 2);
+			// move one char from beginning to end, or vice versa.
+			string nt = t.Substring(1, t.Length - 1) + t[0].ToString();
+			mLoadingToolStripMenuItem.Text = "(" + nt + ")";
+		}
+	}
 }
