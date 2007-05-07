@@ -49,6 +49,20 @@ namespace SharpWired.Model.Files
         {
             get { return children; }
         }
+
+        /// <summary>
+        /// Gets the FolderNodes that are childrens of this node.
+        /// </summary>
+        public override IEnumerator<FolderNode> FolderNodes
+        {
+            get
+            {
+                foreach (FileSystemEntry entry in this.Children)
+                    if (entry is FolderNode)
+                        yield return ((FolderNode)entry);
+            }
+        }
+
         #endregion
 
         #region Methods

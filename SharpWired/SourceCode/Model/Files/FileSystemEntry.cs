@@ -34,10 +34,8 @@ namespace SharpWired.Model.Files
 {
     /// <summary>
     /// The base class for files and folders.
-    /// 
-    /// TODO: This class should be made abstract
     /// </summary>
-    public class FileSystemEntry
+    public abstract class FileSystemEntry
     {
         #region Variables
         private MessageEventArgs_410420 messageEventArgs;
@@ -111,11 +109,25 @@ namespace SharpWired.Model.Files
         {
             get { return pathArray; }
         }
+
+        /// <summary>
+        /// Gets the FolderNodes that are childrens of this node.
+        /// </summary>
+        public abstract IEnumerator<FolderNode> FolderNodes
+        { 
+            get; 
+        }
+
         #endregion
 
         #region Methods
         /// <summary>
         /// Adds the given newNode to the correct location below the given superParentNode.
+        /// 
+        /// Note! If we try to load the content of a foldernode that are below what we have 
+        /// loaded so far we will not add that node to our tree. It might be necessary to load the file
+        //  tree from the root node since we need to get additional folder information from the server (comments, file size, etc)
+        //  Example: If we load the folder /Folder1 before we load / we will never add /Folder1
         /// </summary>
         /// <param name="newNode">The node to add.</param>
         /// <param name="superParentNode">The parent or grandparent node where newNode should be added to.</param>
@@ -124,11 +136,11 @@ namespace SharpWired.Model.Files
         private bool Add(FileSystemEntry newNode, FolderNode superParentNode, int depth)
         {
             // We are at the correct location and the node should be added
-            if (superParentNode.Path == newNode.parentPath)
+            if (superParentNode.Path == newNode.ParentPath)
             {
                 if (superParentNode.HasChild(newNode))
                 {
-                    return true; //TODO: should we return true if the file/folder already exists in the tree?
+                    return false; //Return false if the file/folder already exists
                 }
                 else
                 {
@@ -138,13 +150,15 @@ namespace SharpWired.Model.Files
             }
 
             // Traverse the tree to find the correct location
-            foreach (FileSystemEntry parent in superParentNode.Children) //FIXME: If a 
+            foreach (FileSystemEntry parent in superParentNode.Children) //TODO: Use the property superParentNode.FolderNodes instead of superParentNode.Children
             {
-                if (parent is FolderNode)
+                if (parent is FolderNode) 
                 {
                     if (parent.PathArray[depth] == newNode.PathArray[depth])
                     {
-                        this.Add(newNode, ((FolderNode)parent), depth + 1);
+                        bool added = Add(newNode, ((FolderNode)parent), depth + 1);
+                        if (added)
+                            return true;
                     }
                 }
             }
