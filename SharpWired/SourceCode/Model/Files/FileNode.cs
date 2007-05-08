@@ -54,7 +54,7 @@ namespace SharpWired.Model.Files
         /// <summary>
         /// Returns null since a FileNode dont have any FolderNodes.
         /// </summary>
-        public override IEnumerator<FolderNode> FolderNodes
+        public override IEnumerable<FolderNode> FolderNodes
         {
             get { return null; } //TODO: Return an empty list instead?
         }

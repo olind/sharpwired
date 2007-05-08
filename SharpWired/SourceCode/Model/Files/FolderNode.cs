@@ -53,7 +53,7 @@ namespace SharpWired.Model.Files
         /// <summary>
         /// Gets the FolderNodes that are childrens of this node.
         /// </summary>
-        public override IEnumerator<FolderNode> FolderNodes
+        public override IEnumerable<FolderNode> FolderNodes
         {
             get
             {

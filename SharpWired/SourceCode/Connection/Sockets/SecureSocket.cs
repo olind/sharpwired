@@ -97,6 +97,7 @@ namespace SharpWired.Connection.Sockets
             }
             catch (SocketException argSExp)
             {
+                //argSExp.SocketErrorCode == HostNotFound
                 throw new ConnectionException("There is a problem with the Socket", argSExp );
             }
 

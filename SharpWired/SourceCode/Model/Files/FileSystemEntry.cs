@@ -113,7 +113,7 @@ namespace SharpWired.Model.Files
         /// <summary>
         /// Gets the FolderNodes that are childrens of this node.
         /// </summary>
-        public abstract IEnumerator<FolderNode> FolderNodes
+        public abstract IEnumerable<FolderNode> FolderNodes
         { 
             get; 
         }
@@ -150,16 +150,13 @@ namespace SharpWired.Model.Files
             }
 
             // Traverse the tree to find the correct location
-            foreach (FileSystemEntry parent in superParentNode.Children) //TODO: Use the property superParentNode.FolderNodes instead of superParentNode.Children
+            foreach (FileSystemEntry parent in superParentNode.FolderNodes) //TODO: Use the property superParentNode.FolderNodes instead of superParentNode.Children
             {
-                if (parent is FolderNode) 
+                if (parent.PathArray[depth] == newNode.PathArray[depth])
                 {
-                    if (parent.PathArray[depth] == newNode.PathArray[depth])
-                    {
-                        bool added = Add(newNode, ((FolderNode)parent), depth + 1);
-                        if (added)
-                            return true;
-                    }
+                    bool added = Add(newNode, ((FolderNode)parent), depth + 1);
+                    if (added)
+                        return true;
                 }
             }
             return false;
