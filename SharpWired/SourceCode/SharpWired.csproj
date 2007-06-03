@@ -226,6 +226,12 @@
     <Compile Include="Model\News\NewsObject.cs" />
     <None Include="Icons\Tango22px\system-log-out.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WiredControls\WiredControls.csproj">
+      <Project>{FEC0BECC-B654-4DEE-9919-74F52ECDDC92}</Project>
+      <Name>WiredControls</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -41,6 +41,7 @@ using SharpWired.Model;
 using SharpWired.Gui.Chat;
 using SharpWired.Connection.Bookmarks;
 using SharpWired.Gui.Bookmarks;
+using WiredControls.ToolStripItems;
 
 namespace SharpWired.Gui
 {
@@ -97,13 +98,15 @@ namespace SharpWired.Gui
 				foreach (ToolStripMenuItem item in bookmarkItems)
 					bookmarksToolStripMenuItem.DropDownItems.Remove(item);
 
-			if (mLoadingToolStripMenuItem == null
-				|| !bookmarksToolStripMenuItem.DropDownItems.Contains(mLoadingToolStripMenuItem))
+			if (mLoadingToolStripMenuItem != null
+				|| bookmarksToolStripMenuItem.DropDownItems.Contains(mLoadingToolStripMenuItem))
 			{
-				// Add the haxxor (Loading...) item again.
-				mLoadingToolStripMenuItem = new ToolStripMenuItem("(Loading...)");
-				bookmarksToolStripMenuItem.DropDownItems.Add(mLoadingToolStripMenuItem);
+				bookmarksToolStripMenuItem.DropDownItems.Remove(mLoadingToolStripMenuItem);
 			}
+			// Add the haxxor (Loading...) item again.
+			mLoadingToolStripMenuItem = new AnimatedLoaderItem("(Loading...)");
+			(mLoadingToolStripMenuItem as AnimatedLoaderItem).Start();
+			bookmarksToolStripMenuItem.DropDownItems.Add(mLoadingToolStripMenuItem);
 
 			// Create a loader that can read the bookmark file in the background and then
 			// report to us the items to add.
@@ -139,6 +142,7 @@ namespace SharpWired.Gui
 			mBookmarkBackgroundLoader.ProgressChanged -= new ProgressChangedEventHandler(mBookmarkBackgroundLoader_ProgressChanged);
 			mBookmarkBackgroundLoader.RunWorkerCompleted -= new RunWorkerCompletedEventHandler(mBookmarkBackgroundLoader_RunWorkerCompleted);
 			mBookmarkLoadingTimer.Stop();
+			(mLoadingToolStripMenuItem as AnimatedLoaderItem).Stop();
 		}
 
 		/// <summary>
