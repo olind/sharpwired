@@ -1250,7 +1250,15 @@ namespace SharpWired.Connection
         /// <param name="message"></param>
         private void socket_MessageReceived(object sender, EventArgs e, string message)
         {
-            ParseMessage(message);
+			try
+			{
+				ParseMessage(message);
+			}
+			catch (FormatException formatExp)
+			{
+				Console.Error.WriteLine("Error trying to parse the message "
+				+ "recieved on socket!\nReason\n" + formatExp.ToString());
+			}
         }
 
         /// <summary>

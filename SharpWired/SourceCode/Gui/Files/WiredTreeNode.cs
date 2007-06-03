@@ -54,5 +54,14 @@ namespace SharpWired.Gui.Files
         public WiredTreeNode(FileSystemEntry modelNode): base(modelNode.Name) {
             this.modelNode = modelNode;
         }
+
+		/// <summary>
+		/// A constructor that allows for creation of node with a text, as the
+		/// base class TreeNode does.
+		/// </summary>
+		/// <param name="text">The text for the node.</param>
+		public WiredTreeNode(string text): base(text)
+		{
+		}
     }
 }
