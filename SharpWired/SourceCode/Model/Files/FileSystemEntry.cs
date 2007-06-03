@@ -118,6 +118,12 @@ namespace SharpWired.Model.Files
             get; 
         }
 
+        /// <summary>
+        /// Finds out if this node has any childrens or not.
+        /// </summary>
+        /// <returns>True if this node has 1 or more children nodes.</returns>
+        public abstract bool HasChildren();
+
         #endregion
 
         #region Methods

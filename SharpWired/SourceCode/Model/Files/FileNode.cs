@@ -59,6 +59,11 @@ namespace SharpWired.Model.Files
             get { return null; } //TODO: Return an empty list instead?
         }
 
+        public override bool HasChildren()
+        {
+            return false;
+        }
+
         #endregion
 
         /// <summary>

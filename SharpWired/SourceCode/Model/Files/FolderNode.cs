@@ -50,6 +50,14 @@ namespace SharpWired.Model.Files
             get { return children; }
         }
 
+        public override bool HasChildren()
+        {
+            if (children.Count > 0)
+                return true;
+            else
+                return false;
+        }
+
         /// <summary>
         /// Gets the FolderNodes that are childrens of this node.
         /// </summary>

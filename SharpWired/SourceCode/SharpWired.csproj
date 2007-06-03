@@ -207,6 +207,7 @@
     <Compile Include="Gui\Files\FilesUserControl.Designer.cs">
       <DependentUpon>FilesUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Files\WiredTreeNode.cs" />
     <Compile Include="Gui\News\NewsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -1,3 +1,29 @@
+#region Information and licence agreements
+/**
+ * FileUserControl.cs 
+ * Created by Ola Lindberg, 2007-05-10
+ * 
+ * SharpWired - a Wired client.
+ * See: http://www.zankasoftware.com/wired/ for more infromation about Wired
+ * 
+ * Copyright (C) Ola Lindberg (http://olalindberg.com)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+ */
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +33,7 @@ using System.Text;
 using System.Windows.Forms;
 using SharpWired.Model;
 using SharpWired.Model.Files;
+using System.Collections;
 
 namespace SharpWired.Gui.Files
 {
@@ -30,7 +57,109 @@ namespace SharpWired.Gui.Files
             WriteTextToTexBox(textBox1, "");
             output = "";
             WriteTextToTexBox(textBox1, GetFileTreeOutput(superRootNode));
+
+            ClearTreeView(rootTreeView);
+            PopulateTreeView(rootTreeView, null, superRootNode, 0);
         }
+
+
+        #region TreeNode
+
+        /// <summary>
+        /// Populates the tree view. NOTE! This implementation does not currently work.
+        /// </summary>
+        /// <param name="tree"></param>
+        /// <param name="parentNode"></param>
+        /// <param name="modelNodes"></param>
+        /// <param name="folderCount"></param>
+        private void PopulateTreeView(TreeView tree, WiredTreeNode parentNode, FolderNode modelNodes, int folderCount)
+        {
+            if (parentNode == null) // Nodes should be added to the root of the treeview
+            {
+                foreach (FileSystemEntry fse in modelNodes.Children)
+                {
+                    WiredTreeNode newNode = new WiredTreeNode(fse);
+                    AddTreeNodeToTreeView(tree, newNode); // runs: tree.Nodes.Add(newNode);
+
+                    folderCount++;
+
+                    if (fse.HasChildren() && fse is FolderNode)
+                    {
+                        ModelNodeToTreeNode(tree, newNode, ((FolderNode)fse), folderCount); //fse has children, add those children to the tree
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("ParentNode: '" + parentNode.ModelNode.Name + "' ParentNode.ParentPath: " + parentNode.ModelNode.ParentPath + " Count: " + (folderCount-1));
+                Console.WriteLine("ModelNode: '" + modelNodes.Name + "' ModelNode.ParentPath: " + modelNodes.ParentPath + " Count: " + (folderCount-1));
+                    
+                folderCount++; //FIXME: I'm having a hard time finding out where in the tree the new nodes should be added.. Have no good approach for this.
+                WiredTreeNode newNode = new WiredTreeNode(modelNodes);
+                AddTreeNodeToTreeNode(tree, parentNode, newNode, folderCount-1);
+            }
+        }
+
+        #endregion
+        #region GUI-thread-safe callback methods
+
+        /// <summary>
+        /// Add the given node to the given parent node in the given tree
+        /// </summary>
+        /// <param name="tree"></param>
+        /// <param name="parentNode"></param>
+        /// <param name="node"></param>
+        private void AddTreeNodeToTreeNode(TreeView tree, WiredTreeNode parentNode, WiredTreeNode node, int folderIndex)
+        {
+            if (this.InvokeRequired)
+            {
+                AddTreeNodeToTreeNodeCallback addTreeNodeToTreeNodeCallback = new AddTreeNodeToTreeNodeCallback(AddTreeNodeToTreeNode);
+                this.Invoke(addTreeNodeToTreeNodeCallback, new object[] { tree, parentNode, node, folderIndex });
+            }
+            else
+            {
+                tree.Nodes[folderIndex].Nodes.Add(node);
+            }
+        }
+        delegate void AddTreeNodeToTreeNodeCallback(TreeView tree, WiredTreeNode parentNode, WiredTreeNode node, int folderIndex);
+
+        /// <summary>
+        /// Add the given node to the given tree. Creates a GUI thread safe callback.
+        /// </summary>
+        /// <param name="tree">The tree where the given node should be added to.</param>
+        /// <param name="node">The node to add to the tree.</param>
+        private void AddTreeNodeToTreeView(TreeView tree, WiredTreeNode node) 
+        {
+            if (this.InvokeRequired)
+            {
+                AddTreeNodeToTreeViewCallback addTreeNodeToTreeViewCallback = new AddTreeNodeToTreeViewCallback(AddTreeNodeToTreeView);
+                this.Invoke(addTreeNodeToTreeViewCallback, new object[] { tree,node });
+            }
+            else
+            {
+                
+                tree.Nodes.Add(node);
+            }
+        }
+        delegate void AddTreeNodeToTreeViewCallback(TreeView tree, WiredTreeNode node);
+
+        private void ClearTreeView(TreeView tree)
+        {
+            if (this.InvokeRequired)
+            {
+                ClearTreeViewCallback clearTreeViewCallback = new ClearTreeViewCallback(ClearTreeView);
+                this.Invoke(clearTreeViewCallback, new object[] { tree });
+            }
+            else
+            {
+                tree.Nodes.Clear();
+            }
+        }
+        delegate void ClearTreeViewCallback(TreeView tree);
+
+        #endregion
+
+        #region TextBox
 
         /// <summary>
         /// Generates a string with all folders
@@ -73,6 +202,8 @@ namespace SharpWired.Gui.Files
             }
         }
         delegate void WriteTextToTextBoxCallback(TextBox textBoxToPopulate, string textToPopulate);
+
+        #endregion
 
         #region Initialization
         public void Init(LogicManager logicManager)
