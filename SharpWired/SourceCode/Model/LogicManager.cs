@@ -33,6 +33,7 @@ using SharpWired.Connection;
 using SharpWired.Connection.Bookmarks;
 using SharpWired.Model.News;
 using SharpWired.Model.Files;
+using SharpWired.MessageEvents;
 
 namespace SharpWired.Model
 {
@@ -45,6 +46,7 @@ namespace SharpWired.Model
         private UserHandler userHandler;
         private NewsHandler newsHandler;
         private FileListingHandler fileListingHandler;
+        private MessageEventArgs_200 serverInformation;
 
         #endregion
 
@@ -75,6 +77,11 @@ namespace SharpWired.Model
             get { return fileListingHandler;}
         }
 
+        public MessageEventArgs_200 ServerInformation
+        {
+            get { return serverInformation; }
+        }
+
         #endregion
 
         #region Methods
@@ -89,6 +96,8 @@ namespace SharpWired.Model
             // Listen to events
             connectionManager.Messages.LoginFailedEvent += new Messages.LoginFailedEventHandler(Messages_LoginFailedEvent);
             connectionManager.Messages.LoginSucceededEvent += new Messages.LoginSucceededEventHandler(Messages_LoginSucceededEvent);
+
+            connectionManager.Messages.ServerInformationEvent += new Messages.ServerInformationEventHandler(Messages_ServerInformationEvent);
         }
 
         #endregion
@@ -107,6 +116,11 @@ namespace SharpWired.Model
             throw new Exception("The method or operation is not implemented.");
         }
 
+        void Messages_ServerInformationEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_200 messageEventArgs)
+        {
+            Console.WriteLine("200: " + messageEventArgs.ServerName);
+        }
+
         #endregion
 
         #region Initialization
@@ -117,13 +131,11 @@ namespace SharpWired.Model
         public LogicManager()
         {
             connectionManager = new ConnectionManager();
-
             chatHandler = new ChatHandler(this);
             userHandler = new UserHandler(this);
             newsHandler = new NewsHandler(this);
             fileListingHandler = new FileListingHandler(this);
         }
-
         #endregion
     }
 }

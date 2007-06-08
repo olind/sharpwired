@@ -1,7 +1,7 @@
 #region Information and licence agreements
 /**
  * FileUserControl.cs 
- * Created by Ola Lindberg, 2007-05-10
+ * Created by Ola Lindberg and Peter Holmdahl, 2007-05-10
  * 
  * SharpWired - a Wired client.
  * See: http://www.zankasoftware.com/wired/ for more infromation about Wired
@@ -43,8 +43,34 @@ namespace SharpWired.Gui.Files
     /// </summary>
     public partial class FilesUserControl : UserControl
     {
+        #region Variables
         private LogicManager logicManager;
-        string output = ""; // Keeps the output through itterations
+        string output = ""; // Keeps the output through itterations for temporary file listing. Can be removed once the textbox for file listing is obsoleted
+        private string iconFilePath;
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Get or set the file path for the CSS-file
+        /// </summary>
+        private string IconFilePath
+        {
+            get
+            {
+                if (iconFilePath == null)
+                    return System.Environment.CurrentDirectory + "\\GUI\\Icons\\"; //TODO: The path to the CSS-file should probably be set in some other way
+                return iconFilePath;
+            }
+            set
+            {
+                iconFilePath = value;
+            }
+        }
+
+        #endregion
+
+        #region Temp
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -59,14 +85,13 @@ namespace SharpWired.Gui.Files
             WriteTextToTexBox(textBox1, GetFileTreeOutput(superRootNode));
 
             ClearTreeView(rootTreeView);
-            //PopulateTreeView(rootTreeView, null, superRootNode, 0);
-
 			PopulateFileTree(rootTreeView, superRootNode);
         }
 
-		delegate void PopulateFileTreeCallBack(TreeView treeView, FolderNode rootNode);
+        #endregion 
 
-		/// <summary>
+        #region TreeNode
+        /// <summary>
 		/// Populates the filetree from the given super root.
 		/// </summary>
 		/// <remarks>Uses callback if necessary.</remarks>
@@ -77,7 +102,7 @@ namespace SharpWired.Gui.Files
 			if (InvokeRequired)
 			{
 				PopulateFileTreeCallBack callback = new PopulateFileTreeCallBack(PopulateFileTree);
-				Invoke(callback, new object[] { rootTreeView, superRootNode});
+				Invoke(callback, new object[] { rootTreeView, superRootNode });
 				return;
 			}
 
@@ -87,13 +112,14 @@ namespace SharpWired.Gui.Files
 			// Just to put a name on the root in the filetree. alternatively,
 			// the tree can skip the server root node, and have several nodes
 			// at "level 0" in the tree.
-			if (string.IsNullOrEmpty(superRootNode.Name))
-				superRootNode.Name = "Server";
+            if (string.IsNullOrEmpty(superRootNode.Name))
+                superRootNode.Name = "Server";
 			rootTreeView.Nodes.Add(MakeFileNode(superRootNode));
 
 			// Expand all nodes make the test easy and nice.
 			rootTreeView.ExpandAll();
 		}
+        delegate void PopulateFileTreeCallBack(TreeView treeView, FolderNode rootNode);
 
 		/// <summary>
 		/// Takes a FileSystemEntry and build a subtree from that,
@@ -106,6 +132,7 @@ namespace SharpWired.Gui.Files
 			if (fileSystemEntry != null)
 			{
 				WiredTreeNode node = new WiredTreeNode(fileSystemEntry);
+                node.ImageIndex = node.IconIndex;
 				if (fileSystemEntry is FolderNode
 					&& fileSystemEntry.HasChildren())
 				{
@@ -119,88 +146,11 @@ namespace SharpWired.Gui.Files
 			}
 			return new WiredTreeNode("The given node was null, but I didn't feel like trowing an exception!");
 		}
-
-
-        #region TreeNode
-
+        
         /// <summary>
-        /// Populates the tree view. NOTE! This implementation does not currently work.
+        /// Clears the given tree view.
         /// </summary>
         /// <param name="tree"></param>
-        /// <param name="parentNode"></param>
-        /// <param name="modelNodes"></param>
-        /// <param name="folderCount"></param>
-        private void PopulateTreeView(TreeView tree, WiredTreeNode parentNode, FolderNode modelNodes, int folderCount)
-        {
-            if (parentNode == null) // Nodes should be added to the root of the treeview
-            {
-                foreach (FileSystemEntry fse in modelNodes.Children)
-                {
-                    WiredTreeNode newNode = new WiredTreeNode(fse);
-                    AddTreeNodeToTreeView(tree, newNode); // runs: tree.Nodes.Add(newNode);
-
-                    folderCount++;
-
-                    if (fse.HasChildren() && fse is FolderNode)
-                    {
-                        //ModelNodeToTreeNode(tree, newNode, ((FolderNode)fse), folderCount); //fse has children, add those children to the tree
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("ParentNode: '" + parentNode.ModelNode.Name + "' ParentNode.ParentPath: " + parentNode.ModelNode.ParentPath + " Count: " + (folderCount-1));
-                Console.WriteLine("ModelNode: '" + modelNodes.Name + "' ModelNode.ParentPath: " + modelNodes.ParentPath + " Count: " + (folderCount-1));
-                    
-                folderCount++; //FIXME: I'm having a hard time finding out where in the tree the new nodes should be added.. Have no good approach for this.
-                WiredTreeNode newNode = new WiredTreeNode(modelNodes);
-                AddTreeNodeToTreeNode(tree, parentNode, newNode, folderCount-1);
-            }
-        }
-
-        #endregion
-        #region GUI-thread-safe callback methods
-
-        /// <summary>
-        /// Add the given node to the given parent node in the given tree
-        /// </summary>
-        /// <param name="tree"></param>
-        /// <param name="parentNode"></param>
-        /// <param name="node"></param>
-        private void AddTreeNodeToTreeNode(TreeView tree, WiredTreeNode parentNode, WiredTreeNode node, int folderIndex)
-        {
-            if (this.InvokeRequired)
-            {
-                AddTreeNodeToTreeNodeCallback addTreeNodeToTreeNodeCallback = new AddTreeNodeToTreeNodeCallback(AddTreeNodeToTreeNode);
-                this.Invoke(addTreeNodeToTreeNodeCallback, new object[] { tree, parentNode, node, folderIndex });
-            }
-            else
-            {
-                tree.Nodes[folderIndex].Nodes.Add(node);
-            }
-        }
-        delegate void AddTreeNodeToTreeNodeCallback(TreeView tree, WiredTreeNode parentNode, WiredTreeNode node, int folderIndex);
-
-        /// <summary>
-        /// Add the given node to the given tree. Creates a GUI thread safe callback.
-        /// </summary>
-        /// <param name="tree">The tree where the given node should be added to.</param>
-        /// <param name="node">The node to add to the tree.</param>
-        private void AddTreeNodeToTreeView(TreeView tree, WiredTreeNode node) 
-        {
-            if (this.InvokeRequired)
-            {
-                AddTreeNodeToTreeViewCallback addTreeNodeToTreeViewCallback = new AddTreeNodeToTreeViewCallback(AddTreeNodeToTreeView);
-                this.Invoke(addTreeNodeToTreeViewCallback, new object[] { tree,node });
-            }
-            else
-            {
-                
-                tree.Nodes.Add(node);
-            }
-        }
-        delegate void AddTreeNodeToTreeViewCallback(TreeView tree, WiredTreeNode node);
-
         private void ClearTreeView(TreeView tree)
         {
             if (this.InvokeRequired)
@@ -268,6 +218,14 @@ namespace SharpWired.Gui.Files
         {
             this.logicManager = logicManager;
             logicManager.FileListingHandler.FileListingModel.FileListingDoneEvent += new FileListingModel.FileListingDoneDelegate(FileListingModel_FileListingDoneEvent);
+
+            //TODO: Add upload + drop box icons ass well
+            ImageList rootTreeViewIcons = new ImageList();
+            Image folder = (Image)Bitmap.FromFile(IconFilePath + "folder.png");
+            Image file = (Image)Bitmap.FromFile(IconFilePath + "text-x-generic.png");
+            rootTreeViewIcons.Images.Add(folder);
+            rootTreeViewIcons.Images.Add(file);
+            rootTreeView.ImageList = rootTreeViewIcons;
         }
 
         public FilesUserControl()

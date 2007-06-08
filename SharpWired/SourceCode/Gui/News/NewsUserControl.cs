@@ -97,7 +97,9 @@ namespace SharpWired.Gui.News
 
         void NewsModel_NewsListReplacedEvent(List<SharpWired.Model.News.NewsObject> newsList)
         {
-            foreach (NewsObject n in newsList)
+            List<SharpWired.Model.News.NewsObject> reversedNewsList = newsList; //FIXME: Implement a better solution than copying the lists and reversing them
+            reversedNewsList.Reverse();
+            foreach (NewsObject n in reversedNewsList)
                 WriteHTMLToNews(FormatNewsPostHTML(n));
         }
 

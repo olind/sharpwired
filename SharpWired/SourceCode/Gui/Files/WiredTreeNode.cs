@@ -39,6 +39,7 @@ namespace SharpWired.Gui.Files
     class WiredTreeNode : TreeNode
     {
         private FileSystemEntry modelNode;
+        private int iconIndex;
 
         /// <summary>
         /// Gets the model node for this tree node
@@ -47,12 +48,26 @@ namespace SharpWired.Gui.Files
         {
             get { return modelNode; }
         }
+
+        /// <summary>
+        /// Gets or sets the index for this nodes icon
+        /// </summary>
+        public int IconIndex
+        {
+            get { return iconIndex; }
+            set { iconIndex = value; }
+        }
 	
         /// <summary>
         /// Constructor
         /// </summary>
         public WiredTreeNode(FileSystemEntry modelNode): base(modelNode.Name) {
             this.modelNode = modelNode;
+
+            if (modelNode is FolderNode)
+                iconIndex = 0;
+            else if (modelNode is FileNode)
+                iconIndex = 1;
         }
 
 		/// <summary>
