@@ -214,6 +214,7 @@
     <Compile Include="Gui\News\NewsUserControl.Designer.cs">
       <DependentUpon>NewsUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Resources\IconHandler.cs" />
     <Compile Include="Model\Files\FileListingHandler.cs" />
     <Compile Include="Model\Files\FileListingModel.cs" />
     <Compile Include="Model\Files\FileNode.cs" />
