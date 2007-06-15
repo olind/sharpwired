@@ -34,6 +34,7 @@ using System.Windows.Forms;
 using SharpWired.Model;
 using SharpWired.Model.Files;
 using System.Collections;
+using SharpWired.Gui.Resources;
 
 namespace SharpWired.Gui.Files
 {
@@ -46,27 +47,11 @@ namespace SharpWired.Gui.Files
         #region Variables
         private LogicManager logicManager;
         string output = ""; // Keeps the output through itterations for temporary file listing. Can be removed once the textbox for file listing is obsoleted
-        private string iconFilePath;
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Get or set the file path for the CSS-file
-        /// </summary>
-        private string IconFilePath
-        {
-            get
-            {
-                if (iconFilePath == null)
-                    return System.Environment.CurrentDirectory + "\\GUI\\Icons\\"; //TODO: The path to the CSS-file should probably be set in some other way
-                return iconFilePath;
-            }
-            set
-            {
-                iconFilePath = value;
-            }
-        }
+       
 
         #endregion
 
@@ -219,12 +204,18 @@ namespace SharpWired.Gui.Files
             this.logicManager = logicManager;
             logicManager.FileListingHandler.FileListingModel.FileListingDoneEvent += new FileListingModel.FileListingDoneDelegate(FileListingModel_FileListingDoneEvent);
 
-            //TODO: Add upload + drop box icons ass well
             ImageList rootTreeViewIcons = new ImageList();
-            Image folder = (Image)Bitmap.FromFile(IconFilePath + "folder.png");
-            Image file = (Image)Bitmap.FromFile(IconFilePath + "text-x-generic.png");
-            rootTreeViewIcons.Images.Add(folder);
-            rootTreeViewIcons.Images.Add(file);
+            rootTreeViewIcons.ColorDepth = ColorDepth.Depth32Bit;
+
+            IconHandler iconHandler = new IconHandler();
+
+            try
+            {
+                rootTreeViewIcons.Images.Add(iconHandler.FolderClosed);
+                rootTreeViewIcons.Images.Add(iconHandler.File);
+            }
+            catch (Exception e) { }
+
             rootTreeView.ImageList = rootTreeViewIcons;
         }
 
