@@ -35,6 +35,7 @@ using SharpWired.Model;
 using SharpWired.Model.Files;
 using System.Collections;
 using SharpWired.Gui.Resources;
+using SharpWired.Gui.Resources.Icons;
 
 namespace SharpWired.Gui.Files
 {

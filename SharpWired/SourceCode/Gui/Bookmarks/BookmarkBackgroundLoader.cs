@@ -4,6 +4,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
 using SharpWired.Connection.Bookmarks;
+using SharpWired.Gui.Resources.Icons;
 
 namespace SharpWired.Gui.Bookmarks
 {
@@ -63,6 +64,7 @@ namespace SharpWired.Gui.Bookmarks
 				ToolStripMenuItem item = new ToolStripMenuItem(bookmark.ToShortString());
 				item.Tag = bookmark;
 				item.Click += new EventHandler(arg.ItemClickMethod);
+				item.Image = IconHandler.Instane[IconList.File];
 				arg.BookmarkItems.Add(item);
 				//arg.MenuItem.DropDownItems.Add(item);
 

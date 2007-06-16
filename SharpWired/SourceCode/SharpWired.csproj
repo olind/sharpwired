@@ -214,7 +214,8 @@
     <Compile Include="Gui\News\NewsUserControl.Designer.cs">
       <DependentUpon>NewsUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\Resources\IconHandler.cs" />
+    <Compile Include="Gui\Resources\Icons\IconHandler.cs" />
+    <Compile Include="Gui\Resources\Icons\IconList.cs" />
     <Compile Include="Model\Files\FileListingHandler.cs" />
     <Compile Include="Model\Files\FileListingModel.cs" />
     <Compile Include="Model\Files\FileNode.cs" />
@@ -225,6 +226,7 @@
     <Compile Include="Model\News\NewsHandler.cs" />
     <Compile Include="Model\News\NewsModel.cs" />
     <Compile Include="Model\News\NewsObject.cs" />
+    <Compile Include="Utils\Pair.cs" />
     <None Include="Icons\Tango22px\system-log-out.png" />
   </ItemGroup>
   <ItemGroup>
