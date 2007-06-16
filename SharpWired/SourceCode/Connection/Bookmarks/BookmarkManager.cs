@@ -83,7 +83,7 @@ namespace SharpWired.Connection.Bookmarks
 				}
 				if (file != null && file.Exists)
 				{
-					Bookmark[] bms = LoadBookMarks(file);
+					Bookmark[] bms = LoadBookmarks(file);
 					List<Bookmark> list = new List<Bookmark>(bms);
 					return list;
 				}
@@ -181,13 +181,32 @@ namespace SharpWired.Connection.Bookmarks
 		/// </summary>
 		/// <param name="file"></param>
 		/// <returns>A List with the bookmarks</Bookmark></returns>
-		private static Bookmark[] LoadBookMarks(FileInfo file)
+		private static Bookmark[] LoadBookmarks(FileInfo file)
 		{
 			lock (typeof(BookmarkManager))
 			{
 				try
 				{
-					file.Decrypt();
+					#region Encryption try-catch
+					try
+					{
+						file.Decrypt();
+					}
+					// The platform is not Win NT or later.
+					catch (PlatformNotSupportedException platnotsupp)
+					{
+						Console.Error.WriteLine("Accessing Bookmark file: "
+							+ "The platform don't support encryption, trying to read as clear text."
+							+ platnotsupp.ToString());
+					} 
+					// The file system don't support encryption
+					catch (NotSupportedException notsupp)
+					{
+						Console.Error.WriteLine("Accessing Bookmark file: "
+							+ "The File System don't support encryption, trying to read as clear text."
+							+ notsupp.ToString());
+					}
+					#endregion
 
 					// If the file is empty, just return an empty list.
 					if (file.Length == 0)
@@ -268,7 +287,28 @@ namespace SharpWired.Connection.Bookmarks
 							//TODO: :-))
 						}
 					}
-					file.Encrypt();
+
+					#region Encryption try-catch
+					try
+					{
+						file.Encrypt();
+					}
+					// The platform is not Win NT or later.
+					catch (PlatformNotSupportedException platnotsupp)
+					{
+						Console.Error.WriteLine("Accessing Bookmark file: "
+							+ "The platform don't support encryption, trying to save as clear text."
+							+ platnotsupp.ToString());
+					}
+					// The file system don't support encryption
+					catch (NotSupportedException notsupp)
+					{
+						Console.Error.WriteLine("Accessing Bookmark file: "
+							+ "The File System don't support encryption, trying to save as clear text."
+							+ notsupp.ToString());
+					}
+					#endregion
+
 					return true;
 				}
 				#region Catch and throw
