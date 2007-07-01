@@ -42,10 +42,11 @@ using SharpWired.Gui.Chat;
 using SharpWired.Connection.Bookmarks;
 using SharpWired.Gui.Bookmarks;
 using WiredControls.ToolStripItems;
+using WiredControls.Containers.Forms;
 
 namespace SharpWired.Gui
 {
-    public partial class SharpWiredForm : Form
+    public partial class SharpWiredForm : WiredForm
     {
         private LogicManager logicManager;
 

@@ -35,6 +35,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Containers\Forms\WiredForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Containers\Forms\WiredForm.Designer.cs">
+      <DependentUpon>WiredForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ToolStripItems\AnimatedLoaderItem.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -47,6 +53,10 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Containers\Forms\WiredForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>WiredForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ToolStripItems\AnimatedLoaderItem.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AnimatedLoaderItem.cs</DependentUpon>
