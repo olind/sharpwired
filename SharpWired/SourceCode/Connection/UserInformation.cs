@@ -65,6 +65,9 @@ namespace SharpWired.Connection
 
         private string password;
 
+		/// <summary>
+		/// The password is hashed!
+		/// </summary>
         public string Password
         {
             get { return password; }

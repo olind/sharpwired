@@ -36,6 +36,7 @@ using SharpWired.Model.Files;
 using System.Collections;
 using SharpWired.Gui.Resources;
 using SharpWired.Gui.Resources.Icons;
+using SharpWired.Connection.Transfers;
 
 namespace SharpWired.Gui.Files
 {
@@ -119,6 +120,7 @@ namespace SharpWired.Gui.Files
 			{
 				WiredTreeNode node = new WiredTreeNode(fileSystemEntry);
                 node.ImageIndex = node.IconIndex;
+				node.SelectedImageIndex = node.IconIndex;
 				if (fileSystemEntry is FolderNode
 					&& fileSystemEntry.HasChildren())
 				{
@@ -225,5 +227,26 @@ namespace SharpWired.Gui.Files
             InitializeComponent();
         }
         #endregion
+
+		private void rootTreeView_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			WiredTreeNode node = (WiredTreeNode)rootTreeView.GetNodeAt(e.Location);
+			if (node != null)
+			{
+				node.TriggerDoubleClicked(e);
+				if (node.Tag is FileNode)
+				{
+					WantDownloadFile(node.Tag as FileNode);
+				}
+			}
+		}
+
+		private void WantDownloadFile(FileNode fileNode)
+		{
+			logicManager.FileTransferHandler.EnqueueDownload(
+				logicManager.ConnectionManager.CurrentServer,
+				fileNode,
+				logicManager.FileTransferHandler.DefaultDownloadFolder);
+		}
     }
 }

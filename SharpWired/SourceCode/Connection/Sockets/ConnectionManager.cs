@@ -73,6 +73,14 @@ namespace SharpWired.Connection
         {
             commandSocket.Connect(bookmark.Server);
             commands.InitConnection(bookmark.UserInformation);
+			mCurrentServer = bookmark.Server;
         }
+
+		private Server mCurrentServer;
+
+		public Server CurrentServer
+		{
+			get { return mCurrentServer; }
+		}
     }
 }

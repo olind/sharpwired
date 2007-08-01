@@ -48,11 +48,15 @@ namespace SharpWired.Gui.Bookmarks
 			return new Bookmark(GetServer(), GetUser());
 		}
 
+		/// <summary>
+		/// Get the user info. Password should be hashed!
+		/// </summary>
+		/// <returns></returns>
 		private UserInformation GetUser()
 		{
 			return new UserInformation(	this.nickBox.Text.Trim(),
 										this.userNameBox.Text.Trim(),
-										this.passwordBox.Text);
+										Utility.HashPassword(this.passwordBox.Text));
 		}
 
 		private Server GetServer()
@@ -89,7 +93,8 @@ namespace SharpWired.Gui.Bookmarks
 			{
 				this.userNameBox.Text = user.UserName;
 				this.nickBox.Text = user.Nick;
-				this.passwordBox.Text = user.Password;
+				//this.passwordBox.Text = user.Password;
+				this.passwordBox.Text = "";
 			}
 			this.suspendEvents = false;
 		}

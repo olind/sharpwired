@@ -425,8 +425,10 @@ namespace SharpWired.Connection
         /// <param name="password">The password to be sent</param>
         public void Pass(string password)
         {
-            if (socket != null)
-                socket.SendMessage("PASS" + Utility.SP + Utility.HashPassword(password));
+			if (socket != null)
+				// socket.SendMessage("PASS" + Utility.SP + Utility.HashPassword(password));
+				// Password is already hashed!
+				socket.SendMessage("PASS" + Utility.SP + password);
         }
 
         /// <summary>

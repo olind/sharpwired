@@ -78,5 +78,20 @@ namespace SharpWired.Gui.Files
 		public WiredTreeNode(string text): base(text)
 		{
 		}
-    }
+
+		event MouseEventHandler DoubleClicked;
+		
+		internal void TriggerDoubleClicked(MouseEventArgs args)
+		{
+			OnDoubleClicked(args);
+		}
+
+		private void OnDoubleClicked(MouseEventArgs args)
+		{
+			if (DoubleClicked != null)
+			{
+				DoubleClicked(this, args);
+			}
+		}
+	}
 }

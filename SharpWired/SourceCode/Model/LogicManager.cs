@@ -34,6 +34,7 @@ using SharpWired.Connection.Bookmarks;
 using SharpWired.Model.News;
 using SharpWired.Model.Files;
 using SharpWired.MessageEvents;
+using SharpWired.Connection.Transfers;
 
 namespace SharpWired.Model
 {
@@ -46,6 +47,7 @@ namespace SharpWired.Model
         private UserHandler userHandler;
         private NewsHandler newsHandler;
         private FileListingHandler fileListingHandler;
+		private FileTransferHandler fileTransferHandler;
         private MessageEventArgs_200 serverInformation;
 
         #endregion
@@ -81,6 +83,11 @@ namespace SharpWired.Model
         {
             get { return serverInformation; }
         }
+
+		public FileTransferHandler FileTransferHandler
+		{
+			get { return fileTransferHandler; }
+		}
 
         #endregion
 
@@ -135,6 +142,7 @@ namespace SharpWired.Model
             userHandler = new UserHandler(this);
             newsHandler = new NewsHandler(this);
             fileListingHandler = new FileListingHandler(this);
+			fileTransferHandler = new FileTransferHandler(this);
         }
         #endregion
     }
