@@ -1,0 +1,79 @@
+4 Files
+
+4.1 File Listings
+
+The following parameters are sent in file related messages:
+file-type = 1*DIGIT ; 0-3
+folder-type = 1*DIGIT ; 1-3
+The file type is mapped by the server as follows:
+
+0 File
+1 Directory
+2 Uploads Directory
+3 Drop Box Directory
+
+Note that for the directory types, the server should send the count
+of enclosed object as "size" in the listing messages.
+
+Uploads directories and drop boxes are special directories that tie in
+with the permissions listed in section 5. Uploads and drop box
+directories can be uploaded into by accounts with the "upload"
+privilege; the "upload-anywhere" privilege is required to upload into
+a regular directory. Having uploads privileges should also enable
+"create-folders", but only in the directories where the client can
+upload.
+
+Drop box directories can only be viewed by accounts with the
+"view-dropboxes" privilege; for others, the directory should appear
+with an empty listing.
+
+4.2 Transfers
+
+Because servers should supporting queueing and resuming transfers,
+these sequences are a bit more complicated than usual.
+Of note is the so-called Wired checksum. These should be SHA-1 [2]
+checksums of the first megabyte (1048576 octets) of the file. This
+is defined to allow checksumming of very large files in real time,
+and to allow checksums of partially transferred files to match,
+provided that they exceed 1 MB in size.
+Sequence, for downloads:
+
+1. The client decides to download a file. If the file has been
+partially downloaded already, the client should issue a
+"STAT" command to get the Wired checksum of the file,
+and compare that to the Wired checksum of the local file.
+If the match is successful, the "GET" command should be
+issued with the appropriate offset.
+
+2. The server retains the download request, and may issue
+401 Transfer Queued messages until a transfer slot is found.
+When found, the server issues 400 Transfer Ready, with a
+unique random textual key string to identify the transfer.
+
+3. The client retains the key received in the 400 messages,
+connects to the server's transfer port, and sends the
+"TRANSFER" command with the key to identify which transfer.
+
+4. If the key matches the queued transfer, the server begins
+sending the file; otherwise, the connection is closed.
+
+
+And, for uploads:
+
+1. The client decides to upload a file, and sends the "PUT"
+command with the appropriate Wired checksum and file size.
+
+2. The server checks if a partially transferred file exists
+at the location the client specified. If so, compares the
+Wired checksum of that file to the one given by the client.
+If a fully transferred file exists at that path, a 521
+File or Directory Exists should be issued.
+
+If the transfer is to be accepted, the server may begin
+sending out 401 Transfer Queued messages until a slot is
+found. Then, the 400 Transfer Ready is issued, with a
+unique key.
+
+3. Just as for downloads, the client connects to the transfer
+port, sends the "TRANSFER" command, and begins sending
+the file.
