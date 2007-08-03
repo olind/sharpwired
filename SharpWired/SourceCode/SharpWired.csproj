@@ -180,6 +180,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\Bookmarks\BookmarkManager.cs" />
+    <Compile Include="Connection\Transfers\Entries\DownloadEntry.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Connection\Transfers\Entries\TransferEntry.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Connection\Transfers\Entries\TransferStatusItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Connection\Transfers\Entries\UploadEntry.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Connection\Transfers\FileTransferHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Connection\Transfers\TranserWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Gui\Bookmarks\BookmarkBackgroundLoader.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -223,14 +241,6 @@
     <Compile Include="Model\Files\FolderNode.cs" />
     <Compile Include="Model\Files\FolderNodeDropBox.cs" />
     <Compile Include="Model\Files\FolderNodeUploads.cs" />
-    <Compile Include="Connection\Transfers\FileTransferHandler.cs" />
-    <Compile Include="Connection\Transfers\Entries\DownloadEntry.cs" />
-    <Compile Include="Connection\Transfers\Entries\TransferEntry.cs" />
-    <Compile Include="Connection\Transfers\Entries\TransferStatusItem.cs" />
-    <Compile Include="Connection\Transfers\Entries\UploadEntry.cs" />
-    <Compile Include="Connection\Transfers\TranserWorker.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Model\News\NewsHandler.cs" />
     <Compile Include="Model\News\NewsModel.cs" />
     <Compile Include="Model\News\NewsObject.cs" />
