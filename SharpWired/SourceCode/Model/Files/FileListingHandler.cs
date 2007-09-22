@@ -140,6 +140,8 @@ namespace SharpWired.Model.Files
             // Setting up listerens
             connectionManager.Messages.FileListingEvent += new Messages.FileListingEventHandler(Messages_FileListingEvent);
             connectionManager.Messages.FileListingDoneEvent += new Messages.FileListingDoneEventHandler(Messages_FileListingDoneEvent);
+
+            this.ReloadFileList();
         }
 
         /// <summary>

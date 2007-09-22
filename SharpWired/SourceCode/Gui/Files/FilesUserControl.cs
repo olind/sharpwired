@@ -59,12 +59,6 @@ namespace SharpWired.Gui.Files
 
         #region Temp
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            WriteTextToTexBox(textBox1, "Reloading file listing");
-            logicManager.FileListingHandler.ReloadFileList(textBox2.Text);
-        }
-
         void FileListingModel_FileListingDoneEvent(FolderNode superRootNode)
         {
             WriteTextToTexBox(textBox1, "");
@@ -217,7 +211,10 @@ namespace SharpWired.Gui.Files
                 rootTreeViewIcons.Images.Add(iconHandler.FolderClosed);
                 rootTreeViewIcons.Images.Add(iconHandler.File);
             }
-            catch (Exception e) { }
+            catch (Exception e) {
+                Console.WriteLine("FileUserControl.cs | Failed to add images for rootTreView. Exception: " + e);
+                //TODO: Throw exception
+            }
 
             rootTreeView.ImageList = rootTreeViewIcons;
         }
@@ -248,5 +245,17 @@ namespace SharpWired.Gui.Files
 				fileNode,
 				logicManager.FileTransferHandler.DefaultDownloadFolder);
 		}
+
+        private void rootTreeView_MouseClick(object sender, MouseEventArgs e)
+        {
+            WiredTreeNode node = (WiredTreeNode)rootTreeView.GetNodeAt(e.Location);
+            if (node != null && node.ModelNode is FolderNode)
+            {
+                this.Cursor = Cursors.WaitCursor;
+                node.TriggerClicked(e);
+                this.logicManager.FileListingHandler.ReloadFileList(node.ModelNode.Path);
+                this.Cursor = Cursors.Default;
+            }
+        }
     }
 }

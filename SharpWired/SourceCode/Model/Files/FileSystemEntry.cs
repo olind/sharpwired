@@ -43,7 +43,6 @@ namespace SharpWired.Model.Files
         private DateTime modified;
         private string path;
         private string parentPath;
-        private FolderNode parent;
         private string name;
         private string[] pathArray;
         #endregion
@@ -82,14 +81,6 @@ namespace SharpWired.Model.Files
         public string ParentPath
         {
             get { return parentPath; }
-        }
-
-        /// <summary>
-        /// Get the parent for this node
-        /// </summary>
-        public FolderNode Parent
-        {
-            get { return parent; }
         }
 
         /// <summary>
@@ -156,7 +147,7 @@ namespace SharpWired.Model.Files
             }
 
             // Traverse the tree to find the correct location
-            foreach (FileSystemEntry parent in superParentNode.FolderNodes) //TODO: Use the property superParentNode.FolderNodes instead of superParentNode.Children
+            foreach (FileSystemEntry parent in superParentNode.FolderNodes)
             {
                 if (parent.PathArray[depth] == newNode.PathArray[depth])
                 {

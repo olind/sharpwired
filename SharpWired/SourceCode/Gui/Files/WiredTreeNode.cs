@@ -77,9 +77,11 @@ namespace SharpWired.Gui.Files
 		/// <param name="text">The text for the node.</param>
 		public WiredTreeNode(string text): base(text)
 		{
-		}
+        }
 
-		event MouseEventHandler DoubleClicked;
+        #region Events and event handler methods from GUI
+
+        event MouseEventHandler DoubleClicked;
 		
 		internal void TriggerDoubleClicked(MouseEventArgs args)
 		{
@@ -93,5 +95,15 @@ namespace SharpWired.Gui.Files
 				DoubleClicked(this, args);
 			}
 		}
-	}
+
+        internal void TriggerClicked(MouseEventArgs args)
+        {
+            OnClicked(args);
+        }
+
+        private void OnClicked(MouseEventArgs args)
+        {
+        }
+        #endregion
+    }
 }

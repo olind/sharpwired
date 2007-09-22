@@ -125,7 +125,7 @@ namespace SharpWired.Model
 
         void Messages_ServerInformationEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_200 messageEventArgs)
         {
-            Console.WriteLine("200: " + messageEventArgs.ServerName);
+            serverInformation = messageEventArgs;
         }
 
         #endregion
