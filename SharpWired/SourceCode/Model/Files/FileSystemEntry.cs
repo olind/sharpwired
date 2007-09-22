@@ -132,8 +132,8 @@ namespace SharpWired.Model.Files
         /// 
         /// Note! If we try to load the content of a foldernode that are below what we have 
         /// loaded so far we will not add that node to our tree. It might be necessary to load the file
-        //  tree from the root node since we need to get additional folder information from the server (comments, file size, etc)
-        //  Example: If we load the folder /Folder1 before we load / we will never add /Folder1
+        ///  tree from the root node since we need to get additional folder information from the server (comments, file size, etc)
+        ///  Example: If we load the folder /Folder1 before we load / we will never add /Folder1
         /// </summary>
         /// <param name="newNode">The node to add.</param>
         /// <param name="superParentNode">The parent or grandparent node where newNode should be added to.</param>
