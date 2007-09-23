@@ -41,35 +41,67 @@ using SharpWired.Connection.Transfers;
 namespace SharpWired.Gui.Files
 {
     /// <summary>
-    /// A test class for printing file listing to screen
-    /// TODO: Replace this by the real file tree
+    /// GUI file listing
     /// </summary>
     public partial class FilesUserControl : UserControl
     {
         #region Variables
         private LogicManager logicManager;
         string output = ""; // Keeps the output through itterations for temporary file listing. Can be removed once the textbox for file listing is obsoleted
+        private int mSuspendCount = 0; //Counter for knowing if the cursor is suspended or not.
         #endregion
 
         #region Properties
 
-       
+        /// <summary>
+        /// Gets true if the cursor is suspended. False otherwise.
+        /// </summary>
+        protected bool Suspended
+        {
+            get { return mSuspendCount > 0; }
+        }
 
         #endregion
 
-        #region Temp
-
         void FileListingModel_FileListingDoneEvent(FolderNode superRootNode)
         {
-            WriteTextToTexBox(textBox1, "");
-            output = "";
-            WriteTextToTexBox(textBox1, GetFileTreeOutput(superRootNode));
+            WriteTextToTexBox(textBox1, ""); //TODO: Remove
+            output = ""; //TODO: Remove
+            WriteTextToTexBox(textBox1, GetFileTreeOutput(superRootNode)); //TODO: Remove
 
             ClearTreeView(rootTreeView);
 			PopulateFileTree(rootTreeView, superRootNode);
         }
 
-        #endregion 
+        #region General GUI methods
+        ///<summary>
+        /// Suspends the Control, and sets the Cursor to a waitcursor, if it isn't already.
+        ///</summary>
+        protected void Suspend()
+        {
+            // When calling this method, the state is always Suspended.
+            // But we only set the cursor if we aren't already suspended.
+            // So, if counter is 0, we are the first to call this method, so we set the cursor.
+            // But, we also need to increase the counter, and therefore add one.
+            // Since the '++' comes after the field name, the increse will be done after
+            // the logical check for == 0.
+            if (mSuspendCount++ == 0)
+                Cursor = Cursors.WaitCursor;
+        }
+
+        /// <summary>
+        /// Unsuspends the cursor.
+        /// </summary>
+        /// <returns>True if the cursor isn't suspended.</returns>
+        protected bool UnSuspend()
+        {
+            // Decrease the count (the -- is before the field name, so its decreased before the == 0).
+            // And if we're done to zero again, we're no longer suspended and we set the cursor back.
+            if (--mSuspendCount == 0)
+                Cursor = Cursors.Default;
+            return mSuspendCount == 0;
+        }
+        #endregion
 
         #region TreeNode
         /// <summary>
@@ -152,7 +184,7 @@ namespace SharpWired.Gui.Files
         #region TextBox
 
         /// <summary>
-        /// Generates a string with all folders
+        /// Generates a string with all folders. TODO: Remove
         /// </summary>
         /// <param name="node"></param>
         private string GetFileTreeOutput(FolderNode node)
@@ -179,6 +211,11 @@ namespace SharpWired.Gui.Files
             return output;
         }
 
+        /// <summary>
+        /// Writes the folder nodes to the text box. TODO: Remove
+        /// </summary>
+        /// <param name="textBoxToPopulate"></param>
+        /// <param name="textToPopulate"></param>
         private void WriteTextToTexBox(TextBox textBoxToPopulate, string textToPopulate)
         {
             if (this.InvokeRequired)
@@ -192,40 +229,10 @@ namespace SharpWired.Gui.Files
             }
         }
         delegate void WriteTextToTextBoxCallback(TextBox textBoxToPopulate, string textToPopulate);
-
         #endregion
 
-        #region Initialization
-        public void Init(LogicManager logicManager)
-        {
-            this.logicManager = logicManager;
-            logicManager.FileListingHandler.FileListingModel.FileListingDoneEvent += new FileListingModel.FileListingDoneDelegate(FileListingModel_FileListingDoneEvent);
-
-            ImageList rootTreeViewIcons = new ImageList();
-            rootTreeViewIcons.ColorDepth = ColorDepth.Depth32Bit;
-
-            IconHandler iconHandler = new IconHandler();
-
-            try
-            {
-                rootTreeViewIcons.Images.Add(iconHandler.FolderClosed);
-                rootTreeViewIcons.Images.Add(iconHandler.File);
-            }
-            catch (Exception e) {
-                Console.WriteLine("FileUserControl.cs | Failed to add images for rootTreView. Exception: " + e);
-                //TODO: Throw exception
-            }
-
-            rootTreeView.ImageList = rootTreeViewIcons;
-        }
-
-        public FilesUserControl()
-        {
-            InitializeComponent();
-        }
-        #endregion
-
-		private void rootTreeView_MouseDoubleClick(object sender, MouseEventArgs e)
+        #region Listeners + handlers from GUI
+        private void rootTreeView_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			WiredTreeNode node = (WiredTreeNode)rootTreeView.GetNodeAt(e.Location);
 			if (node != null)
@@ -251,11 +258,41 @@ namespace SharpWired.Gui.Files
             WiredTreeNode node = (WiredTreeNode)rootTreeView.GetNodeAt(e.Location);
             if (node != null && node.ModelNode is FolderNode)
             {
-                this.Cursor = Cursors.WaitCursor;
+                Suspend();  //TODO: The suspend / unsuspend thing doesn't work this way since we just send a request to the server. 
+                            //We should unsuspend when the request returns. Not when we have sent the request.
                 node.TriggerClicked(e);
                 this.logicManager.FileListingHandler.ReloadFileList(node.ModelNode.Path);
-                this.Cursor = Cursors.Default;
+                UnSuspend();
             }
         }
+        #endregion
+
+        #region Initialization
+        public void Init(LogicManager logicManager)
+        {
+            this.logicManager = logicManager;
+            logicManager.FileListingHandler.FileListingModel.FileListingDoneEvent += new FileListingModel.FileListingDoneDelegate(FileListingModel_FileListingDoneEvent);
+            ImageList rootTreeViewIcons = new ImageList();
+            rootTreeViewIcons.ColorDepth = ColorDepth.Depth32Bit;
+            IconHandler iconHandler = new IconHandler();
+
+            try
+            {
+                rootTreeViewIcons.Images.Add(iconHandler.FolderClosed);
+                rootTreeViewIcons.Images.Add(iconHandler.File);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("FileUserControl.cs | Failed to add images for rootTreView. Exception: " + e); //TODO: Throw exception
+            }
+
+            rootTreeView.ImageList = rootTreeViewIcons;
+        }
+
+        public FilesUserControl()
+        {
+            InitializeComponent();
+        }
+        #endregion
     }
 }
