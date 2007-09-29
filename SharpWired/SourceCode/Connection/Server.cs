@@ -31,11 +31,17 @@ using System.Text;
 
 namespace SharpWired.Connection
 {
+	/// <summary>
+	/// Represents a Server with adress and port.
+	/// </summary>
     [Serializable]
     public class Server
-    {
-        private int serverPort;
-
+	{
+		#region Properties
+		private int serverPort;
+		/// <summary>
+		/// Get/Set the Port.
+		/// </summary>
         public int ServerPort
         {
             get { return serverPort; }
@@ -43,27 +49,33 @@ namespace SharpWired.Connection
         }
 
         private string machineName;
-
-        public string MachineName
+		/// <summary>
+		/// Get/Set the server machine name.
+		/// </summary>
+		public string MachineName
         {
             get { return machineName; }
             set { machineName = value; }
         }
 
         private string serverName;
-
+		/// <summary>
+		/// Get/Set the server name; domain or IP.
+		/// </summary>
         public string ServerName
         {
             get { return serverName; }
             set { serverName = value; }
         }
-	
-        /// <summary>
-        /// 
+		#endregion
+
+		#region Constructors
+		/// <summary>
+        /// Constructs.
         /// </summary>
-        /// <param name="serverPort"></param>
-        /// <param name="machineNamen"></param>
-        /// <param name="serverName"></param>
+        /// <param name="serverPort">The port to use.</param>
+        /// <param name="machineNamen">The servers computer name.</param>
+        /// <param name="serverName">The domain name or IP adress.</param>
         public Server(int serverPort, string machineName, string serverName)
         {
             ServerPort = serverPort;
@@ -77,23 +89,42 @@ namespace SharpWired.Connection
 		private Server()
 		{
 		}
+		#endregion
 
+		#region Overrides
 		/// <summary>
 		/// Compares the server name, the machine name and the port using '=='.
 		/// </summary>
-		/// <param name="obj"></param>
-		/// <returns></returns>
+		/// <param name="obj">The object to compare with.</param>
+		/// <returns>T/F.</returns>
 		public override bool Equals(object obj)
 		{
-			if (!(obj is Server))
+			Server s = obj as Server;
+			if (s == null)
 				return false;
-			else
-			{
-				Server s = obj as Server;
-				return s.machineName == this.machineName
-					&& s.serverName == this.serverName
-					&& s.serverPort == this.serverPort;
-			}
+
+			return s.machineName == this.machineName
+				&& s.serverName == this.serverName
+				&& s.serverPort == this.serverPort;
 		}
-    }
+
+		/// <summary>
+		/// Returns a string representing this Server.
+		/// </summary>
+		/// <returns>[MachineName]-[ServerName]:[Port]</returns>
+		public override string ToString()
+		{
+			return machineName + " - " + serverName + " : " + serverPort;
+		}
+
+		/// <summary>
+		/// Return base.GetHashCode().
+		/// </summary>
+		/// <returns>A hash code.</returns>
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
+		#endregion
+	}
 }

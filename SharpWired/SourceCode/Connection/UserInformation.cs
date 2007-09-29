@@ -30,25 +30,39 @@ using System.Text;
 
 namespace SharpWired.Connection
 {
+	/// <summary>
+	/// This class represents a login on a server with username/pass/nick.
+	/// </summary>
     [Serializable]
     public class UserInformation
     {
+		#region Constrctors.
 		/// <summary>
-		/// Parameterless constructor for serialization.
+		/// Parameterless constructor for serialization. For XML.
 		/// </summary>
 		private UserInformation()
 		{
 		}
 
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="nick">The Nickname.</param>
+		/// <param name="userName">The user name.</param>
+		/// <param name="password">The Password. NOTE: ClearText or Hash?!</param>
         public UserInformation(string nick, string userName, string password)
         {
             this.Nick = nick;
             this.UserName = userName;
             this.Password = password;
-        }
+		}
+		#endregion
 
-        private string nick;
-
+		#region Properties
+		private string nick;
+		/// <summary>
+		/// Get/Set the NickName.
+		/// </summary>
         public string Nick
         {
             get { return nick; }
@@ -56,7 +70,9 @@ namespace SharpWired.Connection
         }
 
         private string user;
-
+		/// <summary>
+		/// Get/Set the UserName.
+		/// </summary>
         public string UserName
         {
             get { return user; }
@@ -64,31 +80,51 @@ namespace SharpWired.Connection
         }
 
         private string password;
-
 		/// <summary>
-		/// The password is hashed!
+		/// Get/Set the password. The password is hashed!
 		/// </summary>
         public string Password
         {
             get { return password; }
             set { password = value; }
         }
+		#endregion
 
+		#region Overrides
 		/// <summary>
 		/// Compares the user name and nick using '=='. The password isn't compared.
 		/// </summary>
-		/// <param name="obj"></param>
-		/// <returns></returns>
+		/// <param name="obj">The object to compare to.</param>
+		/// <returns>T/F.</returns>
 		public override bool Equals(object obj)
 		{
-			if (!(obj is UserInformation))
+			UserInformation u = obj as UserInformation;
+			if (u == null)
 				return false;
 			else
 			{
-				UserInformation u = obj as UserInformation;
 				return u.nick == this.nick
 					&& u.user == this.user;
 			}
 		}
-    }
+
+		/// <summary>
+		/// Returns a string representation.
+		/// </summary>
+		/// <returns>Nick: [Nickname], User: [Username].</returns>
+		public override string ToString()
+		{
+			return "Nick: " + nick + ", User: " + user;
+		}
+
+		/// <summary>
+		/// Returns base.GetHashCode().
+		/// </summary>
+		/// <returns>A hash Code.</returns>
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
+		#endregion
+	}
 }
