@@ -130,9 +130,17 @@
       <SubType>Designer</SubType>
       <DependentUpon>ChatUserControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Files\FileDetailsControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FileDetailsControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Gui\Files\FilesUserControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>FilesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Files\FileTreeControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FileTreeControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\News\NewsUserControl.resx">
       <SubType>Designer</SubType>
@@ -229,13 +237,27 @@
     <Compile Include="Gui\Bookmarks\BookmarkManagerGUI.Designer.cs">
       <DependentUpon>BookmarkManagerGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Files\FileDetailsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Files\FileDetailsControl.Designer.cs">
+      <DependentUpon>FileDetailsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Gui\Files\FilesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Gui\Files\FilesUserControl.Designer.cs">
       <DependentUpon>FilesUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Files\FileTreeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Files\FileTreeControl.Designer.cs">
+      <DependentUpon>FileTreeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Files\WiredListNode.cs" />
     <Compile Include="Gui\Files\WiredTreeNode.cs" />
+    <Compile Include="Gui\Files\WiredTreeNodeArgs.cs" />
     <Compile Include="Gui\News\NewsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
