@@ -43,6 +43,7 @@ using SharpWired.Connection.Bookmarks;
 using SharpWired.Gui.Bookmarks;
 using WiredControls.ToolStripItems;
 using WiredControls.Containers.Forms;
+using SharpWired.Gui.About;
 
 namespace SharpWired.Gui
 {
@@ -182,6 +183,13 @@ namespace SharpWired.Gui
 			// move one char from beginning to end, or vice versa.
 			string nt = t.Substring(1, t.Length - 1) + t[0].ToString();
 			mLoadingToolStripMenuItem.Text = "(" + nt + ")";
+		}
+
+		private void aboutSharpWiredToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AboutBox box = new AboutBox();
+			box.ShowDialog();
+			box.Dispose();
 		}
 	}
 }

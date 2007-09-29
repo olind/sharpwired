@@ -67,14 +67,18 @@ namespace SharpWired.Gui
 			this.bookmarkThisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.manageBookmarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.mLoadingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutSharpWiredToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.chatUserControl1 = new SharpWired.Gui.Chat.ChatUserControl();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.newsUserControl1 = new SharpWired.Gui.News.NewsUserControl();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.filesUserControl1 = new SharpWired.Gui.Files.FilesUserControl();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.publicChatToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -84,11 +88,7 @@ namespace SharpWired.Gui
 			this.ExitToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel_ServerStatus = new System.Windows.Forms.ToolStripStatusLabel();
-			this.mLoadingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mBookmarkLoadingTimer = new System.Windows.Forms.Timer(this.components);
-			this.chatUserControl1 = new SharpWired.Gui.Chat.ChatUserControl();
-			this.newsUserControl1 = new SharpWired.Gui.News.NewsUserControl();
-			this.filesUserControl1 = new SharpWired.Gui.Files.FilesUserControl();
 			this.menuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -186,6 +186,12 @@ namespace SharpWired.Gui
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			this.toolStripSeparator2.Size = new System.Drawing.Size(215, 6);
 			// 
+			// mLoadingToolStripMenuItem
+			// 
+			this.mLoadingToolStripMenuItem.Name = "mLoadingToolStripMenuItem";
+			this.mLoadingToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+			this.mLoadingToolStripMenuItem.Text = "(Loading...)";
+			// 
 			// toolsToolStripMenuItem
 			// 
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -211,8 +217,9 @@ namespace SharpWired.Gui
 			// aboutSharpWiredToolStripMenuItem
 			// 
 			this.aboutSharpWiredToolStripMenuItem.Name = "aboutSharpWiredToolStripMenuItem";
-			this.aboutSharpWiredToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-			this.aboutSharpWiredToolStripMenuItem.Text = "About SharpWired";
+			this.aboutSharpWiredToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+			this.aboutSharpWiredToolStripMenuItem.Text = "About SharpWired...";
+			this.aboutSharpWiredToolStripMenuItem.Click += new System.EventHandler(this.aboutSharpWiredToolStripMenuItem_Click);
 			// 
 			// tabControl1
 			// 
@@ -240,6 +247,15 @@ namespace SharpWired.Gui
 			this.tabPage1.Text = "Public Chat";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
+			// chatUserControl1
+			// 
+			this.chatUserControl1.CSSFilePath = "C:\\Program\\Microsoft Visual Studio 8\\Common7\\IDE";
+			this.chatUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.chatUserControl1.Location = new System.Drawing.Point(3, 3);
+			this.chatUserControl1.Name = "chatUserControl1";
+			this.chatUserControl1.Size = new System.Drawing.Size(603, 393);
+			this.chatUserControl1.TabIndex = 0;
+			// 
 			// tabPage2
 			// 
 			this.tabPage2.Controls.Add(this.newsUserControl1);
@@ -251,6 +267,15 @@ namespace SharpWired.Gui
 			this.tabPage2.Text = "News";
 			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
+			// newsUserControl1
+			// 
+			this.newsUserControl1.CSSFilePath = "C:\\Program\\Microsoft Visual Studio 8\\Common7\\IDE";
+			this.newsUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.newsUserControl1.Location = new System.Drawing.Point(3, 3);
+			this.newsUserControl1.Name = "newsUserControl1";
+			this.newsUserControl1.Size = new System.Drawing.Size(603, 393);
+			this.newsUserControl1.TabIndex = 0;
+			// 
 			// tabPage3
 			// 
 			this.tabPage3.Controls.Add(this.filesUserControl1);
@@ -261,6 +286,14 @@ namespace SharpWired.Gui
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "Files";
 			this.tabPage3.UseVisualStyleBackColor = true;
+			// 
+			// filesUserControl1
+			// 
+			this.filesUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.filesUserControl1.Location = new System.Drawing.Point(3, 3);
+			this.filesUserControl1.Name = "filesUserControl1";
+			this.filesUserControl1.Size = new System.Drawing.Size(603, 393);
+			this.filesUserControl1.TabIndex = 0;
 			// 
 			// tabPage4
 			// 
@@ -343,41 +376,9 @@ namespace SharpWired.Gui
 			this.toolStripStatusLabel_ServerStatus.Size = new System.Drawing.Size(71, 17);
 			this.toolStripStatusLabel_ServerStatus.Text = "Disconnected";
 			// 
-			// mLoadingToolStripMenuItem
-			// 
-			this.mLoadingToolStripMenuItem.Name = "mLoadingToolStripMenuItem";
-			this.mLoadingToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-			this.mLoadingToolStripMenuItem.Text = "(Loading...)";
-			// 
 			// mBookmarkLoadingTimer
 			// 
 			this.mBookmarkLoadingTimer.Tick += new System.EventHandler(this.mBookmarkLoadingTimer_Tick);
-			// 
-			// chatUserControl1
-			// 
-			this.chatUserControl1.CSSFilePath = "C:\\Program\\Microsoft Visual Studio 8\\Common7\\IDE";
-			this.chatUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.chatUserControl1.Location = new System.Drawing.Point(3, 3);
-			this.chatUserControl1.Name = "chatUserControl1";
-			this.chatUserControl1.Size = new System.Drawing.Size(603, 393);
-			this.chatUserControl1.TabIndex = 0;
-			// 
-			// newsUserControl1
-			// 
-			this.newsUserControl1.CSSFilePath = "C:\\Program\\Microsoft Visual Studio 8\\Common7\\IDE";
-			this.newsUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.newsUserControl1.Location = new System.Drawing.Point(3, 3);
-			this.newsUserControl1.Name = "newsUserControl1";
-			this.newsUserControl1.Size = new System.Drawing.Size(603, 393);
-			this.newsUserControl1.TabIndex = 0;
-			// 
-			// filesUserControl1
-			// 
-			this.filesUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.filesUserControl1.Location = new System.Drawing.Point(3, 3);
-			this.filesUserControl1.Name = "filesUserControl1";
-			this.filesUserControl1.Size = new System.Drawing.Size(603, 393);
-			this.filesUserControl1.TabIndex = 0;
 			// 
 			// SharpWiredForm
 			// 
