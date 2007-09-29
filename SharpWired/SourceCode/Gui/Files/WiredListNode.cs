@@ -1,7 +1,7 @@
 #region Information and licence agreements
 /**
- * WiredTreeNode.cs 
- * Created by Ola Lindberg, 2007-05-30
+ * WiredListNode.cs 
+ * Created by Ola Lindberg, 2007-09-29
  * 
  * SharpWired - a Wired client.
  * See: http://www.zankasoftware.com/wired/ for more infromation about Wired
@@ -32,11 +32,7 @@ using SharpWired.Model.Files;
 
 namespace SharpWired.Gui.Files
 {
-    /// <summary>
-    /// Represents a node in the wired file tree. 
-    /// Holds a reference to the node in the wired file tree model.
-    /// </summary>
-    public class WiredTreeNode : TreeNode
+    class WiredListNode: ListViewItem
     {
         private FileSystemEntry modelNode;
         private int iconIndex;
@@ -57,53 +53,30 @@ namespace SharpWired.Gui.Files
             get { return iconIndex; }
             set { iconIndex = value; }
         }
-	
+
         /// <summary>
         /// Constructor
         /// </summary>
-        public WiredTreeNode(FileSystemEntry modelNode): base(modelNode.Name) {
+        public WiredListNode(FileSystemEntry modelNode): base(modelNode.Name) {
             this.modelNode = modelNode;
 
             if (modelNode is FolderNode)
+            {
                 iconIndex = 0;
+            }
             else if (modelNode is FileNode)
+            {
                 iconIndex = 1;
+            }
         }
 
-		/// <summary>
+        /// <summary>
 		/// A constructor that allows for creation of node with a text, as the
 		/// base class TreeNode does.
 		/// </summary>
 		/// <param name="text">The text for the node.</param>
-		public WiredTreeNode(string text): base(text)
+		public WiredListNode(string text): base(text)
 		{
         }
-
-        #region Events and event handler methods from GUI
-
-        event MouseEventHandler DoubleClicked;
-		
-		internal void TriggerDoubleClicked(MouseEventArgs args)
-		{
-			OnDoubleClicked(args);
-		}
-
-		private void OnDoubleClicked(MouseEventArgs args)
-		{
-			if (DoubleClicked != null)
-			{
-				DoubleClicked(this, args);
-			}
-		}
-
-        internal void TriggerClicked(MouseEventArgs args)
-        {
-            OnClicked(args);
-        }
-
-        private void OnClicked(MouseEventArgs args)
-        {
-        }
-        #endregion
     }
 }

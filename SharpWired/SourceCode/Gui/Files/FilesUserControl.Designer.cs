@@ -28,39 +28,13 @@ namespace SharpWired.Gui.Files
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.rootTreeView = new System.Windows.Forms.TreeView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.fileTreeControl = new SharpWired.Gui.Files.FileTreeControl();
+            this.fileDetailsControl = new SharpWired.Gui.Files.FileDetailsControl();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(3, 3);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(268, 226);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.WordWrap = false;
-            // 
-            // rootTreeView
-            // 
-            this.rootTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.rootTreeView.Location = new System.Drawing.Point(3, 3);
-            this.rootTreeView.Name = "rootTreeView";
-            this.rootTreeView.Size = new System.Drawing.Size(120, 226);
-            this.rootTreeView.TabIndex = 5;
-            this.rootTreeView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.rootTreeView_MouseDoubleClick);
-            this.rootTreeView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rootTreeView_MouseClick);
             // 
             // splitContainer1
             // 
@@ -72,14 +46,30 @@ namespace SharpWired.Gui.Files
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.rootTreeView);
+            this.splitContainer1.Panel1.Controls.Add(this.fileTreeControl);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.fileDetailsControl);
             this.splitContainer1.Size = new System.Drawing.Size(404, 232);
             this.splitContainer1.SplitterDistance = 126;
             this.splitContainer1.TabIndex = 6;
+            // 
+            // fileTreeControl
+            // 
+            this.fileTreeControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fileTreeControl.Location = new System.Drawing.Point(0, 0);
+            this.fileTreeControl.Name = "fileTreeControl";
+            this.fileTreeControl.Size = new System.Drawing.Size(126, 232);
+            this.fileTreeControl.TabIndex = 6;
+            // 
+            // fileDetailsControl
+            // 
+            this.fileDetailsControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fileDetailsControl.Location = new System.Drawing.Point(0, 0);
+            this.fileDetailsControl.Name = "fileDetailsControl";
+            this.fileDetailsControl.Size = new System.Drawing.Size(274, 232);
+            this.fileDetailsControl.TabIndex = 0;
             // 
             // FilesUserControl
             // 
@@ -90,7 +80,6 @@ namespace SharpWired.Gui.Files
             this.Size = new System.Drawing.Size(410, 238);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -98,8 +87,8 @@ namespace SharpWired.Gui.Files
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TreeView rootTreeView;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private FileDetailsControl fileDetailsControl;
+        private FileTreeControl fileTreeControl;
     }
 }
