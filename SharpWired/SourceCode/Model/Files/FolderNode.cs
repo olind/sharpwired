@@ -44,10 +44,11 @@ namespace SharpWired.Model.Files
         #region Properties
         /// <summary>
         /// Gets the list with this nodes childrens.
+        /// NOTE! Do NOT get the list of children to add nodes. Use AddChildren(FileSystemEntry newNode) instead!
         /// </summary>
         public List<FileSystemEntry> Children
         {
-            get { return children; }
+            get { return children; } //TODO: Return a copy of this list instead of the list itself to avoid editing the list outside this FolderNode
         }
 
         public override bool HasChildren()
@@ -57,6 +58,29 @@ namespace SharpWired.Model.Files
             else
                 return false;
         }
+
+        /// <summary>
+        /// Call this method when all nodes for this folder node is updated from server
+        /// </summary>
+        public void DoneUpdating()
+        {
+            if (FolderNodeUpdatedEvent != null)
+                FolderNodeUpdatedEvent(this);
+        }
+
+        /// <summary>
+        /// Adds the given newNode as a child to this node.
+        /// </summary>
+        /// <param name="newNode"></param>
+        /// <returns></returns>
+        public FileSystemEntry AddChildren(FileSystemEntry newNode)
+        {
+            children.Add(newNode);
+            return newNode;
+        }
+
+        public delegate void FolderNodeUpdated(FolderNode updatedNode);
+        public event FolderNodeUpdated FolderNodeUpdatedEvent;
 
         /// <summary>
         /// Gets the FolderNodes that are childrens of this node.

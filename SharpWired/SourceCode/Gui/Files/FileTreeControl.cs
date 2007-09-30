@@ -101,8 +101,7 @@ namespace SharpWired.Gui.Files
                 if (fileSystemEntry is FolderNode
                     && fileSystemEntry.HasChildren())
                 {
-                    List<FileSystemEntry> children = (fileSystemEntry as FolderNode).Children;
-                    foreach (FileSystemEntry child in children)
+                    foreach (FolderNode child in fileSystemEntry.FolderNodes)
                     {
                         node.Nodes.Add(MakeFileNode(child));
                     }
@@ -144,6 +143,7 @@ namespace SharpWired.Gui.Files
             {
                 node.TriggerClicked(e);
                 this.logicManager.FileListingHandler.ReloadFileList(node.ModelNode.Path);
+                //TODO: Request from model should be done in gui files controller
             }
 
             WiredTreeNodeArgs nodeArgs = new WiredTreeNodeArgs(node);

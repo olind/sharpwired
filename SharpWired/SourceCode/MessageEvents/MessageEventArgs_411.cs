@@ -47,7 +47,7 @@ namespace SharpWired.MessageEvents
         {
             get
             {
-                return Path;
+                return path;
             }
         }
 

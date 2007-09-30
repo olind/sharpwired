@@ -45,25 +45,43 @@ namespace SharpWired.Gui.Files
 
         #region Listeners from FileTree
         /// <summary>
-        /// Listens for folder selected events
+        /// When this is received we subscribe to an event that triggers when the files has been updated from the server
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         void fileTreeControl_FolderSelectedEvent(object sender, WiredTreeNodeArgs e)
         {
-            //FIXME: The first time a node is loaded it doesnt have any childrens (since the response from the server
-            //hasn't arrived jet. Instead of catching the FolderSelectedEvent we need a CachedFolderSelectedEvent...
-            listView1.Items.Clear();
-            
-            List<FileSystemEntry> children = (e.Node.ModelNode as FolderNode).Children;
-            foreach (FileSystemEntry child in children)
+            FolderNode fn = (FolderNode)e.Node.ModelNode;
+            fn.FolderNodeUpdatedEvent += new FolderNode.FolderNodeUpdated(fn_FolderNodeUpdatedEvent);
+        }
+
+        void fn_FolderNodeUpdatedEvent(FolderNode updatedNode)
+        {
+            //TODO: Unsubscribe from listening
+            UpdateListView(updatedNode);            
+        }
+
+        private void UpdateListView(FolderNode updatedNode)
+        {
+            if (this.InvokeRequired)
             {
-                WiredListNode wln = new WiredListNode(child);
-                wln.ImageIndex = wln.IconIndex;
-                wln.StateImageIndex = wln.IconIndex;
-                this.listView1.Items.Add(wln);
+                UpdateListViewCallback updateListViewCallback = new UpdateListViewCallback(UpdateListView);
+                this.Invoke(updateListViewCallback, new object[] { updatedNode });
+            }
+            else
+            {
+                listView1.Items.Clear();
+                List<FileSystemEntry> children = (updatedNode as FolderNode).Children;
+                foreach (FileSystemEntry child in children)
+                {
+                    WiredListNode wln = new WiredListNode(child);
+                    wln.ImageIndex = wln.IconIndex;
+                    wln.StateImageIndex = wln.IconIndex;
+                    this.listView1.Items.Add(wln);
+                }
             }
         }
+        delegate void UpdateListViewCallback(FolderNode updatedNode);
         #endregion
 
         #region Initialization
@@ -92,8 +110,7 @@ namespace SharpWired.Gui.Files
 
             listView1.SmallImageList = fileViewIcons;
             listView1.LargeImageList = fileViewIcons;
-            listView1.View = View.LargeIcon;
-            
+            listView1.View = View.LargeIcon;          
         }
 
         /// <summary>

@@ -141,7 +141,7 @@ namespace SharpWired.Model.Files
                 }
                 else
                 {
-                    superParentNode.Children.Add(newNode);
+                    superParentNode.AddChildren(newNode);
                     return true;
                 }
             }

@@ -76,7 +76,6 @@ namespace SharpWired.Model.Files
         /// <param name="fromNode">The path to wher the reload should appear.</param>
         public void ReloadFileList(string fromPath)
         {
-            Console.WriteLine("Reloading file listing.");
             this.LogicManager.ConnectionManager.Commands.List(fromPath);
         }
 
@@ -124,7 +123,7 @@ namespace SharpWired.Model.Files
         /// <param name="messageEventArgs"></param>
         void Messages_FileListingDoneEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_411 messageEventArgs)
         {
-            fileListingModel.FileListingDone(FileTreeRootNode);
+            fileListingModel.FileListingDone(messageEventArgs);
         }
         #endregion
 

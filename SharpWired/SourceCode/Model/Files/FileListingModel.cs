@@ -27,6 +27,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.Files
 {
@@ -45,32 +46,60 @@ namespace SharpWired.Model.Files
         {
             get { return rootNode; }
         }
+
         #endregion
+
+        FolderNode searchNode = null; //TODO: Remove once GetNode method is fixed
+        /// <summary>
+        /// Gets the node at the given nodePath
+        /// </summary>
+        /// <param name="nodePath"></param>
+        /// <returns>If the node exists in the model; the node at whe given path nodePath otherwise null</returns>
+        public FileSystemEntry GetNode(string requestedNodePath, FileSystemEntry traversingNode)
+        {
+            //FIXME: I couldnt get this method to return the correct node without using searchNode today
+
+            if (requestedNodePath == "") // Happens sometimes. I guess it's before nodes have been loaded from server (first time)
+                return null;
+
+            if (traversingNode.Path == requestedNodePath) //If we are searching for a FileNode this will return
+            {
+                return traversingNode;
+            }
+
+            foreach (FolderNode childNode in traversingNode.FolderNodes)
+            {
+                if (childNode.Path == requestedNodePath)
+                {
+                    searchNode = childNode;
+                }
+                else 
+                {
+                    GetNode(requestedNodePath, childNode);
+                }
+            }
+            return searchNode;
+        }
 
         /// <summary>
         /// Call this method when the file listing is done
         /// </summary>
         /// <param name="superRootNode"></param>
-        public void FileListingDone(FolderNode superRootNode)
-        {
-            OnFileListingDoneEvent(superRootNode);
-        }
-
-        #region Delegates, events, event raiser methods
-
-        /// <summary>
-        /// Raised when the file listing are done.
-        /// </summary>
-        /// <param name="superRootNode">The root node from where file listing started.</param>
-        private void OnFileListingDoneEvent(FolderNode superRootNode)
+        public void FileListingDone(MessageEventArgs_411 updatedDoneEventArgs)
         {
             if (FileListingDoneEvent != null)
-                FileListingDoneEvent(superRootNode);
-        }
+            {
+                FileSystemEntry searchedNode = GetNode(updatedDoneEventArgs.Path, (FileSystemEntry)rootNode);
+                if (searchedNode != null)
+                    searchNode.DoneUpdating();
 
+                //TODO: This is probably useless since we only provide the path to the superRootNode. 
+                //I keep it for now to not break the TreeView
+                FileListingDoneEvent(this.rootNode);
+            }
+        }
         public event FileListingDoneDelegate FileListingDoneEvent;
         public delegate void FileListingDoneDelegate(FolderNode superRootNode);
-        #endregion
 
         #region Initialization
         /// <summary>
