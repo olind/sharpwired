@@ -39,7 +39,7 @@ using SharpWired.Model.Files;
 namespace SharpWired.Gui.Files
 {
     /// <summary>
-    /// Represents the file three availale on the server
+    /// Shows a representation of the File Model, which models the file tree on the server.
     /// </summary>
     public partial class FileTreeControl : UserControl
     {
