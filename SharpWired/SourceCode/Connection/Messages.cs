@@ -713,7 +713,7 @@ namespace SharpWired.Connection
                 string[] w = SplitMessage(message);
                 string path = w[0];
                 string fileType = w[1]; // TODO: this type is not optimal
-                int size = int.Parse(w[2]);
+                long size = long.Parse(w[2]); //FIXME: Must be a long
                 DateTime created = DateTime.Parse(w[3]);
                 DateTime modified = DateTime.Parse(w[4]);
 

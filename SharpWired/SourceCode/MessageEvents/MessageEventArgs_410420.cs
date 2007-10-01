@@ -33,7 +33,7 @@ namespace SharpWired.MessageEvents
     public class MessageEventArgs_410420 : MessageEventArgs_Path
     {
         private string fileType; // TODO: This should be of other type
-        private int size;
+        private long size;
         private DateTime created;
         private DateTime modified;
 
@@ -45,7 +45,7 @@ namespace SharpWired.MessageEvents
             }
         }
 
-        public int Size
+        public long Size
         {
             get
             {
@@ -80,7 +80,7 @@ namespace SharpWired.MessageEvents
         /// <param name="created"></param>
         /// <param name="modified"></param>
         public MessageEventArgs_410420(int messageId, string messageName, string path, 
-            string fileType, int size, DateTime created, DateTime modified)
+            string fileType, long size, DateTime created, DateTime modified)
             : base(messageId, messageName, path)
         {
             this.fileType = fileType;

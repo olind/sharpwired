@@ -37,7 +37,7 @@ namespace SharpWired.Model.Files
     public class FileNode : FileSystemEntry
     {
         #region Variables
-        private int size;
+        private long size;
         #endregion
 
         #region Properties
@@ -46,7 +46,7 @@ namespace SharpWired.Model.Files
         /// Get the file size for this file.
         /// If this object is a folder 0 is returned.
         /// </summary>
-        public int Size
+        public long Size
         {
             get { return size; }
         }
