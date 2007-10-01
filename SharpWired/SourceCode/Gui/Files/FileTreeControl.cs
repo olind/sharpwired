@@ -43,14 +43,38 @@ namespace SharpWired.Gui.Files
     /// </summary>
     public partial class FileTreeControl : UserControl
     {
-        private FilesUserControl filesUserControl;
         private LogicManager logicManager;
+        private GuiFilesController guiFilesController;
 
         #region Listerens from Model
         void FileListingModel_FileListingDoneEvent(FolderNode superRootNode)
         {
+            //TODO: Remove this
             ClearTreeView(rootTreeView);
             PopulateFileTree(rootTreeView, superRootNode);
+        }
+
+        void guiFilesController_FolderNodeChangedEvent(object sender, WiredNodeArgs e)
+        {
+            if (e.Node is FolderNode)
+            {
+                //TODO: Clear the nodes below this node in favour for clearing the complete tree
+                //ClearTreeView((FolderNode)e.Node);
+                PopulateFileTree(rootTreeView, (FolderNode)e.Node);
+            }
+        }
+        #endregion
+
+        #region Listeners from GUI
+        /// <summary>
+        /// The mouse was clicked in the TreeView
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rootTreeView_MouseClick(object sender, MouseEventArgs e)
+        {
+            WiredTreeNode node = (WiredTreeNode)rootTreeView.GetNodeAt(e.Location);
+            guiFilesController.ChangeSelectedNode(this, node.ModelNode);
         }
         #endregion
 
@@ -129,31 +153,8 @@ namespace SharpWired.Gui.Files
         }
         delegate void ClearTreeViewCallback(TreeView tree);
         #endregion
-
-        #region Listeners from GUI
-        /// <summary>
-        /// The mouse was clicked in the TreeView
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void rootTreeView_MouseClick(object sender, MouseEventArgs e)
-        {
-            WiredTreeNode node = (WiredTreeNode)rootTreeView.GetNodeAt(e.Location);
-            if (node != null && node.ModelNode is FolderNode)
-            {
-                node.TriggerClicked(e);
-                this.logicManager.FileListingHandler.ReloadFileList(node.ModelNode.Path);
-                //TODO: Request from model should be done in gui files controller
-            }
-
-            WiredTreeNodeArgs nodeArgs = new WiredTreeNodeArgs(node);
-            if (FolderSelectedEvent != null && node.ModelNode is FolderNode)
-            {
-                FolderSelectedEvent(sender, nodeArgs);
-            }
-        }
-        public event EventHandler<WiredTreeNodeArgs> FolderSelectedEvent;
-
+        
+        #region File downloads
         /// <summary>
         /// The mouse was double clicked in the TreeView
         /// </summary>
@@ -161,19 +162,18 @@ namespace SharpWired.Gui.Files
         /// <param name="e"></param>
         private void rootTreeView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            WiredTreeNode node = (WiredTreeNode)rootTreeView.GetNodeAt(e.Location);
-            if (node != null)
-            {
-                node.TriggerDoubleClicked(e);
-                if (node.Tag is FileNode)
-                {
-                    WantDownloadFile(node.Tag as FileNode);
-                }
-            }
+            //TODO: Remove or move code below to the GuiFilesController
+            //WiredTreeNode node = (WiredTreeNode)rootTreeView.GetNodeAt(e.Location);
+            //if (node != null)
+            //{
+            //    node.TriggerDoubleClicked(e);
+            //    if (node.Tag is FileNode)
+            //    {
+            //        WantDownloadFile(node.Tag as FileNode);
+            //    }
+            //}
         }
-        #endregion
         
-        #region File downloads
         private void WantDownloadFile(FileNode fileNode)
         {
             logicManager.FileTransferHandler.EnqueueDownload(
@@ -189,17 +189,21 @@ namespace SharpWired.Gui.Files
             InitializeComponent();
         }
 
-        public void Init(FilesUserControl filesUserControl, LogicManager logicManager)
+        public void Init(LogicManager logicManager, GuiFilesController guiFilesController)
         {
-            this.filesUserControl = filesUserControl;
             this.logicManager = logicManager;
-            //filesUserControl.FolderSelectedEvent += new EventHandler<WiredTreeNodeArgs>(filesUserControl_FolderSelectedEvent);
-
+            this.guiFilesController = guiFilesController;
+          
+            //TODO: REMOVE Use GuiFilesController instead
+            //The FileTree doesnt support reloading a folder from a certain path but instead needs to 
+            //reload from the root node. Once this is fixed we can use the guiFilesController in favour for 
+            //listening to events straight from the model
             logicManager.FileListingHandler.FileListingModel.FileListingDoneEvent += new FileListingModel.FileListingDoneDelegate(FileListingModel_FileListingDoneEvent);
+            //guiFilesController.SelectedFolderNodeChangedEvent += new EventHandler<WiredNodeArgs>(guiFilesController_FolderNodeChangedEvent);
+            
             ImageList rootTreeViewIcons = new ImageList();
             rootTreeViewIcons.ColorDepth = ColorDepth.Depth32Bit;
             IconHandler iconHandler = new IconHandler();
-
             try
             {
                 rootTreeViewIcons.Images.Add(iconHandler.FolderClosed);
@@ -209,8 +213,10 @@ namespace SharpWired.Gui.Files
             {
                 Console.WriteLine("FileUserControl.cs | Failed to add images for rootTreView. Exception: " + e); //TODO: Throw exception
             }
-
             rootTreeView.ImageList = rootTreeViewIcons;
+
+            //TODO: We must populate the tree for the first time
+            //PopulateFileTree(rootTreeView, logicManager.FileListingHandler.FileTreeRootNode);
         }
         #endregion
     }

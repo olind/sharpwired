@@ -237,6 +237,7 @@
     <Compile Include="Gui\Bookmarks\BookmarkManagerGUI.Designer.cs">
       <DependentUpon>BookmarkManagerGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Files\WiredNodeArgs.cs" />
     <Compile Include="Gui\Files\FileDetailsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -255,9 +256,9 @@
     <Compile Include="Gui\Files\FileTreeControl.Designer.cs">
       <DependentUpon>FileTreeControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Files\GuiFilesController.cs" />
     <Compile Include="Gui\Files\WiredListNode.cs" />
     <Compile Include="Gui\Files\WiredTreeNode.cs" />
-    <Compile Include="Gui\Files\WiredTreeNodeArgs.cs" />
     <Compile Include="Gui\News\NewsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

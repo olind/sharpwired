@@ -1,7 +1,7 @@
 #region Information and licence agreements
 /**
  * WiredTreeNode.cs 
- * Created by Ola Lindberg, 2007-05-30
+ * Created by Ola Lindberg and Peter Holmdahl, 2007-05-30
  * 
  * SharpWired - a Wired client.
  * See: http://www.zankasoftware.com/wired/ for more infromation about Wired
@@ -79,31 +79,31 @@ namespace SharpWired.Gui.Files
 		{
         }
 
+        //TODO: Remove code below
         #region Events and event handler methods from GUI
-
-        event MouseEventHandler DoubleClicked;
+        //event MouseEventHandler DoubleClicked;
 		
-		internal void TriggerDoubleClicked(MouseEventArgs args)
-		{
-			OnDoubleClicked(args);
-		}
+        //internal void TriggerDoubleClicked(MouseEventArgs args)
+        //{
+        //    OnDoubleClicked(args);
+        //}
 
-		private void OnDoubleClicked(MouseEventArgs args)
-		{
-			if (DoubleClicked != null)
-			{
-				DoubleClicked(this, args);
-			}
-		}
+        //private void OnDoubleClicked(MouseEventArgs args)
+        //{
+        //    if (DoubleClicked != null)
+        //    {
+        //        DoubleClicked(this, args);
+        //    }
+        //}
 
-        internal void TriggerClicked(MouseEventArgs args)
-        {
-            OnClicked(args);
-        }
+        //internal void TriggerClicked(MouseEventArgs args)
+        //{
+        //    OnClicked(args);
+        //}
 
-        private void OnClicked(MouseEventArgs args)
-        {
-        }
+        //private void OnClicked(MouseEventArgs args)
+        //{
+        //}
         #endregion
     }
 }

@@ -41,24 +41,29 @@ namespace SharpWired.Gui.Files
     /// </summary>
     public partial class FileDetailsControl : UserControl
     {
-        private FileTreeControl fileTreeControl;
-
-        #region Listeners from FileTree
+        #region Listeners from GuiFilesController
         /// <summary>
-        /// When this is received we subscribe to an event that triggers when the files has been updated from the server
+        /// When this is received we subscribe to an event that triggers 
+        /// when the files has been updated from the server
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void fileTreeControl_FolderSelectedEvent(object sender, WiredTreeNodeArgs e)
+        void guiFilesController_FolderNodeChangedEvent(object sender, WiredNodeArgs e)
         {
-            FolderNode fn = (FolderNode)e.Node.ModelNode;
-            fn.FolderNodeUpdatedEvent += new FolderNode.FolderNodeUpdated(fn_FolderNodeUpdatedEvent);
+            listView1.Clear();
+            //TODO: Suspend the mouse pointer
+
+            if (e.Node is FolderNode)
+            {
+                ((FolderNode)e.Node).FolderNodeUpdatedEvent += new FolderNode.FolderNodeUpdated(FileDetailsControl_FolderNodeUpdatedEvent);
+            }
         }
 
-        void fn_FolderNodeUpdatedEvent(FolderNode updatedNode)
+        void FileDetailsControl_FolderNodeUpdatedEvent(FolderNode updatedNode)
         {
+            UpdateListView(updatedNode);
             //TODO: Unsubscribe from listening
-            UpdateListView(updatedNode);            
+            //TODO: Unsuspend the mouse pointer
         }
 
         private void UpdateListView(FolderNode updatedNode)
@@ -89,10 +94,9 @@ namespace SharpWired.Gui.Files
         /// Initiates this control
         /// </summary>
         /// <param name="fileTreeControl"></param>
-        public void Init(FileTreeControl fileTreeControl)
+        public void Init(GuiFilesController guiFilesController)
         {
-            this.fileTreeControl = fileTreeControl;
-            fileTreeControl.FolderSelectedEvent += new EventHandler<WiredTreeNodeArgs>(fileTreeControl_FolderSelectedEvent);
+            guiFilesController.SelectedFolderNodeChangedEvent += new EventHandler<WiredNodeArgs>(guiFilesController_FolderNodeChangedEvent);
 
             ImageList fileViewIcons = new ImageList();
             fileViewIcons.ColorDepth = ColorDepth.Depth32Bit;

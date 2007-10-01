@@ -137,6 +137,9 @@ namespace SharpWired.Model.Files
             {
                 if (superParentNode.HasChild(newNode))
                 {
+                    if (newNode is FolderNode)
+                        ((FolderNode)newNode).DoneUpdating();
+
                     return false; //Return false if the file/folder already exists
                 }
                 else

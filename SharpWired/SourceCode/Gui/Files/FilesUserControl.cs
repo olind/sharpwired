@@ -47,9 +47,8 @@ namespace SharpWired.Gui.Files
     {
         #region Variables
         private LogicManager logicManager;
-        private int mSuspendCount = 0; //Counter for knowing if the cursor is suspended or not.
         #endregion
-
+        private int mSuspendCount = 0; //Counter for knowing if the cursor is suspended or not.
         #region Properties
         /// <summary>
         /// Gets true if the cursor is suspended. False otherwise.
@@ -98,8 +97,7 @@ namespace SharpWired.Gui.Files
         public void Init(LogicManager logicManager)
         {
             this.logicManager = logicManager;
-            fileTreeControl.Init(this, logicManager);
-            fileDetailsControl.Init(fileTreeControl);
+            GuiFilesController filesController = new GuiFilesController(this.logicManager, fileTreeControl, fileDetailsControl);
         }
 
         /// <summary>

@@ -73,10 +73,19 @@ namespace SharpWired.Model.Files
         /// <summary>
         /// Requests a reload of the filelisting on this server on the given path
         /// </summary>
-        /// <param name="fromNode">The path to wher the reload should appear.</param>
-        public void ReloadFileList(string fromPath)
+        /// <param name="fromNode">The path node where reloading should be requested.</param>
+        private void ReloadFileList(string path)
         {
-            this.LogicManager.ConnectionManager.Commands.List(fromPath);
+            this.LogicManager.ConnectionManager.Commands.List(path);
+        }
+
+        /// <summary>
+        /// Requests a reload of the filelisting on this server on the given node
+        /// </summary>
+        /// <param name="fromNode">The node where reloading should be requested.</param>
+        public void ReloadFileList(FolderNode node)
+        {
+            ReloadFileList(node.Path);
         }
 
         #endregion
