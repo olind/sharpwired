@@ -59,6 +59,10 @@ namespace SharpWired.Model.Files
             get { return null; } //TODO: Return an empty list instead?
         }
 
+        /// <summary>
+        /// Finds out if this node has any chilrens. Since this is a FileNode it will never have any.
+        /// </summary>
+        /// <returns></returns>
         public override bool HasChildren()
         {
             return false;

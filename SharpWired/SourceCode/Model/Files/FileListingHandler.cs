@@ -31,6 +31,9 @@ using SharpWired.Connection;
 
 namespace SharpWired.Model.Files
 {
+    /// <summary>
+    /// Handles the local model for all file interactions
+    /// </summary>
     public class FileListingHandler : HandlerBase
     {
 
@@ -73,7 +76,7 @@ namespace SharpWired.Model.Files
         /// <summary>
         /// Requests a reload of the filelisting on this server on the given path
         /// </summary>
-        /// <param name="fromNode">The path node where reloading should be requested.</param>
+        /// <param name="path">The path node where reloading should be requested.</param>
         private void ReloadFileList(string path)
         {
             this.LogicManager.ConnectionManager.Commands.List(path);
@@ -82,7 +85,7 @@ namespace SharpWired.Model.Files
         /// <summary>
         /// Requests a reload of the filelisting on this server on the given node
         /// </summary>
-        /// <param name="fromNode">The node where reloading should be requested.</param>
+        /// <param name="node">The node where reloading should be requested.</param>
         public void ReloadFileList(FolderNode node)
         {
             ReloadFileList(node.Path);

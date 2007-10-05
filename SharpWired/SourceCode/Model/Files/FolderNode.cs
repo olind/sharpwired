@@ -51,6 +51,10 @@ namespace SharpWired.Model.Files
             get { return children; } //TODO: Return a copy of this list instead of the list itself to avoid editing the list outside this FolderNode
         }
 
+        /// <summary>
+        /// Finds out if this FolderNode has childrens or not.
+        /// </summary>
+        /// <returns>True if this FolderNode has any childrens</returns>
         public override bool HasChildren()
         {
             if (children.Count > 0)
@@ -79,7 +83,15 @@ namespace SharpWired.Model.Files
             return newNode;
         }
 
+        /// <summary>
+        /// Delegate for FolderNodeUpdated event
+        /// </summary>
+        /// <param name="updatedNode"></param>
         public delegate void FolderNodeUpdated(FolderNode updatedNode);
+
+        /// <summary>
+        /// Raised when this FolderNode has been updated
+        /// </summary>
         public event FolderNodeUpdated FolderNodeUpdatedEvent;
 
         /// <summary>
@@ -125,7 +137,7 @@ namespace SharpWired.Model.Files
         /// <summary>
         /// Finds out if the given child is a child or grandchild of this FolderNode.
         /// </summary>
-        /// <param name="grandChild">The child (FileNode or FolderNode) to look up parents for.</param>
+        /// <param name="child">The child (FileNode or FolderNode) to look up parents for.</param>
         /// <returns>True if the given child is a child or grandchild of this FolderNode. False otherwise.</returns>
         public bool HasChildOrGrandchild(FileSystemEntry child)
         {

@@ -47,12 +47,18 @@ namespace SharpWired.Model
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the LogicManager
+        /// </summary>
         public LogicManager LogicManager
         {
             get { return logicManager; }
             set { logicManager = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the SharpWired.Connection.Commands class
+        /// </summary>
         public Commands Commands
         {
             get { return commands; }
@@ -63,11 +69,19 @@ namespace SharpWired.Model
 
         #region Initialization of the HandlerBase
 
+        /// <summary>
+        /// Initiatez this class. Should be done when we are connected.
+        /// </summary>
+        /// <param name="connectionManager"></param>
         public virtual void Init(ConnectionManager connectionManager)
         {
             commands = connectionManager.Commands;
         }
 
+        /// <summary>
+        /// Corstructor
+        /// </summary>
+        /// <param name="logicManager"></param>
         public HandlerBase(LogicManager logicManager)
         {
             this.logicManager = logicManager;

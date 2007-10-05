@@ -36,6 +36,10 @@ namespace SharpWired.Model.Files
     /// </summary>
     public class FolderNodeUploads : FolderNode 
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageEventArgs"></param>
         public FolderNodeUploads(MessageEventArgs_410420 messageEventArgs)
             : base(messageEventArgs)
         {

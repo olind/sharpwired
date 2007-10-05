@@ -30,6 +30,12 @@ using System.Text;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// The MessageEventArgs for the following Wired messages:
+    ///  * 303 ClientLeave
+    ///  * 331 PrivateChatInvitation
+    ///  * 332 PrivateChatDeclined
+    /// </summary>
     public class MessageEventArgs_303331332 : MessageEventArgs_311330
     {
         private int userId;

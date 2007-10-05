@@ -63,6 +63,11 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageId"></param>
+        /// <param name="messageName"></param>
         public MessageEventArgs(int messageId, string messageName)
         {
             this.messageId = messageId;

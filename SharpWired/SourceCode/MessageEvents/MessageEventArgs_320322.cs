@@ -30,12 +30,20 @@ using System.Text;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for Wired messages:
+    ///  * 320 News
+    ///  * 322 News posted
+    /// </summary>
     public class MessageEventArgs_320322 : MessageEventArgs
     {
         private string nick;
         private DateTime postTime;
         private string post;
 
+        /// <summary>
+        /// Gets the nick for the user that posted this news 
+        /// </summary>
         public string Nick
         {
             get
@@ -44,6 +52,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Gets the time when this post was done
+        /// </summary>
         public DateTime PostTime
         {
             get
@@ -52,6 +63,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Gets the news post
+        /// </summary>
         public string Post
         {
             get
@@ -60,6 +74,14 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageId">The id for this message</param>
+        /// <param name="messageName">The name for this message</param>
+        /// <param name="nick">The nick for the user that posted this message</param>
+        /// <param name="postTime">The time when this message was posted</param>
+        /// <param name="post">The news post</param>
         public MessageEventArgs_320322(int messageId, string messageName, string nick, DateTime postTime, string post)
             : base(messageId, messageName)
         {

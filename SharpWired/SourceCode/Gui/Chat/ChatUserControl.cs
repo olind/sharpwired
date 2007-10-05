@@ -37,6 +37,9 @@ using SharpWired.Model.Chat;
 
 namespace SharpWired.Gui.Chat
 {
+    /// <summary>
+    /// User control for the chat
+    /// </summary>
     public partial class ChatUserControl : UserControl
     {
         #region Variables

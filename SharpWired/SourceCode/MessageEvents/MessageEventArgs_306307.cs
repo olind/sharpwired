@@ -30,6 +30,11 @@ using System.Text;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for Wired messages:
+    ///  * 306 Client kicked
+    ///  * 307 Client banned
+    /// </summary>
     public class MessageEventArgs_306307 : MessageEventArgs_Messages
     {
         int victim;

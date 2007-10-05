@@ -30,6 +30,11 @@ using System.Text;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for Wired messages:
+    /// * 300 Chat
+    /// * 301 ActionChat
+    /// </summary>
     public class MessageEventArgs_300301 : MessageEventArgs_303331332
     {
         private string message;
@@ -40,6 +45,15 @@ namespace SharpWired.MessageEvents
                 return message;
             }
         }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageId">The id for this messag: 300 or 301</param>
+        /// <param name="messageName">The name for this message</param>
+        /// <param name="chatId">The chat id where this message belongs</param>
+        /// <param name="userId">The user id for the user that sent this message</param>
+        /// <param name="message">The message</param>
         public MessageEventArgs_300301(int messageId, string messageName, int chatId, int userId, string message)
             : base(messageId, messageName, chatId, userId)
         {

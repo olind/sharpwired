@@ -36,6 +36,9 @@ namespace SharpWired.Model.Chat
     /// </summary>
     public class ChatObject
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ChatObject()
         {
         }

@@ -30,11 +30,17 @@ using System.Text;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// The base MessageEventArgs that all other MessageEventArgs should inherit.
+    /// </summary>
     public class MessageEventArgs_Path : MessageEventArgs
     {
 
         private string path;
 
+        /// <summary>
+        /// Gets the path for this EventArg
+        /// </summary>
         public string Path
         {
             get
@@ -43,6 +49,12 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageId"></param>
+        /// <param name="messageName"></param>
+        /// <param name="path"></param>
         public MessageEventArgs_Path(int messageId, string messageName, string path)
             : base(messageId, messageName)
         {

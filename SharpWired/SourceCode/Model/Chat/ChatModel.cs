@@ -67,7 +67,15 @@ namespace SharpWired.Model.Chat
             if (ChatTopicChangedEvent != null)
                 ChatTopicChangedEvent(this, chatTopicObject);
         }
+        /// <summary>
+        /// Delegate for the ChatTopicChangedEvent
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="chatTopicObject"></param>
         public delegate void ChatTopicChangedDelegate(object sender, ChatTopicObject chatTopicObject);
+        /// <summary>
+        /// Event that's raised when the chat topic has been changed
+        /// </summary>
         public event ChatTopicChangedDelegate ChatTopicChangedEvent;
 
         private void OnChatMessageChangedEvent(ChatMessageObject chatMessageObject)
@@ -75,7 +83,15 @@ namespace SharpWired.Model.Chat
             if (ChatMessageChangedEvent != null)
                 ChatMessageChangedEvent(this, chatMessageObject);
         }
+        /// <summary>
+        /// Delegate for the ChatMessageChangedEvent
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="chatMessageObject"></param>
         public delegate void ChatMessageChangedDelegate(object sender, ChatMessageObject chatMessageObject);
+        /// <summary>
+        /// Event thats raised when the chat message has been changed
+        /// </summary>
         public event ChatMessageChangedDelegate ChatMessageChangedEvent;
 
         private void OnChatActionMessageChangedEvent(ChatActionMessageObject chatActionMessageObject)
@@ -83,11 +99,23 @@ namespace SharpWired.Model.Chat
             if (ChatActionMessageChangedEvent != null)
                 ChatActionMessageChangedEvent(this, chatActionMessageObject);
         }
+        /// <summary>
+        /// Delegate for the ChatActionMessageChangedEvent
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="chatActionMessageObject"></param>
         public delegate void ChatActionMessageChangedDelegate(object sender, ChatActionMessageObject chatActionMessageObject);
+        /// <summary>
+        /// Event that's raised when the action thach message has been changed
+        /// </summary>
         public event ChatActionMessageChangedDelegate ChatActionMessageChangedEvent;
 
         #region Initialization
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="logicManager"></param>
         public ChatModel(LogicManager logicManager)
         {
             this.logicManager = logicManager;

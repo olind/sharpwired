@@ -43,6 +43,9 @@ namespace SharpWired.Model.Chat
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the ChatModel for this ChatHandler
+        /// </summary>
         public ChatModel ChatModel
         {
             get { return chatModel; }
@@ -75,6 +78,10 @@ namespace SharpWired.Model.Chat
 
         #region Sending to the communication layer
 
+        /// <summary>
+        /// Send a chat message to the server
+        /// </summary>
+        /// <param name="message">The message to send to the server</param>
         public void SendChatMessage(string message)
         {
             this.LogicManager.ConnectionManager.Commands.Say(message);
@@ -84,6 +91,10 @@ namespace SharpWired.Model.Chat
 
         #region Initialization
 
+        /// <summary>
+        /// Initiates the ChatHandler
+        /// </summary>
+        /// <param name="connectionManager"></param>
         public override void Init(global::SharpWired.Connection.ConnectionManager connectionManager)
         {
             base.Init(connectionManager);

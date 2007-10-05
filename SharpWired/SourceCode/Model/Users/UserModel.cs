@@ -31,6 +31,9 @@ using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.Users
 {
+    /// <summary>
+    /// Represents a user
+    /// </summary>
     public class UserModel
     {
         private LogicManager logicManager;
@@ -56,7 +59,7 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Add the given user to this list of users
         /// </summary>
-        /// <param name="u"></param>
+        /// <param name="messageEventArgs"></param>
         public void AddUser(MessageEventArgs_302310 messageEventArgs)
         {
             if (!UserExists(messageEventArgs.UserId))
@@ -70,7 +73,7 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Remove the given user from this list of users
         /// </summary>
-        /// <param name="u"></param>
+        /// <param name="messageEventArgs"></param>
         public void RemoveUser(MessageEventArgs_303331332 messageEventArgs)
         {
             if (UserExists(messageEventArgs.UserId))
@@ -90,6 +93,10 @@ namespace SharpWired.Model.Users
         }
 
 
+        /// <summary>
+        /// Called when the user status has been changed.
+        /// </summary>
+        /// <param name="messageEventArgs"></param>
         public void StatusChanged(MessageEventArgs_304 messageEventArgs)
         {
             UserItem u = GetUser(messageEventArgs.UserId);
@@ -139,13 +146,37 @@ namespace SharpWired.Model.Users
         #region Delegates, Events and Raisers for the events
 
         // Delegates
+        /// <summary>
+        /// Delegate for a user join event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="newUser"></param>
         public delegate void ClientJoinDelegate(object sender, UserItem newUser);
+        /// <summary>
+        /// Delegate for a user leav event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="leftUser"></param>
         public delegate void ClientLeftDelegate(object sender, UserItem leftUser);
+        /// <summary>
+        /// Delegate for a user list updated event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="userList"></param>
         public delegate void UserListUpdatedDelegate(object sender, List<UserItem> userList);
 
         // Events
+        /// <summary>
+        /// Event that's raised when a client join a chat 
+        /// </summary>
         public event ClientJoinDelegate ClientJoinEvent;
+        /// <summary>
+        /// Event that's raised when a client lefts a chat
+        /// </summary>
         public event ClientLeftDelegate ClientLeftEvent;
+        /// <summary>
+        /// Event that's reaised when the user list for a chat has been updated
+        /// </summary>
         public event UserListUpdatedDelegate UserListUpdatedEvent;
 
         // Raiser methods for events
@@ -171,6 +202,10 @@ namespace SharpWired.Model.Users
 
         #region Initialization
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="logicManager"></param>
         public UserModel(LogicManager logicManager)
         {
             this.logicManager = logicManager;
