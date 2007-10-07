@@ -36,13 +36,27 @@ using SharpWired.Connection.Bookmarks;
 
 namespace SharpWired.Gui.Bookmarks
 {
+	/// <summary>
+	/// A control for showing and editing a BookmarkEntry.
+	/// </summary>
 	public partial class BookmarkEntryControl : UserControl
 	{
+		#region Constructors
+		/// <summary>
+		/// Inits.
+		/// </summary>
 		public BookmarkEntryControl()
 		{
 			InitializeComponent();
 		}
+		#endregion
 
+
+		#region Get Bookmark
+		/// <summary>
+		/// Get a Bookmark created from the info entered into the control at present.
+		/// </summary>
+		/// <returns>A Bookmark.</returns>
 		public Bookmark GetBookmark()
 		{
 			return new Bookmark(GetServer(), GetUser());
@@ -59,13 +73,24 @@ namespace SharpWired.Gui.Bookmarks
 										Utility.HashPassword(this.passwordBox.Text));
 		}
 
+		/// <summary>
+		/// Creates a Server from what is currently entered into the controls.
+		/// </summary>
+		/// <returns>A Server.</returns>
 		private Server GetServer()
 		{
 			return new Server(	(int)this.portUpDown.Value,
 								this.machineNameBox.Text.Trim(),
 								this.serverNameBox.Text.Trim());
 		}
+		#endregion
 
+
+		#region Set Bookmark.
+		/// <summary>
+		/// Set the info to display in the controls.
+		/// </summary>
+		/// <param name="bookmark">The Bookmark to set.</param>
 		public void SetBookmark(Bookmark bookmark)
 		{
 			if (bookmark != null)
@@ -80,6 +105,10 @@ namespace SharpWired.Gui.Bookmarks
 			}
 		}
 
+		/// <summary>
+		/// Set the user info to show.
+		/// </summary>
+		/// <param name="user">The UserInformation to show.</param>
 		public void SetUser(UserInformation user)
 		{
 			this.suspendEvents = true;
@@ -99,6 +128,10 @@ namespace SharpWired.Gui.Bookmarks
 			this.suspendEvents = false;
 		}
 
+		/// <summary>
+		/// Set the Server to display.
+		/// </summary>
+		/// <param name="server">The Server object to display.</param>
 		public void SetServer(Server server)
 		{
 			this.suspendEvents = true;
@@ -116,12 +149,25 @@ namespace SharpWired.Gui.Bookmarks
 			}
 			this.suspendEvents = false;
 		}
+		#endregion
 
+
+		#region Events
 		private bool suspendEvents = false;
 
+		/// <summary>
+		/// This is used for the ValueChanged event.
+		/// </summary>
+		/// <param name="sender">The sender of the event.</param>
 		public delegate void ValueChangedDelegate(object sender);
+		/// <summary>
+		/// Listen to this if you want to know when the Server name or port changed.
+		/// </summary>
 		public event ValueChangedDelegate ValueChanged;
 
+		/// <summary>
+		/// Triggers the ValueChanged event.
+		/// </summary>
 		protected virtual void OnValueChanged()
 		{
 			if (!suspendEvents)
@@ -138,5 +184,6 @@ namespace SharpWired.Gui.Bookmarks
 		{
 			OnValueChanged();
 		}
+		#endregion
 	}
 }

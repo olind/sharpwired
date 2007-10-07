@@ -31,12 +31,17 @@ using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.Files
 {
+	/// <summary>
+	/// The class that deals with listening and building trees of the file on the server.
+	/// </summary>
     public class FileListingModel
     {
+
         #region Variables
         private LogicManager logicManager;
         private FolderNode rootNode;
         #endregion
+
 
         #region Properties
         /// <summary>
@@ -49,7 +54,10 @@ namespace SharpWired.Model.Files
 
         #endregion
 
-        /// <summary>
+
+		#region Search Node
+
+		/// <summary>
         /// Gets the node at the given nodePath
         /// </summary>
 		/// <param name="requestedNodePath">The path. Must be not be null or empty.</param>
@@ -139,11 +147,13 @@ namespace SharpWired.Model.Files
 			// Fall through.
 			return null;
 		}
+		#endregion
 
-        /// <summary>
+
+		/// <summary>
         /// Call this method when the file listing is done
         /// </summary>
-        /// <param name="superRootNode"></param>
+		/// <param name="updatedDoneEventArgs">The update event from server.</param>
         public void FileListingDone(MessageEventArgs_411 updatedDoneEventArgs)
         {
             if (FileListingDoneEvent != null)
@@ -164,15 +174,27 @@ namespace SharpWired.Model.Files
                 //I keep it for now to not break the TreeView
                 FileListingDoneEvent(this.rootNode);
             }
-        }
-        public event FileListingDoneDelegate FileListingDoneEvent;
-        public delegate void FileListingDoneDelegate(FolderNode superRootNode);
+		}
 
-        #region Initialization
-        /// <summary>
+
+		#region Events
+		/// <summary>
+		/// This event occrs when the server has finished listing the content of a folder.
+		/// </summary>
+        public event FileListingDoneDelegate FileListingDoneEvent;
+		/// <summary>
+		/// This delegate is used for FileListingDoneEvent.
+		/// </summary>
+		/// <param name="superRootNode">The root node of all files.</param>
+        public delegate void FileListingDoneDelegate(FolderNode superRootNode);
+		#endregion
+
+
+		#region Initialization
+		/// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="logicManager"></param>
+        /// <param name="logicManager">The Manager that can call server and more.</param>
         public FileListingModel(LogicManager logicManager)
         {
             this.logicManager = logicManager;

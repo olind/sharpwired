@@ -37,7 +37,7 @@ namespace SharpWired.Gui.Resources.Icons
     /// <summary>
     /// Abstracts reading icon files from disk.
     /// </summary>
-    class IconHandler
+    internal class IconHandler
 	{
 		// NOTE: Is this what we want?
 		#region Singelton
@@ -51,6 +51,7 @@ namespace SharpWired.Gui.Resources.Icons
 			get { return sInstance; }
 		}
 		#endregion
+
 
 		#region Constructor
 		/// <summary>
@@ -77,6 +78,7 @@ namespace SharpWired.Gui.Resources.Icons
 			iconFilePath = pIconFilePath;
 		}
 		#endregion
+		
 
 		#region Variables
 
@@ -89,6 +91,7 @@ namespace SharpWired.Gui.Resources.Icons
         private Image file;
 
         #endregion
+		
 
 		#region Properties
 		/// <summary>
@@ -138,7 +141,6 @@ namespace SharpWired.Gui.Resources.Icons
 		}
 
 		/// <summary>
-		/// <summary>
 		/// Get the icon with the given name, or try to load it from the given
 		/// filename.
 		/// </summary>
@@ -148,8 +150,8 @@ namespace SharpWired.Gui.Resources.Icons
 		{
 			get { return LoadAndStoreIcon(nameAndFilePair); }
 		}
-
 		#endregion
+		
 
 		#region Methods
 

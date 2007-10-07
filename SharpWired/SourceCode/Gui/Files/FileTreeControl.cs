@@ -184,11 +184,19 @@ namespace SharpWired.Gui.Files
         #endregion
 
         #region Initialization
+		/// <summary>
+		/// Creates and inits components.
+		/// </summary>
         public FileTreeControl()
         {
             InitializeComponent();
         }
 
+		/// <summary>
+		/// TODO: Ola!
+		/// </summary>
+		/// <param name="logicManager"></param>
+		/// <param name="guiFilesController"></param>
         public void Init(LogicManager logicManager, GuiFilesController guiFilesController)
         {
             this.logicManager = logicManager;

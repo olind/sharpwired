@@ -37,6 +37,7 @@ namespace SharpWired.Connection
     [Serializable]
     public class Server
 	{
+
 		#region Properties
 		private int serverPort;
 		/// <summary>
@@ -69,12 +70,13 @@ namespace SharpWired.Connection
         }
 		#endregion
 
+
 		#region Constructors
 		/// <summary>
         /// Constructs.
         /// </summary>
         /// <param name="serverPort">The port to use.</param>
-        /// <param name="machineNamen">The servers computer name.</param>
+        /// <param name="machineName">The servers computer name.</param>
         /// <param name="serverName">The domain name or IP adress.</param>
         public Server(int serverPort, string machineName, string serverName)
         {
@@ -90,6 +92,7 @@ namespace SharpWired.Connection
 		{
 		}
 		#endregion
+
 
 		#region Overrides
 		/// <summary>

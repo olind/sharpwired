@@ -52,7 +52,7 @@ namespace SharpWired.Gui.Bookmarks
 		/// <summary>
 		/// Read the bookmarks and report them.
 		/// </summary>
-		/// <param name="item"></param>
+		/// <param name="arg">The bookmarks to add.</param>
 		private void AddBookmarks(BookmarkLoaderArgument arg)
 		{
 			// This is what takes time.

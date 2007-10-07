@@ -43,12 +43,14 @@ namespace SharpWired.Connection.Bookmarks
 	/// </summary>
 	class BookmarkManager
 	{
+		#region Fields
 		private static string BookmarkFileName = "Bookmarks.wwb";
 		private static string BookmarkFolder = Application.UserAppDataPath;
 		private static string BookmarkFileFullName;
+		#endregion
 
-		// private DateTime lastWriteTime;
 
+		#region Constructors.
 		/// <summary>
 		/// Private hidden constructor.
 		/// </summary>
@@ -65,8 +67,11 @@ namespace SharpWired.Connection.Bookmarks
 			if (dir.Parent != null)
 				BookmarkFolder = dir.Parent.FullName;
 			BookmarkFileFullName = Path.Combine(BookmarkFolder, BookmarkFileName);
-		}
+		} 
+		#endregion
 
+
+		#region Get bookmarks
 		/// <summary>
 		/// Gets a List of Bookmarks. Only one caller at a time!
 		/// </summary>
@@ -95,6 +100,8 @@ namespace SharpWired.Connection.Bookmarks
 				}
 			}
 		}
+		#endregion
+
 
 		#region Add Bookmark(s)
 		/// <summary>
@@ -145,6 +152,7 @@ namespace SharpWired.Connection.Bookmarks
 		}
 		#endregion
 
+
 		#region Remove Bookmark
 		/// <summary>
 		/// Removes a bookmark.
@@ -175,12 +183,13 @@ namespace SharpWired.Connection.Bookmarks
 		}
 		#endregion
 
+
 		#region Load
 		/// <summary>
 		/// Deserializes bookmarks from the given FileInfo.
 		/// </summary>
 		/// <param name="file"></param>
-		/// <returns>A List with the bookmarks</Bookmark></returns>
+		/// <returns>An arrays with the bookmarks.</returns>
 		private static Bookmark[] LoadBookmarks(FileInfo file)
 		{
 			lock (typeof(BookmarkManager))
@@ -257,12 +266,14 @@ namespace SharpWired.Connection.Bookmarks
 		}
 		#endregion
 
+
 		#region Save
 
 		/// <summary>
 		/// Saves the bookmarks to the given file.
 		/// </summary>
-		/// <param name="file"></param>
+		/// <param name="bookmarks">The Bookmarks to store.</param>
+		/// <param name="file">The file to save to (overwrite!).</param>
 		/// <returns></returns>
 		private static bool SaveBookmarks(List<Bookmark> bookmarks, FileInfo file)
 		{
@@ -333,6 +344,7 @@ namespace SharpWired.Connection.Bookmarks
 		}
 		#endregion
 
+
 		#region Create Bookmark file
 		/// <summary>
 		/// Creates the Bookmark file.
@@ -353,17 +365,29 @@ namespace SharpWired.Connection.Bookmarks
 			}
 		}
 		#endregion
-
 	}
 
+
 	#region Bookmark Exception
-	public class BookmarkException : Exception
+	/// <summary>
+	/// Exception for Bookmarks.
+	/// </summary>
+	public class BookmarkException : ApplicationException
 	{
+		/// <summary>
+		/// Constucts.
+		/// </summary>
+		/// <param name="message">Message.</param>
+		/// <param name="innerException">Inner.</param>
 		public BookmarkException(string message, Exception innerException)
 			: base(message, innerException)
 		{
 		}
 
+		/// <summary>
+		/// Constructs.
+		/// </summary>
+		/// <param name="message">Message.</param>
 		public BookmarkException(string message)
 			: base(message)
 		{
