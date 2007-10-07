@@ -48,6 +48,16 @@ namespace SharpWired.Model.Files
         #endregion
 
         #region Properties
+		private FileSystemEntry mParent;
+		/// <summary>
+		/// Get/Set the Parent FileSystemEntry to this.
+		/// </summary>
+		public FileSystemEntry Parent
+		{
+			get { return mParent; }
+			set { mParent = value; }
+		}
+		
         /// <summary>
         /// Get the time when this file or folder was created.
         /// </summary>
@@ -210,26 +220,58 @@ namespace SharpWired.Model.Files
             this.modified = messageEventArgs.Modified;
             this.path = messageEventArgs.Path;
 
-            this.pathArray = messageEventArgs.Path.Split('/');
-            this.name = PathArray[PathArray.Length - 1];
+			this.pathArray = SplitPath(messageEventArgs.Path);
+			if (pathArray != null && pathArray.Length > 0)
+				this.name = pathArray[pathArray.Length - 1];
+			else
+				this.name = ""; // NOTE: Throw Exception?
 
-            // Build the parent path string
-            for (int i = 0; i < pathArray.Length - 1; i++)
-            {
-                if (i == 0)
-                {
-                    this.parentPath += "/"; //Avoids the first element to have 2 slashes "//"
-                }
-                else if(i == pathArray.Length - 2) 
-                {
-                    this.parentPath += pathArray[i]; //The last element should not have any trailing /
-                }
-                else
-                {
-                    this.parentPath += pathArray[i] + "/"; //All non root or non last elements
-                }
-            }
+			this.parentPath = BuildParentPath(pathArray);
         }
+
+		/// <summary>
+		/// Splits the path to an array.
+		/// </summary>
+		/// <param name="path">The path like "folder/hejsan/file.fil".</param>
+		/// <returns>Something like { "folder", "hejsan", "file.fil" }.</returns>
+		public static string[] SplitPath(string path)
+		{
+			string[] pathArray = path.Split(PATH_SEPARATOR[0]);
+			//if (pathArray.Length > 1)
+			//{
+			//    string[] array = new string[pathArray.Length - 1];
+			//    Array.Copy(pathArray, 1, array, 0, array.Length);
+			//    return array;
+			//}
+			return pathArray;
+		}
+
+		/// <summary>
+		/// Builds the path to the parent node.
+		/// </summary>
+		/// <param name="pathArray">The parts of this path.</param>
+		/// <returns>The path to parnet node.</returns>
+		private string BuildParentPath(string[] pathArray)
+		{
+			StringBuilder buildPath = new StringBuilder(20);
+			// Build the parent path string
+			for (int i = 0; i < pathArray.Length - 1; i++)
+			{
+				if (i == 0)
+				{
+					buildPath.Append(PATH_SEPARATOR); //Avoids the first element to have 2 slashes "//"
+				}
+				else if (i == pathArray.Length - 2)
+				{
+					buildPath.Append(pathArray[i]); //The last element should not have any trailing /
+				}
+				else
+				{
+					buildPath.Append(pathArray[i] + PATH_SEPARATOR); //All non root or non last elements
+				}
+			}
+			return buildPath.ToString();
+		}
 
         /// <summary>
         /// Constructor - Empty
@@ -238,5 +280,22 @@ namespace SharpWired.Model.Files
         {
         }
         #endregion
+
+		#region Overrides
+		/// <summary>
+		/// Path.
+		/// </summary>
+		/// <returns>The Path.</returns>
+		public override string ToString()
+		{
+			return path;	
+		}
+		#endregion
+
+		/// <summary>
+		/// This little string is used to separate folders and files in paths.
+		/// Like PATHSEPARATOR Folder PATHSEPARATOR File.
+		/// </summary>
+		public static string PATH_SEPARATOR = "/";
     }
 }

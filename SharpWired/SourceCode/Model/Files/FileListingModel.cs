@@ -49,37 +49,96 @@ namespace SharpWired.Model.Files
 
         #endregion
 
-        FolderNode searchNode = null; //TODO: Remove once GetNode method is fixed
         /// <summary>
         /// Gets the node at the given nodePath
         /// </summary>
-        /// <param name="nodePath"></param>
+		/// <param name="requestedNodePath">The path. Must be not be null or empty.</param>
+		/// <param name="traversingNode">TODO: ???</param>
         /// <returns>If the node exists in the model; the node at whe given path nodePath otherwise null</returns>
         public FileSystemEntry GetNode(string requestedNodePath, FileSystemEntry traversingNode)
         {
-            //FIXME: I couldnt get this method to return the correct node without using searchNode today
-
-            if (requestedNodePath == "") // Happens sometimes. I guess it's before nodes have been loaded from server (first time)
-                return null;
-
+			if (string.IsNullOrEmpty(requestedNodePath))
+				//    throw new ArgumentException("The path for a node must not be null or empty!");
+				return null;
+			
             if (traversingNode.Path == requestedNodePath) //If we are searching for a FileNode this will return
             {
                 return traversingNode;
             }
 
-            foreach (FolderNode childNode in traversingNode.FolderNodes)
-            {
-                if (childNode.Path == requestedNodePath)
-                {
-                    searchNode = childNode;
-                }
-                else 
-                {
-                    GetNode(requestedNodePath, childNode);
-                }
-            }
-            return searchNode;
+			// 1 is because all path arrays start with ""._______________________________1__
+			return GetNode(FileSystemEntry.SplitPath(requestedNodePath), traversingNode, 1);
         }
+
+		/// <summary>
+		/// Searches from the given FileSystemEntry as starting point, for another FSE with the given path.
+		/// At each step in the tree, looking for a FSE with the FSE.PathArray[level] equal to path[level].
+		/// </summary>
+		/// <param name="path">The searches path.</param>
+		/// <param name="startFromHere">We need a node from the model so that we can iterate the file tree somehow.</param>
+		/// <param name="level">The level to look at in the path. Typically starts out with 0. </param>
+		/// <returns>FSE if found, null else.</returns>
+		private FileSystemEntry GetNode(string[] path, FileSystemEntry startFromHere, int level)
+		{
+			// The special case when the root is asked for.
+			if (path.Length == 1 && path[0] == "")
+				return null;
+			if (path == null || path.Length == 0)
+				throw new ArgumentException("Path can't be null or empty!", "path");
+			if (startFromHere == null)
+				throw new ArgumentException("We need a real FileSystemEntry to start from, not null!", "startFromHere");
+			if (level < 0 || level >= path.Length)
+				throw new ArgumentException("We can't be searching on a deeper level than the path is long! Perhaps the path array didn't start with '\"\" as all other path arrays does.", "level");
+
+			if (startFromHere is FileNode)
+			{
+				// If at the end of the path.
+				if (path.Length - 1 == level)
+				{
+					string searched = path[level];
+					string compareTo = startFromHere.PathArray[level];
+					if(searched == compareTo)
+					{
+						// NOTE: do full comparasion of path?!
+						return startFromHere;
+					}
+					else
+						return null;
+				}
+					// Could'nt find anythin.
+				else
+					return null;
+			}
+			else if (startFromHere is FolderNode)
+			{
+				foreach (FileSystemEntry entry in (startFromHere as FolderNode).Children)
+				{
+					string searchedPart = path[level];
+					string entryPart = entry.PathArray[level];
+					// NOTE: descide what comparation is good!
+					if (searchedPart == entryPart)
+					{
+						// If at the end of the path.
+						if(path.Length -1 == level)
+						{
+							return entry;
+						}
+						else
+						{
+							if (entry is FolderNode)
+								return GetNode(path, entry, level + 1);
+							else if (entry is FileNode)
+							{
+								throw new ApplicationException("The path seacrhed form must be malformed; it pointed to a file, but then kept on!");
+							}
+						}
+					}
+				}
+				return null;
+			}
+			// Fall through.
+			return null;
+		}
 
         /// <summary>
         /// Call this method when the file listing is done
@@ -89,9 +148,17 @@ namespace SharpWired.Model.Files
         {
             if (FileListingDoneEvent != null)
             {
-                FileSystemEntry searchedNode = GetNode(updatedDoneEventArgs.Path, (FileSystemEntry)rootNode);
-                if (searchedNode != null)
-                    searchNode.DoneUpdating();
+				FileSystemEntry searchedNode = GetNode(updatedDoneEventArgs.Path, (FileSystemEntry)rootNode);
+				if (searchedNode != null)
+				{
+					if (searchedNode is FolderNode)
+						(searchedNode as FolderNode).DoneUpdating();
+				}
+				else
+				{
+					// NOTE: Experimental!
+					rootNode.DoneUpdating();
+				}
 
                 //TODO: This is probably useless since we only provide the path to the superRootNode. 
                 //I keep it for now to not break the TreeView

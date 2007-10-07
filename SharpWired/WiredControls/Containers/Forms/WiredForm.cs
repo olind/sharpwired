@@ -10,6 +10,9 @@ namespace WiredControls.Containers.Forms
 {
 	public partial class WiredForm : Form
 	{
+		/// <summary>
+		/// Creates a WiredForm.
+		/// </summary>
 		public WiredForm()
 		{
 			InitializeComponent();

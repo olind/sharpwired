@@ -1,5 +1,8 @@
 namespace WiredControls.Containers.Forms
 {
+	/// <summary>
+	/// The base Form class.
+	/// </summary>
 	partial class WiredForm
 	{
 		/// <summary>
