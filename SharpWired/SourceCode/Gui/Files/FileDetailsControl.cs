@@ -95,7 +95,12 @@ namespace SharpWired.Gui.Files
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             WiredListNode node = (WiredListNode)listView1.GetItemAt(e.X, e.Y);
-            guiFilesController.ChangeSelectedNode(this, node.ModelNode);
+            if (node.ModelNode is FolderNode){
+                guiFilesController.ChangeSelectedNode(this, node.ModelNode);
+            }
+            else{
+                //TODO: How should we handle double clicking on a filex
+            }
         }
         #endregion
 
