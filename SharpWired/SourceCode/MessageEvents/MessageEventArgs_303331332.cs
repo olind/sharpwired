@@ -39,6 +39,10 @@ namespace SharpWired.MessageEvents
     public class MessageEventArgs_303331332 : MessageEventArgs_311330
     {
         private int userId;
+
+        /// <summary>
+        /// Gets the user id
+        /// </summary>
         public int UserId
         {
             get
@@ -47,6 +51,13 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageId">The ID for this message</param>
+        /// <param name="messageName">The name of this message</param>
+        /// <param name="chatId">The chat id for this message</param>
+        /// <param name="userId">The user id for the user that sent this message</param>
         public MessageEventArgs_303331332(int messageId, string messageName, int chatId, int userId)
             : base(messageId, messageName, chatId)
         {

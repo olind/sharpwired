@@ -38,6 +38,10 @@ namespace SharpWired.MessageEvents
     public class MessageEventArgs_300301 : MessageEventArgs_303331332
     {
         private string message;
+
+        /// <summary>
+        /// Gets the message
+        /// </summary>
         public string Message
         {
             get

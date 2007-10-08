@@ -41,6 +41,8 @@ namespace SharpWired.Gui.Files
     /// </summary>
     public partial class FileDetailsControl : UserControl
     {
+        private GuiFilesController guiFilesController;
+
         #region Listeners from GuiFilesController
         /// <summary>
         /// When this is received we subscribe to an event that triggers 
@@ -89,13 +91,23 @@ namespace SharpWired.Gui.Files
         delegate void UpdateListViewCallback(FolderNode updatedNode);
         #endregion
 
+        #region Listeners from GUI
+        private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            WiredListNode node = (WiredListNode)listView1.GetItemAt(e.X, e.Y);
+            guiFilesController.ChangeSelectedNode(this, node.ModelNode);
+        }
+        #endregion
+
         #region Initialization
         /// <summary>
         /// Initiates this control
         /// </summary>
-        /// <param name="fileTreeControl"></param>
+        /// <param name="guiFilesController"></param>
         public void Init(GuiFilesController guiFilesController)
         {
+            this.guiFilesController = guiFilesController;
+
             guiFilesController.SelectedFolderNodeChangedEvent += new EventHandler<WiredNodeArgs>(guiFilesController_FolderNodeChangedEvent);
 
             ImageList fileViewIcons = new ImageList();
@@ -114,7 +126,7 @@ namespace SharpWired.Gui.Files
 
             listView1.SmallImageList = fileViewIcons;
             listView1.LargeImageList = fileViewIcons;
-            listView1.View = View.LargeIcon;          
+            listView1.View = View.LargeIcon;
         }
 
         /// <summary>

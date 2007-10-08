@@ -39,6 +39,7 @@ namespace SharpWired.Gui.Files
             this.listView1.Size = new System.Drawing.Size(418, 298);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);
             // 
             // FileDetailsControl
             // 

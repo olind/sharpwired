@@ -30,8 +30,16 @@ using System.Text;
 
 namespace SharpWired.Connection
 {
+    /// <summary>
+    /// Connection exceptions
+    /// </summary>
     public class ConnectionException : Exception
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="e"></param>
         public ConnectionException(string message, Exception e)
             : base(message, e)
         {

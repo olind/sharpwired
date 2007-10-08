@@ -250,6 +250,9 @@ namespace SharpWired.Gui.Chat
 
         #region Methods: Sending messages
 
+        /// <summary>
+        /// Sends a chat message to the server
+        /// </summary>
         public void SendChatMessage()
         {
             logicManager.ChatHandler.SendChatMessage(sendChatRichTextBox.Text);
@@ -259,6 +262,10 @@ namespace SharpWired.Gui.Chat
 
         #region Initialization
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="logicManager"></param>
         public void Init(LogicManager logicManager)
         {
             this.logicManager = logicManager;

@@ -31,25 +31,36 @@ using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.News
 {
+    /// <summary>
+    /// Represents one news message
+    /// </summary>
     public class NewsObject
     {
         private string nick;
         private DateTime postTime;
         private string post;
 
+        /// <summary>
+        /// Gets or sets the nick for the user that wrote this message
+        /// </summary>
         public string Nick
         {
             get { return nick; }
             set { nick = value; }
         }
         
+        /// <summary>
+        /// Gets or set the date when this message was posted
+        /// </summary>
         public DateTime PostTime
         {
             get { return postTime; }
             set { postTime = value; }
         }
         
-
+        /// <summary>
+        /// The news post
+        /// </summary>
         public string Post
         {
             get { return post; }
@@ -58,6 +69,10 @@ namespace SharpWired.Model.News
 
         #region Initialization
 
+        /// <summary>
+        /// Construtcor
+        /// </summary>
+        /// <param name="messageEventArgs"></param>
         public NewsObject(MessageEventArgs_320322 messageEventArgs)
         {
             this.nick = messageEventArgs.Nick;

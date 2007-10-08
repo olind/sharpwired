@@ -39,6 +39,9 @@ namespace SharpWired.MessageEvents
     {
         private int chatId;
 
+        /// <summary>
+        /// Gets the chat id
+        /// </summary>
         public int ChatId
         {
             get

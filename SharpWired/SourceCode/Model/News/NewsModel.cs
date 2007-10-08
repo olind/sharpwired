@@ -30,11 +30,18 @@ using System.Text;
 
 namespace SharpWired.Model.News
 {
+    /// <summary>
+    /// Represents all the news posted on the server
+    /// </summary>
     public class NewsModel
     {
         private LogicManager logicManager;
         private List<NewsObject> newsListObjects;
 
+        /// <summary>
+        /// Add a new newspost to this model
+        /// </summary>
+        /// <param name="newPost"></param>
         public void AddNewsPost(NewsObject newPost)
         {
             this.newsListObjects.Add(newPost);
@@ -65,6 +72,10 @@ namespace SharpWired.Model.News
                 NewsPostedEvent(newPost);
         }
 
+        /// <summary>
+        /// Handler for adding the new post to the model
+        /// </summary>
+        /// <param name="newsList"></param>
         private void OnNewsListReplacedEvent(List<NewsObject> newsList)
         {
             if (NewsListReplacedEvent != null)
