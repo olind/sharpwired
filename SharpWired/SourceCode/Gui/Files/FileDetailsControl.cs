@@ -102,6 +102,36 @@ namespace SharpWired.Gui.Files
                 //TODO: How should we handle double clicking on a filex
             }
         }
+
+        private void listView1_KeyUp(object sender, KeyEventArgs e)
+        {
+            /*
+                TODO: The following shortcuts is windows standard should be implemented. We might want to 
+                      make some more general functionallity for this to make it work native on other 
+                      plattforms as well.
+
+                Move backward to a previous view.   ALT+LEFT ARROW
+                Move forward to a previous view.    ALT+RIGHT ARROW
+                Refresh window.                     F5
+                Rename item.                        F2
+                Select all items.                   CTRL+A
+                View an item's properties.          ALT+ENTER or ALT+DOUBLE-CLICK             
+             */
+
+            if (e.KeyCode == Keys.Enter) //Change the selected node to be the ones selected in the ListView
+            {
+                if (listView1.SelectedItems.Count == 1)
+                    guiFilesController.ChangeSelectedNode(this, ((WiredListNode)listView1.SelectedItems[0]).ModelNode);
+            }
+            else if (e.KeyCode == Keys.Back) //Change the selected node to the parent node of the selected node
+            {
+                if (guiFilesController.SelectedNode.Parent != null)
+                {
+                    guiFilesController.ChangeSelectedNode(this, guiFilesController.SelectedNode.Parent);
+                }
+            }
+        }
+
         #endregion
 
         #region Initialization
@@ -132,6 +162,8 @@ namespace SharpWired.Gui.Files
             listView1.SmallImageList = fileViewIcons;
             listView1.LargeImageList = fileViewIcons;
             listView1.View = View.LargeIcon;
+
+            guiFilesController.ChangeSelectedNodeToRootNode(this);
         }
 
         /// <summary>

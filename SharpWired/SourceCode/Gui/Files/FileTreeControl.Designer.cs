@@ -48,6 +48,7 @@ namespace SharpWired.Gui.Files
             this.Controls.Add(this.rootTreeView);
             this.Name = "FileTreeControl";
             this.Size = new System.Drawing.Size(336, 333);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FileTreeControl_KeyUp);
             this.ResumeLayout(false);
 
         }

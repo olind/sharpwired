@@ -61,13 +61,36 @@ namespace SharpWired.Gui
             filesUserControl1.Init(logicManager);
         }
 
-        private void ExitToolStripButton_Click(object sender, EventArgs e)
+        private void Exit(object sender)
+        {
+            Application.Exit();
+        }
+
+        private void Disconnect(object sender)
         {
             logicManager.ConnectionManager.Commands.Leave(1);
-            Application.Exit();
-		}
+            //TODO: Clear all the data from the previous connection
+        }
 
 		#region Bookmark in the menu.
+
+        /// <summary>
+        /// Displays the bookmark dialog window
+        /// </summary>
+        /// <param name="sender"></param>
+        private void ShowBookmarksDialog(object sender)
+        {
+            using (BookmarkManagerDialog diag = new BookmarkManagerDialog())
+            {
+                // NOTE: Bookmark mangar could be shown as a modless dialog?
+                if (diag.ShowDialog(this) == DialogResult.Yes)
+                {
+                    Bookmark bookmark = diag.BookmarkToConnect;
+                    logicManager.Connect(bookmark);
+                }
+            }
+        }
+
 		/// <summary>
 		/// User wants to manage bookmarks. Open the bookmarmanager gui.
 		/// </summary>
@@ -75,15 +98,7 @@ namespace SharpWired.Gui
 		/// <param name="e"></param>
 		private void manageBookmarksToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			using (BookmarkManagerDialog diag = new BookmarkManagerDialog())
-			{
-				// NOTE: Bookmark mangar could be shown as a modless dialog?
-				if (diag.ShowDialog(this) == DialogResult.Yes)
-				{
-					Bookmark bookmark = diag.BookmarkToConnect;
-					logicManager.Connect(bookmark);
-				}
-			}
+            ShowBookmarksDialog(sender);
 		}
 
 		/// <summary>
@@ -173,7 +188,6 @@ namespace SharpWired.Gui
 		/// A list of the ToolStripMenuItems that represents bookmarks.
 		/// </summary>
 		private List<ToolStripMenuItem> bookmarkItems = new List<ToolStripMenuItem>();
-		#endregion
 
 		private void mBookmarkLoadingTimer_Tick(object sender, EventArgs e)
 		{
@@ -183,13 +197,39 @@ namespace SharpWired.Gui
 			// move one char from beginning to end, or vice versa.
 			string nt = t.Substring(1, t.Length - 1) + t[0].ToString();
 			mLoadingToolStripMenuItem.Text = "(" + nt + ")";
-		}
+        }
+        #endregion
 
-		private void aboutSharpWiredToolStripMenuItem_Click(object sender, EventArgs e)
+        #region Listeners from GUI
+        private void aboutSharpWiredToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			AboutBox box = new AboutBox();
 			box.ShowDialog();
 			box.Dispose();
 		}
-	}
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Disconnect(sender);
+            Exit(sender);
+        }
+
+        private void ExitToolStripButton_Click(object sender, EventArgs e)
+        {
+            Disconnect(sender);
+            Exit(sender);
+        }
+        
+        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Disconnect(sender);
+        }
+
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowBookmarksDialog(sender);
+        }
+
+        #endregion
+    }
 }

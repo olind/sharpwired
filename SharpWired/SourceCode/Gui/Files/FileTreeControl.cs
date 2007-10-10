@@ -227,5 +227,31 @@ namespace SharpWired.Gui.Files
             //PopulateFileTree(rootTreeView, logicManager.FileListingHandler.FileTreeRootNode);
         }
         #endregion
+
+        private void FileTreeControl_KeyUp(object sender, KeyEventArgs e)
+        {
+            /*
+                TODO: The following shortcuts is windows standard should be implemented. We might want to 
+                      make some more general functionallity for this to make it work native on other 
+                      plattforms as well.
+
+                Refresh window.                     F5
+                Rename item.                        F2
+                Select all items.                   CTRL+A (Should select them in the details view)
+                View an item's properties.          ALT+ENTER or ALT+DOUBLE-CLICK
+                Collapse the current selection if   LEFT ARROW
+                   it is expanded or Select the 
+                   parent folder.  	 
+                Collapse the selected folder. 	    NUM LOCK+MINUS SIGN (-)
+                Expand the current selection if     RIGHT ARROW
+                   it is collapsed or Select 
+                   the first subfolder 	
+                Expand all folders below the        NUM LOCK+*
+                   current selection. 	
+                Expand the selected folder. 	    NUM LOCK+PLUS SIGN (+)
+                Switch between left and             F6
+                   right panes. 	
+            */
+        }
     }
 }

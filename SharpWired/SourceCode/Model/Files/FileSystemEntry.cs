@@ -155,6 +155,7 @@ namespace SharpWired.Model.Files
                 else
                 {
                     superParentNode.AddChildren(newNode);
+                    newNode.Parent = superParentNode;
                     return true;
                 }
             }

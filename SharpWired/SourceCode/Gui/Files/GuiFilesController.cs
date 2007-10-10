@@ -51,7 +51,20 @@ namespace SharpWired.Gui.Files
             }
         }
 
+        /// <summary>
+        /// Raised when the selected node has changed
+        /// </summary>
         public event EventHandler<WiredNodeArgs> SelectedFolderNodeChangedEvent;
+
+        /// <summary>
+        /// Changes the selected node to be the root node
+        /// </summary>
+        /// <param name="sender"></param>
+        public void ChangeSelectedNodeToRootNode(object sender)
+        {
+            ChangeSelectedNode(sender, this.logicManager.FileListingHandler.FileListingModel.RootNode);
+        }
+
 
         /// <summary>
         /// Constructor - Inits the other GUI-classes
