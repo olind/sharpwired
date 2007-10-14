@@ -176,7 +176,6 @@ namespace SharpWired.Model.Files
             }
 		}
 
-
 		#region Events
 		/// <summary>
 		/// This event occrs when the server has finished listing the content of a folder.

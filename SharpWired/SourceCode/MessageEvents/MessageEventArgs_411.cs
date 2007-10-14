@@ -51,6 +51,13 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageId"></param>
+        /// <param name="messageName"></param>
+        /// <param name="path"></param>
+        /// <param name="free"></param>
         public MessageEventArgs_411(int messageId, string messageName, string path, long free)
             : base(messageId, messageName)
         {

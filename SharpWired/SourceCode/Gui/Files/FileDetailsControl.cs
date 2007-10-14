@@ -99,7 +99,7 @@ namespace SharpWired.Gui.Files
                 guiFilesController.ChangeSelectedNode(this, node.ModelNode);
             }
             else{
-                //TODO: How should we handle double clicking on a filex
+                //TODO: How should we handle double clicking on a file
             }
         }
 
@@ -143,8 +143,6 @@ namespace SharpWired.Gui.Files
         {
             this.guiFilesController = guiFilesController;
 
-            guiFilesController.SelectedFolderNodeChangedEvent += new EventHandler<WiredNodeArgs>(guiFilesController_FolderNodeChangedEvent);
-
             ImageList fileViewIcons = new ImageList();
             fileViewIcons.ColorDepth = ColorDepth.Depth32Bit;
             IconHandler iconHandler = new IconHandler();
@@ -163,7 +161,10 @@ namespace SharpWired.Gui.Files
             listView1.LargeImageList = fileViewIcons;
             listView1.View = View.LargeIcon;
 
+            guiFilesController.SelectedFolderNodeChangedEvent += new EventHandler<WiredNodeArgs>(guiFilesController_FolderNodeChangedEvent);
             guiFilesController.ChangeSelectedNodeToRootNode(this);
+
+            
         }
 
         /// <summary>

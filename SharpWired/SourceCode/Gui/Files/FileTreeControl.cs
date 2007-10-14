@@ -43,26 +43,9 @@ namespace SharpWired.Gui.Files
     /// </summary>
     public partial class FileTreeControl : UserControl
     {
+        #region Variables
         private LogicManager logicManager;
         private GuiFilesController guiFilesController;
-
-        #region Listerens from Model
-        void FileListingModel_FileListingDoneEvent(FolderNode superRootNode)
-        {
-            //TODO: Remove this
-            ClearTreeView(rootTreeView);
-            PopulateFileTree(rootTreeView, superRootNode);
-        }
-
-        void guiFilesController_FolderNodeChangedEvent(object sender, WiredNodeArgs e)
-        {
-            if (e.Node is FolderNode)
-            {
-                //TODO: Clear the nodes below this node in favour for clearing the complete tree
-                //ClearTreeView((FolderNode)e.Node);
-                PopulateFileTree(rootTreeView, (FolderNode)e.Node);
-            }
-        }
         #endregion
 
         #region Listeners from GUI
@@ -76,6 +59,33 @@ namespace SharpWired.Gui.Files
             WiredTreeNode node = (WiredTreeNode)rootTreeView.GetNodeAt(e.Location);
             guiFilesController.ChangeSelectedNode(this, node.ModelNode);
         }
+
+        private void FileTreeControl_KeyUp(object sender, KeyEventArgs e)
+        {
+            /*
+                TODO: The following shortcuts is windows standard should be implemented. We might want to 
+                      make some more general functionallity for this to make it work native on other 
+                      plattforms as well.
+
+                Refresh window.                     F5
+                Rename item.                        F2
+                Select all items.                   CTRL+A (Should select them in the details view)
+                View an item's properties.          ALT+ENTER or ALT+DOUBLE-CLICK
+                Collapse the current selection if   LEFT ARROW
+                   it is expanded or Select the 
+                   parent folder.  	 
+                Collapse the selected folder. 	    NUM LOCK+MINUS SIGN (-)
+                Expand the current selection if     RIGHT ARROW
+                   it is collapsed or Select 
+                   the first subfolder 	
+                Expand all folders below the        NUM LOCK+*
+                   current selection. 	
+                Expand the selected folder. 	    NUM LOCK+PLUS SIGN (+)
+                Switch between left and             F6
+                   right panes. 	
+            */
+        }
+
         #endregion
 
         #region Handler for the TreeNode
@@ -153,8 +163,55 @@ namespace SharpWired.Gui.Files
         }
         delegate void ClearTreeViewCallback(TreeView tree);
         #endregion
-        
-        #region File downloads
+
+        #region Initialization
+		/// <summary>
+		/// Creates and inits components.
+		/// </summary>
+        public FileTreeControl()
+        {
+            InitializeComponent();
+        }
+
+		/// <summary>
+		/// Inits the FieTreeController
+		/// </summary>
+		/// <param name="logicManager"></param>
+		/// <param name="guiFilesController"></param>
+        public void Init(LogicManager logicManager, GuiFilesController guiFilesController)
+        {
+            this.logicManager = logicManager;
+            this.guiFilesController = guiFilesController;
+
+            ImageList rootTreeViewIcons = new ImageList();
+            rootTreeViewIcons.ColorDepth = ColorDepth.Depth32Bit;
+            IconHandler iconHandler = new IconHandler();
+            try
+            {
+                rootTreeViewIcons.Images.Add(iconHandler.FolderClosed);
+                rootTreeViewIcons.Images.Add(iconHandler.File);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("FileUserControl.cs | Failed to add images for rootTreView. Exception: " + e); //TODO: Throw exception
+            }
+            rootTreeView.ImageList = rootTreeViewIcons;
+
+            //TODO: REMOVE Use GuiFilesController instead
+            //The FileTree doesnt support reloading a folder from a certain path but instead needs to 
+            //reload from the root node. Once this is fixed we can use the guiFilesController in favour for 
+            //listening to events straight from the model
+            //logicManager.FileListingHandler.FileListingModel.FileListingDoneEvent += new FileListingModel.FileListingDoneDelegate(FileListingModel_FileListingDoneEvent);
+
+            //guiFilesController.SelectedFolderNodeChangedEvent += new EventHandler<WiredNodeArgs>(guiFilesController_FolderNodeChangedEvent);
+            //guiFilesController.ChangeSelectedNodeToRootNode(this);
+            
+            //TODO: We must populate the tree for the first time
+            //PopulateFileTree(rootTreeView, logicManager.FileListingHandler.FileTreeRootNode);
+        }
+        #endregion
+
+        #region File downloads TODO: Move file download logic to GuiFilesController
         /// <summary>
         /// The mouse was double clicked in the TreeView
         /// </summary>
@@ -173,7 +230,7 @@ namespace SharpWired.Gui.Files
             //    }
             //}
         }
-        
+
         private void WantDownloadFile(FileNode fileNode)
         {
             logicManager.FileTransferHandler.EnqueueDownload(
@@ -183,75 +240,23 @@ namespace SharpWired.Gui.Files
         }
         #endregion
 
-        #region Initialization
-		/// <summary>
-		/// Creates and inits components.
-		/// </summary>
-        public FileTreeControl()
+        #region Listerens from Model TODO: Replace model listeners with listeners from GuiFilesController
+        void FileListingModel_FileListingDoneEvent(FolderNode superRootNode)
         {
-            InitializeComponent();
+            //TODO: Remove this
+            ClearTreeView(rootTreeView);
+            PopulateFileTree(rootTreeView, superRootNode);
         }
 
-		/// <summary>
-		/// TODO: Ola!
-		/// </summary>
-		/// <param name="logicManager"></param>
-		/// <param name="guiFilesController"></param>
-        public void Init(LogicManager logicManager, GuiFilesController guiFilesController)
+        void guiFilesController_FolderNodeChangedEvent(object sender, WiredNodeArgs e)
         {
-            this.logicManager = logicManager;
-            this.guiFilesController = guiFilesController;
-          
-            //TODO: REMOVE Use GuiFilesController instead
-            //The FileTree doesnt support reloading a folder from a certain path but instead needs to 
-            //reload from the root node. Once this is fixed we can use the guiFilesController in favour for 
-            //listening to events straight from the model
-            logicManager.FileListingHandler.FileListingModel.FileListingDoneEvent += new FileListingModel.FileListingDoneDelegate(FileListingModel_FileListingDoneEvent);
-            //guiFilesController.SelectedFolderNodeChangedEvent += new EventHandler<WiredNodeArgs>(guiFilesController_FolderNodeChangedEvent);
-            
-            ImageList rootTreeViewIcons = new ImageList();
-            rootTreeViewIcons.ColorDepth = ColorDepth.Depth32Bit;
-            IconHandler iconHandler = new IconHandler();
-            try
+            if (e.Node is FolderNode)
             {
-                rootTreeViewIcons.Images.Add(iconHandler.FolderClosed);
-                rootTreeViewIcons.Images.Add(iconHandler.File);
+                //TODO: Clear the nodes below this node in favour for clearing the complete tree
+                //ClearTreeView((FolderNode)e.Node);
+                PopulateFileTree(rootTreeView, (FolderNode)e.Node);
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("FileUserControl.cs | Failed to add images for rootTreView. Exception: " + e); //TODO: Throw exception
-            }
-            rootTreeView.ImageList = rootTreeViewIcons;
-
-            //TODO: We must populate the tree for the first time
-            //PopulateFileTree(rootTreeView, logicManager.FileListingHandler.FileTreeRootNode);
         }
         #endregion
-
-        private void FileTreeControl_KeyUp(object sender, KeyEventArgs e)
-        {
-            /*
-                TODO: The following shortcuts is windows standard should be implemented. We might want to 
-                      make some more general functionallity for this to make it work native on other 
-                      plattforms as well.
-
-                Refresh window.                     F5
-                Rename item.                        F2
-                Select all items.                   CTRL+A (Should select them in the details view)
-                View an item's properties.          ALT+ENTER or ALT+DOUBLE-CLICK
-                Collapse the current selection if   LEFT ARROW
-                   it is expanded or Select the 
-                   parent folder.  	 
-                Collapse the selected folder. 	    NUM LOCK+MINUS SIGN (-)
-                Expand the current selection if     RIGHT ARROW
-                   it is collapsed or Select 
-                   the first subfolder 	
-                Expand all folders below the        NUM LOCK+*
-                   current selection. 	
-                Expand the selected folder. 	    NUM LOCK+PLUS SIGN (+)
-                Switch between left and             F6
-                   right panes. 	
-            */
-        }
     }
 }

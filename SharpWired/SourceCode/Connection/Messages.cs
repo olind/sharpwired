@@ -716,9 +716,7 @@ namespace SharpWired.Connection
                 long size = long.Parse(w[2]); //FIXME: Must be a long
                 DateTime created = DateTime.Parse(w[3]);
                 DateTime modified = DateTime.Parse(w[4]);
-
                 MessageEventArgs_410420 m = new MessageEventArgs_410420(messageId, messageName, path, fileType, size, created, modified);
-
                 FileListingEvent(this, m);
             }
         }
@@ -731,9 +729,7 @@ namespace SharpWired.Connection
                 string[] w = SplitMessage(message);
                 string path = w[0];
                 long free = long.Parse(w[1]);
-
                 MessageEventArgs_411 m = new MessageEventArgs_411(messageId, messageName, path, free);
-
                 FileListingDoneEvent(this, m);
             }
         }
@@ -1060,7 +1056,7 @@ namespace SharpWired.Connection
             string argument = msg.Substring(4);
 
             // Switch on the message identifier and call the proper event
-            System.Console.WriteLine("Starting switch on msgId: " + msgId + " with argument: " + argument);
+            System.Diagnostics.Debug.WriteLine("Starting switch on msgId: " + msgId + " with argument: " + argument);
             switch (msgId)
             {
                 case 200:

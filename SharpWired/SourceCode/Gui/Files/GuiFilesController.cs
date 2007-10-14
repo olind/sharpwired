@@ -47,7 +47,7 @@ namespace SharpWired.Gui.Files
             }
             else
             {
-                throw new Exception("Dealing with file nodes are not implemented"); //TODO: Deal with file nodes if neccessary
+                throw new Exception("TODO: Dealing with file nodes are not implemented");
             }
         }
 
@@ -81,6 +81,19 @@ namespace SharpWired.Gui.Files
             this.logicManager = logicManager;
             fileTreeControl.Init(logicManager, this);
             fileDetailsControl.Init(this);
+
+            logicManager.FileListingHandler.FileListingModel.FileListingDoneEvent += new FileListingModel.FileListingDoneDelegate(FileListingModel_FileListingDoneEvent);
+            //logicManager.FileListingHandler.FileListingModel.RootNode.FolderNodeUpdatedEvent += new FolderNode.FolderNodeUpdated(RootNode_FolderNodeUpdatedEvent);
+        }
+
+        void FileListingModel_FileListingDoneEvent(FolderNode superRootNode)
+        {
+            //Console.WriteLine("   Gui.Files.GuiFilesController. Caught FileListingDoneEvent: " + superRootNode.Path);
+        }
+
+        void RootNode_FolderNodeUpdatedEvent(FolderNode updatedNode)
+        {
+            Console.WriteLine("   Gui.Files.GuiFilesController. Caught FolderNodeUpdatedEvent: " + updatedNode.Path);
         }
     }
 }
