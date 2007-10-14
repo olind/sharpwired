@@ -27,7 +27,6 @@ namespace SharpWired.Gui.Files
         /// <summary>
         /// Change the selected node. 
         /// When the selected node is set an event is raised.
-        /// TODO: It might be more logical to have a ChangeSelectedFolder(object sender, FolderNode selectedFolder). Not really sure.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="selectedNode"></param>
@@ -83,17 +82,12 @@ namespace SharpWired.Gui.Files
             fileDetailsControl.Init(this);
 
             logicManager.FileListingHandler.FileListingModel.FileListingDoneEvent += new FileListingModel.FileListingDoneDelegate(FileListingModel_FileListingDoneEvent);
-            //logicManager.FileListingHandler.FileListingModel.RootNode.FolderNodeUpdatedEvent += new FolderNode.FolderNodeUpdated(RootNode_FolderNodeUpdatedEvent);
         }
 
         void FileListingModel_FileListingDoneEvent(FolderNode superRootNode)
         {
-            //Console.WriteLine("   Gui.Files.GuiFilesController. Caught FileListingDoneEvent: " + superRootNode.Path);
-        }
-
-        void RootNode_FolderNodeUpdatedEvent(FolderNode updatedNode)
-        {
-            Console.WriteLine("   Gui.Files.GuiFilesController. Caught FolderNodeUpdatedEvent: " + updatedNode.Path);
+            //FIXME: Someone needs to listen to this event to trigger rootnode 
+            //to raise update event. We dont need to do anything with it here though..
         }
     }
 }

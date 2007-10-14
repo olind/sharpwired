@@ -45,6 +45,11 @@ namespace SharpWired.Model.Files
         private string parentPath;
         private string name;
         private string[] pathArray;
+        /// <summary>
+        /// This little string is used to separate folders and files in paths.
+        /// Like PATHSEPARATOR Folder PATHSEPARATOR File.
+        /// </summary>
+        public static string PATH_SEPARATOR = "/";
         #endregion
 
         #region Properties
@@ -238,12 +243,6 @@ namespace SharpWired.Model.Files
 		public static string[] SplitPath(string path)
 		{
 			string[] pathArray = path.Split(PATH_SEPARATOR[0]);
-			//if (pathArray.Length > 1)
-			//{
-			//    string[] array = new string[pathArray.Length - 1];
-			//    Array.Copy(pathArray, 1, array, 0, array.Length);
-			//    return array;
-			//}
 			return pathArray;
 		}
 
@@ -292,11 +291,5 @@ namespace SharpWired.Model.Files
 			return path;	
 		}
 		#endregion
-
-		/// <summary>
-		/// This little string is used to separate folders and files in paths.
-		/// Like PATHSEPARATOR Folder PATHSEPARATOR File.
-		/// </summary>
-		public static string PATH_SEPARATOR = "/";
     }
 }

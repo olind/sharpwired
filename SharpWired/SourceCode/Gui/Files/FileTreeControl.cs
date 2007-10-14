@@ -85,7 +85,6 @@ namespace SharpWired.Gui.Files
                    right panes. 	
             */
         }
-
         #endregion
 
         #region Handler for the TreeNode
@@ -197,17 +196,9 @@ namespace SharpWired.Gui.Files
             }
             rootTreeView.ImageList = rootTreeViewIcons;
 
-            //TODO: REMOVE Use GuiFilesController instead
-            //The FileTree doesnt support reloading a folder from a certain path but instead needs to 
-            //reload from the root node. Once this is fixed we can use the guiFilesController in favour for 
-            //listening to events straight from the model
-            //logicManager.FileListingHandler.FileListingModel.FileListingDoneEvent += new FileListingModel.FileListingDoneDelegate(FileListingModel_FileListingDoneEvent);
-
-            //guiFilesController.SelectedFolderNodeChangedEvent += new EventHandler<WiredNodeArgs>(guiFilesController_FolderNodeChangedEvent);
-            //guiFilesController.ChangeSelectedNodeToRootNode(this);
-            
-            //TODO: We must populate the tree for the first time
-            //PopulateFileTree(rootTreeView, logicManager.FileListingHandler.FileTreeRootNode);
+            //We must populate the tree for the first time
+            logicManager.FileListingHandler.FileListingModel.FileListingDoneEvent += new FileListingModel.FileListingDoneDelegate(FileListingModel_FileListingDoneEvent);
+            PopulateFileTree(rootTreeView, logicManager.FileListingHandler.FileTreeRootNode);
         }
         #endregion
 

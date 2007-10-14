@@ -163,8 +163,6 @@ namespace SharpWired.Gui.Files
 
             guiFilesController.SelectedFolderNodeChangedEvent += new EventHandler<WiredNodeArgs>(guiFilesController_FolderNodeChangedEvent);
             guiFilesController.ChangeSelectedNodeToRootNode(this);
-
-            
         }
 
         /// <summary>
