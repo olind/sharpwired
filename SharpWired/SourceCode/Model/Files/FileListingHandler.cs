@@ -125,7 +125,7 @@ namespace SharpWired.Model.Files
             }
 
             // Add the node newNode anywhere below our root node in our file tree
-            fileListingModel.RootNode.Add(newNode, fileListingModel.RootNode);
+            this.Add(newNode, fileListingModel.RootNode);
         }
 
         /// <summary>
@@ -137,6 +137,67 @@ namespace SharpWired.Model.Files
         {
             fileListingModel.FileListingDone(messageEventArgs);
         }
+        #endregion
+
+        #region Edit the file model
+
+        /// <summary>
+        /// Adds the given newNode to the correct location below the given superParentNode.
+        /// 
+        /// Note! If we try to load the content of a foldernode that are below what we have 
+        /// loaded so far we will not add that node to our tree. It might be necessary to load the file
+        ///  tree from the root node since we need to get additional folder information from the server (comments, file size, etc)
+        ///  Example: If we load the folder /Folder1 before we load / we will never add /Folder1
+        /// </summary>
+        /// <param name="newNode">The node to add.</param>
+        /// <param name="superParentNode">The parent or grandparent node where newNode should be added to.</param>
+        /// <param name="depth"></param>
+        /// <returns>True if newNode was added successfully or if the node already existed. False otherwise.</returns>
+        private bool Add(FileSystemEntry newNode, FolderNode superParentNode, int depth)
+        {
+            // We are at the correct location and the node should be added
+            if (superParentNode.Path == newNode.ParentPath)
+            {
+                if (superParentNode.HasChild(newNode))
+                {
+                    if (newNode is FolderNode)
+                        ((FolderNode)newNode).DoneUpdating();
+
+                    return false; //Return false if the file/folder already exists
+                }
+                else
+                {
+                    superParentNode.AddChildren(newNode);
+                    newNode.Parent = superParentNode;
+                    return true;
+                }
+            }
+
+            // Traverse the tree to find the correct location
+            foreach (FileSystemEntry parent in superParentNode.FolderNodes)
+            {
+                if (parent.PathArray[depth] == newNode.PathArray[depth])
+                {
+                    bool added = Add(newNode, ((FolderNode)parent), depth + 1);
+                    if (added)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Add a new node to the corresponding location in the tree
+        /// </summary>
+        /// <param name="newNode">The new node to add</param>
+        /// <param name="superParentNode">A node in the tree where the new node should be added to. 
+        /// Note! New node might be added further down in the tree.</param>
+        /// <returns></returns>
+        public bool Add(FileSystemEntry newNode, FolderNode superParentNode)
+        {
+            return this.Add(newNode, superParentNode, 0);
+        }
+
         #endregion
 
         #region Initialization
