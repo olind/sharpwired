@@ -7,6 +7,7 @@ using SharpWired.Connection.Transfers.Entries;
 using SharpWired.Model.Files;
 using System.Windows.Forms;
 using System.IO;
+using SharpWired.Connection.Bookmarks;
 
 namespace SharpWired.Connection.Transfers
 {
@@ -32,7 +33,15 @@ namespace SharpWired.Connection.Transfers
 						+ mDefaultDownloadFolder + "'.\n" + e.ToString());
 				}
 			}
+
+			#region Attach event listeners.
+			logicManager.ConnectionManager.Messages.TransferReadyEvent += new Messages.TransferReadyEventHandler(Messages_TransferReadyEvent);
+			logicManager.ConnectionManager.Messages.TransferQueuedEvent += new Messages.TransferQueuedEventHandler(Messages_TransferQueuedEvent);
+			logicManager.ConnectionManager.Messages.FileOrDirectoryNotFoundEvent += new Messages.FileOrDirectoryNotFoundEventHandler(Messages_FileOrDirectoryNotFoundEvent);
+			logicManager.ConnectionManager.Messages.QueueLimitExceededEvent += new Messages.QueueLimitExceededEventHandler(Messages_QueueLimitExceededEvent);
+			#endregion
 		}
+
 		#endregion
 
 		#region Fields
@@ -70,13 +79,50 @@ namespace SharpWired.Connection.Transfers
 			return entry;
 		}
 
-		public DownloadEntry EnqueueDownload(Server server, FileNode pSourceFile, string pDestinationFolder)
+		public DownloadEntry EnqueueDownload(Bookmark bookmark, FileNode pSourceFile, string pDestinationFolder)
 		{
-			DownloadEntry entry = new DownloadEntry(server, pSourceFile, pDestinationFolder);
+			DownloadEntry entry = new DownloadEntry(bookmark.Server, pSourceFile, pDestinationFolder);
 			mDownloadQueue.Enqueue(entry);
 			return entry;
 		}
 		#endregion
 		#endregion
+
+		internal void StartTestDownload()
+		{
+			// No offset when starting, I guess?
+			logicManager.ConnectionManager.Commands.Get(testPath, 0);
+		}
+
+		#region Server Message EventHandlers.
+		void Messages_TransferReadyEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_400 messageEventArgs)
+		{
+			string hash = messageEventArgs.Hash;
+			Console.WriteLine("Transfer is ready! File '" + messageEventArgs.Path + "', with ID '" + hash + "'.");
+
+			Bookmark currentBookmark = logicManager.ConnectionManager.CurrentBookmark;
+			ConnectionManager manager = new ConnectionManager();
+			Bookmark transferBookmark = manager.MakeTransferBookmark(currentBookmark);
+			manager.Connect(transferBookmark);
+			manager.Commands.Transfer(hash);
+		}
+
+		void Messages_QueueLimitExceededEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_Messages messageEventArgs)
+		{
+			throw new Exception("The method or operation is not implemented.");
+		}
+
+		void Messages_FileOrDirectoryNotFoundEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_Messages messageEventArgs)
+		{
+			throw new Exception("The method or operation is not implemented.");
+		}
+
+		void Messages_TransferQueuedEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_401 messageEventArgs)
+		{
+			Console.WriteLine("The Transfer have been queued! File '" + messageEventArgs.Path + "'.");
+		}
+		#endregion
+
+		private string testPath = "/f1/f11/Fi111.test";
 	}
 }

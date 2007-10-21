@@ -1,4 +1,4 @@
-/**
+/*
  * SecureSocket.cs 
  * Created by Ola Lindberg, 2006-06-20
  * 
@@ -176,11 +176,12 @@ namespace SharpWired.Connection.Sockets
         /// The read callback acts as the asynchronous message receive loop.
         /// Note: This code is inspired from Socio (see: socio.sf.net for more information)
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">TODO: !!</param>
         private void ReadCallback(IAsyncResult result)
         {
             sslStream.EndRead(result);
             string data_received = Encoding.UTF8.GetString((byte[])result.AsyncState);
+			Console.WriteLine("Data REcieved = " + data_received);
 
             string msg;
             int index_EOT;
@@ -205,11 +206,17 @@ namespace SharpWired.Connection.Sockets
             }
             else
             {
+				// What do we do here?!
                 byte[] read_buffer = new byte[buffer_size];
                 sslStream.BeginRead(read_buffer, 0, read_buffer.Length, new AsyncCallback(ReadCallback), read_buffer);
             }
         }
 
+
+		/// <summary>
+		/// Connects to the server using Connect(Port, MachineName, ServerName).
+		/// </summary>
+		/// <param name="server">The Server to connect to.</param>
         internal void Connect(Server server)
         {
             Connect(server.ServerPort, server.MachineName, server.ServerName);

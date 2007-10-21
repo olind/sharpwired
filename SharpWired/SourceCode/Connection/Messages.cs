@@ -1,4 +1,4 @@
-/**
+/*
  * Messages.cs 
  * Created by Ola Lindberg, 2006-06-29
  * 
@@ -58,9 +58,9 @@ namespace SharpWired.Connection
         /// <param name="message"></param>
         public delegate void MessageReceived(object sender, EventArgs e, string message);
 
-        ///
-        /// All server messages follows
-        ///
+        //
+        // All server messages follows
+        //
 
         /// 200
         public delegate void ServerInformationEventHandler(object sender, MessageEventArgs_200 messageEventArgs);
@@ -1280,7 +1280,7 @@ namespace SharpWired.Connection
             Bitmap image = null;
             if (imageText.Length > 0)
             {
-                /**
+                /*
                 This could be used to remove all (if any) \r\n and spaces 
                 System.Text.StringBuilder sbText = new System.Text.StringBuilder(Image,Image.Length);
                 sbText.Replace("\r\n", String.Empty);

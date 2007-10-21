@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * UserInformation.cs
  * Created by Ola Lindberg, 2006-07-22
  * 

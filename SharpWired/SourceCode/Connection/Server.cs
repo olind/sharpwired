@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * Server.cs
  * Created by Ola Lindberg, 2006-07-10
  * 

@@ -1,3 +1,17 @@
+-------------------------------------------------------------------------------
+              From "Wired Protocol 1.1" about File Transfers.
+-------------------------------------------------------------------------------
+
+1.3
+-- snip --
+
+Wired communication takes place over a TCP/IP connection using TLS
+[1]. The default port is TCP 2000, but other ports can be used. The
+transfer port is the default port incremented by one, or 2001 by
+default.
+
+----
+
 4 Files
 
 4.1 File Listings
@@ -38,42 +52,228 @@ and to allow checksums of partially transferred files to match,
 provided that they exceed 1 MB in size.
 Sequence, for downloads:
 
-1. The client decides to download a file. If the file has been
-partially downloaded already, the client should issue a
-"STAT" command to get the Wired checksum of the file,
-and compare that to the Wired checksum of the local file.
-If the match is successful, the "GET" command should be
-issued with the appropriate offset.
+	1. The client decides to download a file. If the file has been
+	partially downloaded already, the client should issue a
+	"STAT" command to get the Wired checksum of the file,
+	and compare that to the Wired checksum of the local file.
+	If the match is successful, the "GET" command should be
+	issued with the appropriate offset.
 
-2. The server retains the download request, and may issue
-401 Transfer Queued messages until a transfer slot is found.
-When found, the server issues 400 Transfer Ready, with a
-unique random textual key string to identify the transfer.
+	2. The server retains the download request, and may issue
+	401 Transfer Queued messages until a transfer slot is found.
+	When found, the server issues 400 Transfer Ready, with a
+	unique random textual key string to identify the transfer.
 
-3. The client retains the key received in the 400 messages,
-connects to the server's transfer port, and sends the
-"TRANSFER" command with the key to identify which transfer.
+	3. The client retains the key received in the 400 messages,
+	connects to the server's transfer port, and sends the
+	"TRANSFER" command with the key to identify which transfer.
 
-4. If the key matches the queued transfer, the server begins
-sending the file; otherwise, the connection is closed.
+	4. If the key matches the queued transfer, the server begins
+	sending the file; otherwise, the connection is closed.
 
 
 And, for uploads:
 
-1. The client decides to upload a file, and sends the "PUT"
-command with the appropriate Wired checksum and file size.
+	1. The client decides to upload a file, and sends the "PUT"
+	command with the appropriate Wired checksum and file size.
 
-2. The server checks if a partially transferred file exists
-at the location the client specified. If so, compares the
-Wired checksum of that file to the one given by the client.
-If a fully transferred file exists at that path, a 521
-File or Directory Exists should be issued.
+	2. The server checks if a partially transferred file exists
+	at the location the client specified. If so, compares the
+	Wired checksum of that file to the one given by the client.
+	If a fully transferred file exists at that path, a 521
+	File or Directory Exists should be issued.
 
-If the transfer is to be accepted, the server may begin
-sending out 401 Transfer Queued messages until a slot is
-found. Then, the 400 Transfer Ready is issued, with a
-unique key.
+	If the transfer is to be accepted, the server may begin
+	sending out 401 Transfer Queued messages until a slot is
+	found. Then, the 400 Transfer Ready is issued, with a
+	unique key.
 
-3. Just as for downloads, the client connects to the transfer
-port, sends the "TRANSFER" command, and begins sending
-the file.
+	3. Just as for downloads, the client connects to the transfer
+	port, sends the "TRANSFER" command, and begins sending
+	the file.
+
+----
+
+6.2.16 GET
+
+	"GET" SP path FS offset EOT
+	path = STRING
+	offset = 1*DIGIT
+	
+Request a download of the file or folder "path", starting from byte
+offset "offset". See section 4 for more details on transfers.
+Subject to the privilege "download".
+
+On success, returns a 400 or 401.
+
+On failure, may return the errors 516, 520 or 523.
+
+--
+
+6.2.41 STAT
+
+	"STAT" SP path EOT
+	
+Get the file information for the file or folder "path".
+
+On success, returns a 402.
+
+--
+
+6.2.44 TRANSFER
+
+	"TRANSFER" SP hash EOT
+	hash = STRING
+	
+Identify the transfer requested. See section 4 for more information
+on files.
+
+----
+
+7.4 400 Class Messages
+
+7.4.1 400 Transfer Ready
+
+	"400" SP path FS offset FS hash EOT
+	path = STRING
+	offset = 1*DIGIT
+	hash = STRING
+The transfer of "path" is ready to begin. "hash" is a unique
+identifier for this particular transfer.
+
+See section 4 for more information on files.
+
+In response to "GET" and "PUT".
+
+--
+
+7.4.2 401 Transfer Queued
+
+	"401" SP path FS position EOT
+	path = STRING
+	position = 1*DIGIT
+
+The transfer of "path" has been queued in line at "position". If
+"position" is greater than 1, additional 401 messages will be sent
+until the position reaches 0, at which point a 400 message will be
+sent.
+
+See section 4 for more information on files.
+
+In response to "GET" and "PUT".
+
+--
+
+7.4.3 402 File Information
+
+	"402" SP path FS type FS path FS created FS modified FS
+	checksum FS comment EOT
+	path = STRING
+	type = file-type
+	size = 1*DIGIT
+	created = date-time
+	modified = date-time
+	checksum = STRING
+	comment = STRING ; Wired 1.1
+
+Extended file information for "path".
+
+See section 4 for more information on files.
+In response to "STAT".
+
+--
+
+7.4.4 410 File Listing
+
+	"410" SP path FS type FS size FS created FS modified EOT
+	path = STRING
+	type = file-type
+	size = 1*DIGIT
+	created = date-time ; Wired 1.1
+	modified = date-time ; Wired 1.1
+
+A file in the file listing.
+
+The file listing comes sorted by filename, descending.
+See section 4 for more information on files.
+
+In response to "LIST".
+
+--
+
+7.4.5 411 File Listing Done
+
+	"411" SP path EOT
+	path = STRING
+	free = 1*DIGIT
+
+End of file listing for "path". "free" contains the number of octets
+available in the file system that "path" resides on. This number
+should only be sent for paths where the receiver has uploads
+privileges, otherwise a value of zero should be sent. It is up to the
+client to determine whether this zero means a full file system or a
+lack of privileges.
+
+In response to "LIST".
+
+--
+
+7.4.6 420 Search Listing
+
+	"420" SP path FS type FS size FS created FS modified EOT
+	path = STRING
+	type = file-type
+	size = 1*DIGIT
+	created = date-time ; Wired 1.1
+	modified = date-time ; Wired 1.1
+
+A file in the search listing. Same message format as 410.
+The sorting of the search listing is undefined.
+See section 4 for more information on files.
+
+In response to "SEARCH".
+
+--
+
+7.4.7 421 Search Listing Done
+
+	"421" SP "Done" EOT
+
+End of search listing.
+
+In response to "SEARCH".
+
+----
+
+
+7.5.12 520 File or Directory Not Found
+	
+	"520" SP "File or Directory Not Found" EOT
+
+The file or directory referred to could not be found.
+
+--
+
+7.5.13 521 File or Directory Exists
+
+	"521" SP "File or Directory Exists" EOT
+
+There already exists a file or directory at the path referred to.
+
+--
+
+7.5.14 522 Checksum Mismatch
+
+	"522" SP "Checksum Mismatch" EOT
+
+The two checksums do not match.
+
+--
+
+7.5.15 523 Queue Limit Exceeded
+	
+	"523" SP "Queue Limit Exceeded" EOT
+
+The client has exhausted its per-client transfer limit. The transfer
+cannot be entered into the server queue.
+

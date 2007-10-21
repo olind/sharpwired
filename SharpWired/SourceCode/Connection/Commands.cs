@@ -1,4 +1,4 @@
-/**
+/*
  * Commands.cs 
  * Created by Ola Lindberg, 2006-06-27
  * 
@@ -566,7 +566,7 @@ namespace SharpWired.Connection
         }
 
         /// <summary>
-        /// Identify the transfer requested
+        /// Initiate the transfer with the given ID.
         /// </summary>
         /// <param name="hash">The hash key for the transfer</param>
         public void Transfer(string hash)

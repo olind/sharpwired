@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * Server.cs
  * Created by Ola Lindberg and Peter Holmdahl, 2006-11-10
  * 
@@ -32,55 +32,104 @@ using SharpWired.Connection.Bookmarks;
 
 namespace SharpWired.Connection
 {
+	/// <summary>
+	/// TODO: TODO!
+	/// </summary>
     public class ConnectionManager
     {
+		#region Fields
 
-        /// <summary>
-        /// The messages that this connection uses.
-        /// </summary>
-        private Messages messages;
+		/// <summary>
+		/// The messages that this connection uses.
+		/// </summary>
+		private Messages messages;
 
-        /// <summary>
-        /// The commands that this connection uses.
-        /// </summary>
-        private Commands commands;
+		/// <summary>
+		/// The commands that this connection uses.
+		/// </summary>
+		private Commands commands;
 
-        private SecureSocket commandSocket;
+		/// <summary>
+		/// The socket for this connection.
+		/// </summary>
+		private SecureSocket commandSocket; 
+		#endregion
 
-        public ConnectionManager()
+
+		#region Constructor
+
+		/// <summary>
+		/// Constructs a ConnectionManager. Creates a SecureSocket, a Message, and a Commands.
+		/// </summary>
+		public ConnectionManager()
         {
             this.commandSocket = new SecureSocket();
             this.messages = new Messages(this.commandSocket);
             this.commands = new Commands(this.commandSocket);
-        }
+		}
+		#endregion
 
-        public Messages Messages
-        {
-            get
-            {
-                return messages;
-            }
-        }
 
-        public Commands Commands
-        {
-            get {
-                return commands;
-            }
-        }
+		#region Properties
 
+		/// <summary>
+		/// Get the class that exposes the message events.
+		/// </summary>
+		public Messages Messages
+		{
+			get { return messages; }
+		}
+
+		/// <summary>
+		/// Get the Commands for an eventual connection. Used to send commands over the connection.
+		/// </summary>
+		public Commands Commands
+		{
+			get { return commands; }
+		}
+
+		private Bookmark mCurrentBookmark;
+		/// <summary>
+		/// Get the bookmark used to connect.
+		/// </summary>
+		public Bookmark CurrentBookmark
+		{
+			get { return mCurrentBookmark; }
+		}
+
+		#endregion
+
+
+		/// <summary>
+		/// Connect to the Server in the Bookmark using the UserInfo from the bookmark as well.
+		/// </summary>
+		/// <param name="bookmark">The info about Server and UserInformation.</param>
         public void Connect(Bookmark bookmark)
         {
             commandSocket.Connect(bookmark.Server);
             commands.InitConnection(bookmark.UserInformation);
-			mCurrentServer = bookmark.Server;
+			mCurrentBookmark = bookmark;
         }
 
-		private Server mCurrentServer;
-
-		public Server CurrentServer
+		/// <summary>
+		/// Increases the port number for the server by one, so that it corresponds
+		/// to the transfer port.
+		/// </summary>
+		/// <remarks>
+		/// 1.3
+		/// -- snip --
+		///
+		/// Wired communication takes place over a TCP/IP connection using TLS
+		/// [1]. The default port is TCP 2000, but other ports can be used. The
+		/// transfer port is the default port incremented by one, or 2001 by
+		/// default.
+		/// </remarks>
+		/// <param name="bookmark">The Bookmark to use as base.</param>
+		/// <returns>A new Bookmark.</returns>
+		internal Bookmark MakeTransferBookmark(Bookmark bookmark)
 		{
-			get { return mCurrentServer; }
+			Server server = new Server(bookmark.Server.ServerPort + 1, bookmark.Server.MachineName, bookmark.Server.ServerName);
+			return new Bookmark(server, bookmark.UserInformation);
 		}
-    }
+	}
 }
