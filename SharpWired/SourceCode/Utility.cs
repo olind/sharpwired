@@ -1,4 +1,4 @@
-/**
+/*
  * Utility.cs 
  * Created by Ola Lindberg, 2006-06-20
  * 
