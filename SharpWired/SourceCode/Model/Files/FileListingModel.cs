@@ -156,38 +156,18 @@ namespace SharpWired.Model.Files
 		/// <param name="updatedDoneEventArgs">The update event from server.</param>
         public void FileListingDone(MessageEventArgs_411 updatedDoneEventArgs)
         {
-            if (FileListingDoneEvent != null)
-            {
-				FileSystemEntry searchedNode = GetNode(updatedDoneEventArgs.Path, (FileSystemEntry)rootNode);
-				if (searchedNode != null)
-				{
-					if (searchedNode is FolderNode)
-						(searchedNode as FolderNode).DoneUpdating();
-				}
-				else
-				{
-					// NOTE: Experimental!
-					rootNode.DoneUpdating();
-				}
-
-                //TODO: This is probably useless since we only provide the path to the superRootNode. 
-                //I keep it for now to not break the TreeView
-                FileListingDoneEvent(this.rootNode);
-            }
+			FileSystemEntry searchedNode = GetNode(updatedDoneEventArgs.Path, (FileSystemEntry)rootNode);
+			if (searchedNode != null)
+			{
+				if (searchedNode is FolderNode)
+					(searchedNode as FolderNode).DoneUpdating();
+			}
+            else
+			{
+				// NOTE: Experimental!
+				rootNode.DoneUpdating();
+			}
 		}
-
-		#region Events
-		/// <summary>
-		/// This event occrs when the server has finished listing the content of a folder.
-		/// </summary>
-        public event FileListingDoneDelegate FileListingDoneEvent;
-		/// <summary>
-		/// This delegate is used for FileListingDoneEvent.
-		/// </summary>
-		/// <param name="superRootNode">The root node of all files.</param>
-        public delegate void FileListingDoneDelegate(FolderNode superRootNode);
-		#endregion
-
 
 		#region Initialization
 		/// <summary>

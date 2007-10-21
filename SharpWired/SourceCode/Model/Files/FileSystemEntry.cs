@@ -129,22 +129,6 @@ namespace SharpWired.Model.Files
         /// </summary>
         /// <returns>True if this node has 1 or more children nodes.</returns>
         public abstract bool HasChildren();
-
-        #endregion
-
-        #region Methods
-        
-
-        /// <summary>
-        /// Removes the given node nodeToRemove from the file tree anywhere below the given FolderNode superParentNode.
-        /// </summary>
-        /// <param name="nodeToRemove">The node to remove</param>
-        /// <param name="superParentNode">The FolderNode where this node should be removed from. Note! The given node nodeToRemove can be a child or a grandchild of superParentNode.</param>
-        /// <returns>If it succeeds to remode the given node nodeToRemove that node is returned. Otherwise null is returned.</returns>
-        public FileSystemEntry Remove(FileSystemEntry nodeToRemove, FolderNode superParentNode)
-        {
-            throw new NotImplementedException(); //TODO: Implement
-        }
         #endregion
 
         #region Initialization

@@ -87,7 +87,7 @@ namespace SharpWired.Gui.Files
         }
         #endregion
 
-        #region Handler for the TreeNode
+        #region Old populate file tree functionallity Handler for the TreeNode
         /// <summary>
         /// Populates the filetree from the given super root.
         /// </summary>
@@ -182,7 +182,7 @@ namespace SharpWired.Gui.Files
             //    }
             //}
         }
-        
+
         private void WantDownloadFile(FileNode fileNode)
         {
             logicManager.FileTransferHandler.EnqueueDownload(
@@ -190,6 +190,7 @@ namespace SharpWired.Gui.Files
                 fileNode,
                 logicManager.FileTransferHandler.DefaultDownloadFolder);
         }
+
         #endregion
 
         #region Initialization
@@ -224,12 +225,30 @@ namespace SharpWired.Gui.Files
                 Console.WriteLine("FileUserControl.cs | Failed to add images for rootTreView. Exception: " + e); //TODO: Throw exception
             }
             rootTreeView.ImageList = rootTreeViewIcons;
-
-            //We must populate the tree for the first time
-            logicManager.FileListingHandler.FileListingModel.FileListingDoneEvent += new FileListingModel.FileListingDoneDelegate(FileListingModel_FileListingDoneEvent);
-            PopulateFileTree(rootTreeView, logicManager.FileListingHandler.FileTreeRootNode);
         }
+
         #endregion
+
+        #region New populate file tree functionallity
+
+        public void OnNewNodesAdded(List<FileSystemEntry> addedNodes)
+        {
+            PopulateFileTree(this.rootTreeView, addedNodes);
+        }
+
+        private void PopulateFileTree(TreeView rootTreeView, List<FileSystemEntry> nodes)
+        {
+            foreach (FileSystemEntry fse in nodes)
+            {
+                if (fse is FolderNode)
+                {
+                    Console.WriteLine("TODO: Add this node to the file tree: " + fse.Path);
+                }
+            }
+        }
+
+        #endregion
+
 
 
         #region Listerens from Model TODO: Replace model listeners with listeners from GuiFilesController

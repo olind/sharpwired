@@ -81,13 +81,8 @@ namespace SharpWired.Gui.Files
             fileTreeControl.Init(logicManager, this);
             fileDetailsControl.Init(this);
 
-            logicManager.FileListingHandler.FileListingModel.FileListingDoneEvent += new FileListingModel.FileListingDoneDelegate(FileListingModel_FileListingDoneEvent);
-        }
-
-        void FileListingModel_FileListingDoneEvent(FolderNode superRootNode)
-        {
-            //FIXME: Someone needs to listen to this event to trigger rootnode 
-            //to raise update event. We dont need to do anything with it here though..
+            logicManager.FileListingHandler.FileModelUpdatedEvent += new FileListingHandler.FileModelUpdatedDelegate(fileTreeControl.OnNewNodesAdded);
+            //TODONow: Attach the listening for FileDetailsView from here instead of from in that class
         }
     }
 }

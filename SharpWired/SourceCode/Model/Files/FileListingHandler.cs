@@ -39,20 +39,12 @@ namespace SharpWired.Model.Files
 
         #region Variables
         FileListingModel fileListingModel;
+        private List<FileSystemEntry> recentlyAddedNodes = new List<FileSystemEntry>();
         #endregion
 
         #region Properties
 
         private FolderNode fileTreeRootNode;
-
-        /// <summary>
-        /// Get the root node of the file tree.
-        /// TODO: remove this and use .FileListingModel.RootNode instead
-        /// </summary>
-        public FolderNode FileTreeRootNode
-        {
-            get { return fileTreeRootNode; }
-        }
 
         /// <summary>
         /// Gets the file listing model
@@ -79,6 +71,11 @@ namespace SharpWired.Model.Files
         /// <param name="path">The path node where reloading should be requested.</param>
         private void ReloadFileList(string path)
         {
+            //TODO: When we reload the filelisting today we request the reload and when the response 
+            //returns from the server we check if the node equals an existing node and if it does we don't
+            //add the node to the model but raises the updated event instead.
+            //Instead of requesting reload we should first check if it exists in the model and if it does
+            //we should not request the reload from server but just raise the event
             this.LogicManager.ConnectionManager.Commands.List(path);
         }
 
@@ -90,7 +87,6 @@ namespace SharpWired.Model.Files
         {
             ReloadFileList(node.Path);
         }
-
         #endregion
 
         #region Listeners from message layer
@@ -120,7 +116,6 @@ namespace SharpWired.Model.Files
             }
             else
             {
-                //TODO: Create some type of exception
                 throw new Exception("File or Folder type is not of any recognable type.");
             }
 
@@ -135,8 +130,24 @@ namespace SharpWired.Model.Files
         /// <param name="messageEventArgs"></param>
         void Messages_FileListingDoneEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_411 messageEventArgs)
         {
-            fileListingModel.FileListingDone(messageEventArgs);
+            fileListingModel.FileListingDone(messageEventArgs); //TODONow: Who is listening here? If it is the model that will tell the nodes to update it might be ok!
+
+            if (FileModelUpdatedEvent != null)
+            {
+                FileModelUpdatedEvent(recentlyAddedNodes);
+                recentlyAddedNodes.Clear();
+            }
         }
+
+        /// <summary>
+        /// Delegate for FileModelUpdatedEvent
+        /// </summary>
+        /// <param name="addedNodes"></param>
+        public delegate void FileModelUpdatedDelegate(List<FileSystemEntry> addedNodes);
+        /// <summary>
+        /// Raised when new files are added to the model
+        /// </summary>
+        public event FileModelUpdatedDelegate FileModelUpdatedEvent;
         #endregion
 
         #region Edit the file model
@@ -169,6 +180,7 @@ namespace SharpWired.Model.Files
                 {
                     superParentNode.AddChildren(newNode);
                     newNode.Parent = superParentNode;
+                    recentlyAddedNodes.Add(newNode);
                     return true;
                 }
             }

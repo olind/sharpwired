@@ -50,7 +50,7 @@ namespace SharpWired.Gui.Files
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void guiFilesController_FolderNodeChangedEvent(object sender, WiredNodeArgs e)
+        private void guiFilesController_FolderNodeChangedEvent(object sender, WiredNodeArgs e)
         {
             listView1.Clear();
             //TODO: Suspend the mouse pointer
@@ -68,7 +68,7 @@ namespace SharpWired.Gui.Files
             //TODO: Unsuspend the mouse pointer
         }
 
-        private void UpdateListView(FolderNode updatedNode)
+        public void UpdateListView(FolderNode updatedNode)
         {
             if (this.InvokeRequired)
             {
@@ -159,10 +159,11 @@ namespace SharpWired.Gui.Files
 
             listView1.SmallImageList = fileViewIcons;
             listView1.LargeImageList = fileViewIcons;
-            listView1.View = View.LargeIcon;
+            
+            listView1.View = View.List;
 
             guiFilesController.SelectedFolderNodeChangedEvent += new EventHandler<WiredNodeArgs>(guiFilesController_FolderNodeChangedEvent);
-            guiFilesController.ChangeSelectedNodeToRootNode(this);
+            guiFilesController.ChangeSelectedNodeToRootNode(this); //TODORemove
         }
 
         /// <summary>
