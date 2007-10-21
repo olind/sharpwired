@@ -181,7 +181,6 @@ namespace SharpWired.Connection.Sockets
         {
             sslStream.EndRead(result);
             string data_received = Encoding.UTF8.GetString((byte[])result.AsyncState);
-			Console.WriteLine("Data REcieved = " + data_received);
 
             string msg;
             int index_EOT;
