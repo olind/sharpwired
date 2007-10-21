@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * MessageEventArgs_302310.cs 
  * Created by Ola Lindberg, 2006-09-28
  * 

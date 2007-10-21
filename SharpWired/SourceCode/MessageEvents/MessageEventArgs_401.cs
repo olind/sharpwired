@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * MessageEventArgs_401.cs 
  * Created by Ola Lindberg, 2006-09-28
  * 
