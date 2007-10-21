@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * LogicManager.cs 
  * Created by Ola Lindberg, 2006-11-25
  * 

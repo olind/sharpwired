@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * HandlerBase.cs 
  * Created by Ola Lindberg and Peter Holmdahl, 2006-11-25
  * 
@@ -38,10 +38,15 @@ namespace SharpWired.Model
     {
 
         #region Variables
+		/// <summary>
+		/// TODO: comments. NOTE: This should be protected and not private - right?
+		/// </summary>
+        protected Commands commands;
 
-        private Commands commands;
-
-        private LogicManager logicManager;
+		/// <summary>
+		/// TODO: comments. NOTE: This should be protected and not private - right?
+		/// </summary>
+        protected LogicManager logicManager;
 
         #endregion
 

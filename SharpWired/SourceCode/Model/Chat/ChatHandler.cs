@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * ChatHandler.cs 
  * Created by Ola Lindberg and Peter Holmdahl, 2006-11-25
  * 

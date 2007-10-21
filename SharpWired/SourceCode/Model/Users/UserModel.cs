@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * UserModel.cs 
  * Created by Ola Lindberg, 2006-12-03
  * 

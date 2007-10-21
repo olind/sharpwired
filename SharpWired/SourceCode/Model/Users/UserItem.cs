@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * UserItem.cs 
  * Created by Ola Lindberg, 2006-10-15
  * 

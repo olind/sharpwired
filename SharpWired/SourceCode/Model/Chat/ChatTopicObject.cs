@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * ChatTopicObject.cs 
  * Created by Ola Lindberg and Peter Holmdahl, 2006-11-25
  * 

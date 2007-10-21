@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * FolderNode.cs 
  * Created by Ola Lindberg, 2007-05-01
  * 

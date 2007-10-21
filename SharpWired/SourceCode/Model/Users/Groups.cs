@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * Groups.cs 
  * Created by Ola Lindberg, 2006-10-15
  * 

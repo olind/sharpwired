@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * FileListingHandler.cs 
  * Created by Ola Lindberg, 2007-01-28
  * 
