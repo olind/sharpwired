@@ -32,6 +32,11 @@ using System.Drawing;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for:
+    /// * Client Join
+    /// * User List
+    /// </summary>
     public class MessageEventArgs_302310 : MessageEventArgs_303331332
     {
         private bool idle;
@@ -44,6 +49,9 @@ namespace SharpWired.MessageEvents
         private string status;
         private Bitmap image;
 
+        /// <summary>
+        /// Gets if this client is idle
+        /// </summary>
         public bool Idle
         {
             get
@@ -52,6 +60,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get if this client is admin
+        /// </summary>
         public bool Admin
         {
             get
@@ -60,6 +71,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the icon for this client
+        /// </summary>
         public int Icon
         {
             get
@@ -68,6 +82,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the nick for this client
+        /// </summary>
         public string Nick
         {
             get
@@ -76,6 +93,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the login for this client
+        /// </summary>
         public string Login
         {
             get
@@ -84,6 +104,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the ip for this client
+        /// </summary>
         public IPAddress Ip
         {
             get
@@ -92,6 +115,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the host for this client
+        /// </summary>
         public string Host
         {
             get
@@ -100,6 +126,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the status for this client
+        /// </summary>
         public string Status
         {
             get
@@ -108,6 +137,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the image for this client
+        /// </summary>
         public Bitmap Image
         {
             get
@@ -116,6 +148,22 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageId">The id for this message</param>
+        /// <param name="messageName">The name for this message</param>
+        /// <param name="chatId">The chat id to where this user joined</param>
+        /// <param name="userId">The user id for this user</param>
+        /// <param name="idle">Is this user idle?</param>
+        /// <param name="admin">Is this user admin?</param>
+        /// <param name="icon">The icon for this user</param>
+        /// <param name="nick">The nick for this user</param>
+        /// <param name="login">The login for this user</param>
+        /// <param name="ip">The ip foro this user</param>
+        /// <param name="host">The host for this user</param>
+        /// <param name="status">The status for this user</param>
+        /// <param name="image">The image for this user</param>
         public MessageEventArgs_302310(int messageId, string messageName, int chatId, int userId,
             bool idle, bool admin, int icon, string nick, string login, IPAddress ip, string host, string status, Bitmap image)
             : base(messageId, messageName, chatId, userId)

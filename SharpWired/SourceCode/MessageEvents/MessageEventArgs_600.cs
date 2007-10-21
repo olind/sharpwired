@@ -31,11 +31,17 @@ using SharpWired.Model.Users;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for User Specification (600)
+    /// </summary>
     public class MessageEventArgs_600 : MessageEventArgs_601
     {
         private string password;
         private string group;
 
+        /// <summary>
+        /// Get the hashed password
+        /// </summary>
         public string Password
         {
             get
@@ -44,6 +50,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the group(s) for this user
+        /// </summary>
         public string Group
         {
             get
@@ -52,6 +61,15 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageId">The id for this message</param>
+        /// <param name="messageName">The name for this message</param>
+        /// <param name="privileges">The privileges for this user</param>
+        /// <param name="name">The name for this user</param>
+        /// <param name="password">The hashed password for this user</param>
+        /// <param name="group">The group for this user</param>
         public MessageEventArgs_600(int messageId, string messageName, Privileges privileges, string name, string password, string group)
             : base(messageId, messageName, privileges, name)
         {

@@ -57,11 +57,21 @@ namespace SharpWired.Connection.Sockets
         /// </summary>
         private int buffer_size = 2048;
 
-        // Default transmission parameters. Only used internally
+        /// <summary>
+        /// Default transmission parameters. Only used internally
+        /// </summary>
         protected static readonly int BUFFER_BLOCK_SIZE = 256;	// The number of bytes to receive in every block
 
-        // A delegate type for hooking up message received notifications.
+        /// <summary>
+        /// A delegate type for hooking up message received notifications.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="message"></param>
         public delegate void MessageReceivedHandler(object sender, EventArgs e, string message);
+        /// <summary>
+        /// Message raised when a message is received from the server
+        /// </summary>
         public event MessageReceivedHandler MessageReceived;
 
         /// <summary>

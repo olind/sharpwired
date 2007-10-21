@@ -30,6 +30,13 @@ using System.Text;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for:
+    /// * File Listing
+    /// * Search Listing
+    /// This event is sent for each file. The *ListingDone events shows 
+    /// when all requested files are sent from the server.
+    /// </summary>
     public class MessageEventArgs_410420 : MessageEventArgs_Path
     {
         private string fileType; // TODO: This should be of other type
@@ -37,6 +44,9 @@ namespace SharpWired.MessageEvents
         private DateTime created;
         private DateTime modified;
 
+        /// <summary>
+        /// Get the file type for this event
+        /// </summary>
         public string FileType
         {
             get
@@ -45,6 +55,10 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// The size for this file. 
+        /// If this file is a folder this represents the number of items in this folder.
+        /// </summary>
         public long Size
         {
             get
@@ -53,6 +67,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// The date when this file was created
+        /// </summary>
         public DateTime Created
         {
             get
@@ -61,6 +78,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// The date when this file was modified
+        /// </summary>
         public DateTime Modified
         {
             get

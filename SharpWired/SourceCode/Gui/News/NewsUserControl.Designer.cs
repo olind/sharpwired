@@ -26,6 +26,9 @@
 
 namespace SharpWired.Gui.News
 {
+    /// <summary>
+    /// GUI class for news view
+    /// </summary>
     partial class NewsUserControl
     {
         /// <summary> 

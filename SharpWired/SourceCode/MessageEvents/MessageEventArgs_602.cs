@@ -31,10 +31,16 @@ using SharpWired.Model.Users;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for Privileges Specification (602)
+    /// </summary>
     public class MessageEventArgs_602 : MessageEventArgs
     {
         private Privileges privileges; // TODO: This should be of other type
 
+        /// <summary>
+        /// Get the privileges
+        /// </summary>
         public Privileges Privileges
         {
             get
@@ -43,6 +49,12 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageId">The id for this message</param>
+        /// <param name="messageName">The name for this message</param>
+        /// <param name="privileges">The privileges for this message</param>
         public MessageEventArgs_602(int messageId, string messageName, Privileges privileges)
             : base(messageId, messageName)
         {

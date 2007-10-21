@@ -30,10 +30,18 @@ using System.Text;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for:
+    /// * Private Message (305)
+    /// * Broadacast Message (309)
+    /// </summary>
     public class MessageEventArgs_305309 : MessageEventArgs_201
     {
         private string message;
 
+        /// <summary>
+        /// Get the message
+        /// </summary>
         public string Message
         {
             get

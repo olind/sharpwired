@@ -116,7 +116,7 @@ namespace SharpWired.Gui.Files
             // Expand all nodes make the test easy and nice.
             rootTreeView.ExpandAll();
         }
-        delegate void PopulateFileTreeCallBack(TreeView treeView, FolderNode rootNode);
+        delegate void PopulateFileTreeCallBack(TreeView treeView, FolderNode superRootNode);
 
         /// <summary>
         /// Takes a FileSystemEntry and build a subtree from that,
@@ -231,9 +231,15 @@ namespace SharpWired.Gui.Files
 
         #region New populate file tree functionallity
 
+        /// <summary>
+        /// Call this method when new nodes are added.
+        /// </summary>
+        /// <param name="addedNodes"></param>
         public void OnNewNodesAdded(List<FileSystemEntry> addedNodes)
         {
-            PopulateFileTree(this.rootTreeView, addedNodes);
+            //TODO: My original idea was to use the addedNodes and update the file tree with those nodes only
+            //but that requires a remake of the populateFileTree - functionallity.
+            PopulateFileTree(this.rootTreeView, logicManager.FileListingHandler.FileListingModel.RootNode);
         }
 
         private void PopulateFileTree(TreeView rootTreeView, List<FileSystemEntry> nodes)

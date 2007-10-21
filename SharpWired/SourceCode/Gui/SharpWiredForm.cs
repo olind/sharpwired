@@ -47,10 +47,16 @@ using SharpWired.Gui.About;
 
 namespace SharpWired.Gui
 {
+    /// <summary>
+    /// The main GUI
+    /// </summary>
     public partial class SharpWiredForm : WiredForm
     {
         private LogicManager logicManager;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public SharpWiredForm()
         {
             logicManager = new LogicManager();

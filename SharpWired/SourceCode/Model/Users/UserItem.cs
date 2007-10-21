@@ -58,30 +58,45 @@ namespace SharpWired.Model.Users
 
         #region Properties: User details
 
+        /// <summary>
+        /// Get or set if this user is admin
+        /// </summary>
         public bool Admin
         {
             get { return admin; }
             set { admin = value; }
         }
 
+        /// <summary>
+        /// Get or set the host for this user
+        /// </summary>
         public string Host
         {
             get { return host; }
             set { host = value; }
         }
 
+        /// <summary>
+        /// Get or set the icon for this user
+        /// </summary>
         public int Icon
         {
             get { return icon; }
             set { icon = value; }
         }
 
+        /// <summary>
+        /// Get or set the idle status for this user
+        /// </summary>
         public bool Idle
         {
             get { return idle; }
             set { idle = value; }
         }
 
+        /// <summary>
+        /// Get or set the image for this user
+        /// </summary> 
         public Bitmap Image
         {
             get { return image; }
@@ -91,18 +106,27 @@ namespace SharpWired.Model.Users
             }
         }
 
+        /// <summary>
+        /// Get or set ip for this user
+        /// </summary>
         public IPAddress Ip
         {
             get { return ip; }
             set { ip = value; }
         }
 
+        /// <summary>
+        /// Get or set the login for this user
+        /// </summary>
         public string Login
         {
             get { return login; }
             set { login = value; }
         }
 
+        /// <summary>
+        /// Get or set the nick for this user
+        /// </summary> 
         public string Nick
         {
             get { return nick; }
@@ -115,6 +139,9 @@ namespace SharpWired.Model.Users
             }
         }
 
+        /// <summary>
+        /// Get or set the status for this user
+        /// </summary> 
         public string Status
         {
             get { return status; }
@@ -127,18 +154,27 @@ namespace SharpWired.Model.Users
             }
         }
 
+        /// <summary>
+        /// Get or set the user id for this user
+        /// </summary>
         public int UserId
         {
             get { return userId; }
             set { userId = value; }
         }
 
+        /// <summary>
+        /// Get or set the privileges for this user
+        /// </summary>
         public Privileges Privileges
         {
             get { return privileges; }
             set { privileges = value; }
         }
 
+        /// <summary>
+        /// Get or set the group for this user
+        /// </summary> 
         public Group Group
         {
             get { return group; }
@@ -151,13 +187,37 @@ namespace SharpWired.Model.Users
 
         // Delegates
 
+        /// <summary>
+        /// Delegate for StatusChangedEvent
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="newStatus">The new status</param>
         public delegate void StatsChangedDelegate(object sender, string newStatus);
+        /// <summary>
+        /// Delegate for NickChangedEvent
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="newNick">The new nick</param>
         public delegate void NickChangedDelegate(object sender, string newNick);
+        /// <summary>
+        /// Delegate for ImageChangedEvent
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="newImage">The new image</param>
         public delegate void ImageChangedDelegate(object sender, Bitmap newImage);
 
         // Events
+        /// <summary>
+        /// The event for status change
+        /// </summary>
         public event StatsChangedDelegate StatusChangedEvent;
+        /// <summary>
+        /// The event for nick changed
+        /// </summary>
         public event NickChangedDelegate NickChangedEvent;
+        /// <summary>
+        /// The event for image changed
+        /// </summary>
         public event ImageChangedDelegate ImageChangedEvent;
 
         // Raiser methods for events

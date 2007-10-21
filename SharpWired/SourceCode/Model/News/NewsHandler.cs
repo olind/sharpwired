@@ -31,6 +31,9 @@ using SharpWired.Connection;
 
 namespace SharpWired.Model.News
 {
+    /// <summary>
+    /// Model representation of the news
+    /// </summary>
     public class NewsHandler : HandlerBase
     {
         private NewsModel newsModel;
@@ -41,6 +44,9 @@ namespace SharpWired.Model.News
 
         #region Properties
 
+        /// <summary>
+        /// Get the news model
+        /// </summary>
         public NewsModel NewsModel
         {
             get { return newsModel; }
@@ -95,6 +101,10 @@ namespace SharpWired.Model.News
 
         #region Initialization
 
+        /// <summary>
+        /// Init this handler
+        /// </summary>
+        /// <param name="connectionManager">The connection manager</param>
         public override void Init(ConnectionManager connectionManager)
         {
             base.Init(connectionManager);
@@ -106,6 +116,10 @@ namespace SharpWired.Model.News
             this.ReloadNewsFromServer();
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="logicManager">The logic manager</param>
         public NewsHandler(LogicManager logicManager): base(logicManager)
         {
             newsModel = new NewsModel(logicManager);

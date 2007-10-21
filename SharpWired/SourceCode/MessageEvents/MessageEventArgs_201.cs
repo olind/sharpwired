@@ -30,10 +30,16 @@ using System.Text;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for Login Succeeded (201)
+    /// </summary>
     public class MessageEventArgs_201 : MessageEventArgs
     {
         private int userId;
 
+        /// <summary>
+        /// Get the user id for the user that logged in
+        /// </summary>
         public int UserId {
             get {
                 return userId;

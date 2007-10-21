@@ -32,6 +32,9 @@ using System.Net;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for Client Information (308)
+    /// </summary>
     public class MessageEventArgs_308 : MessageEventArgs_340
     {
         private bool idle;
@@ -55,6 +58,9 @@ namespace SharpWired.MessageEvents
         private int size;
         private int speed;
 
+        /// <summary>
+        /// Get if this user is idle or not
+        /// </summary>
         public bool Idle
         {
             get
@@ -63,6 +69,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get if this user is admin
+        /// </summary>
         public bool Admin
         {
             get
@@ -71,6 +80,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the icon for this user
+        /// </summary>
         public int Icon
         {
             get
@@ -79,6 +91,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the nick for this user
+        /// </summary>
         public string Nick
         {
             get
@@ -87,6 +102,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the login for this user
+        /// </summary>
         public string Login
         {
             get
@@ -95,6 +113,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the status for this user
+        /// </summary>
         public string Status
         {
             get
@@ -103,6 +124,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the IP Address for this user
+        /// </summary>
         public IPAddress Ip
         {
             get
@@ -111,6 +135,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the host for this user
+        /// </summary>
         public string Host
         {
             get
@@ -119,6 +146,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the client version for this user
+        /// </summary>
         public string ClientVersion
         {
             get
@@ -127,6 +157,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the cipher name for this user
+        /// </summary>
         public string CipherName
         {
             get
@@ -135,6 +168,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the cipher bits for this user
+        /// </summary>
         public int CipherBits
         {
             get
@@ -143,6 +179,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the login time for this user
+        /// </summary>
         public DateTime LoginTime
         {
             get
@@ -151,6 +190,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the idle time for this user
+        /// </summary>
         public DateTime IdleTime
         {
             get
@@ -159,6 +201,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the current download for this user
+        /// </summary>
         public string Downloads
         {
             get
@@ -167,6 +212,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the current upload for this user
+        /// </summary>
         public string Uploads
         {
             get
@@ -175,6 +223,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the transfer this user currently have
+        /// </summary>
         public string Transfer
         {
             get
@@ -183,6 +234,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the path (path transferred size speed)
+        /// </summary>
         public string Path
         {
             get
@@ -191,6 +245,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the ammount of transferred data
+        /// </summary>
         public int Transferred
         {
             get
@@ -199,6 +256,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the size for the current download?
+        /// </summary>
         public int Size
         {
             get
@@ -207,6 +267,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the speed for the current download?
+        /// </summary>
         public int Speed
         {
             get

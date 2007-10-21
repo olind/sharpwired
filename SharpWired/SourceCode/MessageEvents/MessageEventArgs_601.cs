@@ -31,10 +31,16 @@ using SharpWired.Model.Users;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for Group Specification
+    /// </summary>
     public class MessageEventArgs_601 : MessageEventArgs_602
     {
         private string name;
 
+        /// <summary>
+        /// Get the name for this group
+        /// </summary>
         public string Name
         {
             get
@@ -43,10 +49,18 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageId">The id for this message</param>
+        /// <param name="messageName">The name for this message</param>
+        /// <param name="privileges">The privileges for this group</param>
+        /// <param name="name">The name for this group</param>
         public MessageEventArgs_601(int messageId, string messageName, Privileges privileges, string name)
             : base(messageId, messageName, privileges)
         {
             this.name = name;
+            //TODO: We should do something with the privileges mask
         }
     }
 }

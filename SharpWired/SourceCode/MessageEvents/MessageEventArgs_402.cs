@@ -30,11 +30,17 @@ using System.Text;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for File Information (402)
+    /// </summary>
     public class MessageEventArgs_402 : MessageEventArgs_410420
     {
         private string checksum;
         private string comment;
 
+        /// <summary>
+        /// Get the checksum for this file
+        /// </summary>
         public string Checksum
         {
             get
@@ -43,6 +49,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the comment for this file
+        /// </summary>
         public string Comment
         {
             get { 
@@ -53,15 +62,15 @@ namespace SharpWired.MessageEvents
         /// <summary>
         /// Constructon
         /// </summary>
-        /// <param name="messageId"></param>
-        /// <param name="messageName"></param>
-        /// <param name="path"></param>
-        /// <param name="fileType"></param>
-        /// <param name="size"></param>
-        /// <param name="created"></param>
-        /// <param name="modified"></param>
-        /// <param name="checksum"></param>
-        /// <param name="comment"></param>
+        /// <param name="messageId">The id for this message</param>
+        /// <param name="messageName">The name for this message</param>
+        /// <param name="path">The path for the file</param>
+        /// <param name="fileType">The type for the file</param>
+        /// <param name="size">The size for the file</param>
+        /// <param name="created">The date when this file was created</param>
+        /// <param name="modified">The date when this file was modified</param>
+        /// <param name="checksum">The checksum for this file</param>
+        /// <param name="comment">The comment for this file</param>
         public MessageEventArgs_402(int messageId, string messageName, string path,
             string fileType, int size, DateTime created, DateTime modified, string checksum, string comment)
             : base(messageId, messageName, path, fileType, size, created, modified)

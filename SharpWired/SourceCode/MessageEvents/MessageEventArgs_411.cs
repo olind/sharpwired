@@ -30,11 +30,17 @@ using System.Text;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for File Listing Done
+    /// </summary>
     public class MessageEventArgs_411 : MessageEventArgs
     {
         private long free;
         private string path;
 
+        /// <summary>
+        /// Get the amount of free disk space
+        /// </summary>
         public long Free
         {
             get
@@ -43,6 +49,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the path for were file listing was requested
+        /// </summary>
         public string Path
         {
             get
@@ -54,10 +63,10 @@ namespace SharpWired.MessageEvents
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="messageId"></param>
-        /// <param name="messageName"></param>
-        /// <param name="path"></param>
-        /// <param name="free"></param>
+        /// <param name="messageId">The id for this message</param>
+        /// <param name="messageName">The name for this message</param>
+        /// <param name="path">The path for were file listing was requested</param>
+        /// <param name="free">The amount of free space</param>
         public MessageEventArgs_411(int messageId, string messageName, string path, long free)
             : base(messageId, messageName)
         {

@@ -38,6 +38,9 @@ using SharpWired.Model;
 
 namespace SharpWired.Gui.Chat
 {
+    /// <summary>
+    /// GUI that represents one user
+    /// </summary>
     public partial class UserItemControl : UserControl
     {
         #region Variables
@@ -59,26 +62,41 @@ namespace SharpWired.Gui.Chat
 
         #region Properties
 
+        /// <summary>
+        /// Set if this user is admin
+        /// </summary>
         public bool Admin
         {
             set { admin = value; }
         }
 
+        /// <summary>
+        /// Set the hostname for this user
+        /// </summary>
         public string Host
         {
             set { host = value; }
         }
 
+        /// <summary>
+        /// Set the icon for this user
+        /// </summary>
         public int Icon
         {
             set { icon = value; }
         }
 
+        /// <summary>
+        /// Set if this user is idle
+        /// </summary>
         public bool Idle
         {
             set { idle = value; }
         }
 
+        /// <summary>
+        /// Set the image for this user
+        /// </summary>
         public Bitmap Image
         {
             set { 
@@ -88,16 +106,25 @@ namespace SharpWired.Gui.Chat
             }
         }
 
+        /// <summary>
+        /// Set the ip address for this user
+        /// </summary>
         public IPAddress Ip
         {
             set { ip = value; }
         }
 
+        /// <summary>
+        /// Set the login for this user
+        /// </summary>
         public string Login
         {
             set { login = value; }
         }
 
+        /// <summary>
+        /// Set the nick for this user
+        /// </summary>
         public string Nick
         {
             set { 
@@ -107,6 +134,9 @@ namespace SharpWired.Gui.Chat
             }
         }
 
+        /// <summary>
+        /// Set the status for this user
+        /// </summary>
         public string Status
         {
             set { 
@@ -115,6 +145,9 @@ namespace SharpWired.Gui.Chat
             }
         }
 
+        /// <summary>
+        /// Set the user id for this user
+        /// </summary>
         public int UserId
         {
             set { userId = value; }
@@ -190,7 +223,11 @@ namespace SharpWired.Gui.Chat
         #endregion
 
         #region Initialization
-
+        /// <summary>
+        /// Init this control
+        /// </summary>
+        /// <param name="newUser">The new user</param>
+        /// <param name="logicManager">The logic manager for this connection</param>
         public void Init(UserItem newUser, LogicManager logicManager)
         {
             this.Admin = newUser.Admin;

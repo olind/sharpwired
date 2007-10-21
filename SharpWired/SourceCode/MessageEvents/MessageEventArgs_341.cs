@@ -31,6 +31,9 @@ using System.Net;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for message Chat Topic (341)
+    /// </summary>
     public class MessageEventArgs_341 : MessageEventArgs_311330
     {
         private string nick;
@@ -39,6 +42,9 @@ namespace SharpWired.MessageEvents
         private DateTime time;
         private string topic;
 
+        /// <summary>
+        /// The nick of the user that edited the topic
+        /// </summary>
         public string Nick
         {
             get
@@ -47,6 +53,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// The login of the user that editid the topic
+        /// </summary>
         public string Login
         {
             get
@@ -55,6 +64,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// The ip of the user that edited the topic
+        /// </summary>
         public IPAddress Ip
         {
             get
@@ -63,6 +75,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// The time when the topic was edited
+        /// </summary>
         public DateTime Time
         {
             get
@@ -71,6 +86,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// The chat topic
+        /// </summary>
         public string Topic
         {
             get
@@ -79,6 +97,17 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageId">The id for the message</param>
+        /// <param name="messageName">The name for the message</param>
+        /// <param name="chatId">The chat id for thi topic</param>
+        /// <param name="nick">The nick of the user that changed the topic</param>
+        /// <param name="login">The login for the user that changed the topic</param>
+        /// <param name="ip">The ip for the user that changed the topic</param>
+        /// <param name="time">The time when the topic was changed</param>
+        /// <param name="topic">The topic</param>
         public MessageEventArgs_341(int messageId, string messageName, int chatId,
             string nick, string login, IPAddress ip, DateTime time, string topic)
             : base(messageId, messageName, chatId)

@@ -68,6 +68,10 @@ namespace SharpWired.Gui.Files
             //TODO: Unsuspend the mouse pointer
         }
 
+        /// <summary>
+        /// Update the listview with the given node as the root
+        /// </summary>
+        /// <param name="updatedNode">The root node for the view</param>
         public void UpdateListView(FolderNode updatedNode)
         {
             if (this.InvokeRequired)

@@ -30,10 +30,16 @@ using System.Text;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for Transfer Queued (401)
+    /// </summary>
     public class MessageEventArgs_401 : MessageEventArgs_Path
     {
         private int position;
 
+        /// <summary>
+        /// The position in the queue
+        /// </summary>
         public int Position
         {
             get
@@ -42,6 +48,13 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageId">The id for this message</param>
+        /// <param name="messageName">The name for this message</param>
+        /// <param name="path">The path for thi file</param>
+        /// <param name="position">The position in the queue</param>
         public MessageEventArgs_401(int messageId, string messageName, string path, int position)
             : base(messageId, messageName, path)
         {

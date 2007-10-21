@@ -30,6 +30,9 @@ using System.Text;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for Status Changed (304)
+    /// </summary>
     public class MessageEventArgs_304 : MessageEventArgs_201
     {
         private bool idle;
@@ -38,6 +41,9 @@ namespace SharpWired.MessageEvents
         private string nick;
         private string status;
 
+        /// <summary>
+        /// Get if this user is idle
+        /// </summary>
         public bool Idle {
             get
             {
@@ -45,6 +51,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get if this user is admin
+        /// </summary>
         public bool Admin
         {
             get
@@ -53,6 +62,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the icon for this user
+        /// </summary>
         public int Icon
         {
             get
@@ -61,6 +73,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the nick for this user
+        /// </summary>
         public string Nick
         {
             get
@@ -69,6 +84,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the status for this user
+        /// </summary>
         public string Status
         {
             get
@@ -80,14 +98,14 @@ namespace SharpWired.MessageEvents
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="messageId"></param>
-        /// <param name="messageName"></param>
-        /// <param name="userId"></param>
-        /// <param name="idle"></param>
-        /// <param name="admin"></param>
-        /// <param name="icon"></param>
-        /// <param name="nick"></param>
-        /// <param name="status"></param>
+        /// <param name="messageId">The id for this message</param>
+        /// <param name="messageName">The name for this message</param>
+        /// <param name="userId">The user id</param>
+        /// <param name="idle">Is this user idle?</param>
+        /// <param name="admin">Is this user admin?</param>
+        /// <param name="icon">The icon for this user</param>
+        /// <param name="nick">The nick for this user</param>
+        /// <param name="status">The status for this user</param>
         public MessageEventArgs_304(int messageId, string messageName, int userId, bool idle, bool admin, int icon, string nick, string status)
             : base(messageId, messageName, userId)
         {

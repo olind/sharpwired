@@ -60,10 +60,24 @@ namespace SharpWired.Model.News
 
         #region Delegates, events and raiser methods
 
+        /// <summary>
+        /// Delegate for NewsPostEvent 
+        /// </summary>
+        /// <param name="newPost"></param>
         public delegate void NewsPostedDelegate(NewsObject newPost);
+        /// <summary>
+        /// Delegate for NewsListReplacedEvent
+        /// </summary>
+        /// <param name="newsList"></param>
         public delegate void NewsListReplacedDelegate(List<NewsObject> newsList);
-
+        
+        /// <summary>
+        /// Event for new news post
+        /// </summary>
         public event NewsPostedDelegate NewsPostedEvent;
+        /// <summary>
+        /// Event to update the news listing
+        /// </summary>
         public event NewsListReplacedDelegate NewsListReplacedEvent;
 
         private void OnNewsPostedEvent(NewsObject newPost)
@@ -86,6 +100,10 @@ namespace SharpWired.Model.News
 
         #region Initialization
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="logicManager"></param>
         public NewsModel(LogicManager logicManager)
         {
             this.logicManager = logicManager;

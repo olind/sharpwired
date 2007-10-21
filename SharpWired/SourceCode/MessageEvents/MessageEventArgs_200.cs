@@ -30,6 +30,9 @@ using System.Text;
 
 namespace SharpWired.MessageEvents
 {
+    /// <summary>
+    /// MessageEventArgs for Server Information (200). In response to HELLO.
+    /// </summary>
     public class MessageEventArgs_200 : MessageEventArgs
     {
         private string appVersion; // TODO change type of this
@@ -40,6 +43,9 @@ namespace SharpWired.MessageEvents
         private int filesCount;
         private int filesSize;
 
+        /// <summary>
+        /// Get the server app version
+        /// </summary>
         public string AppVersion
         {
             get
@@ -48,6 +54,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the server protocol version
+        /// </summary>
         public string ProtocolVersion
         {
             get
@@ -56,6 +65,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the server name
+        /// </summary>
         public string ServerName
         {
             get
@@ -64,6 +76,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the server description
+        /// </summary>
         public string ServerDescription
         {
             get
@@ -72,6 +87,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the start time for this server
+        /// </summary>
         public DateTime StartTime
         {
             get
@@ -80,6 +98,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the number of files
+        /// </summary>
         public int FilesCount
         {
             get
@@ -88,6 +109,9 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Get the size of the files
+        /// </summary>
         public int FilesSize
         {
             get
@@ -96,6 +120,18 @@ namespace SharpWired.MessageEvents
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageId">The id for this message</param>
+        /// <param name="messageName">The name for this message</param>
+        /// <param name="appVersion">The app version the server runs</param>
+        /// <param name="protocolVersion">The procotol version the server runs</param>
+        /// <param name="serverName">The name of the server</param>
+        /// <param name="serverDescription">The description of the server</param>
+        /// <param name="startTime">The time when the server started</param>
+        /// <param name="filesCount">The number of files on the server</param>
+        /// <param name="filesSize">The size of the files on the server?</param>
         public MessageEventArgs_200(int messageId, string messageName, string appVersion, string protocolVersion, 
             string serverName, string serverDescription, DateTime startTime, int filesCount, int filesSize)
             : base(messageId, messageName)

@@ -31,16 +31,26 @@ using SharpWired.Model.Files;
 
 namespace SharpWired.Gui.Files
 {
+    /// <summary>
+    /// Arguments for File Messages in GUI
+    /// </summary>
     public class WiredNodeArgs: EventArgs
     {
         private FileSystemEntry node;
 
+        /// <summary>
+        /// Get or set the FileSystemEntry associated with this argument
+        /// </summary>
         public FileSystemEntry Node
         {
             get { return node; }
             set { node = value; }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="node">The assosiated FileSystemEntry</param>
         public WiredNodeArgs(FileSystemEntry node)
         {
             this.Node = node;

@@ -38,6 +38,10 @@ using SharpWired.Connection.Transfers;
 
 namespace SharpWired.Model
 {
+    /// <summary>
+    /// Central class. Holds references to a number of objects and listens to connection layer.
+    /// Initializes the other handlers
+    /// </summary>
     public class LogicManager
     {
         #region Variables
@@ -48,42 +52,54 @@ namespace SharpWired.Model
         private NewsHandler newsHandler;
         private FileListingHandler fileListingHandler;
 		private FileTransferHandler fileTransferHandler;
-        private MessageEventArgs_200 serverInformation;
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Get the connection manager
+        /// </summary>
         public ConnectionManager ConnectionManager
         {
             get { return connectionManager; }
         }
 
+        /// <summary>
+        /// Get the chat handler
+        /// </summary>
         public ChatHandler ChatHandler
         {
             get { return chatHandler; }
         }
 
+        /// <summary>
+        /// Get the user handler
+        /// </summary>
         public UserHandler UserHandler
         {
             get { return userHandler; }
         }
 
+        /// <summary>
+        /// Get the news handler
+        /// </summary>
         public NewsHandler NewsHandler
         {
             get { return newsHandler; }
         }
 
+        /// <summary>
+        /// Get the FileListingHandler
+        /// </summary>
         public FileListingHandler FileListingHandler
         {
             get { return fileListingHandler;}
         }
 
-        public MessageEventArgs_200 ServerInformation
-        {
-            get { return serverInformation; }
-        }
-
+        /// <summary>
+        /// Get 
+        /// </summary>
 		public FileTransferHandler FileTransferHandler
 		{
 			get { return fileTransferHandler; }
@@ -125,7 +141,7 @@ namespace SharpWired.Model
 
         void Messages_ServerInformationEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_200 messageEventArgs)
         {
-            serverInformation = messageEventArgs;
+            Console.WriteLine("Server information was received: " + messageEventArgs.ServerName); //TODO
         }
 
         #endregion

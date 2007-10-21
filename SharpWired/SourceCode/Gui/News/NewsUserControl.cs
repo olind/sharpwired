@@ -188,6 +188,10 @@ namespace SharpWired.Gui.News
 
         #region Initialization
 
+        /// <summary>
+        /// Inits the news class
+        /// </summary>
+        /// <param name="logicManager"></param>
         public void Init(LogicManager logicManager)
         {
             this.logicManager = logicManager;
@@ -196,6 +200,9 @@ namespace SharpWired.Gui.News
             logicManager.NewsHandler.NewsModel.NewsListReplacedEvent += new SharpWired.Model.News.NewsModel.NewsListReplacedDelegate(NewsModel_NewsListReplacedEvent);
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public NewsUserControl()
         {
             InitializeComponent();

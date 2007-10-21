@@ -35,8 +35,14 @@ using SharpWired.Connection.Bookmarks;
 
 namespace SharpWired.Gui.Bookmarks
 {
+    /// <summary>
+    /// The Bookmark manager dialog GUI
+    /// </summary>
 	public partial class BookmarkManagerDialog : Form
 	{
+        /// <summary>
+        /// Constructor
+        /// </summary>
 		public BookmarkManagerDialog()
 		{
 			InitializeComponent();

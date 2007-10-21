@@ -189,7 +189,13 @@ namespace SharpWired.Connection
         /// Login succeded
         /// </summary>
         public event LoginSucceededEventHandler LoginSucceededEvent;
+        /// <summary>
+        /// Event to be notified when a response to a ping occured
+        /// </summary>
         public event PingReplyEventHandler PingReplyEvent;
+        /// <summary>
+        /// Event to be notified when a server banner has changed
+        /// </summary>
         public event ServerBannerEventHandler ServerBannerEvent;
         /// <summary>
         /// Event to be notified when a chat message is received
@@ -199,59 +205,217 @@ namespace SharpWired.Connection
         /// Event to be notified when an action chat message is received
         /// </summary>
         public event ActionChatEventHandler ActionChatEvent;
+        /// <summary>
+        /// Event to be notified when a client has joined
+        /// </summary>
         public event ClientJoinEventHandler ClientJoinEvent;
+        /// <summary>
+        /// Event to be notified when a client has left
+        /// </summary>
         public event ClientLeaveEventHandler ClientLeaveEvent;
+        /// <summary>
+        /// Event to be notified when a status has changed
+        /// </summary>
         public event StatusChangeEventHandler StatusChangeEvent;
+        /// <summary>
+        /// Event to be notified when a private message is received
+        /// </summary>
         public event PrivateMessageEventHandler PrivateMessageEvent;
+        /// <summary>
+        /// Event to be notified when a client has been kicked
+        /// </summary>
         public event ClientKickedEventHandler ClientKickedEvent;
+        /// <summary>
+        /// Event to be notified when a client has been banned
+        /// </summary>
         public event ClientBannedEventHandler ClientBannedEvent;
+        /// <summary>
+        /// Event to be notified when a client information has been received 
+        /// </summary>
         public event ClientInformationEventHandler ClientInformationEvent;
+        /// <summary>
+        /// Event to be notified when a broadcast message has been received
+        /// </summary>
         public event BroadcastMessageEventHandler BroadcastMessageEvent;
+        /// <summary>
+        /// Event to be notified when a user list message has been received
+        /// </summary>
         public event UserListEventHandler UserListEvent;
+        /// <summary>
+        /// Event to be notified when a user list done event has been received
+        /// </summary>
         public event UserListDoneEventHandler UserListDoneEvent;
+        /// <summary>
+        /// Event to be notified when a news post event has been received
+        /// </summary>
         public event NewsEventHandler NewsEvent;
+        /// <summary>
+        /// Event to be notified when a news post done has been received
+        /// </summary>
         public event NewsDoneEventHandler NewsDoneEvent;
+        /// <summary>
+        /// Event to be notified when a new newspost has been posted (asyncron message).
+        /// </summary>
         public event NewsPostedEventHandler NewsPostedEvent;
+        /// <summary>
+        /// Event to be notified when a private chat has been created on the server (Wired id 330)
+        /// </summary>
         public event PrivateChatCreatedEventHandler PrivateChatCreatedEvent;
+        /// <summary>
+        /// Event to be notified when a user has been invited to a private chat
+        /// </summary>
         public event PrivateChatInvitationEventHandler PrivateChatInvitationEvent;
+        /// <summary>
+        /// Event to be notified when a user has declined a private chat
+        /// </summary>
         public event PrivateChatDeclinedEventHandler PrivateChatDeclinedEvent;
+        /// <summary>
+        /// Event to be notified when the image has changed for a user
+        /// </summary>
         public event ClientImageChangedEventHandler ClientImageChangedEvent;
+        /// <summary>
+        /// Event to be notified when a chat topic has been changed
+        /// </summary>
         public event ChatTopicEventHandler ChatTopicEvent;
+        /// <summary>
+        /// Event to be notified when a transfer is ready for transmission
+        /// </summary>
         public event TransferReadyEventHandler TransferReadyEvent;
+        /// <summary>
+        /// Event to be notified when a transfer has been queued 
+        /// </summary>
         public event TransferQueuedEventHandler TransferQueuedEvent;
+        /// <summary>
+        /// Event to be notified when a file information event is received
+        /// </summary>
         public event FileInformationEventHandler FileInformationEvent;
+        /// <summary>
+        /// Event to be notified when file listing has been received
+        /// </summary>
         public event FileListingEventHandler FileListingEvent;
+        /// <summary>
+        /// Event to be notified when a file listing done event is received
+        /// </summary>
         public event FileListingDoneEventHandler FileListingDoneEvent;
+        /// <summary>
+        /// Event to be notified when a search listing event has been received
+        /// </summary>
         public event SearchListingEventHandler SearchListingEvent;
+        /// <summary>
+        /// Event to be notified when a search listing has been completed
+        /// </summary>
         public event SearchListingDoneEventHandler SearchListingDoneEvent;
+        /// <summary>
+        /// Event to be notified when a command failed
+        /// </summary>
         public event CommandFailedEventHandler CommandFailedEvent;
+        /// <summary>
+        /// Event to be notified when a command is not reqognized
+        /// </summary>
         public event CommandNotRecognizedEventHandler CommandNotRecognizedEvent;
+        /// <summary>
+        /// Event to be notified when a command is not implemented
+        /// </summary>
         public event CommandNotImplementedEventHandler CommandNotImplementedEvent;
+        /// <summary>
+        /// Event to be notified when a syntax error event was received
+        /// </summary>
         public event SyntaxErrorEventHandler SyntaxErrorEvent;
+        /// <summary>
+        /// Event to be notified when logging in failed
+        /// </summary>
         public event LoginFailedEventHandler LoginFailedEvent;
+        /// <summary>
+        /// Event to be notified when the login could not be done since the client was banned
+        /// </summary>
         public event BannedEventHandler BannedEvent;
+        /// <summary>
+        /// Event to be notified when the server could not find the client
+        /// </summary>
         public event ClientNotFoundEventHandler ClientNotFoundEvent;
+        /// <summary>
+        /// Event to be notified when the server could not find the given account
+        /// </summary>
         public event AccountNotFoundEventHandler AccountNotFoundEvent;
+        /// <summary>
+        /// Event to be notified when the given account already exists on the server
+        /// </summary>
         public event AccountExistsEventHandler AccountExistsEvent;
+        /// <summary>
+        /// Event to be notified when a user tried to dissconnect a user that cannot be disconnected
+        /// </summary>
         public event CannotBeDisconnectedEventHandler CannotBeDisconnectedEvent;
+        /// <summary>
+        /// Event to be notified when a command could not be completed due to permission problems
+        /// </summary>
         public event PermissionDeniedEventHandler PermissionDeniedEvent;
+        /// <summary>
+        /// Event to be notified when the file or directore reffered to could not be found
+        /// </summary>
         public event FileOrDirectoryNotFoundEventHandler FileOrDirectoryNotFoundEvent;
+        /// <summary>
+        /// Event to be notified when the file or directory reffered to could not be found
+        /// </summary>
         public event FileOrDirectoryExistsEventHandler FileOrDirectoryExistsEvent;
+        /// <summary>
+        /// Event to be notified when the two checksums do not match
+        /// </summary>
         public event ChecksumMismatchEventHandler ChecksumMismatchEvent;
+        /// <summary>
+        /// Event to be notified when the queue limit was exceeded
+        /// </summary>
         public event QueueLimitExceededEventHandler QueueLimitExceededEvent;
+        /// <summary>
+        /// Event to be notified when specifications for a user was received
+        /// </summary>
         public event UserSpecificationEventHandler UserSpecificationEvent;
+        /// <summary>
+        /// Event to be notified when specifications for a group was received
+        /// </summary>
         public event GroupSpecificationEventHandler GroupSpecificationEvent;
+        /// <summary>
+        /// Event to be notified when specification for this user was received
+        /// </summary>
         public event PrivilegesSpecificationEventHandler PrivilegesSpecificationEvent;
+        /// <summary>
+        /// Event to be notified when a user account in the user accounts listing was received. 
+        /// NOTE! This is for the administration of the server. Not the same as UserListEvent.
+        /// </summary>
         public event UserListingEventHandler UserListingEvent;
+        /// <summary>
+        /// Event to be notified when all user accounts on the server was received.
+        /// NOTE! This is for the administration of the server. Not the same as UserListDoneEvent.
+        /// </summary>
         public event UserListingDoneEventHandler UserListingDoneEvent;
+        /// <summary>
+        /// Event to be notified when a group listing was received.
+        /// NOTE! This is for the administration of the server.
+        /// </summary>
         public event GroupListingEventHandler GroupListingEvent;
+        /// <summary>
+        /// Event to be notified when group listing was completed.
+        /// NOTE! This is for the administration of the server.
+        /// </summary>
         public event GroupListingDoneEventHandler GroupListingDoneEvent;
 
-        /// Tracker specific events (doesn't exist in the protocol specification)
+        #region Tracker specific events (doesn't exist in the protocol specification)
+        /// <summary>
+        /// Event to be notified when a tracker categories was received
+        /// </summary>
         public event TrackerCategoryListingEventHandler TrackerCategoryListingEvent;
+        /// <summary>
+        /// Event to be notified when all tracker categories has been received
+        /// </summary>
         public event TrackerCategoryListingDoneEventHandler TrackerCategoryListingDoneEvent;
+        /// <summary>
+        /// Event to be notified when a tracker listing was received
+        /// </summary>
         public event TrackerServerListingEventHandler TrackerServerListingEvent;
+        /// <summary>
+        /// Event to be notified when tracker listing is completed
+        /// </summary>
         public event TrackerServerListingDoneEventHandler TrackerServerListingDoneEvent;
+        #endregion
 
         #region create events and raise
 
