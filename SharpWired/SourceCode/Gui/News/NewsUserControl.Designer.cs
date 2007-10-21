@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * NewsUserControl.Designer.cs
  * Created by Ola Lindberg, 2006-12-10
  * 

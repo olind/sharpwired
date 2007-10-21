@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * WiredListNode.cs 
  * Created by Ola Lindberg, 2007-09-29
  * 

@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * UserItemControl.cs
  * Created by Ola Lindberg, 2006-10-12
  * 
@@ -143,8 +143,8 @@ namespace SharpWired.Gui.Chat
         /// <summary>
         /// Updates the image box label provided. This handles the callbacks needed to write to the GUI
         /// </summary>
-        /// <param name="updatedString">The string to write to gui</param>
-        /// <param name="labelToUpdate">The label to where the string should be written</param>
+		/// <param name="updatedImage">TODO!</param>
+		/// <param name="pictureBoxToUpdate">TODO!</param>
         private void UpdatePictureBox(Bitmap updatedImage, PictureBox pictureBoxToUpdate)
         {
             if (pictureBoxToUpdate.InvokeRequired)

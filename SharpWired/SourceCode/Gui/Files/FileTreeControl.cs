@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * FileTreeControls.cs
  * Created by Ola Lindberg and Peter Holmdahl, 2007-09-29
  * 
@@ -162,6 +162,35 @@ namespace SharpWired.Gui.Files
         }
         delegate void ClearTreeViewCallback(TreeView tree);
         #endregion
+        
+        #region File downloads
+        /// <summary>
+        /// The mouse was double clicked in the TreeView
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rootTreeView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            //TODO: Remove or move code below to the GuiFilesController
+            //WiredTreeNode node = (WiredTreeNode)rootTreeView.GetNodeAt(e.Location);
+            //if (node != null)
+            //{
+            //    node.TriggerDoubleClicked(e);
+            //    if (node.Tag is FileNode)
+            //    {
+            //        WantDownloadFile(node.Tag as FileNode);
+            //    }
+            //}
+        }
+        
+        private void WantDownloadFile(FileNode fileNode)
+        {
+            logicManager.FileTransferHandler.EnqueueDownload(
+                logicManager.ConnectionManager.CurrentBookmark,
+                fileNode,
+                logicManager.FileTransferHandler.DefaultDownloadFolder);
+        }
+        #endregion
 
         #region Initialization
 		/// <summary>
@@ -202,34 +231,6 @@ namespace SharpWired.Gui.Files
         }
         #endregion
 
-        #region File downloads TODO: Move file download logic to GuiFilesController
-        /// <summary>
-        /// The mouse was double clicked in the TreeView
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void rootTreeView_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            //TODO: Remove or move code below to the GuiFilesController
-            //WiredTreeNode node = (WiredTreeNode)rootTreeView.GetNodeAt(e.Location);
-            //if (node != null)
-            //{
-            //    node.TriggerDoubleClicked(e);
-            //    if (node.Tag is FileNode)
-            //    {
-            //        WantDownloadFile(node.Tag as FileNode);
-            //    }
-            //}
-        }
-
-        private void WantDownloadFile(FileNode fileNode)
-        {
-            logicManager.FileTransferHandler.EnqueueDownload(
-                logicManager.ConnectionManager.CurrentServer,
-                fileNode,
-                logicManager.FileTransferHandler.DefaultDownloadFolder);
-        }
-        #endregion
 
         #region Listerens from Model TODO: Replace model listeners with listeners from GuiFilesController
         void FileListingModel_FileListingDoneEvent(FolderNode superRootNode)

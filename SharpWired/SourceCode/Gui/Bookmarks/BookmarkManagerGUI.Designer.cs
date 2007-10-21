@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * BookmarkManagerGUI.Designer.cs
  * Created by Peter Holmdal, 2006-12-03
  * 

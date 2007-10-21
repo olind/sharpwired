@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * IconHandler.cs 
  * Created by Ola Lindberg, 2007-06-25
  * 

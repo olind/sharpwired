@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * FileUserControl.cs 
  * Created by Ola Lindberg and Peter Holmdahl, 2007-05-10
  * 

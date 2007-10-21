@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * ChatUserControl.cs
  * Created by Ola Lindberg, 2006-10-12
  * 
@@ -145,7 +145,7 @@ namespace SharpWired.Gui.Chat
         /// <param name="chatTopicObject"></param>
         private void OnChatTopicChangedEvent(ChatTopicObject chatTopicObject)
         {
-            /** 
+            /*
              * Example of the html we want to produce here. class="standard" is class="alt" every other time
              * 
              *   <div class="standard">
@@ -174,7 +174,7 @@ namespace SharpWired.Gui.Chat
         /// <param name="chatMessageObject"></param>
         private void OnChatMessageChangedEvent(ChatMessageObject chatMessageObject)
         {
-            /** 
+            /*
              * Example of the html we want to produce here. class="standard" is class="alt" every other time
              * 
              *   <div class="standard">
@@ -205,7 +205,7 @@ namespace SharpWired.Gui.Chat
         /// <param name="chatActionMessageObject"></param>
         private void OnChatActionMessageChangedEvent(ChatActionMessageObject chatActionMessageObject)
         {
-            /** 
+            /*
              * Example of the html we want to produce here. class="standard" is class="alt" every other time
              * 
              *   <div class="standard">

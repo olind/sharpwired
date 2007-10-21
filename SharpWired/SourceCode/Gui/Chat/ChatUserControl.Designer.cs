@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * ChatUserControl.Designer.cs
  * Created by Ola Lindberg, 2006-10-12
  * 

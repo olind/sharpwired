@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * BookmarkManagerDialog.cs
  * Created by Peter Holmdal, 2006-12-03
  * 

@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * FileDetailsControl.cs
  * Created by Ola Lindberg and Peter Holmdahl, 2007-09-29
  * 

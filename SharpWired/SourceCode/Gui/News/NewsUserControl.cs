@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * NewsUserControl.cs
  * Created by Ola Lindberg, 2006-12-10
  * 
@@ -147,7 +147,7 @@ namespace SharpWired.Gui.News
         /// <returns></returns>
         private string FormatNewsPostHTML(NewsObject newPost)
         {
-            /** 
+            /*
              * Example of the html we want to produce here. 
              * class="standard" is class="alt" every other time
              * 

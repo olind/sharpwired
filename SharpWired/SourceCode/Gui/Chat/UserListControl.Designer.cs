@@ -1,5 +1,5 @@
 #region Information and licence agreements
-/**
+/*
  * UserListControl.Designer.cs
  * Created by Ola Lindberg, 2006-11-20
  * 

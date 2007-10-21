@@ -1,5 +1,5 @@
 ﻿#region Information and licence agreements
-/**
+/*
  * SharpWiredForm.cs 
  * Created by Ola Lindberg, 2006-07-23
  * 
@@ -290,5 +290,10 @@ namespace SharpWired.Gui
                     tabControl1.SelectedTab = tp;
             }
         }
+
+		private void mTestDownloadButton_Click(object sender, EventArgs e)
+		{
+			logicManager.FileTransferHandler.StartTestDownload();
+		}
     }
 }
