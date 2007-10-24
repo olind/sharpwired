@@ -48,7 +48,7 @@ namespace SharpWired.Model.Files
         /// </summary>
         public List<FileSystemEntry> Children
         {
-            get { return children; } //TODO: Return a copy of this list instead of the list itself to avoid editing the list outside this FolderNode
+            get { return children; } //TODO: Return a copy of this list with the nodes instead of the list itself to avoid editing the list outside this FolderNode
         }
 
         /// <summary>

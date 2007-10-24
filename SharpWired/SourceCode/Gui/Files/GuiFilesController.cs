@@ -44,9 +44,9 @@ namespace SharpWired.Gui.Files
 
                 this.logicManager.FileListingHandler.ReloadFileList((FolderNode)selectedNode);
             }
-            else
+            else if (selectedNode is FileNode)
             {
-                throw new Exception("TODO: Dealing with file nodes are not implemented");
+                Console.WriteLine("TODO: Dealing with file nodes are not implemented");
             }
         }
 
@@ -82,7 +82,10 @@ namespace SharpWired.Gui.Files
             fileDetailsControl.Init(this);
 
             logicManager.FileListingHandler.FileModelUpdatedEvent += new FileListingHandler.FileModelUpdatedDelegate(fileTreeControl.OnNewNodesAdded);
-            //TODONow: Attach the listening for FileDetailsView from here instead of from in that class
+
+            // Attach listeners to other GUI files
+            this.SelectedFolderNodeChangedEvent+=new EventHandler<WiredNodeArgs>(fileDetailsControl.OnFolderNodeChanged);
+            logicManager.FileListingHandler.FileModelUpdatedEvent+=new FileListingHandler.FileModelUpdatedDelegate(fileDetailsControl.OnRootNodeInitialized);
         }
     }
 }

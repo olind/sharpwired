@@ -44,23 +44,11 @@ namespace SharpWired.Gui.Files
         private GuiFilesController guiFilesController;
 
         #region Listeners from GuiFilesController
+
         /// <summary>
-        /// When this is received we subscribe to an event that triggers 
-        /// when the files has been updated from the server
+        /// Listen to the selected node being updated from server
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void guiFilesController_FolderNodeChangedEvent(object sender, WiredNodeArgs e)
-        {
-            listView1.Clear();
-            //TODO: Suspend the mouse pointer
-
-            if (e.Node is FolderNode)
-            {
-                ((FolderNode)e.Node).FolderNodeUpdatedEvent += new FolderNode.FolderNodeUpdated(FileDetailsControl_FolderNodeUpdatedEvent);
-            }
-        }
-
+        /// <param name="updatedNode"></param>
         void FileDetailsControl_FolderNodeUpdatedEvent(FolderNode updatedNode)
         {
             UpdateListView(updatedNode);
@@ -69,21 +57,62 @@ namespace SharpWired.Gui.Files
         }
 
         /// <summary>
+        /// Update the folder nodes with the given nodes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="selectedNode">The list of nodes we should update with</param>
+        public void OnFolderNodeChanged(object sender, WiredNodeArgs selectedNode)
+        {
+            listView1.Clear();
+            //TODO: Suspend the mouse pointer
+            if (selectedNode.Node is FolderNode)
+            {
+                ((FolderNode)selectedNode.Node).FolderNodeUpdatedEvent += new FolderNode.FolderNodeUpdated(FileDetailsControl_FolderNodeUpdatedEvent);
+            }
+        }
+
+        /// <summary>
         /// Update the listview with the given node as the root
         /// </summary>
         /// <param name="updatedNode">The root node for the view</param>
         public void UpdateListView(FolderNode updatedNode)
         {
+            NodeListToListView(updatedNode.Children);
+        }
+
+        /// <summary>
+        /// Update the listview with the given list. Use this method to init the view once the 
+        /// root node has been loaded from server.
+        /// </summary>
+        /// <param name="nodes"></param>
+        public void OnRootNodeInitialized(List<FileSystemEntry> nodes)
+        {
+            //FIXME: Unsubscribe from root node listening. 
+            //The listener is connected in GuiFilesController 
+            //and I have no idea for how to unsubscribe.
+            //We should only redraw the root node the first time it's updated
+            if(doRootNode) {
+                NodeListToListView(nodes);
+                doRootNode = false;
+            }
+        }
+        bool doRootNode = true;
+        
+        /// <summary>
+        /// Replace the items in this listview with the given list
+        /// </summary>
+        /// <param name="newNodes"></param>
+        private void NodeListToListView(List<FileSystemEntry> newNodes)
+        {
             if (this.InvokeRequired)
             {
-                UpdateListViewCallback updateListViewCallback = new UpdateListViewCallback(UpdateListView);
-                this.Invoke(updateListViewCallback, new object[] { updatedNode });
+                NodeListToListViewCallback callback = new NodeListToListViewCallback(NodeListToListView);
+                this.Invoke(callback, new object[] { newNodes });
             }
             else
             {
                 listView1.Items.Clear();
-                List<FileSystemEntry> children = (updatedNode as FolderNode).Children;
-                foreach (FileSystemEntry child in children)
+                foreach (FileSystemEntry child in newNodes)
                 {
                     WiredListNode wln = new WiredListNode(child);
                     wln.ImageIndex = wln.IconIndex;
@@ -92,14 +121,14 @@ namespace SharpWired.Gui.Files
                 }
             }
         }
-        delegate void UpdateListViewCallback(FolderNode updatedNode);
+        delegate void NodeListToListViewCallback(List<FileSystemEntry> update);
         #endregion
 
         #region Listeners from GUI
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             WiredListNode node = (WiredListNode)listView1.GetItemAt(e.X, e.Y);
-            if (node.ModelNode is FolderNode){
+            if (node != null && node.ModelNode is FolderNode){
                 guiFilesController.ChangeSelectedNode(this, node.ModelNode);
             }
             else{
@@ -129,7 +158,7 @@ namespace SharpWired.Gui.Files
             }
             else if (e.KeyCode == Keys.Back) //Change the selected node to the parent node of the selected node
             {
-                if (guiFilesController.SelectedNode.Parent != null)
+                if (guiFilesController.SelectedNode != null)
                 {
                     guiFilesController.ChangeSelectedNode(this, guiFilesController.SelectedNode.Parent);
                 }
@@ -165,9 +194,6 @@ namespace SharpWired.Gui.Files
             listView1.LargeImageList = fileViewIcons;
             
             listView1.View = View.List;
-
-            guiFilesController.SelectedFolderNodeChangedEvent += new EventHandler<WiredNodeArgs>(guiFilesController_FolderNodeChangedEvent);
-            guiFilesController.ChangeSelectedNodeToRootNode(this); //TODORemove
         }
 
         /// <summary>
