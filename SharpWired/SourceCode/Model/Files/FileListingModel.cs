@@ -61,7 +61,7 @@ namespace SharpWired.Model.Files
         /// Gets the node at the given nodePath
         /// </summary>
 		/// <param name="requestedNodePath">The path. Must be not be null or empty.</param>
-		/// <param name="traversingNode">TODO: ???</param>
+		/// <param name="traversingNode">The node from where search should be started</param>
         /// <returns>If the node exists in the model; the node at whe given path nodePath otherwise null</returns>
         public FileSystemEntry GetNode(string requestedNodePath, FileSystemEntry traversingNode)
         {

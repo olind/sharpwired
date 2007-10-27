@@ -74,17 +74,14 @@ namespace SharpWired.Gui.Files
         public GuiFilesController(LogicManager logicManager, 
             FileTreeControl fileTreeControl, FileDetailsControl fileDetailsControl)
         {
-            //TODO: It would be nice if the inits for this nodes wouldnt be done here..
-            //It feels more logic if the GuiFilesController was responsible for creating 
-            //the FilesUserControll and not the other way around
             this.logicManager = logicManager;
             fileTreeControl.Init(logicManager, this);
             fileDetailsControl.Init(this);
 
-            logicManager.FileListingHandler.FileModelUpdatedEvent += new FileListingHandler.FileModelUpdatedDelegate(fileTreeControl.OnNewNodesAdded);
-
             // Attach listeners to other GUI files
             this.SelectedFolderNodeChangedEvent+=new EventHandler<WiredNodeArgs>(fileDetailsControl.OnFolderNodeChanged);
+            logicManager.FileListingHandler.FileModelUpdatedEvent += new FileListingHandler.FileModelUpdatedDelegate(fileTreeControl.OnNewNodesAdded);
+            // To get the initial listing in the details view
             logicManager.FileListingHandler.FileModelUpdatedEvent+=new FileListingHandler.FileModelUpdatedDelegate(fileDetailsControl.OnRootNodeInitialized);
         }
     }

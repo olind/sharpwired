@@ -66,17 +66,29 @@ namespace SharpWired.Model.Files
         }
 
         /// <summary>
-        /// Requests a reload of the filelisting on this server on the given path
+        /// Requests a reload of the filelisting on this server on the given path.
+        /// If this node doesn't have any childrens we assume it hasn't been loaded from server and 
+        /// requests a reload. NOTE! If the node is not found in the tree we do a reload from the server root.
         /// </summary>
         /// <param name="path">The path node where reloading should be requested.</param>
         private void ReloadFileList(string path)
         {
-            //TODO: When we reload the filelisting today we request the reload and when the response 
-            //returns from the server we check if the node equals an existing node and if it does we don't
-            //add the node to the model but raises the updated event instead.
-            //Instead of requesting reload we should first check if it exists in the model and if it does
-            //we should not request the reload from server but just raise the event
-            this.LogicManager.ConnectionManager.Commands.List(path);
+            FileSystemEntry reloadNode = fileListingModel.GetNode(path, fileListingModel.RootNode);
+            if(reloadNode != null && reloadNode is FolderNode){
+                if (((FolderNode)reloadNode).HasChildren())
+                {
+                    (reloadNode as FolderNode).DoneUpdating();
+                }
+                else
+                {
+                    this.LogicManager.ConnectionManager.Commands.List(path);
+                }
+            }
+            else if (reloadNode == null)
+            {
+                // To load the initial file list
+                this.LogicManager.ConnectionManager.Commands.List("/");
+            }
         }
 
         /// <summary>
@@ -130,9 +142,9 @@ namespace SharpWired.Model.Files
         /// <param name="messageEventArgs"></param>
         void Messages_FileListingDoneEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_411 messageEventArgs)
         {
-            fileListingModel.FileListingDone(messageEventArgs); //TODONow: Who is listening here? If it is the model that will tell the nodes to update it might be ok!
+            fileListingModel.FileListingDone(messageEventArgs);
 
-            if (FileModelUpdatedEvent != null)
+            if (FileModelUpdatedEvent != null && recentlyAddedNodes != null && recentlyAddedNodes.Count > 0)
             {
                 FileModelUpdatedEvent(recentlyAddedNodes);
                 recentlyAddedNodes.Clear();

@@ -230,7 +230,6 @@ namespace SharpWired.Gui.Files
         #endregion
 
         #region New populate file tree functionallity
-
         /// <summary>
         /// Call this method when new nodes are added.
         /// </summary>
@@ -240,39 +239,6 @@ namespace SharpWired.Gui.Files
             //TODO: My original idea was to use the addedNodes and update the file tree with those nodes only
             //but that requires a remake of the populateFileTree - functionallity.
             PopulateFileTree(this.rootTreeView, logicManager.FileListingHandler.FileListingModel.RootNode);
-        }
-
-        private void PopulateFileTree(TreeView rootTreeView, List<FileSystemEntry> nodes)
-        {
-            foreach (FileSystemEntry fse in nodes)
-            {
-                if (fse is FolderNode)
-                {
-                    Console.WriteLine("TODO: Add this node to the file tree: " + fse.Path);
-                }
-            }
-        }
-
-        #endregion
-
-
-
-        #region Listerens from Model TODO: Replace model listeners with listeners from GuiFilesController
-        void FileListingModel_FileListingDoneEvent(FolderNode superRootNode)
-        {
-            //TODO: Remove this
-            ClearTreeView(rootTreeView);
-            PopulateFileTree(rootTreeView, superRootNode);
-        }
-
-        void guiFilesController_FolderNodeChangedEvent(object sender, WiredNodeArgs e)
-        {
-            if (e.Node is FolderNode)
-            {
-                //TODO: Clear the nodes below this node in favour for clearing the complete tree
-                //ClearTreeView((FolderNode)e.Node);
-                PopulateFileTree(rootTreeView, (FolderNode)e.Node);
-            }
         }
         #endregion
     }
