@@ -42,6 +42,17 @@ namespace SharpWired.Model.Files
         #endregion
 
         #region Properties
+
+        private long size;
+
+        /// <summary>
+        /// Get the size for this folder. This value is returned from the server.
+        /// </summary>
+        public long Size
+        {
+            get { return size; }
+        }
+
         /// <summary>
         /// Gets the list with this nodes childrens.
         /// NOTE! Do NOT get the list of children to add nodes. Use AddChildren(FileSystemEntry newNode) instead!
@@ -166,6 +177,7 @@ namespace SharpWired.Model.Files
         public FolderNode(MessageEventArgs_410420 messageEventArgs)
             : base(messageEventArgs)
         {
+            size = messageEventArgs.Size;
         }
 
         /// <summary>

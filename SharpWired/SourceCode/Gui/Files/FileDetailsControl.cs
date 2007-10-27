@@ -111,12 +111,27 @@ namespace SharpWired.Gui.Files
             }
             else
             {
+                listView1.Columns.Clear();
+
+                listView1.Sorting = SortOrder.Ascending; //TODO: Sort folders before files
+                listView1.LabelEdit = true;
+                listView1.AllowColumnReorder = true;
+
+                listView1.Columns.Add("Name", 200);
+                listView1.Columns.Add("Size", 50, HorizontalAlignment.Right);
+                listView1.Columns.Add("Added", 150);
+                listView1.Columns.Add("Modified", 150);
+
                 listView1.Items.Clear();
                 foreach (FileSystemEntry child in newNodes)
                 {
                     WiredListNode wln = new WiredListNode(child);
                     wln.ImageIndex = wln.IconIndex;
                     wln.StateImageIndex = wln.IconIndex;
+                    wln.SubItems.Add(wln.Size);
+                    wln.SubItems.Add(wln.Created.ToString());
+                    wln.SubItems.Add(wln.Modified.ToString());
+
                     this.listView1.Items.Add(wln);
                 }
             }
@@ -192,8 +207,9 @@ namespace SharpWired.Gui.Files
 
             listView1.SmallImageList = fileViewIcons;
             listView1.LargeImageList = fileViewIcons;
-            
-            listView1.View = View.List;
+
+            //listView1.View = View.List;
+            listView1.View = View.Details;
         }
 
         /// <summary>

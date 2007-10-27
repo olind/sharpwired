@@ -133,8 +133,8 @@
       <DependentUpon>ChatUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Files\FileDetailsControl.resx">
-      <SubType>Designer</SubType>
       <DependentUpon>FileDetailsControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Files\FilesUserControl.resx">
       <SubType>Designer</SubType>
@@ -239,13 +239,13 @@
     <Compile Include="Gui\Bookmarks\BookmarkManagerGUI.Designer.cs">
       <DependentUpon>BookmarkManagerGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\Files\WiredNodeArgs.cs" />
     <Compile Include="Gui\Files\FileDetailsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Gui\Files\FileDetailsControl.Designer.cs">
       <DependentUpon>FileDetailsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Files\WiredNodeArgs.cs" />
     <Compile Include="Gui\Files\FilesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
