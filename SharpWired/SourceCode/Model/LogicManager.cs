@@ -35,6 +35,7 @@ using SharpWired.Model.News;
 using SharpWired.Model.Files;
 using SharpWired.MessageEvents;
 using SharpWired.Connection.Transfers;
+using System.Drawing;
 
 namespace SharpWired.Model
 {
@@ -129,6 +130,11 @@ namespace SharpWired.Model
 
         void Messages_LoginSucceededEvent(object sender, global::SharpWired.MessageEvents.MessageEventArgs_201 messageEventArgs)
         {
+            //TODO: Is it good to set the user icon here?
+            //When we are logged in set the icon
+            SharpWired.Gui.Resources.Icons.IconHandler iconHandler = new SharpWired.Gui.Resources.Icons.IconHandler();
+            connectionManager.Commands.Icon(1, iconHandler.UserImage);
+
             chatHandler.Init(connectionManager);
             newsHandler.Init(connectionManager);
             fileListingHandler.Init(connectionManager);

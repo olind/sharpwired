@@ -39,7 +39,6 @@ namespace SharpWired.Gui.Resources.Icons
     /// </summary>
     internal class IconHandler
 	{
-		// NOTE: Is this what we want?
 		#region Singelton
 		private static IconHandler sInstance = new IconHandler();
 
@@ -79,19 +78,15 @@ namespace SharpWired.Gui.Resources.Icons
 		}
 		#endregion
 		
-
 		#region Variables
-
 		// This is a collection of the icons and their namings.
 		private Dictionary<string, Image> mIcons = new Dictionary<string, Image>();
 
 		private Image folderClosed;
-        //private string iconFilePath = System.Environment.CurrentDirectory + "\\GUI\\Icons\\";
 		private string iconFilePath;
         private Image file;
-
+        private Image userImage;
         #endregion
-		
 
 		#region Properties
 		/// <summary>
@@ -117,6 +112,14 @@ namespace SharpWired.Gui.Resources.Icons
         {
             get { return file; }
 		}
+
+        /// <summary>
+        /// Gets the user image
+        /// </summary>
+        public Image UserImage
+        {
+            get { return userImage; }
+        }
 
 		/// <summary>
 		/// Get the icon with this name.
@@ -151,10 +154,8 @@ namespace SharpWired.Gui.Resources.Icons
 			get { return LoadAndStoreIcon(nameAndFilePair); }
 		}
 		#endregion
-		
 
 		#region Methods
-
 		#region Loading File and Storing Image
 		/// <summary>
 		/// Tries to find icon in the dictionary. If it doesn't exist
@@ -254,6 +255,7 @@ namespace SharpWired.Gui.Resources.Icons
 		{
 			folderClosed = CreateHiQualityIconImage("folderClosed.png");
 			file = CreateHiQualityIconImage("file.png");
+            userImage = CreateHiQualityIconImage("userImage.png");
 		}
 
         #endregion

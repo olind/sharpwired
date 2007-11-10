@@ -1,3 +1,29 @@
+#region Information and licence agreements
+/*
+ * IconHandler.cs 
+ * Created by Peter Holmdahl, 2007-06-25
+ * 
+ * SharpWired - a Wired client.
+ * See: http://www.zankasoftware.com/wired/ for more infromation about Wired
+ * 
+ * Copyright (C) Ola Lindberg (http://olalindberg.com)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+ */
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,10 +36,14 @@ namespace SharpWired.Gui.Resources.Icons
 	/// </summary>
 	class IconList
 	{
-		private static Pair<string, string> sFile = 
-			new Pair<string,string>("File", "file.png");
+        private static SortedDictionary<string, Pair<string, string>> sIcons = new SortedDictionary<string, Pair<string, string>>();
+
+		private static Pair<string, string> sFile = new Pair<string,string>("File", "file.png");
+        private static Pair<string, string> sFolderClosed = new Pair<string, string>("FolderClosed", "folderClosed.png");
+        private static Pair<string, string> sUserImage = new Pair<string, string>("UserImage", "userImage.png");
+
 		/// <summary>
-		/// File icon name an filename pair.
+		/// Get the file icon name and filename pair
 		/// </summary>
 		public static Pair<string, string> File
 		{
@@ -21,10 +51,8 @@ namespace SharpWired.Gui.Resources.Icons
 			//set { sFile = value; }
 		}
 
-		private static Pair<string, string>	sFolderClosed = 
-			new Pair<string,string>("FolderClosed", "folderClosed.png");
 		/// <summary>
-		/// Folder Closed.
+		/// Get the folder closed icon and filename pair
 		/// </summary>
 		public static Pair<string, string> FolderClosed
 		{
@@ -32,7 +60,13 @@ namespace SharpWired.Gui.Resources.Icons
 			//set { sFolderClosed = value; }
 		}
 
-		private static SortedDictionary<string, Pair<string, string>> sIcons = new SortedDictionary<string,Pair<string,string>>();
+        /// <summary>
+        /// Get the user image icon and filename pair
+        /// </summary>
+        public static Pair<string, string> UserImage
+        {
+            get { return sUserImage; }
+        }
 
 		/// <summary>
 		/// Gets the list of icon pairs.

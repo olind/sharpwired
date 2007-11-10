@@ -1,3 +1,4 @@
+#region Information and licence agreements
 /*
  * Commands.cs 
  * Created by Ola Lindberg, 2006-06-27
@@ -21,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+#endregion
 
 using System;
 using System.Collections.Generic;
@@ -296,12 +298,8 @@ namespace SharpWired.Connection
         {
             if (socket != null)
             {
-                //TODO Convert the image to Base64
-                String b64Image = "";
+                String b64Image = SharpWired.Utility.BitmapToBase64String(image);
                 socket.SendMessage("ICON" + Utility.SP + icon + Utility.FS + b64Image);
-                
-                // TODO: Convert bitmap to byte array
-                //Convert.ToBase64String()
             }
         }
 

@@ -25,6 +25,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace SharpWired
 {
@@ -108,6 +111,47 @@ namespace SharpWired
                     password += p;
             }
             return password;
+        }
+
+        /// <summary>
+        /// Converts a Base64 (as a string) to an Bitmap.
+        /// Tip from David McCarter, see: http://www.vsdntips.com/Tips/VS.NET/Csharp/76.aspx
+        /// </summary>
+        /// <param name="imageText">The image represented as a Base64 String</param>
+        /// <returns>An Bitmap with the image</returns>
+        public static Bitmap Base64StringToBitmap(string imageText)
+        {
+            Bitmap image = null;
+            if (imageText.Length > 0)
+            {
+                /*
+                This could be used to remove all (if any) \r\n and spaces 
+                System.Text.StringBuilder sbText = new System.Text.StringBuilder(Image,Image.Length);
+                sbText.Replace("\r\n", String.Empty);
+                sbText.Replace(" ", String.Empty);
+                */
+                Byte[] bitmapData = new Byte[imageText.Length];
+                bitmapData = Convert.FromBase64String(imageText);
+                System.IO.MemoryStream streamBitmap = new System.IO.MemoryStream(bitmapData);
+                image = new Bitmap((Bitmap)Image.FromStream(streamBitmap));
+            }
+            return image;
+        }
+
+        /// <summary>
+        /// Converts a Bitmap to a Base 64 (string)
+        /// Reused from: http://dotnet-snippets.de/dns/c-bitmap-in-base64-codierten-string-wandeln-SID429.aspx
+        /// </summary>
+        /// <param name="image">The image to convert</param>
+        /// <returns>The given image as a Base64 string</returns>
+        public static string BitmapToBase64String(Image image)
+        {
+            MemoryStream memory = new MemoryStream();
+            image.Save(memory, ImageFormat.Bmp);
+            string base64 = Convert.ToBase64String(memory.ToArray());
+            memory.Close();
+            memory.Dispose();
+            return base64;
         }
 
         /// <summary>

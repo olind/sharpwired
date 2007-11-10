@@ -473,7 +473,7 @@ namespace SharpWired.Connection
         {
             if (ServerBannerEvent != null)
             {
-                Bitmap serverBanner = new Bitmap(Base64StringToBitmap(message));
+                Bitmap serverBanner = new Bitmap(SharpWired.Utility.Base64StringToBitmap(message));
                 MessageEventArgs_203 m = new MessageEventArgs_203(messageId, messageName, serverBanner);
                 ServerBannerEvent(this, m);
             }
@@ -528,7 +528,7 @@ namespace SharpWired.Connection
                 IPAddress ip = IPAddress.Parse(words[7]);
                 string host = words[8];
                 string status = words[9];
-                Bitmap image = Base64StringToBitmap(words[10]);
+                Bitmap image = SharpWired.Utility.Base64StringToBitmap(words[10]);
 
                 MessageEventArgs_302310 m = new MessageEventArgs_302310(messageId, messageName, chatId, userId, idle, admin, icon, nick, login, ip, host, status, image);
 
@@ -649,7 +649,7 @@ namespace SharpWired.Connection
                 string downloads = w[13]; // TODO: This is not optimal type
                 string uploads = w[14]; // TODO: This is not optimal type
                 string status = w[15];
-                Bitmap image = Base64StringToBitmap(w[16]);
+                Bitmap image = SharpWired.Utility.Base64StringToBitmap(w[16]);
                 string transfer = w[16];
                 string path = w[17];
                 int transferred = int.Parse(w[18]);
@@ -693,7 +693,7 @@ namespace SharpWired.Connection
                 IPAddress ip = IPAddress.Parse(s[7]);
                 string host = s[8];
                 string status = s[9];
-                Bitmap image = Base64StringToBitmap(s[10]);
+                Bitmap image = SharpWired.Utility.Base64StringToBitmap(s[10]);
 
                 MessageEventArgs_302310 m = new MessageEventArgs_302310(messageId, messageName, chatId, userId, idle, admin, icon, nick, login, ip, host, status, image);
 
@@ -799,7 +799,7 @@ namespace SharpWired.Connection
             {
                 string[] w = SplitMessage(message);
                 int userId = int.Parse(w[0]);
-                Bitmap image = Base64StringToBitmap(w[1]);
+                Bitmap image = SharpWired.Utility.Base64StringToBitmap(w[1]);
                 MessageEventArgs_340 m = new MessageEventArgs_340(messageId, messageName, userId, image);
                 ClientImageChangedEvent(this, m);
             }
@@ -1431,31 +1431,6 @@ namespace SharpWired.Connection
             // Parse the server information event
             char[] delimiterChars = { Convert.ToChar(Utility.FS) };
             return message.Split(delimiterChars);
-        }
-
-        /// <summary>
-        /// Converts a Base64 (as a string) to an Bitmap.
-        /// Tip from David McCarter, see: http://www.vsdntips.com/Tips/VS.NET/Csharp/76.aspx
-        /// </summary>
-        /// <param name="imageText">The image represented as a Base64 String</param>
-        /// <returns>An Bitmap with the image</returns>
-        private Bitmap Base64StringToBitmap(string imageText)
-        {
-            Bitmap image = null;
-            if (imageText.Length > 0)
-            {
-                /*
-                This could be used to remove all (if any) \r\n and spaces 
-                System.Text.StringBuilder sbText = new System.Text.StringBuilder(Image,Image.Length);
-                sbText.Replace("\r\n", String.Empty);
-                sbText.Replace(" ", String.Empty);
-                */
-                Byte[] bitmapData = new Byte[imageText.Length];
-                bitmapData = Convert.FromBase64String(imageText);
-                System.IO.MemoryStream streamBitmap = new System.IO.MemoryStream(bitmapData);
-                image = new Bitmap((Bitmap)Image.FromStream(streamBitmap));
-            }
-            return image;
         }
 
         /// <summary>
