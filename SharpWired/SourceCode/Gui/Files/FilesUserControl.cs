@@ -97,7 +97,7 @@ namespace SharpWired.Gui.Files
         public void Init(LogicManager logicManager)
         {
             this.logicManager = logicManager;
-            GuiFilesController filesController = new GuiFilesController(this.logicManager, fileTreeControl, fileDetailsControl);
+            GuiFilesController filesController = new GuiFilesController(this.logicManager, fileTreeControl, fileDetailsControl, pathButtonControl);
         }
 
         /// <summary>

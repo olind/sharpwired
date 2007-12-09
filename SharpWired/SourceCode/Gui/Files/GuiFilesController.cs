@@ -60,17 +60,8 @@ namespace SharpWired.Gui.Files
         /// </param>
         public void RequestNodeDownload(object sender, FileSystemEntry node)
         {
-			TransferRequestEventArgs args = new TransferRequestEventArgs(node);
-            if (RequestNodeDownloadEvent != null)
-            {
-                RequestNodeDownloadEvent(sender, args);
-            }
+            logicManager.FileTransferHandler.EnqueEntry(node);
         }
-
-        /// <summary>
-        /// Raised when a file or folder is requested for download
-        /// </summary>
-		public event EventHandler<TransferRequestEventArgs> RequestNodeDownloadEvent;
 
         /// <summary>
         /// Raised when the selected node has changed
@@ -86,7 +77,6 @@ namespace SharpWired.Gui.Files
             ChangeSelectedNode(sender, this.logicManager.FileListingHandler.FileListingModel.RootNode);
         }
 
-
         /// <summary>
         /// Constructor - Inits the other GUI-classes
         /// </summary>
@@ -94,19 +84,21 @@ namespace SharpWired.Gui.Files
         /// <param name="fileTreeControl"></param>
         /// <param name="fileDetailsControl"></param>
         public GuiFilesController(LogicManager logicManager, 
-            FileTreeControl fileTreeControl, FileDetailsControl fileDetailsControl)
+            FileTreeControl fileTreeControl, FileDetailsControl fileDetailsControl, PathButtonControl pathButtonControl)
         {
             this.logicManager = logicManager;
             fileTreeControl.Init(logicManager, this);
             fileDetailsControl.Init(this);
+            pathButtonControl.Init(this);
+            
 
             // Attach listeners to other GUI files
             this.SelectedFolderNodeChangedEvent+=new EventHandler<WiredNodeArgs>(fileDetailsControl.OnFolderNodeChanged);
+            this.SelectedFolderNodeChangedEvent += new EventHandler<WiredNodeArgs>(pathButtonControl.OnFolderNodeChanged);
             logicManager.FileListingHandler.FileModelUpdatedEvent += new FileListingHandler.FileModelUpdatedDelegate(fileTreeControl.OnNewNodesAdded);
             // To get the initial listing in the details view
             logicManager.FileListingHandler.FileModelUpdatedEvent+=new FileListingHandler.FileModelUpdatedDelegate(fileDetailsControl.OnRootNodeInitialized);
-
-			RequestNodeDownloadEvent += new EventHandler<TransferRequestEventArgs>(logicManager.FileTransferHandler.RequstDownloadHandler);
+            logicManager.FileListingHandler.FileModelUpdatedEvent += new FileListingHandler.FileModelUpdatedDelegate(pathButtonControl.OnRootNodeInitialized);
         }
     }
 }

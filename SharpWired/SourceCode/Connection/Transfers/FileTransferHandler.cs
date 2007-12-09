@@ -259,7 +259,7 @@ namespace SharpWired.Connection.Transfers
 		/// Enqueue if file. Else?!
 		/// </summary>
 		/// <param name="fileSystemEntry">The File Model node.</param>
-		private void EnqueEntry(FileSystemEntry fileSystemEntry)
+		public void EnqueEntry(FileSystemEntry fileSystemEntry)
 		{
 			if (fileSystemEntry is FileNode)
 				this.EnqueueDownload(null, fileSystemEntry as FileNode, null);
