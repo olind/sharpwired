@@ -1,6 +1,4 @@
 /*
- * pw0nage by pethol!!
- * 
  * SecureSocket.cs 
  * Created by Ola Lindberg, 2006-06-20
  * 
@@ -35,6 +33,7 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 
 using SharpWired;
+using System.IO;
 
 namespace SharpWired.Connection.Sockets
 {
@@ -43,7 +42,7 @@ namespace SharpWired.Connection.Sockets
     /// 
     /// NOTE: This class has derived from the Socio Project. See http://socio.sf.net/
     /// </summary>
-    public class SecureSocket
+    public class BinarySecureSocket
     {
         /// <summary>
         /// Used to create the SSL Stream.
@@ -57,12 +56,12 @@ namespace SharpWired.Connection.Sockets
         /// <summary>
         /// The default size of the buffer to use
         /// </summary>
-        private int buffer_size = 2048;
+        private static int BUFFER_SIZE = 2048;
 
         /// <summary>
         /// Default transmission parameters. Only used internally
         /// </summary>
-        protected static readonly int BUFFER_BLOCK_SIZE = 256;	// The number of bytes to receive in every block
+        protected static readonly int BUFFER_BLOCK_SIZE = 512;	// The number of bytes to receive in every block
 
         /// <summary>
         /// A delegate type for hooking up message received notifications.
@@ -70,26 +69,41 @@ namespace SharpWired.Connection.Sockets
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <param name="message"></param>
-        public delegate void MessageReceivedHandler(object sender, EventArgs e, string message);
+        public delegate void BinaryMessageReceivedHandler(object sender, EventArgs e, byte[] data);
         /// <summary>
         /// Message raised when a message is received from the server
         /// </summary>
-        public event MessageReceivedHandler MessageReceived;
+        public event BinaryMessageReceivedHandler BinaryMessageReceived;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public SecureSocket()
+        public BinarySecureSocket()
         {
-        }
+		}
 
-        /// <summary>
+		internal void Start()
+		{
+		}
+
+		#region Connect
+
+		/// <summary>
+		/// Connects to the server using Connect(Port, MachineName, ServerName).
+		/// </summary>
+		/// <param name="server">The Server to connect to.</param>
+		internal void Connect(Server server, FileStream stream, long fileSize, long offset)
+		{
+			Connect(server.ServerPort, server.MachineName, server.ServerName, stream, fileSize, offset);
+		}
+
+		/// <summary>
         /// Connects the client to the server.
         /// </summary>
         /// <param name="serverPort">The port for the server to use for this connection</param>
         /// <param name="machineName">The host running the server application</param>
         /// <param name="serverName">The machine name for the server, must match the machine name in the server certificate</param>
-        private void Connect(int serverPort, string machineName, string serverName)
+		private void Connect(int serverPort, string machineName, string serverName, FileStream stream, long fileSize, long offset)
         {
 
             // Create a TCP/IP client socket.
@@ -140,11 +154,40 @@ namespace SharpWired.Connection.Sockets
             }
 
             // When we are connected we can now set up our receive mechanism
-            byte[] readBuffer = new byte[buffer_size];
-            sslStream.BeginRead(readBuffer, 0, readBuffer.Length, new AsyncCallback(ReadCallback), readBuffer);
-        }
+            byte[] readBuffer = new byte[BUFFER_SIZE];
+			FileTransferStateObject stateObj = new FileTransferStateObject();
+			stateObj.fileSize = fileSize;
+			stateObj.sslStream = sslStream;
+			stateObj.target = stream;
+			stateObj.transferBuffer = readBuffer;
+			stateObj.transferOffset = offset;
 
-        /// <summary>
+            sslStream.BeginRead(readBuffer, 0, readBuffer.Length, new AsyncCallback(ReadCallback), stateObj);
+		}
+
+		/// <summary>
+		/// Verifies the remote Secure Sockets Layer (SSL) certificate used for authentication.
+		/// </summary>
+		/// <param name="sender">An object that contains state information for this validation.</param>
+		/// <param name="certificate">The certificate used to authenticate the remote party.</param>
+		/// <param name="chain">The chain of certificate authorities associated with the remote certificate.</param>
+		/// <param name="sslPolicyErrors">One or more errors associated with the remote certificate.</param>
+		/// <returns>Returns true all the time, shoulh be: True if the certificate is valid, false otherwise</returns>
+		private bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+		{
+			if (sslPolicyErrors == SslPolicyErrors.None)
+				return true;
+
+			// FIXME: We should trow an exception if the validate is not valid, 
+			//        for now return true anyway
+			return true;
+		}
+		#endregion
+
+
+		#region Send Message
+
+		/// <summary>
         /// Send a message to the server.
         /// </summary>
         /// <param name="message">The message to be sent (without any EOT).</param>
@@ -155,9 +198,11 @@ namespace SharpWired.Connection.Sockets
                 sslStream.Write(messsage);
                 sslStream.Flush();
             }
-        }
+		}
+		#endregion
 
-        /// <summary>
+
+		/// <summary>
         /// Disconnect this connection
         /// </summary>
         public void Disconnect()
@@ -166,72 +211,60 @@ namespace SharpWired.Connection.Sockets
             client.Close();
         }
 
-        /// <summary>
-        /// Verifies the remote Secure Sockets Layer (SSL) certificate used for authentication.
-        /// </summary>
-        /// <param name="sender">An object that contains state information for this validation.</param>
-        /// <param name="certificate">The certificate used to authenticate the remote party.</param>
-        /// <param name="chain">The chain of certificate authorities associated with the remote certificate.</param>
-        /// <param name="sslPolicyErrors">One or more errors associated with the remote certificate.</param>
-        /// <returns>Returns true all the time, shoulh be: True if the certificate is valid, false otherwise</returns>
-        private bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {
-            if (sslPolicyErrors == SslPolicyErrors.None)
-                return true;
 
-			//throw new ValidationException("Could not validate SSL certificate!");
-			// FIXME: We should trow an exception if the validate is not valid, 
-			//        for now return true anyway
-			return true;
-        }
-
-        /// <summary>
+		/// <summary>
         /// The read callback acts as the asynchronous message receive loop.
         /// Note: This code is inspired from Socio (see: socio.sf.net for more information)
         /// </summary>
         /// <param name="result">TODO: !!</param>
         private void ReadCallback(IAsyncResult result)
         {
-            sslStream.EndRead(result);
-            string data_received = Encoding.UTF8.GetString((byte[])result.AsyncState);
+			FileTransferStateObject trans = (FileTransferStateObject)result.AsyncState;
+			int bytesRead = trans.sslStream.EndRead(result);
 
-            string msg;
-            int index_EOT;
-            System.Text.RegularExpressions.Regex eot_regex = new System.Text.RegularExpressions.Regex("[" + Utility.EOT + "]");
-            while (eot_regex.IsMatch(data_received))
-            {
-                // Are there more than one EOTs?
-                index_EOT = data_received.IndexOf(Utility.EOT);
-                msg = data_received.Substring(0, index_EOT);
-                data_received = data_received.Remove(0, index_EOT + 1);
-                MessageReceived(this, null, msg);
-            }
 
-            System.Text.RegularExpressions.Regex alpha_numeric = new System.Text.RegularExpressions.Regex("[a-zA-Z0-9]");
-            if (alpha_numeric.IsMatch(data_received))
-            {
-                // Extend the buffer and continue reading until we receive a complete message
-                byte[] saved_bytes = Encoding.UTF8.GetBytes(data_received);
-                byte[] read_buffer = new byte[buffer_size + saved_bytes.Length];
-                Array.Copy(saved_bytes, read_buffer, saved_bytes.Length);
-                sslStream.BeginRead(read_buffer, saved_bytes.Length, buffer_size, new AsyncCallback(ReadCallback), read_buffer);
-            }
-            else
-            {
-				// What do we do here?!
-                byte[] read_buffer = new byte[buffer_size];
-                sslStream.BeginRead(read_buffer, 0, read_buffer.Length, new AsyncCallback(ReadCallback), read_buffer);
-            }
+			if (bytesRead > 0) // Check if there is any data
+			{
+				trans.transferOffset += bytesRead;
+				// Synchronosly write data to file...
+				// Make sure that when filestream is created it is created so
+				// that data written to it appends to the file...
+				trans.target.Write(trans.transferBuffer, 0, bytesRead);
+
+				// Transfer might not be complete
+				trans.transferBuffer = new byte[BUFFER_SIZE];
+				trans.sslStream.BeginRead(trans.transferBuffer, 0, BUFFER_SIZE,
+					new AsyncCallback(this.ReadCallback), trans);
+			}
+			else
+			{
+				// All data has been received close ssl connection
+				//trans.sslStream.Shutdown();
+				trans.sslStream.Close();
+
+				// Close fileStream
+				trans.target.Close();
+
+				OnChunkRecieved();
+			}
         }
 
+		private void OnChunkRecieved()
+		{
+			if (DataRecivedDoneEvent != null)
+				DataRecivedDoneEvent(this, new DataRecievedEventArgs());
+		}
 
-		/// <summary>
-		/// Connects to the server using Connect(Port, MachineName, ServerName).
-		/// </summary>
-		/// <param name="server">The Server to connect to.</param>
-        internal void Connect(Server server)
-        {
-            Connect(server.ServerPort, server.MachineName, server.ServerName);
-        }
+		public event EventHandler<DataRecievedEventArgs> DataRecivedDoneEvent;
+
+		//FileTransfer classen år tänkt att skickas in som state objekt för överföringen
+		internal class FileTransferStateObject
+		{
+			internal long fileSize; // Number of bytes in the file
+			internal long transferOffset; // Number of bytes transfered
+			internal byte[] transferBuffer = new byte[BUFFER_SIZE]; // A byte buffer for the transfer.
+			internal FileStream target; //The file beng transfered
+			internal SslStream sslStream;
+		}
     }
 }

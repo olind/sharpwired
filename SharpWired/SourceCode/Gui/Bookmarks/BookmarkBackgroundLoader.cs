@@ -20,7 +20,7 @@ namespace SharpWired.Gui.Bookmarks
 		public BookmarkBackgroundLoader()
 		{
 			this.WorkerReportsProgress = true;
-			this.WorkerSupportsCancellation = false;
+			this.WorkerSupportsCancellation = true;
 		}
 
 		/// <summary>
@@ -55,11 +55,12 @@ namespace SharpWired.Gui.Bookmarks
 		/// <param name="arg">The bookmarks to add.</param>
 		private void AddBookmarks(BookmarkLoaderArgument arg)
 		{
-			// This is what takes time.
-			List<Bookmark> bookmarks = BookmarkManager.GetBookmarks();
+			if (BookmarkManager.Bookmarks == null)
+				// This is what takes time.
+				BookmarkManager.GetBookmarks();
 
 			int done = 0;
-			foreach (Bookmark bookmark in bookmarks)
+			foreach (Bookmark bookmark in BookmarkManager.Bookmarks)
 			{
 				ToolStripMenuItem item = new ToolStripMenuItem(bookmark.ToShortString());
 				item.Tag = bookmark;
@@ -70,7 +71,7 @@ namespace SharpWired.Gui.Bookmarks
 
 				// This is just for show ;-)
 				done++;
-				ReportProgress(done / bookmarks.Count, item);
+				ReportProgress(done / BookmarkManager.Bookmarks.Count, item);
 			}
 		}
 

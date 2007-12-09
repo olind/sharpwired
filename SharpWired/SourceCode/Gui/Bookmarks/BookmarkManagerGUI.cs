@@ -47,9 +47,10 @@ namespace SharpWired.Gui.Bookmarks
 			try
 			{
 				bookmarkList.Clear();
-				List<Bookmark> bookmarks = BookmarkManager.GetBookmarks();
+				if (BookmarkManager.Bookmarks == null)
+					BookmarkManager.GetBookmarks();
 				
-				foreach (Bookmark bookmark in bookmarks)
+				foreach (Bookmark bookmark in BookmarkManager.Bookmarks)
 				{
 					if (bookmark != null)
 					{

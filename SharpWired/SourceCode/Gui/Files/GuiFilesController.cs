@@ -60,17 +60,17 @@ namespace SharpWired.Gui.Files
         /// </param>
         public void RequestNodeDownload(object sender, FileSystemEntry node)
         {
-            WiredNodeArgs nodeArgs = new WiredNodeArgs(node);
+			TransferRequestEventArgs args = new TransferRequestEventArgs(node);
             if (RequestNodeDownloadEvent != null)
             {
-                RequestNodeDownloadEvent(sender, nodeArgs);
+                RequestNodeDownloadEvent(sender, args);
             }
         }
 
         /// <summary>
         /// Raised when a file or folder is requested for download
         /// </summary>
-        public event EventHandler<WiredNodeArgs> RequestNodeDownloadEvent;
+		public event EventHandler<TransferRequestEventArgs> RequestNodeDownloadEvent;
 
         /// <summary>
         /// Raised when the selected node has changed
@@ -105,6 +105,8 @@ namespace SharpWired.Gui.Files
             logicManager.FileListingHandler.FileModelUpdatedEvent += new FileListingHandler.FileModelUpdatedDelegate(fileTreeControl.OnNewNodesAdded);
             // To get the initial listing in the details view
             logicManager.FileListingHandler.FileModelUpdatedEvent+=new FileListingHandler.FileModelUpdatedDelegate(fileDetailsControl.OnRootNodeInitialized);
+
+			RequestNodeDownloadEvent += new EventHandler<TransferRequestEventArgs>(logicManager.FileTransferHandler.RequstDownloadHandler);
         }
     }
 }

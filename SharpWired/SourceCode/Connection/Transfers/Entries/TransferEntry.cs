@@ -53,5 +53,6 @@ namespace SharpWired.Connection.Transfers.Entries
 			set { mServer = value; }
 		}
 		#endregion
+
 	}
 }

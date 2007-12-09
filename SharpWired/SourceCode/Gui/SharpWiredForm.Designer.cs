@@ -56,7 +56,6 @@ namespace SharpWired.Gui
         private void InitializeComponent()
         {
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SharpWiredForm));
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,7 +89,6 @@ namespace SharpWired.Gui
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel_ServerStatus = new System.Windows.Forms.ToolStripStatusLabel();
 			this.mBookmarkLoadingTimer = new System.Windows.Forms.Timer(this.components);
-			this.mTestDownloadButton = new System.Windows.Forms.ToolStripButton();
 			this.menuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -317,8 +315,7 @@ namespace SharpWired.Gui
             this.newsToolStripButton,
             this.filesToolStripButton,
             this.transfersToolStripButton,
-            this.ExitToolStripButton,
-            this.mTestDownloadButton});
+            this.ExitToolStripButton});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 24);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(617, 25);
@@ -391,16 +388,6 @@ namespace SharpWired.Gui
 			// 
 			this.mBookmarkLoadingTimer.Tick += new System.EventHandler(this.mBookmarkLoadingTimer_Tick);
 			// 
-			// mTestDownloadButton
-			// 
-			this.mTestDownloadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.mTestDownloadButton.Image = ((System.Drawing.Image)(resources.GetObject("mTestDownloadButton.Image")));
-			this.mTestDownloadButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.mTestDownloadButton.Name = "mTestDownloadButton";
-			this.mTestDownloadButton.Size = new System.Drawing.Size(23, 22);
-			this.mTestDownloadButton.Text = "Test Download";
-			this.mTestDownloadButton.Click += new System.EventHandler(this.mTestDownloadButton_Click);
-			// 
 			// SharpWiredForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -464,7 +451,6 @@ namespace SharpWired.Gui
         private SharpWired.Gui.Files.FilesUserControl filesUserControl1;
 		private System.Windows.Forms.ToolStripMenuItem mLoadingToolStripMenuItem;
 		private System.Windows.Forms.Timer mBookmarkLoadingTimer;
-		private System.Windows.Forms.ToolStripButton mTestDownloadButton;
     }
 }
 

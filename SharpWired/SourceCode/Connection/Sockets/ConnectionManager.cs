@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Text;
 using SharpWired.Connection.Sockets;
 using SharpWired.Connection.Bookmarks;
+using System.IO;
 
 namespace SharpWired.Connection
 {
@@ -52,7 +53,12 @@ namespace SharpWired.Connection
 		/// <summary>
 		/// The socket for this connection.
 		/// </summary>
-		private SecureSocket commandSocket; 
+		private SecureSocket commandSocket;
+
+		/// <summary>
+		/// For Files-transfers.
+		/// </summary>
+		protected BinarySecureSocket binarySocket;
 		#endregion
 
 
@@ -126,10 +132,29 @@ namespace SharpWired.Connection
 		/// </remarks>
 		/// <param name="bookmark">The Bookmark to use as base.</param>
 		/// <returns>A new Bookmark.</returns>
-		internal Bookmark MakeTransferBookmark(Bookmark bookmark)
+		private Bookmark MakeTransferBookmark(Bookmark bookmark)
 		{
 			Server server = new Server(bookmark.Server.ServerPort + 1, bookmark.Server.MachineName, bookmark.Server.ServerName);
 			return new Bookmark(server, bookmark.UserInformation);
+		}
+
+		/// <summary>
+		/// Should only give out this once.
+		/// </summary>
+		/// <returns>A BinarySecureSocket</returns>
+		private BinarySecureSocket GetFileTransferSocket()
+		{
+			if (binarySocket == null)
+				binarySocket = new BinarySecureSocket();
+			return binarySocket;
+		}
+
+		internal BinarySecureSocket ConnectFileTransfer(FileStream fileStream, long fileSize, long offset)
+		{
+			Bookmark bookmark = MakeTransferBookmark(CurrentBookmark);
+			BinarySecureSocket binarySocket = GetFileTransferSocket();
+			binarySocket.Connect(bookmark.Server, fileStream, fileSize, offset);
+			return binarySocket;
 		}
 	}
 }

@@ -44,9 +44,24 @@ namespace SharpWired.Connection.Bookmarks
 	class BookmarkManager
 	{
 		#region Fields
+		
 		private static string BookmarkFileName = "Bookmarks.wwb";
 		private static string BookmarkFolder = Application.UserAppDataPath;
 		private static string BookmarkFileFullName;
+		#endregion
+
+
+		#region Properties
+
+		private static List<Bookmark> bookmarks;
+		/// <summary>
+		/// Get/Set the list of Bookmarks.
+		/// </summary>
+		public static List<Bookmark> Bookmarks
+		{
+			get { return bookmarks; }
+			set { bookmarks = value; }
+		}
 		#endregion
 
 
@@ -67,18 +82,24 @@ namespace SharpWired.Connection.Bookmarks
 			if (dir.Parent != null)
 				BookmarkFolder = dir.Parent.FullName;
 			BookmarkFileFullName = Path.Combine(BookmarkFolder, BookmarkFileName);
+
+			// Takes time...
+			GetBookmarks();
 		} 
 		#endregion
 
 
 		#region Get bookmarks
+
+		private static object BookmarkLock = new object();
+
 		/// <summary>
 		/// Gets a List of Bookmarks. Only one caller at a time!
 		/// </summary>
 		/// <returns></returns>
 		public static List<Bookmark> GetBookmarks()
 		{
-			lock (typeof(BookmarkManager))
+			lock (BookmarkLock)
 			{
 
 				FileInfo file = new FileInfo(BookmarkFileFullName);
@@ -89,14 +110,14 @@ namespace SharpWired.Connection.Bookmarks
 				if (file != null && file.Exists)
 				{
 					Bookmark[] bms = LoadBookmarks(file);
-					List<Bookmark> list = new List<Bookmark>(bms);
-					return list;
+					bookmarks = new List<Bookmark>(bms);
+					return bookmarks;
 				}
 				else
 				{
 					throw new BookmarkException("Could not load the bookmarks from file: "
 							+ BookmarkFileFullName
-							+ ", becouse the file didn't exist, not was it created!");
+							+ ", because the file didn't exist, nor was it created!");
 				}
 			}
 		}
@@ -120,26 +141,26 @@ namespace SharpWired.Connection.Bookmarks
 		/// <param name="allowDuplicate">If false, no bookmarks are saves if theres a duplicate.</param>
 		/// <returns>True if succeded. False if not saved becouse of adding duplicates.</returns>
 		/// <remarks>Reads the bookmark file and add the bookmark to the list, then saves the file.</remarks>
-		public static bool AddBookmarks(Bookmark[] bookmarks, bool allowDuplicate)
+		public static bool AddBookmarks(Bookmark[] marksToAdd, bool allowDuplicate)
 		{
 			lock (typeof(BookmarkManager))
 			{
 				try
 				{
 					bool save = true;
-					List<Bookmark> bms = GetBookmarks();
-					foreach (Bookmark bm in bookmarks)
+					//List<Bookmark> bms = GetBookmarks();
+					foreach (Bookmark bm in marksToAdd)
 					{
-						if (!allowDuplicate && bms.Contains(bm))
+						if (!allowDuplicate && bookmarks.Contains(bm))
 						{
 							save = false;
 							break;
 						}
-						bms.Add(bm);
+						bookmarks.Add(bm);
 					}
 					if (save)
 					{
-						SaveBookmarks(bms, new FileInfo(BookmarkFileFullName));
+						SaveBookmarks(bookmarks, new FileInfo(BookmarkFileFullName));
 						return true;
 					}
 					return false;
@@ -166,11 +187,11 @@ namespace SharpWired.Connection.Bookmarks
 			{
 				try
 				{
-					List<Bookmark> bms = GetBookmarks();
-					if (bms.Contains(bookmark))
+					//List<Bookmark> bms = GetBookmarks();
+					if (bookmarks.Contains(bookmark))
 					{
-						bms.Remove(bookmark);
-						SaveBookmarks(bms, new FileInfo(BookmarkFileFullName));
+						bookmarks.Remove(bookmark);
+						SaveBookmarks(bookmarks, new FileInfo(BookmarkFileFullName));
 						return bookmark;
 					}
 					return null;

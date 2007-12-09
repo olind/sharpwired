@@ -65,6 +65,8 @@ namespace SharpWired.Gui
             chatUserControl1.Init(logicManager);
             newsUserControl1.Init(logicManager);
             filesUserControl1.Init(logicManager);
+
+			BookmarkManager.GetBookmarks();
         }
 
         private void Exit(object sender)
@@ -296,10 +298,5 @@ namespace SharpWired.Gui
                     tabControl1.SelectedTab = tp;
             }
         }
-
-		private void mTestDownloadButton_Click(object sender, EventArgs e)
-		{
-			logicManager.FileTransferHandler.StartTestDownload();
-		}
     }
 }
