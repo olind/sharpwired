@@ -151,6 +151,21 @@ namespace SharpWired.Gui.Files
             }
         }
 
+        /// <summary>
+        /// Handle right clicking
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void listView1_MouseClick(object sender, MouseEventArgs e)
+        {
+            // We use right click to download for now at least
+            if (e.Button == MouseButtons.Right)
+            {
+                WiredListNode node = (WiredListNode)listView1.GetItemAt(e.X, e.Y);
+                guiFilesController.RequestNodeDownload(this, node.ModelNode);
+            }
+        }
+
         private void listView1_KeyUp(object sender, KeyEventArgs e)
         {
             /*

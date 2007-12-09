@@ -51,6 +51,28 @@ namespace SharpWired.Gui.Files
         }
 
         /// <summary>
+        /// Call to request a download of a node
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="node">The node where download should begin. 
+        ///     All subnodes will be requested as well.
+        ///     Note: All subnodes might not be loaded from model yet
+        /// </param>
+        public void RequestNodeDownload(object sender, FileSystemEntry node)
+        {
+            WiredNodeArgs nodeArgs = new WiredNodeArgs(node);
+            if (RequestNodeDownloadEvent != null)
+            {
+                RequestNodeDownloadEvent(sender, nodeArgs);
+            }
+        }
+
+        /// <summary>
+        /// Raised when a file or folder is requested for download
+        /// </summary>
+        public event EventHandler<WiredNodeArgs> RequestNodeDownloadEvent;
+
+        /// <summary>
         /// Raised when the selected node has changed
         /// </summary>
         public event EventHandler<WiredNodeArgs> SelectedFolderNodeChangedEvent;
