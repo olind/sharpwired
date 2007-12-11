@@ -45,11 +45,6 @@ namespace SharpWired.Model.Files
         private string parentPath;
         private string name;
         private string[] pathArray;
-        /// <summary>
-        /// This little string is used to separate folders and files in paths.
-        /// Like PATHSEPARATOR Folder PATHSEPARATOR File.
-        /// </summary>
-        public static string PATH_SEPARATOR = "/";
         #endregion
 
         #region Properties
@@ -171,7 +166,7 @@ namespace SharpWired.Model.Files
 		/// <returns>Something like { "folder", "hejsan", "file.fil" }.</returns>
 		public static string[] SplitPath(string path)
 		{
-			string[] pathArray = path.Split(PATH_SEPARATOR[0]);
+			string[] pathArray = path.Split(SharpWired.Utility.PATH_SEPARATOR[0]);
 			return pathArray;
 		}
 
@@ -188,7 +183,7 @@ namespace SharpWired.Model.Files
 			{
 				if (i == 0)
 				{
-					buildPath.Append(PATH_SEPARATOR); //Avoids the first element to have 2 slashes "//"
+                    buildPath.Append(SharpWired.Utility.PATH_SEPARATOR); //Avoids the first element to have 2 slashes "//"
 				}
 				else if (i == pathArray.Length - 2)
 				{
@@ -196,7 +191,7 @@ namespace SharpWired.Model.Files
 				}
 				else
 				{
-					buildPath.Append(pathArray[i] + PATH_SEPARATOR); //All non root or non last elements
+                    buildPath.Append(pathArray[i] + SharpWired.Utility.PATH_SEPARATOR); //All non root or non last elements
 				}
 			}
 			return buildPath.ToString();

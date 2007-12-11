@@ -1,6 +1,6 @@
 namespace SharpWired.Gui.Files
 {
-    partial class PathButtonControl
+    partial class BreadCrumbControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -39,12 +39,12 @@ namespace SharpWired.Gui.Files
             this.flowLayoutPanel1.Size = new System.Drawing.Size(150, 150);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
-            // PathButtonControl
+            // BreadCrumbControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Name = "PathButtonControl";
+            this.Name = "BreadCrumbControl";
             this.ResumeLayout(false);
 
         }

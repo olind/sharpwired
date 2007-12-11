@@ -31,7 +31,7 @@ namespace SharpWired.Gui.Files
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.fileTreeControl = new SharpWired.Gui.Files.FileTreeControl();
             this.fileDetailsControl = new SharpWired.Gui.Files.FileDetailsControl();
-            this.pathButtonControl = new SharpWired.Gui.Files.PathButtonControl();
+            this.pathButtonControl = new SharpWired.Gui.Files.BreadCrumbControl();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -101,6 +101,6 @@ namespace SharpWired.Gui.Files
         private System.Windows.Forms.SplitContainer splitContainer1;
         private FileDetailsControl fileDetailsControl;
         private FileTreeControl fileTreeControl;
-        private PathButtonControl pathButtonControl;
+        private BreadCrumbControl pathButtonControl;
     }
 }

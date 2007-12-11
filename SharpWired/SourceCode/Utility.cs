@@ -38,6 +38,12 @@ namespace SharpWired
     /// </summary>
     public static class Utility
     {
+        /// <summary>
+        /// This little string is used to separate folders and files in paths.
+        /// Like PATHSEPARATOR Folder PATHSEPARATOR File.
+        /// </summary>
+        public static string PATH_SEPARATOR = "/";
+
         /// <summary> 
         /// Get ASCII EOT  
         ///</summary>

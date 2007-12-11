@@ -57,6 +57,17 @@ namespace SharpWired.Model.Files
 
 		#region Search Node
 
+
+        /// <summary>
+        /// Gets the node at the given path.
+        /// </summary>
+        /// <param name="requestedNodePath">The path from were to get the node</param>
+        /// <returns></returns>
+        public FileSystemEntry GetNode(string requestedNodePath)
+        {
+            return GetNode(requestedNodePath, rootNode);
+        }
+
 		/// <summary>
         /// Gets the node at the given nodePath
         /// </summary>
