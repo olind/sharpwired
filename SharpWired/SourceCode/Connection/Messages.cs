@@ -1220,7 +1220,8 @@ namespace SharpWired.Connection
             string argument = msg.Substring(4);
 
             // Switch on the message identifier and call the proper event
-            System.Diagnostics.Debug.WriteLine("Starting switch on msgId: " + msgId + " with argument: " + argument);
+            if(msgId != 320 && msgId != 321 && msgId != 410 && msgId != 411) //Messages spamming console
+                System.Diagnostics.Debug.WriteLine("Starting switch on msgId: " + msgId + " with argument: " + argument);
             switch (msgId)
             {
                 case 200:

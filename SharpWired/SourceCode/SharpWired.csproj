@@ -294,6 +294,7 @@
     <Compile Include="Model\News\NewsHandler.cs" />
     <Compile Include="Model\News\NewsModel.cs" />
     <Compile Include="Model\News\NewsObject.cs" />
+    <Compile Include="Model\ServerInformation.cs" />
     <Compile Include="Utils\Pair.cs" />
     <None Include="Icons\Tango22px\system-log-out.png" />
   </ItemGroup>

@@ -67,6 +67,31 @@ namespace SharpWired.Gui
             filesUserControl1.Init(logicManager);
 
 			BookmarkManager.GetBookmarks();
+
+            logicManager.ServerInformation.ServerOnlineStatusChangedEvent += new ServerInformation.ServerOnlineStatusChangedDelegate(ServerInformation_ServerOnlineStatusChangedEvent);
+        }
+
+        /// <summary>
+        /// The server information was changed
+        /// </summary>
+        /// <param name="connected"></param>
+        void ServerInformation_ServerOnlineStatusChangedEvent(bool connected)
+        {
+            if (connected)
+            {
+                StringBuilder onlineMessage = new StringBuilder();
+                onlineMessage.Append("Connected");
+                if (logicManager.ServerInformation.ServerName != "")
+                {
+                    onlineMessage.Append(" to: " + logicManager.ServerInformation.ServerName);
+                }
+
+                UpdateToolStripText(onlineMessage.ToString());
+            }
+            else
+            {
+                UpdateToolStripText("Disconnected");
+            }
         }
 
         private void Exit(object sender)
@@ -76,7 +101,7 @@ namespace SharpWired.Gui
 
         private void Disconnect(object sender)
         {
-            logicManager.ConnectionManager.Commands.Leave(1);
+            logicManager.Disconnect();
             //TODO: Clear all the data from the previous connection
         }
 
@@ -298,5 +323,26 @@ namespace SharpWired.Gui
                     tabControl1.SelectedTab = tp;
             }
         }
+
+        #region Thread safe manipulation
+        /// <summary>
+        /// Thread safe update the first item in the toolstrip list. 
+        /// </summary>
+        /// <param name="text"></param>
+        private void UpdateToolStripText(String text)
+        {
+            if (this.InvokeRequired)
+            {
+                UpdateToolStripTextCallback callback = new UpdateToolStripTextCallback(UpdateToolStripText);
+                this.Invoke(callback, new object[] { text });
+            }
+            else
+            {
+                ToolStripItem[] toolstrips = this.statusStrip1.Items.Find("toolStripStatusLabel_ServerStatus",true);
+                toolstrips[0].Text = text;
+            }
+        }
+        delegate void UpdateToolStripTextCallback(String text);
+        #endregion
     }
 }

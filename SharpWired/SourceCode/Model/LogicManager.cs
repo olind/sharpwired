@@ -53,6 +53,7 @@ namespace SharpWired.Model
         private NewsHandler newsHandler;
         private FileListingHandler fileListingHandler;
 		private FileTransferHandler fileTransferHandler;
+        private ServerInformation serverInformation;
 
         #endregion
 
@@ -64,6 +65,14 @@ namespace SharpWired.Model
         public ConnectionManager ConnectionManager
         {
             get { return connectionManager; }
+        }
+
+        /// <summary>
+        /// Get the server information
+        /// </summary>
+        public ServerInformation ServerInformation
+        {
+            get { return serverInformation; }
         }
 
         /// <summary>
@@ -127,17 +136,18 @@ namespace SharpWired.Model
         #endregion
 
         #region Events listeners: from connection layer
-
         void Messages_LoginSucceededEvent(object sender, global::SharpWired.MessageEvents.MessageEventArgs_201 messageEventArgs)
         {
-            //TODO: Is it good to set the user icon here?
-            //When we are logged in set the icon
+            //TODO: We shouldn't set the user icon here but instead have
+            //      some user object so we can change the icon. Maybe by setting the
+            //      icon on the bookmark.
             SharpWired.Gui.Resources.Icons.IconHandler iconHandler = new SharpWired.Gui.Resources.Icons.IconHandler();
             connectionManager.Commands.Icon(1, iconHandler.UserImage);
 
             chatHandler.Init(connectionManager);
             newsHandler.Init(connectionManager);
             fileListingHandler.Init(connectionManager);
+            serverInformation.Connected = true;
         }
 
         void Messages_LoginFailedEvent(object sender, global::SharpWired.MessageEvents.MessageEventArgs_Messages messageEventArgs)
@@ -145,11 +155,26 @@ namespace SharpWired.Model
             throw new Exception("The method or operation is not implemented.");
         }
 
+        /// <summary>
+        /// Listen to server information
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="messageEventArgs"></param>
         void Messages_ServerInformationEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_200 messageEventArgs)
         {
-            Console.WriteLine("Server information was received: " + messageEventArgs.ServerName); //TODO
+            serverInformation.Init(messageEventArgs);
         }
+        #endregion
 
+        #region Commands to server
+        /// <summary>
+        /// Dissconnect from the server
+        /// </summary>
+        public void Disconnect()
+        {
+            connectionManager.Commands.Leave(1);
+            serverInformation.Connected = false;
+        }
         #endregion
 
         #region Initialization
@@ -165,6 +190,7 @@ namespace SharpWired.Model
             newsHandler = new NewsHandler(this);
             fileListingHandler = new FileListingHandler(this);
 			fileTransferHandler = new FileTransferHandler(this);
+            serverInformation = new ServerInformation();
         }
         #endregion
     }
