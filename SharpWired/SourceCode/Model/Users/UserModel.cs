@@ -81,6 +81,7 @@ namespace SharpWired.Model.Users
                 UserItem leftUser = GetUser(messageEventArgs.UserId);
                 this.userList.Remove(leftUser);
                 this.OnClientLeavEvent(leftUser);
+                //TODO: Should we delete the user on the server if we have privileges?
             }
         }
 
@@ -111,18 +112,34 @@ namespace SharpWired.Model.Users
 
         #endregion
 
-
         /// <summary>
-        /// Gets the user with the given user name
+        /// Gets the user with the given user id
         /// </summary>
-        /// <param name="userId">The UserId for the user</param>
-        /// <returns>The user with the given user name, null if no user is found</returns>
+        /// <param name="userId">The UserId for the searched user</param>
+        /// <returns>The UserItem with the given user name, null if no user is found</returns>
         public UserItem GetUser(int userId)
         {
             foreach (UserItem u in userList)
             {
                 if (userId == u.UserId)
                     return u;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the user with the given user login name
+        /// </summary>
+        /// <param name="userName">The login for the searched user</param>
+        /// <returns>The UserItem with the given user name, null if no user is found</returns>
+        public UserItem GetUser(string login)
+        {
+            foreach (UserItem u in userList)
+            {
+                if (login == u.Login)
+                {
+                    return u;
+                }
             }
             return null;
         }

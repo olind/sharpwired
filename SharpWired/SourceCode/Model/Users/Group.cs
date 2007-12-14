@@ -36,6 +36,7 @@ namespace SharpWired.Model.Users
     public class Group
     {
         private Privileges privileges;
+        private string name;
 
         /// <summary>
         /// Get or set the privileges for this group
@@ -50,6 +51,26 @@ namespace SharpWired.Model.Users
             {
                 this.privileges = value;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the name of this group
+        /// </summary>
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+	
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="privileges"></param>
+        public Group(String name, Privileges privileges)
+        {
+            this.name = name;
+            this.privileges = privileges;
         }
     }
 }

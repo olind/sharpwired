@@ -51,7 +51,7 @@ namespace SharpWired.Model.Users
         private string status;
         private int userId;
 
-        private Privileges privileges;
+        private Privileges userPrivileges;
         private Group group;
 
         #endregion
@@ -163,13 +163,19 @@ namespace SharpWired.Model.Users
             set { userId = value; }
         }
 
+        //TODO: We can now get the user privileges and the group privileges
+        //      but instead it would be nice to be able to get the values
+        //      for if a user can do the requested action or not (based on group 
+        //      AND user privileges).
+        //      The group privileges overrides the user privileges.
+
         /// <summary>
         /// Get or set the privileges for this user
         /// </summary>
-        public Privileges Privileges
+        public Privileges UserPrivileges
         {
-            get { return privileges; }
-            set { privileges = value; }
+            get { return userPrivileges; }
+            set { userPrivileges = value; }
         }
 
         /// <summary>

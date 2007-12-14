@@ -39,7 +39,7 @@ namespace SharpWired.MessageEvents
         private string name;
 
         /// <summary>
-        /// Get the name for this group
+        /// Get the name for this user or group
         /// </summary>
         public string Name
         {
@@ -60,7 +60,6 @@ namespace SharpWired.MessageEvents
             : base(messageId, messageName, privileges)
         {
             this.name = name;
-            //TODO: We should do something with the privileges mask
         }
     }
 }

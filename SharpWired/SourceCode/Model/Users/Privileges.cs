@@ -72,6 +72,10 @@ namespace SharpWired.Model.Users
             {
                 return userName;
             }
+            set
+            {
+                userName = value;
+            }
         }
 
         /// <summary>
@@ -454,9 +458,41 @@ namespace SharpWired.Model.Users
         }
 
         /// <summary>
+        /// Update this users privileges with the given privileges 
+        /// </summary>
+        /// <param name="p">The updated privileges</param>
+        public void UpdatePrivileges(Privileges p)
+        {
+            this.AlterFiles = p.AlterFiles;
+            this.BanUsers = p.BanUsers;
+            this.Broadcast = p.Broadcast;
+            this.CannotBeKicked = p.CannotBeKicked;
+            this.ChangeTopic = p.ChangeTopic;
+            this.clearNews = p.ClearNews;
+            this.CreateAccounts = p.CreateAccounts;
+            this.CreateFolders = p.CreateFolders;
+            this.DeleteAccounts = p.DeleteAccounts;
+            this.DeleteFiles = p.DeleteFiles;
+            this.Download = p.Download;
+            this.DownloadLimit = p.DownloadLimit;
+            this.DownloadSpeed = p.DownloadSpeed;
+            this.EditAccounts = p.EditAccounts;
+            this.ElevatePrivileges = p.ElevatePrivileges;
+            this.GetUserInfo = p.GetUserInfo;
+            this.KickUsers = p.KickUsers;
+            this.PostNews = p.PostNews;
+            this.Upload = p.Upload;
+            this.UploadAnywhere = p.UploadAnywhere;
+            this.UploadLimit = p.UploadLimit;
+            this.UploadSpeed = p.UploadSpeed;
+            this.UserName = p.UserName;
+            this.ViewDropboxes = p.ViewDropboxes;
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="userName">This privileges are for the user vith this name</param>
+        /// <param name="userName">This privileges are for the user with this name</param>
         /// <param name="privilegesString">The string from Wired that contains the privileges. Wired protocol 1.1.</param>
         public Privileges(string userName, string privilegesString) : this (privilegesString)
         {

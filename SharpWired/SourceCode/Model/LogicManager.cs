@@ -54,6 +54,7 @@ namespace SharpWired.Model
         private FileListingHandler fileListingHandler;
 		private FileTransferHandler fileTransferHandler;
         private ServerInformation serverInformation;
+        private GroupHandler groupHandler;
 
         #endregion
 
@@ -187,11 +188,13 @@ namespace SharpWired.Model
             connectionManager = new ConnectionManager();
             chatHandler = new ChatHandler(this);
             userHandler = new UserHandler(this);
+            groupHandler = new GroupHandler(this);
             newsHandler = new NewsHandler(this);
             fileListingHandler = new FileListingHandler(this);
 			fileTransferHandler = new FileTransferHandler(this);
             serverInformation = new ServerInformation();
         }
+
         #endregion
     }
 }

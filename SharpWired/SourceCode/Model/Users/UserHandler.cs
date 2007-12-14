@@ -86,7 +86,17 @@ namespace SharpWired.Model.Users
 
         void Messages_UserSpecificationEvent(object sender, MessageEventArgs_600 messageEventArgs)
         {
-            throw new Exception("The method or operation is not implemented.");
+            //TODO: This retreives account information and not online user information
+            //      Implement when we are building the server account information handler
+        }
+
+        void Messages_PrivilegesSpecificationEvent(object sender, MessageEventArgs_602 messageEventArgs)
+        {
+            UserItem u = userModel.GetUser(messageEventArgs.Privileges.UserName);
+            if (u != null)
+            {
+                u.UserPrivileges.UpdatePrivileges(messageEventArgs.Privileges);
+            }
         }
 
         void Messages_StatusChangeEvent(object sender, MessageEventArgs_304 messageEventArgs)
@@ -148,7 +158,9 @@ namespace SharpWired.Model.Users
             LogicManager.ConnectionManager.Messages.ClientImageChangedEvent += new Messages.ClientImageChangedEventHandler(Messages_ClientImageChangedEvent);
             LogicManager.ConnectionManager.Messages.ClientInformationEvent += new Messages.ClientInformationEventHandler(Messages_ClientInformationEvent);
             LogicManager.ConnectionManager.Messages.StatusChangeEvent += new Messages.StatusChangeEventHandler(Messages_StatusChangeEvent);
+            
             LogicManager.ConnectionManager.Messages.UserSpecificationEvent += new Messages.UserSpecificationEventHandler(Messages_UserSpecificationEvent);
+            logicManager.ConnectionManager.Messages.PrivilegesSpecificationEvent += new Messages.PrivilegesSpecificationEventHandler(Messages_PrivilegesSpecificationEvent);
         }
 
         #endregion
