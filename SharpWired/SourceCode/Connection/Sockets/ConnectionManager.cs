@@ -30,6 +30,7 @@ using System.Text;
 using SharpWired.Connection.Sockets;
 using SharpWired.Connection.Bookmarks;
 using System.IO;
+using System.Net.Sockets;
 
 namespace SharpWired.Connection
 {
@@ -112,10 +113,20 @@ namespace SharpWired.Connection
 		/// <param name="bookmark">The info about Server and UserInformation.</param>
         public void Connect(Bookmark bookmark)
         {
-            commandSocket.Connect(bookmark.Server);
-            commands.InitConnection(bookmark.UserInformation);
-			mCurrentBookmark = bookmark;
+            try
+            {
+                commandSocket.Connect(bookmark.Server);
+                commands.InitConnection(bookmark.UserInformation);
+                mCurrentBookmark = bookmark;
+            }
+            catch (ConnectionException ce)
+            {
+                ce.Bookmark = bookmark;
+                throw (ce);
+            }
         }
+
+        
 
 		/// <summary>
 		/// Increases the port number for the server by one, so that it corresponds

@@ -101,16 +101,26 @@ namespace SharpWired.Connection.Sockets
             }
             catch (ArgumentNullException argExp)
             {
-                throw new ConnectionException("Host or machine name is null", argExp);
+                throw new ConnectionException("HostOrMachineNameIsNull", argExp);
             }
             catch (ArgumentOutOfRangeException argORExp)
             {
-                throw new ConnectionException ("The Port is incorrect", argORExp);
+                throw new ConnectionException ("ThePortIsIncorrect", argORExp);
             }
             catch (SocketException argSExp)
             {
-                //argSExp.SocketErrorCode == HostNotFound
-                throw new ConnectionException("There is a problem with the Socket", argSExp );
+                //For error messages see: http://msdn2.microsoft.com/en-us/library/ms740668.aspx
+                StringBuilder errorMessage = new StringBuilder();
+                if (argSExp.ErrorCode == 11001)
+                {
+                    errorMessage.Append("HostNotFound");
+                }
+                else //TODO: Add more error codes
+                {
+                    errorMessage.Append("ErrorNotRecognized");
+                }
+
+                throw new ConnectionException(errorMessage.ToString(), argSExp);
             }
 
             // Create an SSL stream that will close the client's stream.
@@ -192,7 +202,7 @@ namespace SharpWired.Connection.Sockets
         /// <param name="result">TODO: !!</param>
         private void ReadCallback(IAsyncResult result)
         {
-            sslStream.EndRead(result);
+            sslStream.EndRead(result); //TODO: If the client are banned we crash here. Probably since the server dissconects us before we are done reading...
             string data_received = Encoding.UTF8.GetString((byte[])result.AsyncState);
 
             string msg;

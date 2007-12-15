@@ -274,6 +274,22 @@ namespace SharpWired.Gui.Chat
             logicManager.ChatHandler.ChatModel.ChatActionMessageChangedEvent += new global::SharpWired.Model.Chat.ChatModel.ChatActionMessageChangedDelegate(ChatModel_ChatActionMessageChangedEvent);
             logicManager.ChatHandler.ChatModel.ChatMessageChangedEvent += new global::SharpWired.Model.Chat.ChatModel.ChatMessageChangedDelegate(ChatModel_ChatMessageChangedEvent);
             logicManager.ChatHandler.ChatModel.ChatTopicChangedEvent += new global::SharpWired.Model.Chat.ChatModel.ChatTopicChangedDelegate(ChatModel_ChatTopicChangedEvent);
+
+            logicManager.ErrorHandler.LoginToServerFailedEvent += new SharpWired.Model.Errors.ErrorHandler.LoginToServerFailedDelegate(ErrorHandler_LoginToServerFailedEvent);
+        }
+
+        void ErrorHandler_LoginToServerFailedEvent(string errorDescription, string solutionIdea, SharpWired.Connection.Bookmarks.Bookmark bookmark)
+        {
+            string formatedText = this.AltItemBeginningHtml +
+                "<div class=\"errorEntry\">" +
+                    "<div class=\"time\">" + DateTime.Now + "</div>" +
+                    "<div class=\"errorDescription\"><em>Problem: </em>" + errorDescription + "</div>" +
+                    "<div class=\"solutionIdea\"><em>Resolution: </em>" + solutionIdea + "</div>" +
+                    "<div class=\"serverInformation\"><em>Server: </em>" + bookmark.Server.ServerName + "</div>" +
+                "</div>" +
+            "</div>";
+
+            WriteHTMLToChat(formatedText);
         }
 
         /// <summary>

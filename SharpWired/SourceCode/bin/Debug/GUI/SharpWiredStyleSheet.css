@@ -138,7 +138,43 @@ html, body {
 }
  
  
-newsEntry
+/**
+ * Error messages
+ */
+ 
+/* Standard error messages */
+.errorEntry {
+	border-bottom: 1px solid #ccc;
+	background-color: #ffacac;
+	padding: 2px 6px;
+}
+
+.errorEntry .time {
+	font-size: x-small;
+	float: right;
+}
+
+.errorEntry .message {
+}
+
+/**
+ * Warning messages
+ */
+ 
+/* Standard warning messages */
+.warningEntry {
+	border-bottom: 1px solid #ccc;
+	background-color: #fff7ac;
+	padding: 2px 6px;
+}
+
+.warningEntry .time {
+	font-size: x-small;
+	float: right;
+}
+
+.warningEntry .message {
+}
  
 /**
  * Overrides
@@ -156,4 +192,4 @@ body {
 
 html>body { /* be nice to Opera */
 	font-size: small;
-}	
+}

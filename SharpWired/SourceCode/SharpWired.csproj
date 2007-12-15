@@ -284,6 +284,7 @@
     </Compile>
     <Compile Include="Gui\Resources\Icons\IconHandler.cs" />
     <Compile Include="Gui\Resources\Icons\IconList.cs" />
+    <Compile Include="Model\Errors\ErrorHandler.cs" />
     <Compile Include="Model\Files\FileListingHandler.cs" />
     <Compile Include="Model\Files\FileListingModel.cs" />
     <Compile Include="Model\Files\FileNode.cs" />

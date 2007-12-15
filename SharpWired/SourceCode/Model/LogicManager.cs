@@ -36,6 +36,7 @@ using SharpWired.Model.Files;
 using SharpWired.MessageEvents;
 using SharpWired.Connection.Transfers;
 using System.Drawing;
+using SharpWired.Model.Errors;
 
 namespace SharpWired.Model
 {
@@ -55,6 +56,7 @@ namespace SharpWired.Model
 		private FileTransferHandler fileTransferHandler;
         private ServerInformation serverInformation;
         private GroupHandler groupHandler;
+        private ErrorHandler errorHandler;
 
         #endregion
 
@@ -66,6 +68,14 @@ namespace SharpWired.Model
         public ConnectionManager ConnectionManager
         {
             get { return connectionManager; }
+        }
+
+        /// <summary>
+        /// Get the error handler
+        /// </summary>
+        public ErrorHandler ErrorHandler
+        {
+            get { return errorHandler; }
         }
 
         /// <summary>
@@ -125,12 +135,17 @@ namespace SharpWired.Model
         /// </summary>
         public void Connect(Bookmark bookmark)
         {
-            connectionManager.Connect(bookmark);
+            try
+            {
+                connectionManager.Connect(bookmark);
+            }
+            catch (ConnectionException ce)
+            {
+                errorHandler.ReportConnectionExceptionError(ce);   
+            }
 
             // Listen to events
-            connectionManager.Messages.LoginFailedEvent += new Messages.LoginFailedEventHandler(Messages_LoginFailedEvent);
             connectionManager.Messages.LoginSucceededEvent += new Messages.LoginSucceededEventHandler(Messages_LoginSucceededEvent);
-
             connectionManager.Messages.ServerInformationEvent += new Messages.ServerInformationEventHandler(Messages_ServerInformationEvent);
         }
 
@@ -149,11 +164,6 @@ namespace SharpWired.Model
             newsHandler.Init(connectionManager);
             fileListingHandler.Init(connectionManager);
             serverInformation.Connected = true;
-        }
-
-        void Messages_LoginFailedEvent(object sender, global::SharpWired.MessageEvents.MessageEventArgs_Messages messageEventArgs)
-        {
-            throw new Exception("The method or operation is not implemented.");
         }
 
         /// <summary>
@@ -193,8 +203,8 @@ namespace SharpWired.Model
             fileListingHandler = new FileListingHandler(this);
 			fileTransferHandler = new FileTransferHandler(this);
             serverInformation = new ServerInformation();
+            errorHandler = new ErrorHandler(this);
         }
-
         #endregion
     }
 }

@@ -27,6 +27,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SharpWired.Connection.Bookmarks;
 
 namespace SharpWired.Connection
 {
@@ -35,6 +36,23 @@ namespace SharpWired.Connection
     /// </summary>
     public class ConnectionException : Exception
     {
+        private Bookmark bookmark;
+
+        /// <summary>
+        /// Get or set the bookmark that was connected to
+        /// </summary>
+        public Bookmark Bookmark
+        {
+            get
+            {
+                return bookmark;
+            }
+            set
+            {
+                bookmark = value;
+            }
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
