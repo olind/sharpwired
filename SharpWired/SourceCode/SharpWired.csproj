@@ -295,6 +295,9 @@
     <Compile Include="Model\News\NewsHandler.cs" />
     <Compile Include="Model\News\NewsModel.cs" />
     <Compile Include="Model\News\NewsObject.cs" />
+    <Compile Include="Model\PrivateMessages\PrivateMessageHandler.cs" />
+    <Compile Include="Model\PrivateMessages\PrivateMessageItem.cs" />
+    <Compile Include="Model\PrivateMessages\PrivateMessageModel.cs" />
     <Compile Include="Model\ServerInformation.cs" />
     <Compile Include="Model\Users\GroupHandler.cs" />
     <Compile Include="Utils\Pair.cs" />

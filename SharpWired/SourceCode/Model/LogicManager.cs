@@ -37,6 +37,7 @@ using SharpWired.MessageEvents;
 using SharpWired.Connection.Transfers;
 using System.Drawing;
 using SharpWired.Model.Errors;
+using SharpWired.Model.PrivateMessages;
 
 namespace SharpWired.Model
 {
@@ -57,7 +58,7 @@ namespace SharpWired.Model
         private ServerInformation serverInformation;
         private GroupHandler groupHandler;
         private ErrorHandler errorHandler;
-
+        private PrivateMessageHandler privateMessagesHandler;
         #endregion
 
         #region Properties
@@ -68,6 +69,14 @@ namespace SharpWired.Model
         public ConnectionManager ConnectionManager
         {
             get { return connectionManager; }
+        }
+
+        /// <summary>
+        /// Get the private messages handler
+        /// </summary>
+        public PrivateMessageHandler PrivateMessagesHandler
+        {
+            get { return privateMessagesHandler; }
         }
 
         /// <summary>
@@ -163,6 +172,7 @@ namespace SharpWired.Model
             chatHandler.Init(connectionManager);
             newsHandler.Init(connectionManager);
             fileListingHandler.Init(connectionManager);
+            privateMessagesHandler.Init(connectionManager);
             serverInformation.Connected = true;
         }
 
@@ -204,6 +214,7 @@ namespace SharpWired.Model
 			fileTransferHandler = new FileTransferHandler(this);
             serverInformation = new ServerInformation();
             errorHandler = new ErrorHandler(this);
+            privateMessagesHandler = new PrivateMessageHandler(this);
         }
         #endregion
     }

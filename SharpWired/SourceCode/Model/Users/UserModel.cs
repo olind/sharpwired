@@ -130,7 +130,7 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Gets the user with the given user login name
         /// </summary>
-        /// <param name="userName">The login for the searched user</param>
+        /// <param name="login">The login for the searched user</param>
         /// <returns>The UserItem with the given user name, null if no user is found</returns>
         public UserItem GetUser(string login)
         {

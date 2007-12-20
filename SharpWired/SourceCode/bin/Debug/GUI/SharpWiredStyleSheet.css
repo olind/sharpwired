@@ -175,6 +175,29 @@ html, body {
 
 .warningEntry .message {
 }
+
+/**
+ * Private messages
+ */
+
+.privateMessageEntry {
+	border-bottom: 1px solid #ccc;
+	background-color: #bfffac;
+	padding: 2px 6px;
+}
+
+.privateMessageEntry .time {
+	font-size: x-small;
+	float: right;
+}
+
+.privateMessageEntry .userName {
+	font: bold;
+	font-size: x-small;
+}
+
+.privateMessageEntry .message {
+}
  
 /**
  * Overrides

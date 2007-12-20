@@ -112,6 +112,33 @@ namespace SharpWired.Gui.Chat
             OnChatActionMessageChangedEvent(chatActionMessageObject);
         }
 
+        void ErrorHandler_LoginToServerFailedEvent(string errorDescription, string solutionIdea, SharpWired.Connection.Bookmarks.Bookmark bookmark)
+        {
+            string formatedText = this.AltItemBeginningHtml +
+                "<div class=\"errorEntry\">" +
+                    "<div class=\"time\">" + DateTime.Now + "</div>" +
+                    "<div class=\"errorDescription\"><em>Problem: </em>" + errorDescription + "</div>" +
+                    "<div class=\"solutionIdea\"><em>Resolution: </em>" + solutionIdea + "</div>" +
+                    "<div class=\"serverInformation\"><em>Server: </em>" + bookmark.Server.ServerName + "</div>" +
+                "</div>" +
+            "</div>";
+
+            WriteHTMLToChat(formatedText);
+        }
+
+        void PrivateMessageModel_ReceivedPrivateMessageEvent(SharpWired.Model.PrivateMessages.PrivateMessageItem receivedPrivateMessage)
+        {
+            string formatedText = this.AltItemBeginningHtml +
+                "<div class=\"privateMessageEntry\">" +
+                    "<div class=\"time\">" + receivedPrivateMessage.TimeStamp + "</div>" +
+                    "<div class=\"userName\">" + receivedPrivateMessage.UserItem.Nick + "</div>" +
+                    "<div class=\"message\">" + receivedPrivateMessage.Message + "</div>" +
+                "</div>" +
+            "</div>";
+
+            WriteHTMLToChat(formatedText);
+        }
+
         #endregion
 
         #region Listeners: From GUI-Window
@@ -275,21 +302,9 @@ namespace SharpWired.Gui.Chat
             logicManager.ChatHandler.ChatModel.ChatMessageChangedEvent += new global::SharpWired.Model.Chat.ChatModel.ChatMessageChangedDelegate(ChatModel_ChatMessageChangedEvent);
             logicManager.ChatHandler.ChatModel.ChatTopicChangedEvent += new global::SharpWired.Model.Chat.ChatModel.ChatTopicChangedDelegate(ChatModel_ChatTopicChangedEvent);
 
+            logicManager.PrivateMessagesHandler.PrivateMessageModel.ReceivedPrivateMessageEvent += new SharpWired.Model.PrivateMessages.PrivateMessageModel.ReceivedPrivateMessageDelegate(PrivateMessageModel_ReceivedPrivateMessageEvent);
+
             logicManager.ErrorHandler.LoginToServerFailedEvent += new SharpWired.Model.Errors.ErrorHandler.LoginToServerFailedDelegate(ErrorHandler_LoginToServerFailedEvent);
-        }
-
-        void ErrorHandler_LoginToServerFailedEvent(string errorDescription, string solutionIdea, SharpWired.Connection.Bookmarks.Bookmark bookmark)
-        {
-            string formatedText = this.AltItemBeginningHtml +
-                "<div class=\"errorEntry\">" +
-                    "<div class=\"time\">" + DateTime.Now + "</div>" +
-                    "<div class=\"errorDescription\"><em>Problem: </em>" + errorDescription + "</div>" +
-                    "<div class=\"solutionIdea\"><em>Resolution: </em>" + solutionIdea + "</div>" +
-                    "<div class=\"serverInformation\"><em>Server: </em>" + bookmark.Server.ServerName + "</div>" +
-                "</div>" +
-            "</div>";
-
-            WriteHTMLToChat(formatedText);
         }
 
         /// <summary>
