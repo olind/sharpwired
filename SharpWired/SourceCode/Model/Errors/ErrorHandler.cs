@@ -54,6 +54,11 @@ namespace SharpWired.Model.Errors
                 errorDescription.Append("The server you tried connecting to doesn't exist.");
                 solutionIdea.Append("Make sure the host name for the server you tried connecting to is correct.");
             }
+            else if(ce.Message == "NoRouteToTost")
+            {
+                errorDescription.Append("A socket operation was attempted to an unreachable host");
+                solutionIdea.Append("Check the host name you tried connecting to. Make sure it's correct.");
+            }
             else //TODO: Handle more types of errors. Add the errors to SecureSocket.cs as well
             {
                 errorDescription.Append("An unknown error occured.");

@@ -115,9 +115,13 @@ namespace SharpWired.Connection.Sockets
                 {
                     errorMessage.Append("HostNotFound");
                 }
+                else if (argSExp.ErrorCode == 10065)
+                {
+                    errorMessage.Append("NoRouteToTost");
+                }
                 else //TODO: Add more error codes
                 {
-                    errorMessage.Append("ErrorNotRecognized");
+                    errorMessage.Append("ErrorNotRecognized" + " Socket error code: '" + argSExp.ErrorCode + "'");
                 }
 
                 throw new ConnectionException(errorMessage.ToString(), argSExp);
