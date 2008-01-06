@@ -109,7 +109,6 @@ namespace SharpWired.Model.Users
             u.Nick = messageEventArgs.Nick;
             u.Status = messageEventArgs.Status;
         }
-
         #endregion
 
         /// <summary>
@@ -137,6 +136,23 @@ namespace SharpWired.Model.Users
             foreach (UserItem u in userList)
             {
                 if (login == u.Login)
+                {
+                    return u;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the user with the given nick
+        /// </summary>
+        /// <param name="nick">The nick for the searched user</param>
+        /// <returns>The UserItem with the given nick, null if no user was found</returns>
+        public UserItem GetUserByNick(string nick)
+        {
+            foreach (UserItem u in userList)
+            {
+                if (nick == u.Nick)
                 {
                     return u;
                 }

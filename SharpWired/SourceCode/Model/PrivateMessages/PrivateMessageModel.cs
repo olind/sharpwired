@@ -46,6 +46,9 @@ namespace SharpWired.Model.PrivateMessages
         public void AddSentPrivateMessage(PrivateMessageItem newSentMessage)
         {
             sentMessages.Add(newSentMessage);
+
+            if (SentPrivateMessageEvent != null)
+                SentPrivateMessageEvent(newSentMessage);
         }
 
         /// <summary>
@@ -70,6 +73,17 @@ namespace SharpWired.Model.PrivateMessages
         /// Event raised when a new private message is received
         /// </summary>
         public event ReceivedPrivateMessageDelegate ReceivedPrivateMessageEvent;
+
+        /// <summary>
+        /// Delegate for telling when a new private message was sent
+        /// </summary>
+        /// <param name="sentPrivateMessage"></param>
+        public delegate void SentPrivateMessageDelegate(PrivateMessageItem sentPrivateMessage);
+
+        /// <summary>
+        /// Event raised when a new private message is sent
+        /// </summary>
+        public event SentPrivateMessageDelegate SentPrivateMessageEvent;
 
         /// <summary>
         /// Constructor

@@ -55,7 +55,7 @@ namespace SharpWired.Model.PrivateMessages
         void Messages_PrivateMessageEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_305309 messageEventArgs)
         {
             UserItem u = logicManager.UserHandler.UserModel.GetUser(messageEventArgs.UserId);
-            privateMessageModel .AddReceivedPrivateMessage(new PrivateMessageItem(u, messageEventArgs.Message));
+            privateMessageModel.AddReceivedPrivateMessage(new PrivateMessageItem(u, messageEventArgs.Message));
         }
         #endregion
 
@@ -70,6 +70,7 @@ namespace SharpWired.Model.PrivateMessages
             //TODO: Make some error checking (empty message etc)
             connectionManager.Commands.Msg(user.UserId, message);
             PrivateMessageItem newSentMessage = new PrivateMessageItem(user, message);
+            privateMessageModel.AddSentPrivateMessage(newSentMessage);
         }
         #endregion
 

@@ -128,24 +128,20 @@ namespace SharpWired.Gui.Chat
 
         void PrivateMessageModel_ReceivedPrivateMessageEvent(SharpWired.Model.PrivateMessages.PrivateMessageItem receivedPrivateMessage)
         {
-            string formatedText = this.AltItemBeginningHtml +
-                "<div class=\"privateMessageEntry\">" +
-                    "<div class=\"time\">" + receivedPrivateMessage.TimeStamp + "</div>" +
-                    "<div class=\"userName\">" + receivedPrivateMessage.UserItem.Nick + "</div>" +
-                    "<div class=\"message\">" + receivedPrivateMessage.Message + "</div>" +
-                "</div>" +
-            "</div>";
-
-            WriteHTMLToChat(formatedText);
+            OnPrivateMessageEvent(receivedPrivateMessage, "received");
         }
 
+        void PrivateMessageModel_SentPrivateMessageEvent(SharpWired.Model.PrivateMessages.PrivateMessageItem sentPrivateMessage)
+        {
+            OnPrivateMessageEvent(sentPrivateMessage, "sent");
+        }
         #endregion
 
         #region Listeners: From GUI-Window
 
         private void sendChatButton_Click(object sender, EventArgs e)
         {
-            SendChatMessage();
+            SendMessage();
             sendChatRichTextBox.Clear();
         }
 
@@ -153,15 +149,15 @@ namespace SharpWired.Gui.Chat
         {
             if (e.KeyCode == Keys.Enter)
             {
-                SendChatMessage();
+                SendMessage();
                 sendChatRichTextBox.Clear();
+                //TODO: after clearing sendChatRichTextBox it receives a newline that I can't remove
             }
-            if (e.KeyCode == Keys.Escape)
+            else if (e.KeyCode == Keys.Escape)
             {
                 sendChatRichTextBox.Clear();
             }
         }
-
         #endregion
 
         #region Methods: Receiving messages
@@ -280,9 +276,37 @@ namespace SharpWired.Gui.Chat
         /// <summary>
         /// Sends a chat message to the server
         /// </summary>
-        public void SendChatMessage()
+        public void SendMessage()
         {
-            logicManager.ChatHandler.SendChatMessage(sendChatRichTextBox.Text);
+            string message = sendChatRichTextBox.Text;
+            if (message != null && message.Length > 0)
+            {
+                //TODO: Make a real message handler if we want to support sending messages "the IRC-way"
+                int result = string.Compare("/msg", 0, message, 0, 4, true);
+                if (result == 0)
+                {
+                    GuiPrivateMessageItem pmi = new GuiPrivateMessageItem(logicManager, message);
+                    //logicManager.PrivateMessagesHandler.Commands.Msg(pmi.ToUser.UserId, pmi.Message);
+                    logicManager.PrivateMessagesHandler.Msg(pmi.ToUser, pmi.Message);
+                }
+                else
+                {
+                    logicManager.ChatHandler.SendChatMessage(message);
+                }
+            }
+        }
+
+        private void OnPrivateMessageEvent(SharpWired.Model.PrivateMessages.PrivateMessageItem messageItem, string receivedOrSent)
+        {
+            string formatedText = this.AltItemBeginningHtml +
+                "<div class=\"privateMessageEntry privateMessageEntry_" + receivedOrSent + "\">" +
+                    "<div class=\"time\">" + messageItem.TimeStamp + "</div>" +
+                    "<div class=\"userName\">" + messageItem.UserItem.Nick + "</div>" +
+                    "<div class=\"message\">" + messageItem.Message + "</div>" +
+                "</div>" +
+            "</div>";
+
+            WriteHTMLToChat(formatedText);
         }
 
         #endregion
@@ -303,6 +327,7 @@ namespace SharpWired.Gui.Chat
             logicManager.ChatHandler.ChatModel.ChatTopicChangedEvent += new global::SharpWired.Model.Chat.ChatModel.ChatTopicChangedDelegate(ChatModel_ChatTopicChangedEvent);
 
             logicManager.PrivateMessagesHandler.PrivateMessageModel.ReceivedPrivateMessageEvent += new SharpWired.Model.PrivateMessages.PrivateMessageModel.ReceivedPrivateMessageDelegate(PrivateMessageModel_ReceivedPrivateMessageEvent);
+            logicManager.PrivateMessagesHandler.PrivateMessageModel.SentPrivateMessageEvent += new SharpWired.Model.PrivateMessages.PrivateMessageModel.SentPrivateMessageDelegate(PrivateMessageModel_SentPrivateMessageEvent);
 
             logicManager.ErrorHandler.LoginToServerFailedEvent += new SharpWired.Model.Errors.ErrorHandler.LoginToServerFailedDelegate(ErrorHandler_LoginToServerFailedEvent);
         }
@@ -313,6 +338,8 @@ namespace SharpWired.Gui.Chat
         public ChatUserControl()
         {
             InitializeComponent();
+
+            //TODO: If a client sents a javascript we'll be writing that to our client and cause a security problem
 
             chatStyleSheet = "<link href=\"" + CSSFilePath + "\\GUI\\SharpWiredStyleSheet.css\" rel=\"stylesheet\" type=\"text/css\" />";
             chatJavaScript = "<script>function pageDown () { if (window.scrollBy) window.scrollBy(0, window.innerHeight ? window.innerHeight : document.body.clientHeight); }</script>";

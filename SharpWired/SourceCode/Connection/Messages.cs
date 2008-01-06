@@ -432,7 +432,7 @@ namespace SharpWired.Connection
                 string[] words = SplitMessage(message);
 
                 string appVersion = words[0];
-                string protocolVersion = "1,1"; // TODO: Find a better way to represent Protocol Version
+                string protocolVersion = words[1].ToString();
                 string serverName = words[2];
                 string serverDescription = words[3];
                 DateTime startTime;

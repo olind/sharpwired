@@ -93,7 +93,7 @@ html, body {
 .chatEntry .message {
 }
 
- /* Action chat messages */
+/* Action chat messages */
 
 .actionChatEntry {
 	border-bottom: 1px solid #ccc;
@@ -136,8 +136,7 @@ html, body {
 
 .newsEntry .message {
 }
- 
- 
+
 /**
  * Error messages
  */
@@ -184,6 +183,9 @@ html, body {
 	border-bottom: 1px solid #ccc;
 	background-color: #bfffac;
 	padding: 2px 6px;
+	
+	background-repeat: no-repeat;
+	padding-left: 20px;
 }
 
 .privateMessageEntry .time {
@@ -197,6 +199,14 @@ html, body {
 }
 
 .privateMessageEntry .message {
+}
+
+.privateMessageEntry_received {
+	background-image: url(Backgrounds/bg-private-message-received.gif);
+}
+
+.privateMessageEntry_sent {
+	background-image: url(Backgrounds/bg-private-message-sent.gif);
 }
  
 /**
