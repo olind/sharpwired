@@ -41,7 +41,7 @@ namespace SharpWired.MessageEvents
         private string serverDescription;
         private DateTime startTime;
         private int filesCount;
-        private int filesSize;
+        private long filesSize;
 
         /// <summary>
         /// Get the server app version
@@ -112,7 +112,7 @@ namespace SharpWired.MessageEvents
         /// <summary>
         /// Get the size of the files
         /// </summary>
-        public int FilesSize
+        public long FilesSize
         {
             get
             {
@@ -133,7 +133,7 @@ namespace SharpWired.MessageEvents
         /// <param name="filesCount">The number of files on the server</param>
         /// <param name="filesSize">The size of the files on the server?</param>
         public MessageEventArgs_200(int messageId, string messageName, string appVersion, string protocolVersion, 
-            string serverName, string serverDescription, DateTime startTime, int filesCount, int filesSize)
+            string serverName, string serverDescription, DateTime startTime, int filesCount, long filesSize)
             : base(messageId, messageName)
         {
             this.appVersion = appVersion;

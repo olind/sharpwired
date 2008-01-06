@@ -39,7 +39,7 @@ namespace SharpWired.Model
         private MessageEventArgs_200 messageEventArgs;
         private string appVersion;
         private int filesCount;
-        private int fileSize;
+        private long fileSize;
         private string protocolVersion;
         private string serverDescription;
         private string serverName;
@@ -67,7 +67,7 @@ namespace SharpWired.Model
         /// <summary>
         /// Get or set the file size on the server
         /// </summary>
-        public int FileSize
+        public long FileSize
         {
             get { return fileSize; }
             set { fileSize = value; }

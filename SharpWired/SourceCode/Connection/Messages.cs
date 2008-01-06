@@ -439,7 +439,7 @@ namespace SharpWired.Connection
                 DateTime.TryParse(words[4], out startTime);
 
                 int filesCount = Convert.ToInt16(words[5]);
-                int filesSize = Convert.ToInt16(words[6]);
+                long filesSize = long.Parse(words[6]);
 
                 MessageEventArgs_200 m = new MessageEventArgs_200(messageId, messageName, appVersion, protocolVersion, serverName, serverDescription, startTime, filesCount, filesSize);
 
