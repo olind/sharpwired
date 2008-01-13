@@ -299,6 +299,8 @@ namespace SharpWired.Connection.Bookmarks
 		private static bool SaveBookmarks(List<Bookmark> bookmarks, FileInfo file)
 		{
 			// Lock object so we can't edit it while saving.
+			// NOTE: Here a lock object should probably be used, and also used in
+			// load method and some other places as well.
 			lock (typeof(BookmarkManager))
 			{
                 try
@@ -312,11 +314,19 @@ namespace SharpWired.Connection.Bookmarks
                     Stream stream = null;
                     try
                     {
-                        stream = System.IO.File.Open(file.ToString(), FileMode.Create, FileAccess.Write);
+                        stream = System.IO.File.Open(file.FullName, FileMode.Create, FileAccess.Write);
                     }
                     catch (System.IO.IOException ioe)
                     {
-                        throw ioe;
+						try
+						{
+							// Try creating like this.
+							stream = System.IO.File.Create(file.FullName);
+						}
+						finally
+						{
+							// Let exception fly.
+						}
                     }
 
                     using (stream)
@@ -389,7 +399,10 @@ namespace SharpWired.Connection.Bookmarks
 			FileInfo file = new FileInfo(BookmarkFileFullName);
 			try
 			{
-				file.Create();
+				FileStream stream = file.Create();
+				// Close stream (file) so we can write to it in SaveBookmarks().
+				stream.Close();
+				stream.Dispose();
 				// Add some stuff to it, so that it looks like an XML file.
 				SaveBookmarks(new List<Bookmark>(), file);
 				return file;
