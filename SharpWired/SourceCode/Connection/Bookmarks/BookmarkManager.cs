@@ -301,65 +301,79 @@ namespace SharpWired.Connection.Bookmarks
 			// Lock object so we can't edit it while saving.
 			lock (typeof(BookmarkManager))
 			{
-				try
-				{
-					// Writing data to memory first in case of error.
-					// If everything went ok, save data to file.
-					MemoryStream s = new MemoryStream();
-					XmlSerializer ser = new XmlSerializer(typeof(Bookmark[]));
-					ser.Serialize(s, bookmarks.ToArray());
+                try
+                {
+                    // Writing data to memory first in case of error.
+                    // If everything went ok, save data to file.
+                    MemoryStream s = new MemoryStream();
+                    XmlSerializer ser = new XmlSerializer(typeof(Bookmark[]));
+                    ser.Serialize(s, bookmarks.ToArray());
 
-					using (Stream stream = System.IO.File.Open(file.ToString(), FileMode.Create, FileAccess.Write))
-					{
-						// Up to ~2GB.
-						if (s.Length < int.MaxValue)
-							stream.Write(s.GetBuffer(), 0, (int)s.Length);
-						else
-						{
-							//TODO: :-))
-						}
-					}
+                    Stream stream = null;
+                    try
+                    {
+                        stream = System.IO.File.Open(file.ToString(), FileMode.Create, FileAccess.Write);
+                    }
+                    catch (System.IO.IOException ioe)
+                    {
+                        throw ioe;
+                    }
 
-					#region Encryption try-catch
-					try
-					{
-						file.Encrypt();
-					}
-					// The platform is not Win NT or later.
-					catch (PlatformNotSupportedException platnotsupp)
-					{
-						Console.Error.WriteLine("Accessing Bookmark file: "
-							+ "The platform don't support encryption, trying to save as clear text."
-							+ platnotsupp.ToString());
-					}
-					// The file system don't support encryption
-					catch (NotSupportedException notsupp)
-					{
-						Console.Error.WriteLine("Accessing Bookmark file: "
-							+ "The File System don't support encryption, trying to save as clear text."
-							+ notsupp.ToString());
-					}
-					#endregion
+                    using (stream)
+                    {
+                        // Up to ~2GB.
+                        if (s.Length < int.MaxValue)
+                            stream.Write(s.GetBuffer(), 0, (int)s.Length);
+                        else
+                        {
+                            //TODO: :-))
+                        }
+                    }
 
-					return true;
-				}
-				#region Catch and throw
-				catch (ArgumentNullException ane)
-				{
-					throw new BookmarkException("Error saving the bookmark file (" + BookmarkFileFullName + "); The serializationStream is a null reference", ane);
-				}
-				catch (SerializationException se)
-				{
-					throw new BookmarkException("Error saving the bookmark file (" + BookmarkFileFullName + "); The serializationStream supports seeking, but its length is 0", se);
-				}
-				catch (SecurityException sec)
-				{
-					throw new BookmarkException("Error saving the bookmark file (" + BookmarkFileFullName + "); The caller does not have the required permission.", sec);
-				}
-				catch (Exception e)
-				{
-					throw new BookmarkException("Error saving the bookmark file (" + BookmarkFileFullName + "); Unknown reason.", e);
-				}
+                    #region Encryption try-catch
+                    try
+                    {
+                        file.Encrypt();
+                    }
+                    // The platform is not Win NT or later.
+                    catch (PlatformNotSupportedException platnotsupp)
+                    {
+                        Console.Error.WriteLine("Accessing Bookmark file: "
+                            + "The platform don't support encryption, trying to save as clear text."
+                            + platnotsupp.ToString());
+                    }
+                    // The file system don't support encryption
+                    catch (NotSupportedException notsupp)
+                    {
+                        Console.Error.WriteLine("Accessing Bookmark file: "
+                            + "The File System don't support encryption, trying to save as clear text."
+                            + notsupp.ToString());
+                    }
+                    #endregion
+
+                    return true;
+                }
+                #region Catch and throw
+                catch (ArgumentNullException ane)
+                {
+                    throw new BookmarkException("Error saving the bookmark file (" + BookmarkFileFullName + "); The serializationStream is a null reference", ane);
+                }
+                catch (SerializationException se)
+                {
+                    throw new BookmarkException("Error saving the bookmark file (" + BookmarkFileFullName + "); The serializationStream supports seeking, but its length is 0", se);
+                }
+                catch (SecurityException sec)
+                {
+                    throw new BookmarkException("Error saving the bookmark file (" + BookmarkFileFullName + "); The caller does not have the required permission.", sec);
+                }
+                catch (System.IO.IOException ioe)
+                {
+                    throw new BookmarkException("Error saving the bookmark file (" + BookmarkFileFullName + "); The stream (file) you tried to open (before writing to it) is locked by another process.", ioe);
+                }
+                catch (Exception e)
+                {
+                    throw new BookmarkException("Error saving the bookmark file (" + BookmarkFileFullName + "); Unknown reason.", e);
+                }
 				#endregion
 			}
 		}
