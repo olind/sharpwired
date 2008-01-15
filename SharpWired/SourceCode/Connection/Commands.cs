@@ -72,9 +72,15 @@ namespace SharpWired.Connection
             if (socket != null)
             {
                 SendMessage("HELLO");
-                Nick(userInformation .Nick);
-                User(userInformation .UserName);
-                Pass(userInformation .Password);
+
+                //TODO: Below should only be sent if the server responds with 200 Server Information
+                //"NICK", "ICON", "STATUS" and "CLIENT"
+                Nick(userInformation.Nick);
+                //TODO: Send icon (NOT! image)
+                User(userInformation.UserName);
+                Pass(userInformation.Password);
+                Client();
+                Status("aoeu");
                 Who(1);
             }
         }
@@ -125,9 +131,8 @@ namespace SharpWired.Connection
         {
             if (socket != null)
             {
-                //TODO: Fix appVersion
-                String appVersion = "SharpWired Development Branch";
-                socket.SendMessage("CLIENT" + Utility.SP + appVersion);
+                socket.SendMessage("CLIENT" + Utility.SP + SharpWired.SharpWiredClientInfo.AppVersion);
+                Console.WriteLine("Appversion: '" + Utility.SP + SharpWired.SharpWiredClientInfo.AppVersion + "'"); 
             }
         }
 
@@ -296,6 +301,7 @@ namespace SharpWired.Connection
         /// <param name="image">The custom icon image</param>
         public void Icon(int icon, Image image)
         {
+            //TODO: We are currently only sending the image not the icon
             if (socket != null)
             {
                 String b64Image = SharpWired.Utility.BitmapToBase64String(image);

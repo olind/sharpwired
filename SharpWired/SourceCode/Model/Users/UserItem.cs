@@ -252,18 +252,33 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Constructor
         /// </summary>
-        public UserItem(MessageEventArgs_302310 messageEventArs)
+        /// <param name="messageEventArgs">The message event arg that caused the adding of this user</param>
+        public UserItem(MessageEventArgs_302310 messageEventArgs)
         {
-            this.admin = messageEventArs.Admin;
-            this.host = messageEventArs.Host;
-            this.icon = messageEventArs.Icon;
-            this.idle = messageEventArs.Idle;
-            this.image = messageEventArs.Image;
-            this.ip = messageEventArs.Ip;
-            this.login = messageEventArs.Login;
-            this.nick = messageEventArs.Nick;
-            this.status = messageEventArs.Status;
-            this.userId = messageEventArs.UserId;
+            this.admin = messageEventArgs.Admin;
+            this.host = messageEventArgs.Host;
+            this.icon = messageEventArgs.Icon;
+            this.idle = messageEventArgs.Idle;
+            this.image = messageEventArgs.Image;
+            this.ip = messageEventArgs.Ip;
+            this.login = messageEventArgs.Login;
+            this.nick = messageEventArgs.Nick;
+            this.status = messageEventArgs.Status;
+            this.userId = messageEventArgs.UserId;
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageEventArgs">The message event arg that caused the adding of this user</param>
+        public UserItem(MessageEventArgs_304 messageEventArgs)
+        {
+            this.admin = messageEventArgs.Admin;
+            this.idle = messageEventArgs.Idle;
+            this.icon = messageEventArgs.Icon;
+            this.nick = messageEventArgs.Nick;
+            this.status = messageEventArgs.Status;
+            this.userId = messageEventArgs.UserId;
         }
 
         #endregion

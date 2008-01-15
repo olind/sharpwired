@@ -301,6 +301,7 @@
     <Compile Include="Model\PrivateMessages\PrivateMessageModel.cs" />
     <Compile Include="Model\ServerInformation.cs" />
     <Compile Include="Model\Users\GroupHandler.cs" />
+    <Compile Include="SharpWiredClientInfo.cs" />
     <Compile Include="Utils\Pair.cs" />
     <None Include="Icons\Tango22px\system-log-out.png" />
   </ItemGroup>

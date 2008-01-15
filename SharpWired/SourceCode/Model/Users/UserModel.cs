@@ -71,6 +71,20 @@ namespace SharpWired.Model.Users
         }
 
         /// <summary>
+        /// Add the given user to this list of users
+        /// </summary>
+        /// <param name="messageEventArgs"></param>
+        public void AddUser(MessageEventArgs_304 messageEventArgs)
+        {
+            if (!UserExists(messageEventArgs.UserId))
+            {
+                UserItem newUser = new UserItem(messageEventArgs);
+                this.userList.Add(newUser);
+                this.OnClientJoinEvent(newUser);
+            }
+        }
+
+        /// <summary>
         /// Remove the given user from this list of users
         /// </summary>
         /// <param name="messageEventArgs"></param>
@@ -100,6 +114,11 @@ namespace SharpWired.Model.Users
         /// <param name="messageEventArgs"></param>
         public void StatusChanged(MessageEventArgs_304 messageEventArgs)
         {
+            if (GetUser(messageEventArgs.UserId) == null)
+            {
+                AddUser(messageEventArgs);
+            }
+
             UserItem u = GetUser(messageEventArgs.UserId);
 
             u.UserId = messageEventArgs.UserId;
