@@ -76,11 +76,10 @@ namespace SharpWired.Connection
                 //TODO: Below should only be sent if the server responds with 200 Server Information
                 //"NICK", "ICON", "STATUS" and "CLIENT"
                 Nick(userInformation.Nick);
-                //TODO: Send icon (NOT! image)
+                //TODO: If we decide to use icons and images send icon here
                 User(userInformation.UserName);
                 Pass(userInformation.Password);
                 Client();
-                Status("aoeu");
                 Who(1);
             }
         }

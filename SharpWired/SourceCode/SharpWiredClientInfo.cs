@@ -35,14 +35,18 @@ namespace SharpWired
     /// </summary>
     public static class SharpWiredClientInfo
     {
+        //TODO: This data should updated once we are supporting Mono
+        //See: http://support.microsoft.com/default.aspx?scid=kb%3Ben-us%3B304283
+
         // See 2.6 Version Strings in the Wired Protocol specification for more information
         private static double protocolVersion = 1.1;
         private static string clientName = "SharpWired";
-        private static string architecture = "Intel X86"; //TODO: Read value
-        private static string osVersion = "2002"; //TODO: Read value (version number)
-        private static string osRelease = "Win32"; //TODO: Read value
-        private static string libVersion = ".Net2.0"; //TODO: What should we use this for?
+        private static string architecture = "";
+        private static string osVersion = "";
+        private static string osRelease = System.Environment.OSVersion.ToString();
+        private static string libVersion = ".Net V" + System.Environment.Version.ToString();
         private static string appVersion = clientName + "/0.1-Pre" + Utility.SP + "(" + Os + ")" + Utility.SP + "(" + libVersion + ")";
+        private static string os = osRelease + "; " + osVersion + "; " + architecture;
 
         /// <summary>
         /// Gets the Wired protocol version Sharpwired is using.
@@ -74,9 +78,7 @@ namespace SharpWired
         public static string Os
         {
             get {
-                StringBuilder os = new StringBuilder();
-                os.Append(osRelease + "; " + osVersion + "; " + architecture);
-                return os.ToString(); 
+                return os; 
             }
         }
 
