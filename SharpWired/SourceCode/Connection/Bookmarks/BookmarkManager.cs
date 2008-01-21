@@ -217,26 +217,7 @@ namespace SharpWired.Connection.Bookmarks
 			{
 				try
 				{
-					#region Encryption try-catch
-					try
-					{
-						file.Decrypt();
-					}
-					// The platform is not Win NT or later.
-					catch (PlatformNotSupportedException platnotsupp)
-					{
-						Console.Error.WriteLine("Accessing Bookmark file: "
-							+ "The platform don't support encryption, trying to read as clear text."
-							+ platnotsupp.ToString());
-					} 
-					// The file system don't support encryption
-					catch (NotSupportedException notsupp)
-					{
-						Console.Error.WriteLine("Accessing Bookmark file: "
-							+ "The File System don't support encryption, trying to read as clear text."
-							+ notsupp.ToString());
-					}
-					#endregion
+                    BookmarkManager.DecryptFile(file);
 
 					// If the file is empty, just return an empty list.
 					if (file.Length == 0)
@@ -281,7 +262,7 @@ namespace SharpWired.Connection.Bookmarks
 				#endregion
 				finally
 				{
-					file.Encrypt();
+                    BookmarkManager.EncryptFile(file);
 				}
 			}
 		}
@@ -340,26 +321,7 @@ namespace SharpWired.Connection.Bookmarks
                         }
                     }
 
-                    #region Encryption try-catch
-                    try
-                    {
-                        file.Encrypt();
-                    }
-                    // The platform is not Win NT or later.
-                    catch (PlatformNotSupportedException platnotsupp)
-                    {
-                        Console.Error.WriteLine("Accessing Bookmark file: "
-                            + "The platform don't support encryption, trying to save as clear text."
-                            + platnotsupp.ToString());
-                    }
-                    // The file system don't support encryption
-                    catch (NotSupportedException notsupp)
-                    {
-                        Console.Error.WriteLine("Accessing Bookmark file: "
-                            + "The File System don't support encryption, trying to save as clear text."
-                            + notsupp.ToString());
-                    }
-                    #endregion
+                    BookmarkManager.EncryptFile(file);
 
                     return true;
                 }
@@ -389,8 +351,7 @@ namespace SharpWired.Connection.Bookmarks
 		}
 		#endregion
 
-
-		#region Create Bookmark file
+		#region Create, encrypt decrypt bookmark file
 		/// <summary>
 		/// Creates the Bookmark file.
 		/// </summary>
@@ -412,11 +373,47 @@ namespace SharpWired.Connection.Bookmarks
 				throw new BookmarkException("Error trying to create file: " + BookmarkFileFullName, e);
 			}
 		}
-		#endregion
-	}
+
+        /// <summary>
+        /// Encrypt the given file
+        /// </summary>
+        /// <param name="file"></param>
+        private static void EncryptFile(FileInfo file)
+        {
+            try
+            {
+                file.Encrypt();
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Unknown Error Encrypting File:"
+                    + e.ToString());
+                //TODO: Raise error event for error handler to print
+            }
+        }
+
+        /// <summary>
+        /// Decrypt the given file
+        /// </summary>
+        /// <param name="file"></param>
+        private static void DecryptFile(FileInfo file)
+        {
+            try
+            {
+                file.Decrypt();
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Unknown Error Decrypting File:"
+                    + e.ToString());
+                //TODO: Raise error event for error handler to print
+            }
+        }
+        #endregion
+    }
 
 
-	#region Bookmark Exception
+	#region BookmarkException
 	/// <summary>
 	/// Exception for Bookmarks.
 	/// </summary>
