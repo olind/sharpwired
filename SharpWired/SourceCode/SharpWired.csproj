@@ -199,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\Bookmarks\BookmarkManager.cs" />
+    <Compile Include="Connection\HeartBeatTimer.cs" />
     <Compile Include="Connection\Sockets\BinarySecureSocket.cs" />
     <Compile Include="Connection\Sockets\DataRecievedEventArgs.cs" />
     <Compile Include="Connection\Sockets\ValidationException.cs" />

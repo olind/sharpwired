@@ -119,6 +119,10 @@ namespace SharpWired.Connection.Sockets
                 {
                     errorMessage.Append("NoRouteToTost");
                 }
+                else if (argSExp.ErrorCode == 10061)
+                {
+                    errorMessage.Append("ConnectionRefused");
+                }
                 else //TODO: Add more error codes
                 {
                     errorMessage.Append("ErrorNotRecognized" + " Socket error code: '" + argSExp.ErrorCode + "'");

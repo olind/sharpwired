@@ -131,7 +131,6 @@ namespace SharpWired.Connection
             if (socket != null)
             {
                 socket.SendMessage("CLIENT" + Utility.SP + SharpWired.SharpWiredClientInfo.AppVersion);
-                Console.WriteLine("Appversion: '" + Utility.SP + SharpWired.SharpWiredClientInfo.AppVersion + "'"); 
             }
         }
 

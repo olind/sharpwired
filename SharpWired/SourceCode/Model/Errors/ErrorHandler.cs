@@ -59,11 +59,18 @@ namespace SharpWired.Model.Errors
                 errorDescription.Append("A socket operation was attempted to an unreachable host");
                 solutionIdea.Append("Check the host name you tried connecting to. Make sure it's correct.");
             }
+            else if (ce.Message == "ConnectionRefused")
+            {
+                errorDescription.Append("No connection could be made because the target computer actively refused it. This usually results from trying to connect to a service that is inactive on the foreign host—that is, one with no server application running.");
+                solutionIdea.Append("Check the host name you tried connecting to. Make sure it's correct.");
+            }
             else //TODO: Handle more types of errors. Add the errors to SecureSocket.cs as well
             {
                 errorDescription.Append("An unknown error occured.");
                 solutionIdea.Append("Please report this error in the SharpWired bug tracker at http://sourceforge.net/tracker/?group_id=187504&atid=921567. Error message is: " + ce);
             }
+
+            solutionIdea.Append("For now, restart SharpWired before trying again."); //TODO: Remove this once SW recovers from connection problems
 
             LoginToServerFailedEvent(errorDescription.ToString(), solutionIdea.ToString(), ce.Bookmark);
         }

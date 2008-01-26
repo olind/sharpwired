@@ -43,6 +43,10 @@ namespace SharpWired.Model.Chat
             set { messageEventArgs = value; }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageEventArgs"></param>
         public ChatActionMessageObject(MessageEventArgs_300301 messageEventArgs)
         {
             this.messageEventArgs = messageEventArgs;

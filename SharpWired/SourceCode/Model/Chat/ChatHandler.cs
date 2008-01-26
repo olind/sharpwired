@@ -42,7 +42,6 @@ namespace SharpWired.Model.Chat
         #endregion
 
         #region Properties
-
         /// <summary>
         /// Gets or sets the ChatModel for this ChatHandler
         /// </summary>
@@ -51,7 +50,6 @@ namespace SharpWired.Model.Chat
             get { return chatModel; }
             set { chatModel = value; }
         }
-
         #endregion
 
         #region Listeners: from communication layer

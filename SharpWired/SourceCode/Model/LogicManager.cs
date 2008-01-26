@@ -59,6 +59,7 @@ namespace SharpWired.Model
         private GroupHandler groupHandler;
         private ErrorHandler errorHandler;
         private PrivateMessageHandler privateMessagesHandler;
+        private HeartBeatTimer heartBeatTimer;
         #endregion
 
         #region Properties
@@ -174,6 +175,10 @@ namespace SharpWired.Model
             fileListingHandler.Init(connectionManager);
             privateMessagesHandler.Init(connectionManager);
             serverInformation.Connected = true;
+
+            //Starts the heart beat pings to the server
+            heartBeatTimer = new HeartBeatTimer(connectionManager);
+            heartBeatTimer.StartTimer();
         }
 
         /// <summary>
@@ -195,6 +200,7 @@ namespace SharpWired.Model
         {
             connectionManager.Commands.Leave(1);
             serverInformation.Connected = false;
+            heartBeatTimer.StopTimer();
         }
         #endregion
 
