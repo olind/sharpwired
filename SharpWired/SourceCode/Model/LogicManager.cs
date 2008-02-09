@@ -200,7 +200,8 @@ namespace SharpWired.Model
         {
             connectionManager.Commands.Leave(1);
             serverInformation.Connected = false;
-            heartBeatTimer.StopTimer();
+            if(heartBeatTimer!=null)
+                heartBeatTimer.StopTimer();
         }
         #endregion
 
