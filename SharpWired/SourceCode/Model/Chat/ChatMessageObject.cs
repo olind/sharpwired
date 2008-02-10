@@ -34,7 +34,7 @@ namespace SharpWired.Model.Chat
     /// <summary>
     /// Standard chat message object
     /// </summary>
-    class ChatMessageObject : ChatObject
+    public class ChatMessageObject : ChatObject
     {
         private MessageEventArgs_300301 messageEventArgs;
         public MessageEventArgs_300301 MessageEventArgs
