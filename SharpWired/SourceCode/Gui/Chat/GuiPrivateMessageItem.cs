@@ -73,8 +73,8 @@ namespace SharpWired.Gui.Chat
                 l = message.IndexOf(" ", 5);
             }
 
+            //TODO: Error handling
             string searchedNick = message.Substring(f + 1, (l - f - 1));
-
             this.toUser = logicManager.UserHandler.UserModel.GetUserByNick(searchedNick);
             this.message = message.Substring(l + 1).Trim();
         }

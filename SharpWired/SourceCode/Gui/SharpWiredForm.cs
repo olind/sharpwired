@@ -62,6 +62,7 @@ namespace SharpWired.Gui
             logicManager = new LogicManager();
             
             InitializeComponent();
+            /* TODO: Giant sequence diagram ends here */
             chatUserControl1.Init(logicManager);
             newsUserControl1.Init(logicManager);
             filesUserControl1.Init(logicManager);

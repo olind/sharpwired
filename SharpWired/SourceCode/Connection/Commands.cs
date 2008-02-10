@@ -436,11 +436,24 @@ namespace SharpWired.Connection
         /// <summary>
         /// Ping the server
         /// </summary>
-        public void Ping()
+        public void Ping(object sender)
         {
             if (socket != null)
+            {
                 socket.SendMessage("PING");
+                if (PingSentEvent != null)
+                    PingSentEvent(sender);
+            }
         }
+
+        /// <summary>
+        /// Delegate for notifying when pings are sent
+        /// </summary>
+        public delegate void PingSentDelegate(object sender);
+        /// <summary>
+        /// Event raised when a ping is sent
+        /// </summary>
+        public event PingSentDelegate PingSentEvent;
 
         /// <summary>
         /// Post a message to the news

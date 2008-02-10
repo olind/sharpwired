@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{85C03311-3C25-4EB5-97BA-FDC6F3C63005}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -206,6 +206,7 @@
   <ItemGroup>
     <Compile Include="Connection\Bookmarks\BookmarkManager.cs" />
     <Compile Include="Connection\HeartBeatTimer.cs" />
+    <Compile Include="Connection\LagHandler.cs" />
     <Compile Include="Connection\Sockets\BinarySecureSocket.cs" />
     <Compile Include="Connection\Sockets\DataRecievedEventArgs.cs" />
     <Compile Include="Connection\Sockets\ValidationException.cs" />

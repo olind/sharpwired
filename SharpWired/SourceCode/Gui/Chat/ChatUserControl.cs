@@ -254,6 +254,20 @@ namespace SharpWired.Gui.Chat
         }
 
         /// <summary>
+        /// Format HTML for current lag
+        /// </summary>
+        private void FormatAndWriteHTMLForCurrentLag(TimeSpan lag)
+        {
+            string formatedText = this.AltItemBeginningHtml +
+                "<div class=\"infoEntry\">" +
+                    "<div class=\"message\"> Current lag is: " + lag.Seconds + " seconds.</div>" +
+                "</div>" +
+            "</div>";
+
+            WriteHTMLToChat(formatedText);
+        }
+
+        /// <summary>
         /// Writes the HTML-formated string to the GUI
         /// </summary>
         /// <param name="formatedText"></param>
@@ -281,13 +295,27 @@ namespace SharpWired.Gui.Chat
             string message = sendChatRichTextBox.Text;
             if (message != null && message.Length > 0)
             {
+                message = message.TrimStart(); //Trim all whitespaces in beginning of string
                 //TODO: Make a real message handler if we want to support sending messages "the IRC-way"
-                int result = string.Compare("/msg", 0, message, 0, 4, true);
-                if (result == 0)
+                if (0 == string.Compare("/msg", 0, message, 0, 4, true))
                 {
                     GuiPrivateMessageItem pmi = new GuiPrivateMessageItem(logicManager, message);
                     //logicManager.PrivateMessagesHandler.Commands.Msg(pmi.ToUser.UserId, pmi.Message);
                     logicManager.PrivateMessagesHandler.Msg(pmi.ToUser, pmi.Message);
+                }
+                else if (0 == string.Compare("/lag", 0, message, 0, 4, true))
+                {
+                    // TODO: This only works if we have been connected more than 10 sec (the 
+                    // first ping must already be sent to the server. See the HeartBeatTimer).
+                    // Since we probably will do a remake how this works GUI wise it's ok for now
+                    if (logicManager.ConnectionManager.CurrentLag != null)
+                    {
+                        FormatAndWriteHTMLForCurrentLag((TimeSpan)logicManager.ConnectionManager.CurrentLag);
+                    }
+                    else
+                    {
+                        //TODO: We might want to tell the user that lag wasn't possible to measure
+                    }
                 }
                 else
                 {

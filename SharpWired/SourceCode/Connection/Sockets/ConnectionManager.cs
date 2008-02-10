@@ -40,42 +40,15 @@ namespace SharpWired.Connection
     public class ConnectionManager
     {
 		#region Fields
-
-		/// <summary>
-		/// The messages that this connection uses.
-		/// </summary>
 		private Messages messages;
-
-		/// <summary>
-		/// The commands that this connection uses.
-		/// </summary>
 		private Commands commands;
-
-		/// <summary>
-		/// The socket for this connection.
-		/// </summary>
 		private SecureSocket commandSocket;
-
-		/// <summary>
-		/// For Files-transfers.
-		/// </summary>
+        /// <summary>
+        /// For Files-transfers.
+        /// </summary>
 		protected BinarySecureSocket binarySocket;
+        LagHandler lagHandler;
 		#endregion
-
-
-		#region Constructor
-
-		/// <summary>
-		/// Constructs a ConnectionManager. Creates a SecureSocket, a Message, and a Commands.
-		/// </summary>
-		public ConnectionManager()
-        {
-            this.commandSocket = new SecureSocket();
-            this.messages = new Messages(this.commandSocket);
-            this.commands = new Commands(this.commandSocket);
-		}
-		#endregion
-
 
 		#region Properties
 
@@ -104,8 +77,15 @@ namespace SharpWired.Connection
 			get { return mCurrentBookmark; }
 		}
 
-		#endregion
+        /// <summary>
+        /// Gets the current lag
+        /// </summary>
+        public Nullable<TimeSpan> CurrentLag
+        {
+            get { return lagHandler.CurrentLag; }
+        }
 
+		#endregion
 
 		/// <summary>
 		/// Connect to the Server in the Bookmark using the UserInfo from the bookmark as well.
@@ -125,8 +105,6 @@ namespace SharpWired.Connection
                 throw (ce);
             }
         }
-
-        
 
 		/// <summary>
 		/// Increases the port number for the server by one, so that it corresponds
@@ -167,5 +145,22 @@ namespace SharpWired.Connection
 			binarySocket.Connect(bookmark.Server, fileStream, fileSize, offset);
 			return binarySocket;
 		}
+
+        #region Constructor - Creates commands, messages and sockets
+        /// <summary>
+        /// Constructs a ConnectionManager. Creates a SecureSocket, a Message, and a Commands.
+        /// </summary>
+        public ConnectionManager()
+        {
+            this.commandSocket = new SecureSocket();
+            this.messages = new Messages(this.commandSocket);
+            this.commands = new Commands(this.commandSocket);
+
+            //Set up the lag handler
+            this.lagHandler = new LagHandler();
+            messages.PingReplyEvent += new Messages.PingReplyEventHandler(lagHandler.OnPingReceived);
+            commands.PingSentEvent +=new Commands.PingSentDelegate(lagHandler.OnPingSent);
+        }
+        #endregion
 	}
 }

@@ -39,7 +39,6 @@ namespace SharpWired.Connection
         private ConnectionManager connectionManager;
         private Timer timer;
         private HeartBeatHandler heartBeatHandler;
-        private Nullable<TimeSpan> lag;
 
         /// <summary>
         /// Starts the timer for this connection
@@ -48,9 +47,13 @@ namespace SharpWired.Connection
         {
             TimerCallback tc = new TimerCallback(heartBeatHandler.DoPing);
             timer = new Timer(tc);
-            timer.Change(10000, 60000); // Waits 10 seconds before starting 
-                                        // the pings. Then every minute (same
-                                        // time difference as Wired Client)
+
+            // Waits 10 seconds before starting 
+            // the pings. Then every minute (same
+            // time difference as Wired Client)
+            int waitBeforeStarting = 10000; // TODO: Move to configuration
+            int waitBetwenPings = 60000;    //       Move to configuration
+            timer.Change(waitBeforeStarting, waitBetwenPings);
         }
 
         /// <summary>
@@ -59,24 +62,7 @@ namespace SharpWired.Connection
         public void StopTimer()
         {
             timer.Dispose();
-            lag = null;
         }
-
-        #region Listeners from messages
-        void Messages_PingReplyEvent(object sender,
-            SharpWired.MessageEvents.MessageEventArgs_Messages
-            messageEventArgs)
-        {
-            lag = DateTime.Now.Subtract(heartBeatHandler.LastSentPing);
-            Console.WriteLine("Lag: " + lag.ToString());
-            //TODO: Instead of having the heart beat timer responsible for 
-            //calculating the lag we should have some other class. If we
-            //decide to use heartbeattimer for this we should rename it to
-            //something like LagHandler instead.
-            //The laghandler could then send an event every time the lag
-            //value was updated.
-        }
-        #endregion
 
         /// <summary>
         /// Constructor
@@ -87,9 +73,6 @@ namespace SharpWired.Connection
         {
             this.connectionManager = connectionManager;
             this.heartBeatHandler = new HeartBeatHandler(connectionManager);
-            //Listening to this event to be able to calculate the server lag
-            connectionManager.Messages.PingReplyEvent += new 
-                Messages.PingReplyEventHandler(Messages_PingReplyEvent);
         }
     }
 
@@ -114,7 +97,7 @@ namespace SharpWired.Connection
         /// </summary>
         public void DoPing(Object stateInfo)
         {
-            connectionManager.Commands.Ping();
+            connectionManager.Commands.Ping(this);
             lastPing = DateTime.Now;
         }
 
