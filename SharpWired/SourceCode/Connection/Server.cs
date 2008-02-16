@@ -37,9 +37,12 @@ namespace SharpWired.Connection
     [Serializable]
     public class Server
 	{
-
 		#region Properties
-		private int serverPort;
+        // Setting default values to be able to save an empty bookmark.
+		private int serverPort = 2000;
+        private string machineName = "";
+        private string serverName = "";
+
 		/// <summary>
 		/// Get/Set the Port.
 		/// </summary>
@@ -49,7 +52,6 @@ namespace SharpWired.Connection
             set { serverPort = value; }
         }
 
-        private string machineName;
 		/// <summary>
 		/// Get/Set the server machine name.
 		/// </summary>
@@ -59,7 +61,6 @@ namespace SharpWired.Connection
             set { machineName = value; }
         }
 
-        private string serverName;
 		/// <summary>
 		/// Get/Set the server name; domain or IP.
 		/// </summary>
@@ -88,7 +89,7 @@ namespace SharpWired.Connection
 		/// <summary>
 		/// Parameterless constructor for de-serialization.
 		/// </summary>
-		private Server()
+		public Server()
 		{
 		}
 		#endregion
@@ -114,10 +115,10 @@ namespace SharpWired.Connection
 		/// <summary>
 		/// Returns a string representing this Server.
 		/// </summary>
-		/// <returns>[MachineName]-[ServerName]:[Port]</returns>
+		/// <returns>([MachineName])[ServerName]:[Port]</returns>
 		public override string ToString()
 		{
-			return machineName + " - " + serverName + " : " + serverPort;
+			return "(" + machineName + ")" + serverName + ":" + serverPort;
 		}
 
 		/// <summary>

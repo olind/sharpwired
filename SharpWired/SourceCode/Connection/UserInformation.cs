@@ -40,7 +40,7 @@ namespace SharpWired.Connection
 		/// <summary>
 		/// Parameterless constructor for serialization. For XML.
 		/// </summary>
-		private UserInformation()
+		public UserInformation()
 		{
 		}
 
@@ -59,7 +59,10 @@ namespace SharpWired.Connection
 		#endregion
 
 		#region Properties
-		private string nick;
+		private string nick = "";
+        private string user = "";
+        private string password = "";
+
 		/// <summary>
 		/// Get/Set the NickName.
 		/// </summary>
@@ -69,7 +72,7 @@ namespace SharpWired.Connection
             set { nick = value; }
         }
 
-        private string user;
+        
 		/// <summary>
 		/// Get/Set the UserName.
 		/// </summary>
@@ -79,7 +82,7 @@ namespace SharpWired.Connection
             set { user = value; }
         }
 
-        private string password;
+        
 		/// <summary>
 		/// Get/Set the password. The password is hashed!
 		/// </summary>
@@ -111,10 +114,10 @@ namespace SharpWired.Connection
 		/// <summary>
 		/// Returns a string representation.
 		/// </summary>
-		/// <returns>Nick: [Nickname], User: [Username].</returns>
+        /// <returns>[Username]([Nickname])</returns>
 		public override string ToString()
 		{
-			return "Nick: " + nick + ", User: " + user;
+			return UserName + "(" + Nick + ")";
 		}
 
 		/// <summary>

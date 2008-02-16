@@ -131,10 +131,6 @@
       <DependentUpon>BookmarkManagerDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Bookmarks\BookmarkManagerGUI.resx">
-      <DependentUpon>BookmarkManagerGUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Gui\Chat\ChatUserControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ChatUserControl.cs</DependentUpon>
@@ -248,12 +244,6 @@
     </Compile>
     <Compile Include="Gui\Bookmarks\BookmarkManagerDialog.Designer.cs">
       <DependentUpon>BookmarkManagerDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\Bookmarks\BookmarkManagerGUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Gui\Bookmarks\BookmarkManagerGUI.Designer.cs">
-      <DependentUpon>BookmarkManagerGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\Chat\GuiPrivateMessageItem.cs" />
     <Compile Include="Gui\Files\FileDetailsControl.cs">

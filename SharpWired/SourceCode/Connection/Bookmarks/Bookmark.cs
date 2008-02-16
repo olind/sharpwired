@@ -34,20 +34,31 @@ namespace SharpWired.Connection.Bookmarks
 	/// This class is a Bookmark to a server. It consist of server info together with a login.
 	/// </summary>
     [Serializable]
-    public class Bookmark
+    public class Bookmark : IComparable
 	{
 		#region Properties
-		private UserInformation  userInformation;
+        // Setting default classes to be able to save an empty bookmark.
+        private string name = "";
+		private UserInformation userInformation = new UserInformation();
+        private Server server = new Server();
+
+        /// <summary>
+        /// The name of the bookmark.
+        /// </summary>
+        public string Name {
+            get { return name; }
+            set { name = value; }
+        }
+
 		/// <summary>
 		/// Get/Set the login to the server.
 		/// </summary>
-        public UserInformation  UserInformation
+        public UserInformation UserInformation
         {
             get { return userInformation; }
             set { userInformation = value; }
         }
 
-        private Server server;
 		/// <summary>
 		/// Get/Set the Server info.
 		/// </summary>
@@ -60,20 +71,30 @@ namespace SharpWired.Connection.Bookmarks
 
 		#region Constructors
 		/// <summary>
-		/// Constrcut.
+		/// Construct.
 		/// </summary>
+        /// <param name="name">The name of the bookmark.</param>
 		/// <param name="server">The server.</param>
-		/// <param name="userInformation">The login.</param>
-		public Bookmark(Server server, UserInformation userInformation)
+		/// <param name="userInformation">The user information.</param>
+		public Bookmark(string name, Server server, UserInformation userInformation)
         {
+            this.Name = name;
             this.Server = server;
             this.UserInformation = userInformation;
         }
 
+        /// <summary>
+        /// Constructor without name.
+        /// </summary>
+        /// <param name="server">The server.</param>
+        /// <param name="userInformation">The user information.</param>
+        public Bookmark(Server server, UserInformation userInformation) 
+            : this("", server, userInformation) { }
+
 		/// <summary>
 		/// Parameterless constructor for de-serialization. For Xml.
 		/// </summary>
-		private Bookmark()
+		public Bookmark()
 		{
 		}
 		#endregion
@@ -89,28 +110,28 @@ namespace SharpWired.Connection.Bookmarks
 			Bookmark b = obj as Bookmark;
 			if (b == null)
 				return false;
-			return b.server.Equals(this.server)
-				&& b.userInformation.Equals(this.userInformation);
+			return b.Name.Equals(this.Name)
+                && b.Server.Equals(this.Server)
+				&& b.UserInformation.Equals(this.UserInformation);
 		}
 
 		/// <summary>
 		/// Returns a short representation of this Bookmark.
 		/// </summary>
-		/// <returns>[UserName]@[ServerName]:[Port]</returns>
-		public string ToShortString()
-		{
-			return this.UserInformation.UserName
-							+ " @ " + this.Server.ServerName
-							+ ":" + this.Server.ServerPort.ToString();
+		/// <returns>[Name]</returns>
+		public string ToShortString() {
+            if (this.Name == "")
+                return this.ToString();
+
+            return this.Name;
 		}
 
 		/// <summary>
 		/// A string for this Bookmark.
 		/// </summary>
-		/// <returns>user @ server.</returns>
-		public override string ToString()
-		{
-			return userInformation + " @ " + server;
+        /// <returns>[UserName]@[ServerName]:[Port]</returns>
+		public override string ToString() {
+			return Name + "[" + userInformation + "@" + server + "]";
 		}
 
 		/// <summary>
@@ -122,5 +143,13 @@ namespace SharpWired.Connection.Bookmarks
 			return base.GetHashCode();
 		}
 		#endregion
+
+        #region IComparable Members
+
+        public int CompareTo(object obj) {
+            return this.Name.CompareTo((obj as Bookmark).Name);
+        }
+
+        #endregion
     }
 }

@@ -38,47 +38,129 @@ namespace SharpWired.Gui.Bookmarks
     /// <summary>
     /// The Bookmark manager dialog GUI
     /// </summary>
-	public partial class BookmarkManagerDialog : Form
-	{
+	public partial class BookmarkManagerDialog : Form {
+        #region Properties
+        private Bookmark selectedBookmark;
+
+        /// <summary>
+        /// The bookmark currently selected in the bookmarks dialog.
+        /// </summary>
+        public Bookmark SelectedBookmark {
+            get { return selectedBookmark; }
+            set { selectedBookmark = value; }
+        }
+
+        private Bookmark bookmarkToConnect = null;
+
+        /// <summary>
+        /// The bookmark selected for connection.
+        /// </summary>
+        public Bookmark BookmarkToConnect {
+            get { return bookmarkToConnect; }
+            set { bookmarkToConnect = value; }
+        }
+        #endregion
+
+        #region Init
         /// <summary>
         /// Constructor
         /// </summary>
 		public BookmarkManagerDialog()
 		{
 			InitializeComponent();
-		}
+            PopulateList();
+            this.bookmarkEntryControl.Enabled = false;
+        }
+        #endregion
 
-		private void cancelButton_Click(object sender, EventArgs e)
-		{
-			this.DialogResult = DialogResult.No;
+        #region EventHandlers
+        private void closeButton_Click(object sender, EventArgs e) {
 			this.Close();
 		}
 
-		private void connectButton_Click(object sender, EventArgs e)
-		{
-			this.DialogResult = DialogResult.Yes;
-			this.BookmarkToConnect = this.bookmarkManagerGUI1.CurrentBookmark;
+		private void connectButton_Click(object sender, EventArgs e) {
+            SaveAndSelectBookmark(SelectedBookmark);
+            this.BookmarkToConnect = this.SelectedBookmark;
 			this.Close();
-		}
+        }
 
-		private Bookmark bookmarkToConnect;
+        private void deleteButton_Click(object sender, EventArgs e) {
+            if (bookmarkList.SelectedItems.Count == 1) {
+                BookmarkManager.RemoveBookmark(bookmarkList.SelectedItems[0].Tag as Bookmark);
+                this.bookmarkEntryControl.SetBookmark(null);
+                PopulateList();
+            }
+        }
 
-		public Bookmark BookmarkToConnect
-		{
-			get { return bookmarkToConnect; }
-			set { bookmarkToConnect = value; }
-		}
+        private void addButton_Click(object sender, EventArgs e) {
+            Bookmark bookmark = new Bookmark();
+            bookmark.Name = "New Bookmark";
+            BookmarkManager.AddBookmark(bookmark, false);
+            selectedBookmark = bookmark;
+            PopulateList();
+            this.bookmarkEntryControl.ShowPasswordBox(true);
+            this.bookmarkEntryControl.Focus();
+        }
 
-		private void bookmarkManagerGUI1_CurrentBookmarkChangedEvent(object sender, Bookmark currentBookmark)
-		{
-			if (currentBookmark == null)
-			{
-				this.connectButton.Enabled = false;
-			}
-			else
-			{
-				this.connectButton.Enabled = true;
-			}
-		}
+        private void saveButton_Click(object sender, EventArgs e) {
+            SaveAndSelectBookmark(this.bookmarkEntryControl.GetBookmark());
+            PopulateList();
+        }
+
+        private void bookmarkList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e) {
+            ChangeButtonStatus();
+        }
+        #endregion
+
+        private void SaveAndSelectBookmark(Bookmark bookmark) {
+            BookmarkManager.RemoveBookmark(SelectedBookmark);
+            BookmarkManager.AddBookmark(bookmark, false);
+            SelectedBookmark = bookmark;
+        }
+
+        private void ChangeButtonStatus() {
+            bool buttonsEnabled = true;
+            if (bookmarkList.SelectedItems.Count > 0) {
+                Bookmark bookmark = this.bookmarkList.SelectedItems[0].Tag as Bookmark;
+                this.selectedBookmark = bookmark;
+                this.bookmarkEntryControl.SetBookmark(bookmark);
+            } else {
+                this.selectedBookmark = null;
+                this.bookmarkEntryControl.Clear();
+                buttonsEnabled = false;
+            }
+
+            this.connectButton.Enabled = buttonsEnabled;
+            this.saveBookmarkButton.Enabled = buttonsEnabled;
+            this.deleteButton.Enabled = buttonsEnabled;
+            this.bookmarkEntryControl.Enabled = buttonsEnabled;
+        }
+
+        private void PopulateList() {
+            try {
+                bookmarkList.Clear();
+                if (BookmarkManager.Bookmarks == null)
+                    BookmarkManager.GetBookmarks();
+            
+                foreach (Bookmark bookmark in BookmarkManager.Bookmarks) {
+                    if (bookmark != null) {
+                        // TODO: Use bookmark name instead!
+                        ListViewItem item = new ListViewItem(bookmark.ToShortString());
+                        item.Tag = bookmark;
+                        this.bookmarkList.Items.Add(item);
+                    }
+                }
+                
+                int i = 0;
+                foreach (ListViewItem item in bookmarkList.Items) {
+                    bookmarkList.Items[i].Selected = (item.Tag == selectedBookmark);
+                    i++;
+                }
+
+                ChangeButtonStatus();
+            } catch (BookmarkException e) {
+                MessageBox.Show(e.ToString(), "Bookmark Error");
+            }
+        }
 	}
 }

@@ -290,6 +290,7 @@ namespace SharpWired.Connection.Bookmarks
                     // If everything went ok, save data to file.
                     MemoryStream s = new MemoryStream();
                     XmlSerializer ser = new XmlSerializer(typeof(Bookmark[]));
+                    bookmarks.Sort();
                     ser.Serialize(s, bookmarks.ToArray());
 
                     Stream stream = null;

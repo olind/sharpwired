@@ -117,8 +117,9 @@ namespace SharpWired.Gui
             using (BookmarkManagerDialog diag = new BookmarkManagerDialog())
             {
                 // NOTE: Bookmark mangar could be shown as a modless dialog?
-                if (diag.ShowDialog(this) == DialogResult.Yes)
-                {
+                diag.ShowDialog(this);
+
+                if (diag.BookmarkToConnect != null) {
                     Bookmark bookmark = diag.BookmarkToConnect;
                     logicManager.Connect(bookmark);
                 }

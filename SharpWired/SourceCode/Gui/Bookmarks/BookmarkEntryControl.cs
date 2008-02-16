@@ -39,10 +39,9 @@ namespace SharpWired.Gui.Bookmarks
 	/// <summary>
 	/// A control for showing and editing a BookmarkEntry.
 	/// </summary>
-	public partial class BookmarkEntryControl : UserControl
-	{
-		#region Constructors
-		/// <summary>
+	public partial class BookmarkEntryControl : UserControl {
+        #region Constructors
+        /// <summary>
 		/// Inits.
 		/// </summary>
 		public BookmarkEntryControl()
@@ -51,7 +50,6 @@ namespace SharpWired.Gui.Bookmarks
 		}
 		#endregion
 
-
 		#region Get Bookmark
 		/// <summary>
 		/// Get a Bookmark created from the info entered into the control at present.
@@ -59,7 +57,9 @@ namespace SharpWired.Gui.Bookmarks
 		/// <returns>A Bookmark.</returns>
 		public Bookmark GetBookmark()
 		{
-			return new Bookmark(GetServer(), GetUser());
+			return new Bookmark(this.nameBox.Text.Trim(),
+                                GetServer(),
+                                GetUser());
 		}
 
 		/// <summary>
@@ -79,14 +79,13 @@ namespace SharpWired.Gui.Bookmarks
 		/// <returns>A Server.</returns>
 		private Server GetServer()
 		{
-			return new Server(	(int)this.portUpDown.Value,
-								this.machineNameBox.Text.Trim(),
-								this.serverNameBox.Text.Trim());
+			return new Server( (int)this.portUpDown.Value,
+							   this.machineNameBox.Text.Trim(),
+							   this.addressBox.Text.Trim());
 		}
 		#endregion
 
-
-		#region Set Bookmark.
+		#region Set Bookmark
 		/// <summary>
 		/// Set the info to display in the controls.
 		/// </summary>
@@ -95,14 +94,18 @@ namespace SharpWired.Gui.Bookmarks
 		{
 			if (bookmark != null)
 			{
+                this.nameBox.Text = bookmark.Name;
 				SetUser(bookmark.UserInformation);
 				SetServer(bookmark.Server);
 			}
 			else
 			{
+                this.nameBox.Text = "";
 				SetUser(null);
 				SetServer(null);
 			}
+
+            ShowPasswordBox(false);
 		}
 
 		/// <summary>
@@ -116,14 +119,12 @@ namespace SharpWired.Gui.Bookmarks
 			{
 				this.userNameBox.Text = "";
 				this.nickBox.Text = "";
-				this.passwordBox.Text = "";				
+				this.passwordBox.Text = "";		
 			}
 			else
 			{
 				this.userNameBox.Text = user.UserName;
 				this.nickBox.Text = user.Nick;
-				//this.passwordBox.Text = user.Password;
-				this.passwordBox.Text = "";
 			}
 			this.suspendEvents = false;
 		}
@@ -137,20 +138,19 @@ namespace SharpWired.Gui.Bookmarks
 			this.suspendEvents = true;
 			if (server == null)
 			{
-				this.serverNameBox.Text = "";
+				this.addressBox.Text = "";
 				this.machineNameBox.Text = "";
 				this.portUpDown.Value = 0M;
 			}
 			else
 			{
-				this.serverNameBox.Text = server.ServerName;
+				this.addressBox.Text = server.ServerName;
 				this.machineNameBox.Text = server.MachineName;
 				this.portUpDown.Value = (decimal)server.ServerPort;
 			}
 			this.suspendEvents = false;
 		}
 		#endregion
-
 
 		#region Events
 		private bool suspendEvents = false;
@@ -178,6 +178,7 @@ namespace SharpWired.Gui.Bookmarks
 		private void serverNameBox_TextChanged(object sender, EventArgs e)
 		{
 			OnValueChanged();
+            this.machineNameBox.Text = this.addressBox.Text;
 		}
 
 		private void portUpDown_ValueChanged(object sender, EventArgs e)
@@ -185,5 +186,26 @@ namespace SharpWired.Gui.Bookmarks
 			OnValueChanged();
 		}
 		#endregion
-	}
+
+        internal void Clear() {
+            this.nameBox.Text = "";
+            this.addressBox.Text = "";
+            this.machineNameBox.Text = "";
+            this.portUpDown.Value = 2000;
+            this.userNameBox.Text = "";
+            this.nickBox.Text = "";
+            this.passwordBox.Text = "";
+        }
+
+        public void ShowPasswordBox(bool show) {
+            this.editPasswordButton.Visible = !show;
+            this.passwordBox.Visible = show;
+            if (show)
+                this.passwordBox.Clear();
+        }
+
+        private void editPasswordButton_Click(object sender, EventArgs e) {
+            ShowPasswordBox(true);
+        }
+    }
 }

@@ -88,16 +88,24 @@ namespace SharpWired.Connection
 		#endregion
 
 		/// <summary>
-		/// Connect to the Server in the Bookmark using the UserInfo from the bookmark as well.
+		/// Connect to the Server in the Bookmark using the UserInfo from the
+        /// bookmark as well.
 		/// </summary>
-		/// <param name="bookmark">The info about Server and UserInformation.</param>
+		/// <param name="bookmark">The info about Server and
+        /// UserInformation.</param>
         public void Connect(Bookmark bookmark)
         {
             try
             {
-                commandSocket.Connect(bookmark.Server);
-                commands.InitConnection(bookmark.UserInformation);
-                mCurrentBookmark = bookmark;
+                if (bookmark != null) {
+                    commandSocket.Connect(bookmark.Server);
+                    commands.InitConnection(bookmark.UserInformation);
+                    mCurrentBookmark = bookmark;
+                } else {
+                    // TODO: Log instead of write to std out
+                    Console.WriteLine("ERROR - ConnectionManager.Connect(): " +
+                                      "Trying to connect to a null bookmark.");
+                }
             }
             catch (ConnectionException ce)
             {
