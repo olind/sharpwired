@@ -49,7 +49,7 @@ namespace SharpWired.Connection
 		/// </summary>
 		/// <param name="nick">The Nickname.</param>
 		/// <param name="userName">The user name.</param>
-		/// <param name="password">The Password. TODO: ClearText or Hash?!</param>
+		/// <param name="password">The hashed password.</param>
         public UserInformation(string nick, string userName, string password)
         {
             this.Nick = nick;

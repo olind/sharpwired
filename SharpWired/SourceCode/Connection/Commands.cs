@@ -149,7 +149,7 @@ namespace SharpWired.Connection
         /// Create a new user
         /// </summary>
         /// <param name="name">The user name for the new user</param>
-        /// <param name="password">The password for the new user</param>
+        /// <param name="password">The non-hashed password for the new user</param>
         public void CreateUser (string name, string password)
         {
             if (socket != null)

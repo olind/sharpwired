@@ -40,6 +40,11 @@ namespace SharpWired.Gui.Bookmarks
 	/// A control for showing and editing a BookmarkEntry.
 	/// </summary>
 	public partial class BookmarkEntryControl : UserControl {
+        //The password should only be hashed if we edit it 
+        //otherwise it will be hashed twice
+        private bool doPasswordHashing = false;
+        private bool suspendEvents = false;
+
         #region Constructors
         /// <summary>
 		/// Inits.
@@ -65,12 +70,17 @@ namespace SharpWired.Gui.Bookmarks
 		/// <summary>
 		/// Get the user info. Password should be hashed!
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The user information object for this user.</returns>
 		private UserInformation GetUser()
 		{
+            String password = this.passwordBox.Text;
+            if (doPasswordHashing)
+                password = Utility.HashPassword(password);
+            doPasswordHashing = false;
+
 			return new UserInformation(	this.nickBox.Text.Trim(),
 										this.userNameBox.Text.Trim(),
-										Utility.HashPassword(this.passwordBox.Text));
+										password);
 		}
 
 		/// <summary>
@@ -125,6 +135,9 @@ namespace SharpWired.Gui.Bookmarks
 			{
 				this.userNameBox.Text = user.UserName;
 				this.nickBox.Text = user.Nick;
+                //Set the hashed password otherwise we loose the password
+                //when editing other fields in the bookmark
+                this.passwordBox.Text = user.Password;
 			}
 			this.suspendEvents = false;
 		}
@@ -153,8 +166,6 @@ namespace SharpWired.Gui.Bookmarks
 		#endregion
 
 		#region Events
-		private bool suspendEvents = false;
-
 		/// <summary>
 		/// This is used for the ValueChanged event.
 		/// </summary>
@@ -185,6 +196,11 @@ namespace SharpWired.Gui.Bookmarks
 		{
 			OnValueChanged();
 		}
+
+        private void editPasswordButton_Click(object sender, EventArgs e)
+        {
+            ShowPasswordBox(true);
+        }
 		#endregion
 
         internal void Clear() {
@@ -197,15 +213,22 @@ namespace SharpWired.Gui.Bookmarks
             this.passwordBox.Text = "";
         }
 
-        public void ShowPasswordBox(bool show) {
+        /// <summary>
+        /// Shold the password box be shown or not. 
+        /// </summary>
+        /// <param name="show">
+        ///     If true show password box. 
+        ///     Hide it otherwise.
+        /// </param>
+        public void ShowPasswordBox(bool show)
+        {
             this.editPasswordButton.Visible = !show;
             this.passwordBox.Visible = show;
             if (show)
+            {
                 this.passwordBox.Clear();
-        }
-
-        private void editPasswordButton_Click(object sender, EventArgs e) {
-            ShowPasswordBox(true);
+                doPasswordHashing = true;
+            }
         }
     }
 }
