@@ -62,10 +62,22 @@ namespace SharpWired.Gui
             logicManager = new LogicManager();
             
             InitializeComponent();
-            /* TODO: Giant sequence diagram ends here */
+
             chatUserControl1.Init(logicManager);
             newsUserControl1.Init(logicManager);
             filesUserControl1.Init(logicManager);
+
+            chatTabControl.Dock = DockStyle.Fill;
+            newsUserControl1.Dock = DockStyle.Fill;
+            filesUserControl1.Dock = DockStyle.Fill;
+
+            newsUserControl1.Visible = false;
+            chatTabControl.Visible = true;
+            filesUserControl1.Visible = false;
+
+            publicChatToolStripButton.Enabled = false;
+            
+            /* TODO: Giant sequence diagram ends here */
 
 			BookmarkManager.GetBookmarks();
 
@@ -272,7 +284,14 @@ namespace SharpWired.Gui
         /// <param name="e"></param>
         private void newsToolStripButton_Click(object sender, EventArgs e)
         {
-            ChangeSelectedTab(sender, e);
+            newsUserControl1.Visible = true;
+            chatTabControl.Visible = false;
+            filesUserControl1.Visible = false;
+
+            publicChatToolStripButton.Enabled = true;
+            newsToolStripButton.Enabled = false;
+            filesToolStripButton.Enabled = true;
+            transfersToolStripButton.Enabled = true;
         }
 
         /// <summary>
@@ -282,7 +301,14 @@ namespace SharpWired.Gui
         /// <param name="e"></param>
         private void publicChatToolStripButton_Click(object sender, EventArgs e)
         {
-            ChangeSelectedTab(sender, e);
+            newsUserControl1.Visible = false;
+            chatTabControl.Visible = true;
+            filesUserControl1.Visible = false;
+
+            publicChatToolStripButton.Enabled = false;
+            newsToolStripButton.Enabled = true;
+            filesToolStripButton.Enabled = true;
+            transfersToolStripButton.Enabled = true;
         }
 
         /// <summary>
@@ -292,7 +318,14 @@ namespace SharpWired.Gui
         /// <param name="e"></param>
         private void filesToolStripButton_Click(object sender, EventArgs e)
         {
-            ChangeSelectedTab(sender, e);
+            filesUserControl1.Visible = true;
+            chatTabControl.Visible = false;
+            newsUserControl1.Visible = false;
+
+            publicChatToolStripButton.Enabled = true;
+            newsToolStripButton.Enabled = true;
+            filesToolStripButton.Enabled = false;
+            transfersToolStripButton.Enabled = true;
         }
 
         /// <summary>
@@ -302,29 +335,10 @@ namespace SharpWired.Gui
         /// <param name="e"></param>
         private void transfersToolStripButton_Click(object sender, EventArgs e)
         {
-            ChangeSelectedTab(sender, e);
+            //TODO: Once we have a transfer window
         }
 
         #endregion
-
-        /// <summary>
-        /// Select the tab with the corresponding names of the given sender
-        /// i.e. if button with name "Files" is sent as sender the tab with name "Files" is selected
-        /// NOTE: The text on the button and the text on the tab page must be the same.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ChangeSelectedTab(object sender, EventArgs e)
-        {
-            foreach (TabPage tp in tabControl1.TabPages)
-            {
-                //TODO: Fix a better solution. I couldn't find any. 
-                //This give us only one restriction and that is that the button 
-                //and the corresponding tab must be named exactly the same
-                if (tp.Text == sender.ToString())
-                    tabControl1.SelectedTab = tp;
-            }
-        }
 
         #region Thread safe manipulation
         /// <summary>

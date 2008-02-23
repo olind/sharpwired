@@ -59,13 +59,15 @@ namespace SharpWired.Gui.Chat
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.chatWebBrowser = new System.Windows.Forms.WebBrowser();
             this.sendChatRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.userListControl = new UserListControl();
+            this.userListControl = new SharpWired.Gui.Chat.UserListControl();
+            this.chatWrapperPanel = new System.Windows.Forms.Panel();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.chatWrapperPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // sendChatButton
@@ -105,7 +107,7 @@ namespace SharpWired.Gui.Chat
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.chatWebBrowser);
+            this.splitContainer2.Panel1.Controls.Add(this.chatWrapperPanel);
             // 
             // splitContainer2.Panel2
             // 
@@ -121,7 +123,7 @@ namespace SharpWired.Gui.Chat
             this.chatWebBrowser.Location = new System.Drawing.Point(0, 0);
             this.chatWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.chatWebBrowser.Name = "chatWebBrowser";
-            this.chatWebBrowser.Size = new System.Drawing.Size(400, 312);
+            this.chatWebBrowser.Size = new System.Drawing.Size(396, 308);
             this.chatWebBrowser.TabIndex = 0;
             // 
             // sendChatRichTextBox
@@ -134,13 +136,23 @@ namespace SharpWired.Gui.Chat
             this.sendChatRichTextBox.Text = "";
             this.sendChatRichTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.sendChatRichTextBox_KeyDown);
             // 
-            // userListControl1
+            // userListControl
             // 
             this.userListControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.userListControl.Location = new System.Drawing.Point(0, 0);
-            this.userListControl.Name = "userListControl1";
+            this.userListControl.Name = "userListControl";
             this.userListControl.Size = new System.Drawing.Size(113, 353);
             this.userListControl.TabIndex = 0;
+            // 
+            // chatWrapperPanel
+            // 
+            this.chatWrapperPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.chatWrapperPanel.Controls.Add(this.chatWebBrowser);
+            this.chatWrapperPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chatWrapperPanel.Location = new System.Drawing.Point(0, 0);
+            this.chatWrapperPanel.Name = "chatWrapperPanel";
+            this.chatWrapperPanel.Size = new System.Drawing.Size(400, 312);
+            this.chatWrapperPanel.TabIndex = 1;
             // 
             // ChatUserControl
             // 
@@ -155,6 +167,7 @@ namespace SharpWired.Gui.Chat
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.ResumeLayout(false);
+            this.chatWrapperPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -167,5 +180,6 @@ namespace SharpWired.Gui.Chat
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.RichTextBox sendChatRichTextBox;
         private System.Windows.Forms.WebBrowser chatWebBrowser;
+        private System.Windows.Forms.Panel chatWrapperPanel;
     }
 }

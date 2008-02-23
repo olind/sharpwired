@@ -61,24 +61,25 @@ namespace SharpWired.Gui.News
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.postNewsButton = new System.Windows.Forms.Button();
             this.postNewsRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.newsWrapperPanel = new System.Windows.Forms.Panel();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.newsWrapperPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // newsWebBrowser
             // 
-            this.newsWebBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.newsWebBrowser.Location = new System.Drawing.Point(3, 3);
+            this.newsWebBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.newsWebBrowser.Location = new System.Drawing.Point(0, 0);
             this.newsWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.newsWebBrowser.Name = "newsWebBrowser";
-            this.newsWebBrowser.Size = new System.Drawing.Size(461, 274);
+            this.newsWebBrowser.Size = new System.Drawing.Size(457, 269);
             this.newsWebBrowser.TabIndex = 0;
             // 
             // splitContainer1
             // 
+            this.splitContainer1.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
@@ -86,7 +87,7 @@ namespace SharpWired.Gui.News
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.newsWebBrowser);
+            this.splitContainer1.Panel1.Controls.Add(this.newsWrapperPanel);
             // 
             // splitContainer1.Panel2
             // 
@@ -113,11 +114,24 @@ namespace SharpWired.Gui.News
             this.postNewsRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.postNewsRichTextBox.Location = new System.Drawing.Point(3, 3);
+            this.postNewsRichTextBox.Location = new System.Drawing.Point(3, 1);
             this.postNewsRichTextBox.Name = "postNewsRichTextBox";
-            this.postNewsRichTextBox.Size = new System.Drawing.Size(380, 49);
+            this.postNewsRichTextBox.Size = new System.Drawing.Size(380, 51);
             this.postNewsRichTextBox.TabIndex = 0;
             this.postNewsRichTextBox.Text = "";
+            // 
+            // newsWrapperPanel
+            // 
+            this.newsWrapperPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.newsWrapperPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.newsWrapperPanel.Controls.Add(this.newsWebBrowser);
+            this.newsWrapperPanel.Location = new System.Drawing.Point(3, 3);
+            this.newsWrapperPanel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.newsWrapperPanel.Name = "newsWrapperPanel";
+            this.newsWrapperPanel.Size = new System.Drawing.Size(461, 273);
+            this.newsWrapperPanel.TabIndex = 1;
             // 
             // NewsUserControl
             // 
@@ -129,6 +143,7 @@ namespace SharpWired.Gui.News
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
+            this.newsWrapperPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -139,5 +154,6 @@ namespace SharpWired.Gui.News
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button postNewsButton;
         private System.Windows.Forms.RichTextBox postNewsRichTextBox;
+        private System.Windows.Forms.Panel newsWrapperPanel;
     }
 }
