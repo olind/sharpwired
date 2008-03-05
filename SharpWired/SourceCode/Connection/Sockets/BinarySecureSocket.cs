@@ -70,11 +70,7 @@ namespace SharpWired.Connection.Sockets
         /// <param name="e"></param>
         /// <param name="data"></param>
         public delegate void BinaryMessageReceivedHandler(object sender, EventArgs e, byte[] data);
-        /// <summary>
-        /// Message raised when a message is received from the server
-        /// </summary>
-        public event BinaryMessageReceivedHandler BinaryMessageReceived;
-
+        
         /// <summary>
         /// Constructor
         /// </summary>
