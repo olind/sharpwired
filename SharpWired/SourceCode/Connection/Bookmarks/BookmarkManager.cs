@@ -137,7 +137,7 @@ namespace SharpWired.Connection.Bookmarks
 		/// <summary>
 		/// Adds several bookmarks.
 		/// </summary>
-		/// <param name="bookmarks"></param>
+        /// <param name="marksToAdd"></param>
 		/// <param name="allowDuplicate">If false, no bookmarks are saves if theres a duplicate.</param>
 		/// <returns>True if succeded. False if not saved becouse of adding duplicates.</returns>
 		/// <remarks>Reads the bookmark file and add the bookmark to the list, then saves the file.</remarks>
@@ -307,7 +307,8 @@ namespace SharpWired.Connection.Bookmarks
 						}
 						finally
 						{
-							// Let exception fly.
+							// TODO: Handle?
+                            Console.WriteLine("Trying to save bookmarks. Failing with: " + ioe);
 						}
                     }
 

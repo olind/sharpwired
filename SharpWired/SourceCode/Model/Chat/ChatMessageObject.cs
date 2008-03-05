@@ -37,12 +37,20 @@ namespace SharpWired.Model.Chat
     public class ChatMessageObject : ChatObject
     {
         private MessageEventArgs_300301 messageEventArgs;
+
+        /// <summary>
+        /// Get or set the message event args for this chat message
+        /// </summary>
         public MessageEventArgs_300301 MessageEventArgs
         {
             get { return messageEventArgs; }
             set { messageEventArgs = value; }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="messageEventArgs"></param>
         public ChatMessageObject(MessageEventArgs_300301 messageEventArgs)
         {
             this.messageEventArgs = messageEventArgs;

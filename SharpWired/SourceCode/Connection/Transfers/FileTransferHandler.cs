@@ -243,8 +243,6 @@ namespace SharpWired.Connection.Transfers
 		}
 		#endregion
 
-		private string testPath = "/image.jpg";
-
 		/// <summary>
 		/// The GUI or someonw else wants to transfer (download) a file. Enqueue if file.
 		/// </summary>

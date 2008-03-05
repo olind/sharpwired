@@ -68,7 +68,7 @@ namespace SharpWired.Connection.Sockets
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        /// <param name="message"></param>
+        /// <param name="data"></param>
         public delegate void BinaryMessageReceivedHandler(object sender, EventArgs e, byte[] data);
         /// <summary>
         /// Message raised when a message is received from the server
@@ -92,6 +92,9 @@ namespace SharpWired.Connection.Sockets
 		/// Connects to the server using Connect(Port, MachineName, ServerName).
 		/// </summary>
 		/// <param name="server">The Server to connect to.</param>
+        /// <param name="stream"></param>
+        /// <param name="fileSize"></param>
+        /// <param name="offset"></param>
 		internal void Connect(Server server, FileStream stream, long fileSize, long offset)
 		{
 			Connect(server.ServerPort, server.MachineName, server.ServerName, stream, fileSize, offset);
@@ -103,6 +106,9 @@ namespace SharpWired.Connection.Sockets
         /// <param name="serverPort">The port for the server to use for this connection</param>
         /// <param name="machineName">The host running the server application</param>
         /// <param name="serverName">The machine name for the server, must match the machine name in the server certificate</param>
+        /// <param name="stream"></param>
+        /// <param name="fileSize"></param>
+        /// <param name="offset"></param>
 		private void Connect(int serverPort, string machineName, string serverName, FileStream stream, long fileSize, long offset)
         {
 
@@ -255,6 +261,9 @@ namespace SharpWired.Connection.Sockets
 				DataRecivedDoneEvent(this, new DataRecievedEventArgs());
 		}
 
+        /// <summary>
+        /// Event for telling when received data is dane
+        /// </summary>
 		public event EventHandler<DataRecievedEventArgs> DataRecivedDoneEvent;
 
 		//FileTransfer classen år tänkt att skickas in som state objekt för överföringen

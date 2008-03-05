@@ -146,6 +146,11 @@ namespace SharpWired.Connection.Bookmarks
 
         #region IComparable Members
 
+        /// <summary>
+        /// Compares this object by name with the given object
+        /// </summary>
+        /// <param name="obj">The object to compare with</param>
+        /// <returns></returns>
         public int CompareTo(object obj) {
             return this.Name.CompareTo((obj as Bookmark).Name);
         }
