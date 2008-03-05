@@ -102,12 +102,10 @@
     </Compile>
     <Compile Include="MessageEvents\MessageEventArgs_Path.cs" />
     <Compile Include="Connection\Messages.cs" />
-    <Compile Include="Model\Chat\ChatActionMessageObject.cs" />
-    <Compile Include="Model\Chat\ChatMessageObject.cs" />
     <Compile Include="Model\Chat\ChatModel.cs" />
-    <Compile Include="Model\Chat\ChatObject.cs" />
+    <Compile Include="Model\Chat\ChatMessageItem.cs" />
     <Compile Include="Model\Chat\ChatHandler.cs" />
-    <Compile Include="Model\Chat\ChatTopicObject.cs" />
+    <Compile Include="Model\Chat\ChatTopicItem.cs" />
     <Compile Include="Model\Users\Group.cs" />
     <Compile Include="Model\Users\Groups.cs" />
     <Compile Include="Model\LogicManager.cs" />
@@ -129,6 +127,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Bookmarks\BookmarkManagerDialog.resx">
       <DependentUpon>BookmarkManagerDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Chat\ChatControl.resx">
+      <DependentUpon>ChatControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Chat\ChatUserControl.resx">
@@ -245,9 +247,16 @@
     <Compile Include="Gui\Bookmarks\BookmarkManagerDialog.Designer.cs">
       <DependentUpon>BookmarkManagerDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Chat\ChatControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Chat\ChatControl.Designer.cs">
+      <DependentUpon>ChatControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Gui\Chat\GuiChatController.cs">
     </Compile>
     <Compile Include="Gui\Chat\GuiPrivateMessageItem.cs" />
+    <Compile Include="Gui\Chat\GuiMessageItem.cs" />
     <Compile Include="Gui\Files\FileDetailsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -277,6 +286,7 @@
     <Compile Include="Gui\Files\GuiFilesController.cs" />
     <Compile Include="Gui\Files\WiredListNode.cs" />
     <Compile Include="Gui\Files\WiredTreeNode.cs" />
+    <Compile Include="Gui\GuiUtil.cs" />
     <Compile Include="Gui\News\NewsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

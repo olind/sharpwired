@@ -1031,6 +1031,8 @@ namespace SharpWired.Connection
         // 516
         private void OnPermissionDeniedEvent(object sender, int messageId, string messageName, string message)
         {
+            Console.WriteLine("Permission denied. ID: " + messageId + " : message: " + message);
+
             if (PermissionDeniedEvent != null)
             {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);

@@ -97,6 +97,7 @@ namespace SharpWired.Gui.Files
         public void Init(LogicManager logicManager)
         {
             this.logicManager = logicManager;
+            //TODO: Move initialization of controller class to a non GUI class
             GuiFilesController filesController = new GuiFilesController(this.logicManager, fileTreeControl, fileDetailsControl, pathButtonControl);
         }
 

@@ -121,7 +121,8 @@ namespace SharpWired.Gui.Files
         /// <param name="fileDetailsControl"></param>
         /// <param name="breadCrumbControl"></param>
         public GuiFilesController(LogicManager logicManager, 
-            FileTreeControl fileTreeControl, FileDetailsControl fileDetailsControl, BreadCrumbControl breadCrumbControl)
+            FileTreeControl fileTreeControl, FileDetailsControl fileDetailsControl, 
+            BreadCrumbControl breadCrumbControl)
         {
             this.logicManager = logicManager;
             fileTreeControl.Init(logicManager, this);

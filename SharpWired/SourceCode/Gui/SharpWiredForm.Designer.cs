@@ -329,7 +329,6 @@ namespace SharpWired.Gui
             // 
             // chatUserControl1
             // 
-            this.chatUserControl1.CSSFilePath = "C:\\Program\\Microsoft Visual Studio 9.0\\Common7\\IDE";
             this.chatUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chatUserControl1.Location = new System.Drawing.Point(3, 3);
             this.chatUserControl1.Name = "chatUserControl1";

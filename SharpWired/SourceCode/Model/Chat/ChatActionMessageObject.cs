@@ -34,7 +34,7 @@ namespace SharpWired.Model.Chat
     /// <summary>
     /// Action chat message object
     /// </summary>
-    public class ChatActionMessageObject : ChatObject
+    public class ChatActionMessageObject : ChatMessageItem
     {
         private MessageEventArgs_300301 messageEventArgs;
 
@@ -51,7 +51,7 @@ namespace SharpWired.Model.Chat
         /// Constructor
         /// </summary>
         /// <param name="messageEventArgs"></param>
-        public ChatActionMessageObject(MessageEventArgs_300301 messageEventArgs)
+        public ChatActionMessageObject()
         {
             this.messageEventArgs = messageEventArgs;
         }

@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Text;
 using SharpWired.MessageEvents;
 using SharpWired.Connection;
+using SharpWired.Model.Users;
 
 namespace SharpWired.Model.Chat
 {
@@ -54,24 +55,20 @@ namespace SharpWired.Model.Chat
 
         #region Listeners: from communication layer
 
-        void Messages_ActionChatEvent(object sender, MessageEventArgs_300301 messageEventArgs)
-        {
-            ChatActionMessageObject chatActionMessageObject = new ChatActionMessageObject(messageEventArgs);
-            chatModel.AddActionMessage(chatActionMessageObject);
+        void Messages_ChatEvent(object sender, MessageEventArgs_300301 messageEventArgs) {
+            UserItem u = logicManager.UserHandler.UserModel.GetUser(messageEventArgs.UserId);
+            chatModel.OnChatMessageItemReceived(messageEventArgs, u, false);
         }
 
-        void Messages_ChatTopicEvent(object sender, MessageEventArgs_341 messageEventArgs)
-        {
-            ChatTopicObject chatTopicObject = new ChatTopicObject(messageEventArgs);
-            chatModel.AddTopic(chatTopicObject);
+        void Messages_ActionChatEvent(object sender, MessageEventArgs_300301 messageEventArgs) {
+            UserItem u = logicManager.UserHandler.UserModel.GetUser(messageEventArgs.UserId);
+            chatModel.OnChatMessageItemReceived(messageEventArgs, u, true);
         }
 
-        void Messages_ChatEvent(object sender, MessageEventArgs_300301 messageEventArgs)
-        {
-            ChatMessageObject chatMessageObject = new ChatMessageObject(messageEventArgs);
-            chatModel.AddMessage(chatMessageObject);
+        void Messages_ChatTopicEvent(object sender, MessageEventArgs_341 messageEventArgs) {
+            ChatTopicItem chatTopicObject = new ChatTopicItem(messageEventArgs);
+            chatModel.OnChatTopicChanged(chatTopicObject);
         }
-
         #endregion
 
         #region Sending to the communication layer
@@ -83,6 +80,16 @@ namespace SharpWired.Model.Chat
         public void SendChatMessage(string message)
         {
             this.LogicManager.ConnectionManager.Commands.Say(message);
+        }
+
+        /// <summary>
+        /// Change the topic for this chat
+        /// </summary>
+        /// <param name="topic"></param>
+        public void ChangeTopic(string topic) {
+            //TODO: Handle more than public chat
+            //TODO: Check permissions before setting topic
+            this.logicManager.ConnectionManager.Commands.Topic(1, topic);
         }
 
         #endregion

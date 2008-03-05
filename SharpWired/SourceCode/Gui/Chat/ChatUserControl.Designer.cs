@@ -54,32 +54,13 @@ namespace SharpWired.Gui.Chat
         /// </summary>
         private void InitializeComponent()
         {
-            this.sendChatButton = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.chatWebBrowser = new System.Windows.Forms.WebBrowser();
-            this.sendChatRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.chatControl = new SharpWired.Gui.Chat.ChatControl();
             this.userListControl = new SharpWired.Gui.Chat.UserListControl();
-            this.chatWrapperPanel = new System.Windows.Forms.Panel();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
-            this.chatWrapperPanel.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // sendChatButton
-            // 
-            this.sendChatButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.sendChatButton.Location = new System.Drawing.Point(348, 0);
-            this.sendChatButton.Name = "sendChatButton";
-            this.sendChatButton.Size = new System.Drawing.Size(52, 37);
-            this.sendChatButton.TabIndex = 6;
-            this.sendChatButton.Text = "Send";
-            this.sendChatButton.UseVisualStyleBackColor = true;
-            this.sendChatButton.Click += new System.EventHandler(this.sendChatButton_Click);
             // 
             // splitContainer1
             // 
@@ -89,70 +70,32 @@ namespace SharpWired.Gui.Chat
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Panel1.Controls.Add(this.chatControl);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.userListControl);
             this.splitContainer1.Size = new System.Drawing.Size(517, 353);
-            this.splitContainer1.SplitterDistance = 400;
+            this.splitContainer1.SplitterDistance = 404;
             this.splitContainer1.TabIndex = 8;
             // 
-            // splitContainer2
+            // chatControl
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.chatWrapperPanel);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.sendChatRichTextBox);
-            this.splitContainer2.Panel2.Controls.Add(this.sendChatButton);
-            this.splitContainer2.Size = new System.Drawing.Size(400, 353);
-            this.splitContainer2.SplitterDistance = 312;
-            this.splitContainer2.TabIndex = 8;
-            // 
-            // chatWebBrowser
-            // 
-            this.chatWebBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chatWebBrowser.Location = new System.Drawing.Point(0, 0);
-            this.chatWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.chatWebBrowser.Name = "chatWebBrowser";
-            this.chatWebBrowser.Size = new System.Drawing.Size(396, 308);
-            this.chatWebBrowser.TabIndex = 0;
-            // 
-            // sendChatRichTextBox
-            // 
-            this.sendChatRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sendChatRichTextBox.Location = new System.Drawing.Point(0, 0);
-            this.sendChatRichTextBox.Name = "sendChatRichTextBox";
-            this.sendChatRichTextBox.Size = new System.Drawing.Size(348, 37);
-            this.sendChatRichTextBox.TabIndex = 7;
-            this.sendChatRichTextBox.Text = "";
-            this.sendChatRichTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.sendChatRichTextBox_KeyDown);
+            this.chatControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chatControl.Location = new System.Drawing.Point(0, 0);
+            this.chatControl.Name = "chatControl";
+            this.chatControl.Size = new System.Drawing.Size(404, 353);
+            this.chatControl.TabIndex = 0;
             // 
             // userListControl
             // 
-            this.userListControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.userListControl.Location = new System.Drawing.Point(0, 0);
+            this.userListControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.userListControl.Location = new System.Drawing.Point(2, 3);
             this.userListControl.Name = "userListControl";
-            this.userListControl.Size = new System.Drawing.Size(113, 353);
+            this.userListControl.Size = new System.Drawing.Size(104, 347);
             this.userListControl.TabIndex = 0;
-            // 
-            // chatWrapperPanel
-            // 
-            this.chatWrapperPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.chatWrapperPanel.Controls.Add(this.chatWebBrowser);
-            this.chatWrapperPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chatWrapperPanel.Location = new System.Drawing.Point(0, 0);
-            this.chatWrapperPanel.Name = "chatWrapperPanel";
-            this.chatWrapperPanel.Size = new System.Drawing.Size(400, 312);
-            this.chatWrapperPanel.TabIndex = 1;
             // 
             // ChatUserControl
             // 
@@ -164,22 +107,14 @@ namespace SharpWired.Gui.Chat
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            this.splitContainer2.ResumeLayout(false);
-            this.chatWrapperPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button sendChatButton;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private UserListControl userListControl;
-        private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.RichTextBox sendChatRichTextBox;
-        private System.Windows.Forms.WebBrowser chatWebBrowser;
-        private System.Windows.Forms.Panel chatWrapperPanel;
+        private ChatControl chatControl;
     }
 }

@@ -34,7 +34,7 @@ namespace SharpWired.Model.Chat
     /// <summary>
     /// The object for topic messages
     /// </summary>
-    public class ChatTopicObject : ChatObject
+    public class ChatTopicItem
     {
         private MessageEventArgs_341 messageEventArgs;
         /// <summary>
@@ -50,7 +50,7 @@ namespace SharpWired.Model.Chat
         /// Constructor
         /// </summary>
         /// <param name="messageEventArgs"></param>
-        public ChatTopicObject(MessageEventArgs_341 messageEventArgs)
+        public ChatTopicItem(MessageEventArgs_341 messageEventArgs)
         {
             this.messageEventArgs = messageEventArgs;
         }

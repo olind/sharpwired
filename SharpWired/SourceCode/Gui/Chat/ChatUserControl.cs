@@ -42,49 +42,13 @@ namespace SharpWired.Gui.Chat
     /// </summary>
     public partial class ChatUserControl : UserControl
     {
-        #region Variables
+        LogicManager logicManager;
+        private int altItemCounter = 0;
 
-        private LogicManager logicManager;
-        private string chatBodyContent;
-        private string chatCSSFilePath;
-
-        // HTML output
-        string chatJavaScript;
-        string chatStyleSheet;
-        string chatHeader;
-        string chatFooter;
-        private int altItemCounter;
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Get or set the file path for the CSS-file
-        /// </summary>
-        public string CSSFilePath
-        {
-            get
-            {
-                if (chatCSSFilePath == null)
-                    return System.Environment.CurrentDirectory; //TODO: The path to the CSS-file should probably be set in some other way
-                return chatCSSFilePath;
-            }
-            set
-            {
-                chatCSSFilePath = value;
-            }
-        }
-
-        /// <summary>
-        /// Get the HTML-code to output for the standard/alt-items
-        /// </summary>
-        private string AltItemBeginningHtml
-        {
-            get
-            {
-                if (altItemCounter % 2 == 0)
-                {
+        //TODO: Find a better way for calculating alt/standard divs
+        private string AltItemBeginningHtml {
+            get {
+                if (altItemCounter % 2 == 0) {
                     altItemCounter++;
                     return "<div class=\"standard\">";
                 }
@@ -93,25 +57,7 @@ namespace SharpWired.Gui.Chat
             }
         }
 
-        #endregion
-
         #region Listeners: From model
-
-        void ChatModel_ChatTopicChangedEvent(object sender, global::SharpWired.Model.Chat.ChatTopicObject chatTopicObject)
-        {
-            OnChatTopicChangedEvent(chatTopicObject);
-        }
-
-        void ChatModel_ChatMessageChangedEvent(object sender, global::SharpWired.Model.Chat.ChatMessageObject chatMessageObject)
-        {
-            OnChatMessageChangedEvent(chatMessageObject);
-        }
-
-        void ChatModel_ChatActionMessageChangedEvent(object sender, global::SharpWired.Model.Chat.ChatActionMessageObject chatActionMessageObject)
-        {
-            OnChatActionMessageChangedEvent(chatActionMessageObject);
-        }
-
         void ErrorHandler_LoginToServerFailedEvent(string errorDescription, string solutionIdea, SharpWired.Connection.Bookmarks.Bookmark bookmark)
         {
             string formatedText = this.AltItemBeginningHtml +
@@ -123,7 +69,7 @@ namespace SharpWired.Gui.Chat
                 "</div>" +
             "</div>";
 
-            WriteHTMLToChat(formatedText);
+//            WriteHTMLToChat(formatedText);
         }
 
         void PrivateMessageModel_ReceivedPrivateMessageEvent(SharpWired.Model.PrivateMessages.PrivateMessageItem receivedPrivateMessage)
@@ -137,121 +83,9 @@ namespace SharpWired.Gui.Chat
         }
         #endregion
 
-        #region Listeners: From GUI-Window
-
-        private void sendChatButton_Click(object sender, EventArgs e)
-        {
-            SendMessage();
-            sendChatRichTextBox.Clear();
-        }
-
-        private void sendChatRichTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                SendMessage();
-                sendChatRichTextBox.Clear();
-                //TODO: after clearing sendChatRichTextBox it receives a newline that I can't remove
-            }
-            else if (e.KeyCode == Keys.Escape)
-            {
-                sendChatRichTextBox.Clear();
-            }
-        }
-        #endregion
-
         #region Methods: Receiving messages
 
-        /// <summary>
-        /// Formats and writes the text on an Chat Event to the GUI
-        /// </summary>
-        /// <param name="chatTopicObject"></param>
-        private void OnChatTopicChangedEvent(ChatTopicObject chatTopicObject)
-        {
-            /*
-             * Example of the html we want to produce here. class="standard" is class="alt" every other time
-             * 
-             *   <div class="standard">
-             *      <div class="topicEntry">
-             *          <div class="time">2006-11-25 19:54:44</div>
-             *          <div class="userName">Ola (Wire)</div>
-             *          <div class="message">Detta är toppentoppic!</div>
-             *      </div>
-             *   </div>
-             */
 
-            string formatedText = this.AltItemBeginningHtml +
-                "<div class=\"topicEntry\">" +
-                    "<div class=\"time\">" + chatTopicObject.MessageEventArgs.Time + "</div>" +
-                    "<div class=\"userName\">" + chatTopicObject.MessageEventArgs.Nick + "</div>" +
-                    "<div class=\"message\">" + chatTopicObject.MessageEventArgs.Topic + "</div>" +
-                "</div>" +
-            "</div>";
-
-            WriteHTMLToChat(formatedText);
-        }
-
-        /// <summary>
-        /// Formats and writes the text on an Chat Event to the GUI
-        /// </summary>
-        /// <param name="chatMessageObject"></param>
-        private void OnChatMessageChangedEvent(ChatMessageObject chatMessageObject)
-        {
-            /*
-             * Example of the html we want to produce here. class="standard" is class="alt" every other time
-             * 
-             *   <div class="standard">
-	         *       <div class="chatEntry">
-		     *           <div class="time">2006-12-01 00:00:00 22:28:50.2851648</div>
-		     *           <div class="userName">Ola (SharpWired)</div>
-		     *           <div class="message">ueoahdue</div>
-	         *       </div>
-             *   </div>
-             */
-
-            UserItem u = logicManager.UserHandler.UserModel.GetUser(chatMessageObject.MessageEventArgs.UserId);
-
-            string formatedText = this.AltItemBeginningHtml +
-                "<div class=\"chatEntry\">" +
-                    "<div class=\"time\">" + DateTime.Now + "</div>" +
-                    "<div class=\"userName\">" + u.Nick + "</div>" +
-                    "<div class=\"message\">" + chatMessageObject.MessageEventArgs.Message + "</div>" +
-                "</div>" +
-            "</div>";
-
-            WriteHTMLToChat(formatedText);
-        }
-
-        /// <summary>
-        /// Formats and writes the text on an Action Chat Event to the GUI
-        /// </summary>
-        /// <param name="chatActionMessageObject"></param>
-        private void OnChatActionMessageChangedEvent(ChatActionMessageObject chatActionMessageObject)
-        {
-            /*
-             * Example of the html we want to produce here. class="standard" is class="alt" every other time
-             * 
-             *   <div class="standard">
-	         *       <div class="chatEntry">
-		     *           <div class="time">2006-12-01 00:00:00 22:28:50.2851648</div>
-		     *           <div class="userName">Ola (SharpWired)</div>
-		     *           <div class="message">ueoahdue</div>
-	         *       </div>
-             *   </div>
-             */
-
-            UserItem u = logicManager.UserHandler.UserModel.GetUser(chatActionMessageObject.MessageEventArgs.UserId);
-
-            string formatedText = this.AltItemBeginningHtml +
-                "<div class=\"actionChatEntry\">" +
-                    "<div class=\"time\">" + DateTime.Now.Date + "</div>" +
-                    "<div class=\"userName\">" + u.Nick + "</div>" +
-                    "<div class=\"message\">" + chatActionMessageObject.MessageEventArgs.Message + "</div>" +
-                "</div>" +
-            "</div>";
-
-            WriteHTMLToChat(formatedText);
-        }
 
         /// <summary>
         /// Format HTML for current lag
@@ -264,65 +98,12 @@ namespace SharpWired.Gui.Chat
                 "</div>" +
             "</div>";
 
-            WriteHTMLToChat(formatedText);
+//            WriteHTMLToChat(formatedText);
         }
-
-        /// <summary>
-        /// Writes the HTML-formated string to the GUI
-        /// </summary>
-        /// <param name="formatedText"></param>
-        private void WriteHTMLToChat(string formatedText)
-        {
-            if(this.InvokeRequired){
-                WriteToChatCallback writeToChatCallback = new WriteToChatCallback(WriteHTMLToChat);
-                this.Invoke(writeToChatCallback, new object[] { formatedText });
-            } else {
-                chatBodyContent += formatedText;
-                chatWebBrowser.DocumentText = chatHeader + chatBodyContent + chatFooter;
-            }
-        }
-        delegate void WriteToChatCallback(string formatedText);
 
         #endregion
 
         #region Methods: Sending messages
-
-        /// <summary>
-        /// Sends a chat message to the server
-        /// </summary>
-        public void SendMessage()
-        {
-            string message = sendChatRichTextBox.Text;
-            if (message != null && message.Length > 0)
-            {
-                message = message.TrimStart(); //Trim all whitespaces in beginning of string
-                //TODO: Make a real message handler if we want to support sending messages "the IRC-way"
-                if (0 == string.Compare("/msg", 0, message, 0, 4, true))
-                {
-                    GuiPrivateMessageItem pmi = new GuiPrivateMessageItem(logicManager, message);
-                    //logicManager.PrivateMessagesHandler.Commands.Msg(pmi.ToUser.UserId, pmi.Message);
-                    logicManager.PrivateMessagesHandler.Msg(pmi.ToUser, pmi.Message);
-                }
-                else if (0 == string.Compare("/lag", 0, message, 0, 4, true))
-                {
-                    // TODO: This only works if we have been connected more than 10 sec (the 
-                    // first ping must already be sent to the server. See the HeartBeatTimer).
-                    // Since we probably will do a remake how this works GUI wise it's ok for now
-                    if (logicManager.ConnectionManager.CurrentLag != null)
-                    {
-                        FormatAndWriteHTMLForCurrentLag((TimeSpan)logicManager.ConnectionManager.CurrentLag);
-                    }
-                    else
-                    {
-                        //TODO: We might want to tell the user that lag wasn't possible to measure
-                    }
-                }
-                else
-                {
-                    logicManager.ChatHandler.SendChatMessage(message);
-                }
-            }
-        }
 
         private void OnPrivateMessageEvent(SharpWired.Model.PrivateMessages.PrivateMessageItem messageItem, string receivedOrSent)
         {
@@ -334,7 +115,7 @@ namespace SharpWired.Gui.Chat
                 "</div>" +
             "</div>";
 
-            WriteHTMLToChat(formatedText);
+//            WriteHTMLToChat(formatedText);
         }
 
         #endregion
@@ -348,11 +129,8 @@ namespace SharpWired.Gui.Chat
         public void Init(LogicManager logicManager)
         {
             this.logicManager = logicManager;
-            userListControl.Init(logicManager);
-
-            logicManager.ChatHandler.ChatModel.ChatActionMessageChangedEvent += new global::SharpWired.Model.Chat.ChatModel.ChatActionMessageChangedDelegate(ChatModel_ChatActionMessageChangedEvent);
-            logicManager.ChatHandler.ChatModel.ChatMessageChangedEvent += new global::SharpWired.Model.Chat.ChatModel.ChatMessageChangedDelegate(ChatModel_ChatMessageChangedEvent);
-            logicManager.ChatHandler.ChatModel.ChatTopicChangedEvent += new global::SharpWired.Model.Chat.ChatModel.ChatTopicChangedDelegate(ChatModel_ChatTopicChangedEvent);
+            //TODO: It's a bit aquard that this gui class initializes the controller class
+            GuiChatController guiChatController = new GuiChatController(logicManager, this.chatControl, this.userListControl);
 
             logicManager.PrivateMessagesHandler.PrivateMessageModel.ReceivedPrivateMessageEvent += new SharpWired.Model.PrivateMessages.PrivateMessageModel.ReceivedPrivateMessageDelegate(PrivateMessageModel_ReceivedPrivateMessageEvent);
             logicManager.PrivateMessagesHandler.PrivateMessageModel.SentPrivateMessageEvent += new SharpWired.Model.PrivateMessages.PrivateMessageModel.SentPrivateMessageDelegate(PrivateMessageModel_SentPrivateMessageEvent);
@@ -366,22 +144,6 @@ namespace SharpWired.Gui.Chat
         public ChatUserControl()
         {
             InitializeComponent();
-
-            //TODO: If a client sents a javascript we'll be writing that to our client and cause a security problem
-
-            chatStyleSheet = "<link href=\"" + CSSFilePath + "\\GUI\\SharpWiredStyleSheet.css\" rel=\"stylesheet\" type=\"text/css\" />";
-            chatJavaScript = "<script>function pageDown () { if (window.scrollBy) window.scrollBy(0, window.innerHeight ? window.innerHeight : document.body.clientHeight); }</script>";
-
-            chatHeader = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" +
-                "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">" + 
-                "<head><title>SharpWired</title>" + 
-                    chatJavaScript + 
-                    chatStyleSheet + 
-                "</head><body onload=\"pageDown(); return false;\">";
-
-            chatFooter = "</body></html>";
-
-            chatWebBrowser.DocumentText = chatHeader + chatFooter;
         }
 
         #endregion

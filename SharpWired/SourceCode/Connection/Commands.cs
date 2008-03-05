@@ -81,6 +81,7 @@ namespace SharpWired.Connection
                 Pass(userInformation.Password);
                 Client();
                 Who(1);
+                Ping(this);
             }
         }
 
@@ -520,7 +521,8 @@ namespace SharpWired.Connection
         }
 
         /// <summary>
-        /// Send a message to the public chat. Note, only redirects to the other say method.
+        /// Send a message to the public chat. 
+        /// Note, only redirects to the other say method.
         /// </summary>
         /// <param name="message">The message</param>
         public void Say(string message)
@@ -577,7 +579,7 @@ namespace SharpWired.Connection
         public void Topic(int chatId, string topic)
         {
             if (socket != null)
-                socket.SendMessage("TOPIC" + Utility.SP + chatId + Utility.SP + topic);
+                socket.SendMessage("TOPIC" + Utility.SP + chatId + Utility.FS + topic);
         }
 
         /// <summary>
