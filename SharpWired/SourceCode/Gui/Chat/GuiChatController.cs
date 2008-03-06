@@ -109,6 +109,12 @@ namespace SharpWired.Gui.Chat {
 
             logicManager.ChatHandler.ChatModel.ChatTopicChangedEvent += 
                 new SharpWired.Model.Chat.ChatModel.ChatTopicChangedDelegate(chatControl.OnChatTopicChanged);
+
+            logicManager.ErrorHandler.LoginToServerFailedEvent += 
+                new SharpWired.Model.Errors.ErrorHandler.LoginToServerFailedDelegate(chatControl.OnErrorEvent);
+
+            logicManager.PrivateMessagesHandler.PrivateMessageModel.ReceivedPrivateMessageEvent +=
+                new SharpWired.Model.PrivateMessages.PrivateMessageModel.ReceivedPrivateMessageDelegate(chatControl.OnPrivateMessageReceived);
         }
     }
 }

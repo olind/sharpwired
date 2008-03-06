@@ -6,6 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using SharpWired.Model.Chat;
+using SharpWired.Connection.Bookmarks;
 
 namespace SharpWired.Gui.Chat {
 
@@ -52,18 +53,36 @@ namespace SharpWired.Gui.Chat {
             WriteHTMLToChat(guiMessage);       
         }
 
+        /// <summary>
+        /// Call this method to report an error that should be printed to chat window
+        /// </summary>
+        /// <param name="errorDescription"></param>
+        /// <param name="solutionIdea"></param>
+        /// <param name="bookmark"></param>
+        public void OnErrorEvent(string errorDescription, string solutionIdea, 
+            Bookmark bookmark) {
+            GuiMessageItem gmi = new GuiMessageItem(errorDescription, solutionIdea, bookmark);
+            WriteHTMLToChat(gmi);
+        }
+
+        /// <summary>
+        /// Call this method to write the given private message to chat window
+        /// </summary>
+        /// <param name="receivedPrivateMessage"></param>
+        public void OnPrivateMessageReceived(SharpWired.Model.PrivateMessages.PrivateMessageItem receivedPrivateMessage) {
+            GuiMessageItem gmi = new GuiMessageItem(receivedPrivateMessage);
+            WriteHTMLToChat(gmi);
+        }
+
         private void WriteHTMLToChat(GuiMessageItem guiMessage)
         {
             if(this.InvokeRequired){
                 WriteToChatCallback writeToChatCallback = new WriteToChatCallback(WriteHTMLToChat);
                 this.Invoke(writeToChatCallback, new object[] { guiMessage });
             } else {
-
-                //TODO: HTML encode formatedText
                 chatBodyContent.Append(this.AltItemBeginningHtml);
                 chatBodyContent.Append(guiMessage.GeneratedHTML);
                 chatBodyContent.Append("</div>");
-
                 chatWebBrowser.DocumentText = chatHeader + chatBodyContent + chatFooter;
             }
         }
@@ -73,7 +92,7 @@ namespace SharpWired.Gui.Chat {
                 ChangeTopicCallback changeTopicCallback = new ChangeTopicCallback(ChangeTopic);
                 this.Invoke(changeTopicCallback, new object[] { guiMessage });
             } else {
-                this.topicTextBox.Text = guiMessage.Message;
+                this.topicDisplayLabel.Text = guiMessage.Message;
                 StringBuilder sb = new StringBuilder();
                 sb.Append(guiMessage.Nick);
                 sb.Append(" - ");
@@ -82,45 +101,59 @@ namespace SharpWired.Gui.Chat {
             }
         }
 
+        #region Send chat messages
         private void sendChatButton_MouseUp(object sender, MouseEventArgs e) {
             this.guiChatController.SendChatMessage(sendChatRichTextBox.Text);
-            //TODO: after clearing sendChatRichTextBox it receives a newline that I can't remove
             sendChatRichTextBox.Clear();
         }
 
         private void sendChatRichTextBox_KeyUp(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter) {
                 this.guiChatController.SendChatMessage(sendChatRichTextBox.Text);
-                //TODO: after clearing sendChatRichTextBox it receives a newline that I can't remove
                 sendChatRichTextBox.Clear();
             } else if (e.KeyCode == Keys.Escape) {
-                //TODO: after clearing sendChatRichTextBox it receives a newline that I can't remove
                 sendChatRichTextBox.Clear();
             }
         }
+        #endregion
 
-        private void chatTopicTextBox_MouseUp(object sender, MouseEventArgs e) {
-            if (topicTextBox.ReadOnly) {
-                topicTextBox.ReadOnly = false;
-                topicTextBox.BackColor = Control.DefaultBackColor;
-                topicTextBox.BorderStyle = BorderStyle.FixedSingle;
-                Point p = new Point(topicTextBox.Location.X, topicTextBox.Location.Y - 1);
-                topicTextBox.Location = p;
-            }
-        }
-
+        #region Edit topic
+        //TODO: Only enable topic changing if we are online
+        //TODO: Only enable topic changing if the user has permissions to change it
         private void topicTextBox_KeyUp(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter) {
-                topicTextBox.ReadOnly = true;
-                topicTextBox.BackColor = Color.White;
-                topicTextBox.BorderStyle = BorderStyle.None;
-                Point p = new Point(topicTextBox.Location.X, topicTextBox.Location.Y + 1);
-                topicTextBox.Location = p;
-
+                enableTopicEditing(false);
                 guiChatController.ChangeTopic(topicTextBox.Text);
-                topicTextBox.Text = "Updating topic on server..."; //Empty topic - Set once it's set on the server (topic event received)
+                topicDisplayLabel.Text = "Updating topic on server.";
+            } else if (e.KeyCode == Keys.Escape) {
+                enableTopicEditing(false);
             }
         }
+
+        private void topicDisplayLabel_MouseUp(object sender, MouseEventArgs e) {
+            topicTextBox.Text = topicDisplayLabel.Text;
+            enableTopicEditing(true);
+        }
+
+        private void topicDisplayLabel_MouseLeave(object sender, EventArgs e) {
+            topicDisplayLabel.Cursor = Cursors.Default;
+        }
+
+        private void topicDisplayLabel_MouseEnter(object sender, EventArgs e) {
+            topicDisplayLabel.Cursor = Cursors.Hand;
+        }
+
+        private void enableTopicEditing(bool editable) {
+            if (editable) {
+                topicDisplayLabel.Visible = false;
+                topicTextBox.Visible = true;
+                topicTextBox.Focus();
+            } else {
+                topicDisplayLabel.Visible = true;
+                topicTextBox.Visible = false;
+            }
+        }
+        #endregion
 
         #region Initialization
         /// <summary>
@@ -154,6 +187,5 @@ namespace SharpWired.Gui.Chat {
             this.chatId = chatId;
         }
         #endregion
-
     }
 }

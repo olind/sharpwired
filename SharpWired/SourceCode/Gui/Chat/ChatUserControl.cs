@@ -57,35 +57,7 @@ namespace SharpWired.Gui.Chat
             }
         }
 
-        #region Listeners: From model
-        void ErrorHandler_LoginToServerFailedEvent(string errorDescription, string solutionIdea, SharpWired.Connection.Bookmarks.Bookmark bookmark)
-        {
-            string formatedText = this.AltItemBeginningHtml +
-                "<div class=\"errorEntry\">" +
-                    "<div class=\"time\">" + DateTime.Now + "</div>" +
-                    "<div class=\"errorDescription\"><em>Problem: </em>" + errorDescription + "</div>" +
-                    "<div class=\"solutionIdea\"><em>Resolution: </em>" + solutionIdea + "</div>" +
-                    "<div class=\"serverInformation\"><em>Server: </em>" + bookmark.Server.ServerName + "</div>" +
-                "</div>" +
-            "</div>";
-
-//            WriteHTMLToChat(formatedText);
-        }
-
-        void PrivateMessageModel_ReceivedPrivateMessageEvent(SharpWired.Model.PrivateMessages.PrivateMessageItem receivedPrivateMessage)
-        {
-            OnPrivateMessageEvent(receivedPrivateMessage, "received");
-        }
-
-        void PrivateMessageModel_SentPrivateMessageEvent(SharpWired.Model.PrivateMessages.PrivateMessageItem sentPrivateMessage)
-        {
-            OnPrivateMessageEvent(sentPrivateMessage, "sent");
-        }
-        #endregion
-
-        #region Methods: Receiving messages
-
-
+        #region OBSOLETED
 
         /// <summary>
         /// Format HTML for current lag
@@ -103,25 +75,7 @@ namespace SharpWired.Gui.Chat
 
         #endregion
 
-        #region Methods: Sending messages
-
-        private void OnPrivateMessageEvent(SharpWired.Model.PrivateMessages.PrivateMessageItem messageItem, string receivedOrSent)
-        {
-            string formatedText = this.AltItemBeginningHtml +
-                "<div class=\"privateMessageEntry privateMessageEntry_" + receivedOrSent + "\">" +
-                    "<div class=\"time\">" + messageItem.TimeStamp + "</div>" +
-                    "<div class=\"userName\">" + messageItem.UserItem.Nick + "</div>" +
-                    "<div class=\"message\">" + messageItem.Message + "</div>" +
-                "</div>" +
-            "</div>";
-
-//            WriteHTMLToChat(formatedText);
-        }
-
-        #endregion
-
         #region Initialization
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -129,13 +83,10 @@ namespace SharpWired.Gui.Chat
         public void Init(LogicManager logicManager)
         {
             this.logicManager = logicManager;
-            //TODO: It's a bit aquard that this gui class initializes the controller class
+            //TODO: It's a bit aquard that this gui class initializes the 
+            //      controller class. This is done since we place the controls
+            //      in the Visual studio designer
             GuiChatController guiChatController = new GuiChatController(logicManager, this.chatControl, this.userListControl);
-
-            logicManager.PrivateMessagesHandler.PrivateMessageModel.ReceivedPrivateMessageEvent += new SharpWired.Model.PrivateMessages.PrivateMessageModel.ReceivedPrivateMessageDelegate(PrivateMessageModel_ReceivedPrivateMessageEvent);
-            logicManager.PrivateMessagesHandler.PrivateMessageModel.SentPrivateMessageEvent += new SharpWired.Model.PrivateMessages.PrivateMessageModel.SentPrivateMessageDelegate(PrivateMessageModel_SentPrivateMessageEvent);
-
-            logicManager.ErrorHandler.LoginToServerFailedEvent += new SharpWired.Model.Errors.ErrorHandler.LoginToServerFailedDelegate(ErrorHandler_LoginToServerFailedEvent);
         }
 
         /// <summary>
@@ -145,7 +96,6 @@ namespace SharpWired.Gui.Chat
         {
             InitializeComponent();
         }
-
         #endregion
     }
 }

@@ -23,16 +23,19 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             this.chatWebBrowser = new System.Windows.Forms.WebBrowser();
             this.chatWrapperPanel = new System.Windows.Forms.Panel();
             this.chatSplitContainer = new System.Windows.Forms.SplitContainer();
             this.topicWrapperPanel = new System.Windows.Forms.Panel();
+            this.topicDisplayLabel = new System.Windows.Forms.Label();
             this.setByLabel = new System.Windows.Forms.Label();
             this.setByHeaderLabel = new System.Windows.Forms.Label();
             this.topicHeaderLabel = new System.Windows.Forms.Label();
             this.topicTextBox = new System.Windows.Forms.TextBox();
             this.sendChatRichTextBox = new System.Windows.Forms.RichTextBox();
             this.sendChatButton = new System.Windows.Forms.Button();
+            this.chatToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.chatWrapperPanel.SuspendLayout();
             this.chatSplitContainer.Panel1.SuspendLayout();
             this.chatSplitContainer.Panel2.SuspendLayout();
@@ -83,6 +86,7 @@
             // 
             // topicWrapperPanel
             // 
+            this.topicWrapperPanel.Controls.Add(this.topicDisplayLabel);
             this.topicWrapperPanel.Controls.Add(this.setByLabel);
             this.topicWrapperPanel.Controls.Add(this.setByHeaderLabel);
             this.topicWrapperPanel.Controls.Add(this.topicHeaderLabel);
@@ -93,12 +97,28 @@
             this.topicWrapperPanel.Size = new System.Drawing.Size(439, 41);
             this.topicWrapperPanel.TabIndex = 3;
             // 
+            // topicDisplayLabel
+            // 
+            this.topicDisplayLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.topicDisplayLabel.Location = new System.Drawing.Point(49, 7);
+            this.topicDisplayLabel.Name = "topicDisplayLabel";
+            this.topicDisplayLabel.Size = new System.Drawing.Size(385, 13);
+            this.topicDisplayLabel.TabIndex = 4;
+            this.chatToolTip.SetToolTip(this.topicDisplayLabel, "Click to change the chat topic. Press enter when done or Escape to cancel.");
+            this.topicDisplayLabel.MouseLeave += new System.EventHandler(this.topicDisplayLabel_MouseLeave);
+            this.topicDisplayLabel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.topicDisplayLabel_MouseUp);
+            this.topicDisplayLabel.MouseEnter += new System.EventHandler(this.topicDisplayLabel_MouseEnter);
+            // 
             // setByLabel
             // 
-            this.setByLabel.AutoSize = true;
+            this.setByLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.setByLabel.Location = new System.Drawing.Point(49, 25);
             this.setByLabel.Name = "setByLabel";
-            this.setByLabel.Size = new System.Drawing.Size(0, 13);
+            this.setByLabel.Size = new System.Drawing.Size(385, 13);
             this.setByLabel.TabIndex = 3;
             // 
             // setByHeaderLabel
@@ -125,15 +145,13 @@
             // 
             this.topicTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.topicTextBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.topicTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.topicTextBox.Location = new System.Drawing.Point(50, 6);
+            this.topicTextBox.BackColor = System.Drawing.SystemColors.Control;
+            this.topicTextBox.Location = new System.Drawing.Point(49, 4);
             this.topicTextBox.Name = "topicTextBox";
-            this.topicTextBox.ReadOnly = true;
-            this.topicTextBox.Size = new System.Drawing.Size(384, 13);
+            this.topicTextBox.Size = new System.Drawing.Size(384, 20);
             this.topicTextBox.TabIndex = 0;
+            this.topicTextBox.Visible = false;
             this.topicTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.topicTextBox_KeyUp);
-            this.topicTextBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chatTopicTextBox_MouseUp);
             // 
             // sendChatRichTextBox
             // 
@@ -188,5 +206,7 @@
         private System.Windows.Forms.TextBox topicTextBox;
         private System.Windows.Forms.Label setByLabel;
         private System.Windows.Forms.Label setByHeaderLabel;
+        private System.Windows.Forms.Label topicDisplayLabel;
+        private System.Windows.Forms.ToolTip chatToolTip;
     }
 }

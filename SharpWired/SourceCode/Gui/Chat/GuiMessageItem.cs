@@ -29,6 +29,9 @@ using System.Collections.Generic;
 using System.Text;
 using SharpWired.Model.Chat;
 using SharpWired.Model.Users;
+using SharpWired.Connection.Bookmarks;
+using SharpWired.Model.PrivateMessages;
+using System.Web;
 
 namespace SharpWired.Gui.Chat {
     /// <summary>
@@ -37,10 +40,19 @@ namespace SharpWired.Gui.Chat {
     /// </summary>
     public class GuiMessageItem {
 
-        private string messageType;
+        // General
         private DateTime timeStamp;
+        private string messageType;
+        
+        //For chat and topic messages
         private string nickName;
         private string message;
+
+        //For error messages
+        private bool isErrorMessage = false;
+        private string errorDescription;
+        private string solutionIdea;
+        private Bookmark bookmark;
 
         /// <summary>
         /// Get the timestamp for this message
@@ -64,17 +76,30 @@ namespace SharpWired.Gui.Chat {
         }
 
         /// <summary>
-        /// Get the HTML for this object
+        /// Get the HTML for this object.
+        /// NOTE! All fields are HTML encoded
         /// </summary>
         public string GeneratedHTML {
             get {
                 StringBuilder html = new StringBuilder();
                 html.Append("<div class=\"" + messageType + "\">");
                 html.Append("<div class=\"time\">" + timeStamp + "</div>");
-                html.Append("<div class=\"userName\">" + nickName + "</div>");
-                html.Append("<div class=\"message\">" + message + "</div>");
-                html.Append("</div>");
 
+                nickName = HttpUtility.HtmlEncode(nickName);
+                message = HttpUtility.HtmlEncode(message);
+                errorDescription = HttpUtility.HtmlEncode(errorDescription);
+                solutionIdea = HttpUtility.HtmlEncode(solutionIdea);
+
+                if (!isErrorMessage) {
+                    html.Append("<div class=\"userName\">" + nickName + "</div>");
+                    html.Append("<div class=\"message\">" + message + "</div>");
+                } else if (isErrorMessage) {
+                    html.Append("<div class=\"errorDescription\"><em>Problem: </em>" + errorDescription + "</div>");
+                    html.Append("<div class=\"solutionIdea\"><em>Resolution: </em>" + solutionIdea + "</div>");
+                    html.Append("<div class=\"serverInformation\"><em>Server: </em>" + bookmark.Server.ServerName + "</div>");
+                }
+
+                html.Append("</div>");
                 return html.ToString();
             }
         }
@@ -105,6 +130,34 @@ namespace SharpWired.Gui.Chat {
             timeStamp = item.TimeStamp;
             nickName = item.FromUser.Nick;
             message = item.ChatMessage;
+        }
+
+        /// <summary>
+        /// Constructor for error messages
+        /// </summary>
+        /// <param name="errorDescription"></param>
+        /// <param name="solutionIdea"></param>
+        /// <param name="bookmark"></param>
+        public GuiMessageItem(string errorDescription, string solutionIdea, 
+            Bookmark bookmark) {
+
+            this.messageType = "errorEntry";
+            this.isErrorMessage = true;
+            this.timeStamp = DateTime.Now;
+            this.errorDescription = errorDescription;
+            this.solutionIdea = solutionIdea;
+            this.bookmark = bookmark;
+        }
+
+        /// <summary>
+        /// Constructor for private messages
+        /// </summary>
+        /// <param name="item"></param>
+        public GuiMessageItem(PrivateMessageItem item) {
+            messageType = "privateMessageEntry privateMessageEntry_received";
+            timeStamp = item.TimeStamp;
+            nickName = item.UserItem.Nick;
+            message = item.Message;
         }
     }
 }
