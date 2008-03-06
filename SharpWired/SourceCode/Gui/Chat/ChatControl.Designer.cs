@@ -151,6 +151,7 @@
             this.topicTextBox.Size = new System.Drawing.Size(384, 20);
             this.topicTextBox.TabIndex = 0;
             this.topicTextBox.Visible = false;
+            this.topicTextBox.Leave += new System.EventHandler(this.topicTextBox_Leave);
             this.topicTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.topicTextBox_KeyUp);
             // 
             // sendChatRichTextBox

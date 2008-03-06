@@ -125,6 +125,7 @@ namespace SharpWired.Gui.Chat {
                 enableTopicEditing(false);
                 guiChatController.ChangeTopic(topicTextBox.Text);
                 topicDisplayLabel.Text = "Updating topic on server.";
+                setByLabel.Text = "";
             } else if (e.KeyCode == Keys.Escape) {
                 enableTopicEditing(false);
             }
@@ -141,6 +142,10 @@ namespace SharpWired.Gui.Chat {
 
         private void topicDisplayLabel_MouseEnter(object sender, EventArgs e) {
             topicDisplayLabel.Cursor = Cursors.Hand;
+        }
+
+        private void topicTextBox_Leave(object sender, EventArgs e) {
+            enableTopicEditing(false);
         }
 
         private void enableTopicEditing(bool editable) {
