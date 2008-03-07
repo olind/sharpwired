@@ -34,6 +34,7 @@ using System.Windows.Forms;
 using SharpWired.Model;
 using SharpWired.Model.News;
 using SharpWired.Model.Users;
+using System.Web;
 
 namespace SharpWired.Gui.News
 {
@@ -93,7 +94,7 @@ namespace SharpWired.Gui.News
 
 #endregion
 
-        #region Listerers : From connection layer
+        #region Listerers : From model layer
 
         void NewsModel_NewsListReplacedEvent(List<SharpWired.Model.News.NewsObject> newsList)
         {
@@ -166,9 +167,9 @@ namespace SharpWired.Gui.News
 
             string formatedText = this.AltItemBeginningHtml +
                 "<div class=\"newsEntry\">" +
-                    "<div class=\"time\">" + newPost.PostTime + "</div>" +
-                    "<div class=\"nickName\">" + newPost.Nick + "</div>" +
-                    "<div class=\"message\">" + postMessage + "</div>" +
+                    "<div class=\"time\">" + HttpUtility.HtmlEncode(newPost.PostTime.ToString()) + "</div>" +
+                    "<div class=\"nickName\">" + HttpUtility.HtmlEncode(newPost.Nick) + "</div>" +
+                    "<div class=\"message\">" + HttpUtility.HtmlEncode(postMessage) +"</div>" +
                 "</div>" +
             "</div>";
 
