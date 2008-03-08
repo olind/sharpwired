@@ -104,12 +104,6 @@
     <Compile Include="Gui\SharpWiredForm.Designer.cs">
       <DependentUpon>SharpWiredForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\Chat\UserItemControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Gui\Chat\UserItemControl.Designer.cs">
-      <DependentUpon>UserItemControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Gui\Chat\UserListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -177,13 +171,17 @@
       <SubType>Designer</SubType>
       <DependentUpon>SharpWiredForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Chat\UserItemControl.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>UserItemControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Gui\Chat\UserListControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>UserListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Transfers\Transfer.resx">
+      <DependentUpon>Transfer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Transfers\TransferList.resx">
+      <DependentUpon>TransferList.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -311,6 +309,18 @@
     </Compile>
     <Compile Include="Gui\Resources\Icons\IconHandler.cs" />
     <Compile Include="Gui\Resources\Icons\IconList.cs" />
+    <Compile Include="Gui\Transfers\Transfer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Transfers\Transfer.Designer.cs">
+      <DependentUpon>Transfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Transfers\TransferList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Transfers\TransferList.Designer.cs">
+      <DependentUpon>TransferList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\Errors\ErrorHandler.cs" />
     <Compile Include="Model\Files\FileListingHandler.cs" />
     <Compile Include="Model\Files\FileListingModel.cs" />
@@ -342,6 +352,8 @@
     <Content Include="LICENSE.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\process-stop.png" />
+    <None Include="Resources\media-playback-pause.png" />
     <Content Include="SharpWired_Program_Icon.ico" />
   </ItemGroup>
   <ItemGroup>

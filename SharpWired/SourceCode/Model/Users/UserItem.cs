@@ -61,8 +61,7 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Get or set if this user is admin
         /// </summary>
-        public bool Admin
-        {
+        public bool Admin {
             get { return admin; }
             set { admin = value; }
         }
@@ -70,8 +69,7 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Get or set the host for this user
         /// </summary>
-        public string Host
-        {
+        public string Host {
             get { return host; }
             set { host = value; }
         }
@@ -79,8 +77,7 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Get or set the icon for this user
         /// </summary>
-        public int Icon
-        {
+        public int Icon  {
             get { return icon; }
             set { icon = value; }
         }
@@ -88,8 +85,7 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Get or set the idle status for this user
         /// </summary>
-        public bool Idle
-        {
+        public bool Idle {
             get { return idle; }
             set { idle = value; }
         }
@@ -97,20 +93,19 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Get or set the image for this user
         /// </summary> 
-        public Bitmap Image
-        {
+        public Bitmap Image {
             get { return image; }
             set { 
                 image = value;
-                OnImageChandegEvent(image);
+                if (UpdatedEvent != null)
+                    UpdatedEvent(this);
             }
         }
 
         /// <summary>
         /// Get or set ip for this user
         /// </summary>
-        public IPAddress Ip
-        {
+        public IPAddress Ip {
             get { return ip; }
             set { ip = value; }
         }
@@ -118,8 +113,7 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Get or set the login for this user
         /// </summary>
-        public string Login
-        {
+        public string Login {
             get { return login; }
             set { login = value; }
         }
@@ -127,14 +121,13 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Get or set the nick for this user
         /// </summary> 
-        public string Nick
-        {
+        public string Nick {
             get { return nick; }
             set {
-                if (nick.CompareTo(value) != 0)
-                {
+                if (nick.CompareTo(value) != 0) {
                     nick = value;
-                    OnNickChangedEvent(nick);
+                    if (UpdatedEvent != null)
+                        UpdatedEvent(this);
                 }
             }
         }
@@ -142,14 +135,13 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Get or set the status for this user
         /// </summary> 
-        public string Status
-        {
+        public string Status {
             get { return status; }
             set {
-                if (status.CompareTo(value) != 0)
-                {
+                if (status.CompareTo(value) != 0) {
                     status = value;
-                    OnStatusChangedEvent(status);
+                    if (UpdatedEvent != null)
+                        UpdatedEvent(this);
                 }
             }
         }
@@ -157,8 +149,7 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Get or set the user id for this user
         /// </summary>
-        public int UserId
-        {
+        public int UserId {
             get { return userId; }
             set { userId = value; }
         }
@@ -172,8 +163,7 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Get or set the privileges for this user
         /// </summary>
-        public Privileges UserPrivileges
-        {
+        public Privileges UserPrivileges {
             get { return userPrivileges; }
             set { userPrivileges = value; }
         }
@@ -181,70 +171,24 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Get or set the group for this user
         /// </summary> 
-        public Group Group
-        {
+        public Group Group {
             get { return group; }
             set { group = value; }
         }
-
         #endregion
 
-        #region Delegates, events and event raiser methods
-
-        // Delegates
-
+        #region Events
         /// <summary>
         /// Delegate for StatusChangedEvent
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="newStatus">The new status</param>
-        public delegate void StatsChangedDelegate(object sender, string newStatus);
-        /// <summary>
-        /// Delegate for NickChangedEvent
-        /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="newNick">The new nick</param>
-        public delegate void NickChangedDelegate(object sender, string newNick);
-        /// <summary>
-        /// Delegate for ImageChangedEvent
-        /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="newImage">The new image</param>
-        public delegate void ImageChangedDelegate(object sender, Bitmap newImage);
+        public delegate void UpdatedDelegate(UserItem u);
 
-        // Events
         /// <summary>
-        /// The event for status change
+        /// The event for user change
         /// </summary>
-        public event StatsChangedDelegate StatusChangedEvent;
-        /// <summary>
-        /// The event for nick changed
-        /// </summary>
-        public event NickChangedDelegate NickChangedEvent;
-        /// <summary>
-        /// The event for image changed
-        /// </summary>
-        public event ImageChangedDelegate ImageChangedEvent;
-
-        // Raiser methods for events
-        private void OnStatusChangedEvent(string newStatus)
-        {
-            if (StatusChangedEvent != null)
-                StatusChangedEvent(this, newStatus);
-        }
-
-        private void OnNickChangedEvent(string newNick)
-        {
-            if (NickChangedEvent != null)
-                NickChangedEvent(this, newNick);
-        }
-
-        private void OnImageChandegEvent(Bitmap newImage)
-        {
-            if (ImageChangedEvent != null)
-                ImageChangedEvent(this, newImage);
-        }
-
+        public event UpdatedDelegate UpdatedEvent;
         #endregion
 
         #region Initialization
@@ -253,8 +197,7 @@ namespace SharpWired.Model.Users
         /// Constructor
         /// </summary>
         /// <param name="messageEventArgs">The message event arg that caused the adding of this user</param>
-        public UserItem(MessageEventArgs_302310 messageEventArgs)
-        {
+        public UserItem(MessageEventArgs_302310 messageEventArgs) {
             this.admin = messageEventArgs.Admin;
             this.host = messageEventArgs.Host;
             this.icon = messageEventArgs.Icon;
@@ -271,8 +214,7 @@ namespace SharpWired.Model.Users
         /// Constructor
         /// </summary>
         /// <param name="messageEventArgs">The message event arg that caused the adding of this user</param>
-        public UserItem(MessageEventArgs_304 messageEventArgs)
-        {
+        public UserItem(MessageEventArgs_304 messageEventArgs) {
             this.admin = messageEventArgs.Admin;
             this.idle = messageEventArgs.Idle;
             this.icon = messageEventArgs.Icon;

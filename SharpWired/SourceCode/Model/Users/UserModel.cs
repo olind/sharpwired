@@ -203,19 +203,19 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="newUser"></param>
-        public delegate void ClientJoinDelegate(object sender, UserItem newUser);
+        public delegate void ClientJoinDelegate(UserItem newUser);
         /// <summary>
         /// Delegate for a user leav event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="leftUser"></param>
-        public delegate void ClientLeftDelegate(object sender, UserItem leftUser);
+        public delegate void ClientLeftDelegate(UserItem leftUser);
         /// <summary>
         /// Delegate for a user list updated event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="userList"></param>
-        public delegate void UserListUpdatedDelegate(object sender, List<UserItem> userList);
+        public delegate void UserListUpdatedDelegate(List<UserItem> userList);
 
         // Events
         /// <summary>
@@ -235,19 +235,19 @@ namespace SharpWired.Model.Users
         private void OnClientJoinEvent(UserItem newUser)
         {
             if (ClientJoinEvent != null)
-                ClientJoinEvent(this, newUser);
+                ClientJoinEvent(newUser);
         }
 
         private void OnClientLeavEvent(UserItem leftUser)
         {
             if (ClientLeftEvent != null)
-                ClientLeftEvent(this, leftUser);
+                ClientLeftEvent(leftUser);
         }
 
         private void OnUserListUpdatedEvent()
         {
             if (UserListUpdatedEvent != null)
-                UserListUpdatedEvent(this, userList);
+                UserListUpdatedEvent(userList);
         }
         
         #endregion 

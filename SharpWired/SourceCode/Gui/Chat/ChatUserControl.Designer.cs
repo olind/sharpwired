@@ -66,6 +66,7 @@ namespace SharpWired.Gui.Chat
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -92,9 +93,9 @@ namespace SharpWired.Gui.Chat
             this.userListControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.userListControl.Location = new System.Drawing.Point(2, 3);
+            this.userListControl.Location = new System.Drawing.Point(2, 0);
             this.userListControl.Name = "userListControl";
-            this.userListControl.Size = new System.Drawing.Size(104, 347);
+            this.userListControl.Size = new System.Drawing.Size(107, 353);
             this.userListControl.TabIndex = 0;
             // 
             // ChatUserControl

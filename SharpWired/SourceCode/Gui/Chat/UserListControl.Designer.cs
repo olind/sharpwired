@@ -55,24 +55,50 @@ namespace SharpWired.Gui.Chat
         /// </summary>
         private void InitializeComponent()
         {
-            this.userListFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Admin", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("User", System.Windows.Forms.HorizontalAlignment.Left);
+            this.userListView = new System.Windows.Forms.ListView();
+            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
             // 
-            // userListFlowLayoutPanel
+            // userListView
             // 
-            this.userListFlowLayoutPanel.BackColor = System.Drawing.SystemColors.Window;
-            this.userListFlowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.userListFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.userListFlowLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.userListFlowLayoutPanel.Name = "userListFlowLayoutPanel";
-            this.userListFlowLayoutPanel.Size = new System.Drawing.Size(285, 329);
-            this.userListFlowLayoutPanel.TabIndex = 0;
+            this.userListView.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.userListView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.userListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader3});
+            this.userListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userListView.FullRowSelect = true;
+            this.userListView.GridLines = true;
+            listViewGroup1.Header = "Admin";
+            listViewGroup1.Name = "listViewGroup1";
+            listViewGroup2.Header = "User";
+            listViewGroup2.Name = "listViewGroup2";
+            this.userListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2});
+            this.userListView.Location = new System.Drawing.Point(0, 0);
+            this.userListView.Name = "userListView";
+            this.userListView.Size = new System.Drawing.Size(285, 329);
+            this.userListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.userListView.TabIndex = 2;
+            this.userListView.TileSize = new System.Drawing.Size(188, 34);
+            this.userListView.UseCompatibleStateImageBehavior = false;
+            this.userListView.View = System.Windows.Forms.View.Tile;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Nick";
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Status";
             // 
             // UserListControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.userListFlowLayoutPanel);
+            this.Controls.Add(this.userListView);
             this.Name = "UserListControl";
             this.Size = new System.Drawing.Size(285, 329);
             this.ResumeLayout(false);
@@ -81,6 +107,8 @@ namespace SharpWired.Gui.Chat
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel userListFlowLayoutPanel;
+        private ListView userListView;
+        private ColumnHeader columnHeader1;
+        private ColumnHeader columnHeader3;
     }
 }

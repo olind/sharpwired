@@ -2,6 +2,7 @@
 /*
  * UserListControl.cs
  * Created by Ola Lindberg, 2006-11-20
+ * Refactored by Ola and Adam, 2008-03-07
  * 
  * SharpWired - a Wired client.
  * See: http://www.zankasoftware.com/wired/ for more infromation about Wired
@@ -42,88 +43,59 @@ namespace SharpWired.Gui.Chat
     /// </summary>
     public partial class UserListControl : UserControl
     {
-        #region Variables
-
-        private LogicManager logicManager;
-
+        #region Events
+        delegate void RemoveUserCallback(UserItem removeUser);
+        delegate void AddUserCallback(UserItem newUser);
+        delegate void RedrawUserListCallback(List<UserItem> userList);
         #endregion
 
-        #region Logic for UserListControl
-
-        void RemoveUser(object sender, UserItem removeUser)
-        {
-            if (this.InvokeRequired)
-            {
-                RemoveUserCallback ucb = new RemoveUserCallback(RemoveUser);
-                this.Invoke(ucb, new object[] { sender, removeUser });
-            }
-            else
-            {
-                // TODO Remove the user instead of redrawing the list
-                this.RedrawUserList(null, logicManager.UserHandler.UserModel.UserList);
-            }
-        }
-        delegate void RemoveUserCallback(object sender, UserItem removeUser);
-
-        void AddUser(object sender, UserItem newUser)
-        {
-            if (this.InvokeRequired)
-            {
+        #region Logic
+        void AddUser(UserItem user) {
+            if (this.InvokeRequired) {
                 AddUserCallback ucb = new AddUserCallback(AddUser);
-                this.Invoke(ucb, new object[] { sender, newUser });
-            }
-            else
-            {
-                UserItemControl newUserItemControl = new UserItemControl();
-                newUserItemControl.Init(newUser, logicManager);
+                this.Invoke(ucb, new object[] { user });
+            } else {
+                ListView.ListViewItemCollection items = this.userListView.Items;
+                if (!items.ContainsKey(user.Login)) {
 
-                userListFlowLayoutPanel.Controls.Add(newUserItemControl);
-            }
-        }
-        delegate void AddUserCallback(object sender, UserItem newUser);
+                    if (user.Image != null)
+                        userListView.LargeImageList.Images.Add(user.Login, user.Image);
 
-        /// <summary>
-        /// Draw or redraw the user list.
-        /// </summary>
-        void RedrawUserList(object sender, List<UserItem> userList)
-        {
-            if (this.InvokeRequired)
-            {
-                RedrawUserListCallback ucb = new RedrawUserListCallback(RedrawUserList);
-                this.Invoke(ucb, new object[] { sender, userList });
-            }
-            else
-            {
-                this.userListFlowLayoutPanel.Controls.Clear();
-                this.userListFlowLayoutPanel.Refresh();
-                
-                foreach (UserItem u in userList)
-                {
-                    AddUser(sender, u);
+                    ListViewItem userItem = items.Add(user.Login, user.Nick, user.Login);
+                    user.UpdatedEvent += UpdateUser;
+                    userItem.Text = user.Nick;
+                    userItem.SubItems.Add(user.Status);
                 }
             }
         }
-        delegate void RedrawUserListCallback(object sender, List<UserItem> userList);
 
-        #endregion
+        void UpdateUser(UserItem user) {
+            if (this.InvokeRequired) {
+                AddUserCallback ucb = new AddUserCallback(UpdateUser);
+                this.Invoke(ucb, new object[] { user });
+            } else {
+                ListView.ListViewItemCollection items = this.userListView.Items;
+                if (items.ContainsKey(user.Login)) {
+                    ListViewItem userItem = items[items.IndexOfKey(user.Login)];
 
-        #region Listener methods: From model
+                    if (user.Image != null)
+                        userListView.LargeImageList.Images.Add(user.Login, user.Image);
 
-        void Users_ClientLeftEvent(object sender, UserItem leftUser)
-        {
-            this.RemoveUser(sender, leftUser);
+                    userItem.Text = user.Nick;
+                    userItem.SubItems[1].Text = user.Status;
+                }
+            }
         }
 
-        void Users_ClientJoinEvent(object sender, UserItem newUser)
-        {
-            this.AddUser(sender, newUser);
+        void RemoveUser(UserItem user) {
+            if (this.InvokeRequired) {
+                AddUserCallback ucb = new AddUserCallback(RemoveUser);
+                this.Invoke(ucb, new object[] { user });
+            } else {
+                this.userListView.Items.RemoveByKey(user.Login);
+                user.UpdatedEvent -= UpdateUser;
+            }
         }
-
-        void Users_UserListUpdatedEvent(object sender, List<UserItem> userList)
-        {
-            this.RedrawUserList(sender, userList);
-        }
-
         #endregion
 
         #region Initialization of UserListControl
@@ -132,13 +104,9 @@ namespace SharpWired.Gui.Chat
         /// Init this component, set up the listeners etc
         /// </summary>
         /// <param name="logicManager"></param>
-        public void Init(LogicManager logicManager)
-        {
-            this.logicManager = logicManager;
-            logicManager.UserHandler.UserModel.UserListUpdatedEvent += new UserModel.UserListUpdatedDelegate(Users_UserListUpdatedEvent);
-
-            logicManager.UserHandler.UserModel.ClientJoinEvent += new UserModel.ClientJoinDelegate(Users_ClientJoinEvent);
-            logicManager.UserHandler.UserModel.ClientLeftEvent += new UserModel.ClientLeftDelegate(Users_ClientLeftEvent);
+        public void Init(LogicManager logicManager) {
+            logicManager.UserHandler.UserModel.ClientJoinEvent += AddUser;
+            logicManager.UserHandler.UserModel.ClientLeftEvent += RemoveUser;
         }
 
         /// <summary>
@@ -147,6 +115,8 @@ namespace SharpWired.Gui.Chat
         public UserListControl()
         {
             InitializeComponent();
+            this.userListView.LargeImageList = new ImageList();
+            this.userListView.LargeImageList.ImageSize = new Size(32, 32);
         }
 
         #endregion

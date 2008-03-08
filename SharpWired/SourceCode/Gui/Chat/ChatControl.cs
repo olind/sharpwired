@@ -103,16 +103,16 @@ namespace SharpWired.Gui.Chat {
 
         #region Send chat messages
         private void sendChatButton_MouseUp(object sender, MouseEventArgs e) {
-            this.guiChatController.SendChatMessage(sendChatRichTextBox.Text);
-            sendChatRichTextBox.Clear();
+            this.guiChatController.SendChatMessage(chatInputTextBox.Text);
+            chatInputTextBox.Clear();
         }
 
         private void sendChatRichTextBox_KeyUp(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter) {
-                this.guiChatController.SendChatMessage(sendChatRichTextBox.Text);
-                sendChatRichTextBox.Clear();
+                this.guiChatController.SendChatMessage(chatInputTextBox.Text);
+                chatInputTextBox.Clear();
             } else if (e.KeyCode == Keys.Escape) {
-                sendChatRichTextBox.Clear();
+                chatInputTextBox.Clear();
             }
         }
         #endregion
