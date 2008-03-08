@@ -181,8 +181,7 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Delegate for StatusChangedEvent
         /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="newStatus">The new status</param>
+        /// <param name="u">The new status</param>
         public delegate void UpdatedDelegate(UserItem u);
 
         /// <summary>

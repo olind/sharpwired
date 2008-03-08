@@ -88,20 +88,6 @@ namespace SharpWired.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap media_playback_pause {
-            get {
-                object obj = ResourceManager.GetObject("media-playback-pause", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap process_stop {
-            get {
-                object obj = ResourceManager.GetObject("process-stop", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap system_log_out {
             get {
                 object obj = ResourceManager.GetObject("system_log_out", resourceCulture);

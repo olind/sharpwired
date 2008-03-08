@@ -201,19 +201,16 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Delegate for a user join event
         /// </summary>
-        /// <param name="sender"></param>
         /// <param name="newUser"></param>
         public delegate void ClientJoinDelegate(UserItem newUser);
         /// <summary>
         /// Delegate for a user leav event
         /// </summary>
-        /// <param name="sender"></param>
         /// <param name="leftUser"></param>
         public delegate void ClientLeftDelegate(UserItem leftUser);
         /// <summary>
         /// Delegate for a user list updated event
         /// </summary>
-        /// <param name="sender"></param>
         /// <param name="userList"></param>
         public delegate void UserListUpdatedDelegate(List<UserItem> userList);
 
