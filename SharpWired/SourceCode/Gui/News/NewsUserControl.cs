@@ -40,50 +40,35 @@ namespace SharpWired.Gui.News
 {
     public partial class NewsUserControl : UserControl
     {
-        #region Variables
-
         LogicManager logicManager;
-
-        string newsBodyContent;
-
+        StringBuilder newsBodyContent = new StringBuilder();
         string newsStyleSheet;
         string newsJavaScript;
         string newsHeader;
         string newsFooter;
         string chatCSSFilePath;
         private int altItemCounter;
-
-        #endregion
+        delegate void WriteToNewsCallback(GuiMessageItem guiMessage);
 
         #region Properties
-
         /// <summary>
         /// Get or set the file path for the CSS-file
-        /// TODO: Move this to some central part instead since both chat and news access it.
         /// </summary>
-        public string CSSFilePath
-        {
-            get
-            {
+        public string CSSFilePath {
+            get {
                 if (chatCSSFilePath == null)
-                    return System.Environment.CurrentDirectory; //TODO: The path to the CSS-file should probably be set in some other way
+                    return System.Environment.CurrentDirectory;
                 return chatCSSFilePath;
             }
-            set
-            {
-                chatCSSFilePath = value;
-            }
+            set { chatCSSFilePath = value; }
         }
 
         /// <summary>
         /// Get the HTML-code to output for the standard/alt-items
         /// </summary>
-        private string AltItemBeginningHtml
-        {
-            get
-            {
-                if (altItemCounter % 2 == 0)
-                {
+        private string AltItemBeginningHtml {
+            get {
+                if (altItemCounter % 2 == 0) {
                     altItemCounter++;
                     return "<div class=\"standard\">";
                 }
@@ -91,104 +76,47 @@ namespace SharpWired.Gui.News
                 return "<div class=\"alternative\">";
             }
         }
+        #endregion
 
-#endregion
-
-        #region Listerers : From model layer
-
-        void NewsModel_NewsListReplacedEvent(List<SharpWired.Model.News.NewsObject> newsList)
-        {
-            List<SharpWired.Model.News.NewsObject> reversedNewsList = newsList; //FIXME: Implement a better solution than copying the lists and reversing them
+        void OnNewsListReplaced(List<NewsObject>  newsList) {
+            List<SharpWired.Model.News.NewsObject> reversedNewsList = newsList;
             reversedNewsList.Reverse();
-            foreach (NewsObject n in reversedNewsList)
-                WriteHTMLToNews(FormatNewsPostHTML(n));
+            foreach (NewsObject n in reversedNewsList) {
+                OnNewsMessageArrived(n);
+            }
         }
 
-        void NewsModel_NewsPostedEvent(SharpWired.Model.News.NewsObject newPost)
-        {
-            WriteHTMLToNews(FormatNewsPostHTML(newPost));
+        void OnNewsMessageArrived(NewsObject newPost) {
+            GuiMessageItem m = new GuiMessageItem(newPost);
+            WriteHTMLToNews(m);
         }
 
+        # region Send news messages
+        private void postNewsButton_Click(object sender, EventArgs e) {
+            logicManager.ConnectionManager.Commands.Post(this.postNewsTextBox.Text);
+            postNewsTextBox.Clear();
+        }
         #endregion
-
-        # region Listerens: From gui
-
-        private void postNewsButton_Click(object sender, EventArgs e)
-        {
-            PostNewsMessage();
-        }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Writes the HTML-formated string to the GUI
         /// </summary>
-        /// <param name="formatedText"></param>
-        private void WriteHTMLToNews(string formatedText)
-        {
-            if (this.InvokeRequired)
-            {
-                WriteToNewsCallback writeToNewsCallback = new WriteToNewsCallback(WriteHTMLToNews);
-                this.Invoke(writeToNewsCallback, new object[] { formatedText });
+        /// <param name="guiMessage"></param>
+        private void WriteHTMLToNews(GuiMessageItem guiMessage) {
+            if (this.InvokeRequired) {
+                WriteToNewsCallback writeToNewsCallback = 
+                    new WriteToNewsCallback(WriteHTMLToNews);
+                this.Invoke(writeToNewsCallback, new object[] { guiMessage });
+            } else {
+                newsBodyContent.Append(this.AltItemBeginningHtml);
+                newsBodyContent.Append(guiMessage.GeneratedHTML);
+                newsBodyContent.Append("</div>");
+                newsWebBrowser.DocumentText = newsHeader + 
+                    newsBodyContent + newsFooter;
             }
-            else
-            {
-                newsBodyContent += formatedText;
-                newsWebBrowser.DocumentText = newsHeader + newsBodyContent + newsFooter;
-            }
         }
-        delegate void WriteToNewsCallback(string formatedText);
-
-        /// <summary>
-        /// Format the post for HTML output
-        /// </summary>
-        /// <param name="newPost"></param>
-        /// <returns></returns>
-        private string FormatNewsPostHTML(NewsObject newPost)
-        {
-            /*
-             * Example of the html we want to produce here. 
-             * class="standard" is class="alt" every other time
-             * 
-             *   <div class="standard">
-             *       <div class="newsEntry">
-             *           <div class="time">2006-12-01 00:00:00 22:28:50.2851648</div>
-             *           <div class="userName">Ola (SharpWired)</div>
-             *           <div class="message">The news post goes here.</div>
-             *       </div>
-             *   </div>
-             */
-
-            string postMessage = newPost.Post;
-            //TODO: Regex newlines to get nice looking posts!
-            postMessage = postMessage.Replace("\n","<br />");
-
-            string formatedText = this.AltItemBeginningHtml +
-                "<div class=\"newsEntry\">" +
-                    "<div class=\"time\">" + HttpUtility.HtmlEncode(newPost.PostTime.ToString()) + "</div>" +
-                    "<div class=\"nickName\">" + HttpUtility.HtmlEncode(newPost.Nick) + "</div>" +
-                    "<div class=\"message\">" + HttpUtility.HtmlEncode(postMessage) +"</div>" +
-                "</div>" +
-            "</div>";
-
-            return formatedText;
-        }
-
-        /// <summary>
-        /// Posts the new news post to the server
-        /// </summary>
-        private void PostNewsMessage()
-        {
-            logicManager.ConnectionManager.Commands.Post(this.postNewsRichTextBox.Text);
-            postNewsRichTextBox.Clear();
-        }
-
-        #endregion
 
         #region Initialization
-
         /// <summary>
         /// Inits the news class
         /// </summary>
@@ -197,8 +125,8 @@ namespace SharpWired.Gui.News
         {
             this.logicManager = logicManager;
 
-            logicManager.NewsHandler.NewsModel.NewsPostedEvent += new SharpWired.Model.News.NewsModel.NewsPostedDelegate(NewsModel_NewsPostedEvent);
-            logicManager.NewsHandler.NewsModel.NewsListReplacedEvent += new SharpWired.Model.News.NewsModel.NewsListReplacedDelegate(NewsModel_NewsListReplacedEvent);
+            logicManager.NewsHandler.NewsModel.NewsPostedEvent += OnNewsMessageArrived;
+            logicManager.NewsHandler.NewsModel.NewsListReplacedEvent += OnNewsListReplaced;
         }
 
         /// <summary>
@@ -222,9 +150,6 @@ namespace SharpWired.Gui.News
 
             newsWebBrowser.DocumentText = newsHeader + newsFooter;
         }
-
         #endregion
-
-
     }
 }

@@ -54,38 +54,38 @@ namespace SharpWired.Gui.Chat
         /// </summary>
         private void InitializeComponent()
         {
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.chatSplitContainer = new System.Windows.Forms.SplitContainer();
             this.chatControl = new SharpWired.Gui.Chat.ChatControl();
             this.userListControl = new SharpWired.Gui.Chat.UserListControl();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            this.chatSplitContainer.Panel1.SuspendLayout();
+            this.chatSplitContainer.Panel2.SuspendLayout();
+            this.chatSplitContainer.SuspendLayout();
             this.SuspendLayout();
             // 
-            // splitContainer1
+            // chatSplitContainer
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainer1.Name = "splitContainer1";
+            this.chatSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chatSplitContainer.Location = new System.Drawing.Point(0, 0);
+            this.chatSplitContainer.Margin = new System.Windows.Forms.Padding(0);
+            this.chatSplitContainer.Name = "chatSplitContainer";
             // 
-            // splitContainer1.Panel1
+            // chatSplitContainer.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.chatControl);
+            this.chatSplitContainer.Panel1.Controls.Add(this.chatControl);
             // 
-            // splitContainer1.Panel2
+            // chatSplitContainer.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.userListControl);
-            this.splitContainer1.Size = new System.Drawing.Size(517, 353);
-            this.splitContainer1.SplitterDistance = 404;
-            this.splitContainer1.TabIndex = 8;
+            this.chatSplitContainer.Panel2.Controls.Add(this.userListControl);
+            this.chatSplitContainer.Size = new System.Drawing.Size(517, 353);
+            this.chatSplitContainer.SplitterDistance = 384;
+            this.chatSplitContainer.TabIndex = 8;
             // 
             // chatControl
             // 
             this.chatControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chatControl.Location = new System.Drawing.Point(0, 0);
             this.chatControl.Name = "chatControl";
-            this.chatControl.Size = new System.Drawing.Size(404, 353);
+            this.chatControl.Size = new System.Drawing.Size(384, 353);
             this.chatControl.TabIndex = 0;
             // 
             // userListControl
@@ -95,26 +95,26 @@ namespace SharpWired.Gui.Chat
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.userListControl.Location = new System.Drawing.Point(2, 0);
             this.userListControl.Name = "userListControl";
-            this.userListControl.Size = new System.Drawing.Size(107, 353);
+            this.userListControl.Size = new System.Drawing.Size(127, 353);
             this.userListControl.TabIndex = 0;
             // 
             // ChatUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.chatSplitContainer);
             this.Name = "ChatUserControl";
             this.Size = new System.Drawing.Size(517, 353);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.ResumeLayout(false);
+            this.chatSplitContainer.Panel1.ResumeLayout(false);
+            this.chatSplitContainer.Panel2.ResumeLayout(false);
+            this.chatSplitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer chatSplitContainer;
         private UserListControl userListControl;
         private ChatControl chatControl;
     }

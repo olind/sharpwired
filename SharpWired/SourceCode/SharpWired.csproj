@@ -262,7 +262,7 @@
     <Compile Include="Gui\Chat\GuiChatController.cs">
     </Compile>
     <Compile Include="Gui\Chat\GuiPrivateMessageItem.cs" />
-    <Compile Include="Gui\Chat\GuiMessageItem.cs" />
+    <Compile Include="Gui\GuiMessageItem.cs" />
     <Compile Include="Gui\Files\FileDetailsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

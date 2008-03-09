@@ -26,6 +26,7 @@
             this.components = new System.ComponentModel.Container();
             this.chatWebBrowser = new System.Windows.Forms.WebBrowser();
             this.chatSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.topicWrapperPanel = new System.Windows.Forms.Panel();
             this.topicDisplayLabel = new System.Windows.Forms.Label();
             this.setByLabel = new System.Windows.Forms.Label();
@@ -35,12 +36,11 @@
             this.chatInputTextBox = new System.Windows.Forms.TextBox();
             this.sendChatButton = new System.Windows.Forms.Button();
             this.chatToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.panel1 = new System.Windows.Forms.Panel();
             this.chatSplitContainer.Panel1.SuspendLayout();
             this.chatSplitContainer.Panel2.SuspendLayout();
             this.chatSplitContainer.SuspendLayout();
-            this.topicWrapperPanel.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.topicWrapperPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // chatWebBrowser
@@ -72,6 +72,18 @@
             this.chatSplitContainer.Size = new System.Drawing.Size(439, 258);
             this.chatSplitContainer.SplitterDistance = 218;
             this.chatSplitContainer.TabIndex = 3;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.chatWebBrowser);
+            this.panel1.Location = new System.Drawing.Point(0, 44);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(439, 173);
+            this.panel1.TabIndex = 4;
             // 
             // topicWrapperPanel
             // 
@@ -137,7 +149,7 @@
             this.topicTextBox.BackColor = System.Drawing.SystemColors.Control;
             this.topicTextBox.Location = new System.Drawing.Point(49, 4);
             this.topicTextBox.Name = "topicTextBox";
-            this.topicTextBox.Size = new System.Drawing.Size(384, 22);
+            this.topicTextBox.Size = new System.Drawing.Size(384, 20);
             this.topicTextBox.TabIndex = 0;
             this.topicTextBox.Visible = false;
             this.topicTextBox.Leave += new System.EventHandler(this.topicTextBox_Leave);
@@ -153,6 +165,7 @@
             this.chatInputTextBox.Name = "chatInputTextBox";
             this.chatInputTextBox.Size = new System.Drawing.Size(379, 35);
             this.chatInputTextBox.TabIndex = 10;
+            this.chatInputTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.chatInputTextBox_KeyUp);
             // 
             // sendChatButton
             // 
@@ -166,18 +179,6 @@
             this.sendChatButton.UseVisualStyleBackColor = true;
             this.sendChatButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.sendChatButton_MouseUp);
             // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.chatWebBrowser);
-            this.panel1.Location = new System.Drawing.Point(0, 44);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(439, 173);
-            this.panel1.TabIndex = 4;
-            // 
             // ChatControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -189,9 +190,9 @@
             this.chatSplitContainer.Panel2.ResumeLayout(false);
             this.chatSplitContainer.Panel2.PerformLayout();
             this.chatSplitContainer.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.topicWrapperPanel.ResumeLayout(false);
             this.topicWrapperPanel.PerformLayout();
-            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

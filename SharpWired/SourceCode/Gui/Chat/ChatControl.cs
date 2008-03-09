@@ -107,11 +107,12 @@ namespace SharpWired.Gui.Chat {
             chatInputTextBox.Clear();
         }
 
-        private void sendChatRichTextBox_KeyUp(object sender, KeyEventArgs e) {
-            if (e.KeyCode == Keys.Enter) {
+        private void chatInputTextBox_KeyUp(object sender, KeyEventArgs e) {
+            if (!e.Shift && e.KeyCode == Keys.Enter) {
                 this.guiChatController.SendChatMessage(chatInputTextBox.Text);
                 chatInputTextBox.Clear();
-            } else if (e.KeyCode == Keys.Escape) {
+            }
+            if (e.KeyCode == Keys.Escape) {
                 chatInputTextBox.Clear();
             }
         }

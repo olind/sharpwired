@@ -81,7 +81,7 @@ namespace SharpWired.Gui.Chat
             listViewGroup2});
             this.userListView.Location = new System.Drawing.Point(0, 0);
             this.userListView.Name = "userListView";
-            this.userListView.Size = new System.Drawing.Size(285, 329);
+            this.userListView.Size = new System.Drawing.Size(63, 329);
             this.userListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.userListView.TabIndex = 2;
             this.userListView.TileSize = new System.Drawing.Size(188, 34);
@@ -100,7 +100,7 @@ namespace SharpWired.Gui.Chat
             // 
             this.Controls.Add(this.userListView);
             this.Name = "UserListControl";
-            this.Size = new System.Drawing.Size(285, 329);
+            this.Size = new System.Drawing.Size(63, 329);
             this.ResumeLayout(false);
 
         }

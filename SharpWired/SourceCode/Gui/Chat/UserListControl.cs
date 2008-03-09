@@ -63,6 +63,7 @@ namespace SharpWired.Gui.Chat
 
                     ListViewItem userItem = items.Add(user.UserId.ToString(), user.Nick, user.UserId.ToString());
                     user.UpdatedEvent += UpdateUser;
+                    user.UpdatedEvent +=new UserItem.UpdatedDelegate(UpdateUser);
                     userItem.Text = user.Nick;
                     userItem.SubItems.Add(user.Status);
                 }
@@ -77,7 +78,6 @@ namespace SharpWired.Gui.Chat
                 ListView.ListViewItemCollection items = this.userListView.Items;
                 if (items.ContainsKey(user.UserId.ToString())) {
                     ListViewItem userItem = items[items.IndexOfKey(user.UserId.ToString())];
-
                     if (user.Image != null)
                         userListView.LargeImageList.Images.Add(user.UserId.ToString(), user.Image);
 
@@ -117,6 +117,10 @@ namespace SharpWired.Gui.Chat
             InitializeComponent();
             this.userListView.LargeImageList = new ImageList();
             this.userListView.LargeImageList.ImageSize = new Size(32, 32);
+
+            Size s = new Size(130, 34);
+            this.userListView.TileSize = s;
+
         }
 
         #endregion

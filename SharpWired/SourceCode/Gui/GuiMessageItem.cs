@@ -32,8 +32,9 @@ using SharpWired.Model.Users;
 using SharpWired.Connection.Bookmarks;
 using SharpWired.Model.PrivateMessages;
 using System.Web;
+using SharpWired.Model.News;
 
-namespace SharpWired.Gui.Chat {
+namespace SharpWired.Gui {
     /// <summary>
     /// An object that takes ChatEvents or TopicsEvents and provides
     /// common get methods for printing to GUI
@@ -89,6 +90,8 @@ namespace SharpWired.Gui.Chat {
                 message = HttpUtility.HtmlEncode(message);
                 errorDescription = HttpUtility.HtmlEncode(errorDescription);
                 solutionIdea = HttpUtility.HtmlEncode(solutionIdea);
+
+                message = message.Replace("\\r\\n", "<br />");
 
                 if (!isErrorMessage) {
                     html.Append("<div class=\"userName\">" + nickName + "</div>");
@@ -158,6 +161,27 @@ namespace SharpWired.Gui.Chat {
             timeStamp = item.TimeStamp;
             nickName = item.UserItem.Nick;
             message = item.Message;
+        }
+
+        /// <summary>
+        /// Constructor for news post
+        /// </summary>
+        /// <param name="newPost"></param>
+        public GuiMessageItem(NewsObject newPost) {
+            /*
+
+                "<div class=\"newsEntry\">" +
+                    "<div class=\"time\">" + HttpUtility.HtmlEncode(newPost.PostTime.ToString()) + "</div>" +
+                    "<div class=\"nickName\">" + HttpUtility.HtmlEncode(newPost.Nick) + "</div>" +
+                    "<div class=\"message\">" + HttpUtility.HtmlEncode(postMessage) +"</div>" +
+                "</div>"
+             * */
+
+            messageType = "newsEntry";
+            timeStamp = newPost.PostTime;
+            nickName = newPost.Nick;
+            message = newPost.Post;
+
         }
     }
 }
