@@ -87,6 +87,7 @@ namespace SharpWired.Gui.Chat
             this.userListView.TileSize = new System.Drawing.Size(188, 34);
             this.userListView.UseCompatibleStateImageBehavior = false;
             this.userListView.View = System.Windows.Forms.View.Tile;
+            this.userListView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnClick);
             // 
             // columnHeader1
             // 

@@ -115,6 +115,8 @@ namespace SharpWired.Gui.Chat {
 
             logicManager.PrivateMessagesHandler.PrivateMessageModel.ReceivedPrivateMessageEvent +=
                 new SharpWired.Model.PrivateMessages.PrivateMessageModel.ReceivedPrivateMessageDelegate(chatControl.OnPrivateMessageReceived);
+
+            logicManager.ConnectionManager.Messages.ClientInformationEvent += chatControl.OnUserInformation;
         }
     }
 }

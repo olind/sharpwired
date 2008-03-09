@@ -43,6 +43,8 @@ namespace SharpWired.Gui.Chat
     /// </summary>
     public partial class UserListControl : UserControl
     {
+        private LogicManager logicManager;
+
         #region Events
         delegate void RemoveUserCallback(UserItem removeUser);
         delegate void AddUserCallback(UserItem newUser);
@@ -61,11 +63,11 @@ namespace SharpWired.Gui.Chat
                     if (user.Image != null)
                         userListView.LargeImageList.Images.Add(user.UserId.ToString(), user.Image);
 
-                    ListViewItem userItem = items.Add(user.UserId.ToString(), user.Nick, user.UserId.ToString());
+                    WiredListViewItem item = new WiredListViewItem(user,
+                        new string[] {user.Nick, user.Status}, user.UserId.ToString());
+                    items.Add(item);
+
                     user.UpdatedEvent += UpdateUser;
-                    user.UpdatedEvent +=new UserItem.UpdatedDelegate(UpdateUser);
-                    userItem.Text = user.Nick;
-                    userItem.SubItems.Add(user.Status);
                 }
             }
         }
@@ -105,8 +107,9 @@ namespace SharpWired.Gui.Chat
         /// </summary>
         /// <param name="logicManager"></param>
         public void Init(LogicManager logicManager) {
-            logicManager.UserHandler.UserModel.ClientJoinEvent += AddUser;
-            logicManager.UserHandler.UserModel.ClientLeftEvent += RemoveUser;
+            this.logicManager = logicManager;
+            this.logicManager.UserHandler.UserModel.ClientJoinEvent += AddUser;
+            this.logicManager.UserHandler.UserModel.ClientLeftEvent += RemoveUser;
         }
 
         /// <summary>
@@ -117,6 +120,7 @@ namespace SharpWired.Gui.Chat
             InitializeComponent();
             this.userListView.LargeImageList = new ImageList();
             this.userListView.LargeImageList.ImageSize = new Size(32, 32);
+            this.userListView.ContextMenu = new ContextMenu();
 
             Size s = new Size(130, 34);
             this.userListView.TileSize = s;
@@ -124,5 +128,34 @@ namespace SharpWired.Gui.Chat
         }
 
         #endregion
+
+        private void OnClick(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Right) {
+                ContextMenu cm = this.userListView.ContextMenu;
+                cm.MenuItems.Clear();
+                ListView.SelectedListViewItemCollection users = this.userListView.SelectedItems;
+                if (users.Count > 0) {
+                    cm.MenuItems.Add("Information", OnInformationClick);
+                    cm.MenuItems.Add("View Downloads and Uploads");
+                    cm.MenuItems.Add("-");
+                    cm.MenuItems.Add("Private Chat");
+                    cm.MenuItems.Add("Private Message");
+                    cm.MenuItems.Add("-");
+                    cm.MenuItems.Add("Kick");
+                    cm.MenuItems.Add("Ban");
+                    cm.MenuItems.Add("Ignore");
+                    cm.MenuItems.Add("-");
+                }
+                cm.MenuItems.Add("Select All");
+                cm.MenuItems.Add("Broadcast");
+            }
+        }
+
+        private void OnInformationClick(object sender, EventArgs e) {
+            ListView.SelectedListViewItemCollection userItems = this.userListView.SelectedItems;
+            foreach (WiredListViewItem li in userItems) {
+                logicManager.ConnectionManager.Commands.Info(li.UserItem.UserId);
+            }
+        }
     }
 }

@@ -93,7 +93,10 @@ namespace SharpWired.Gui.News
 
         # region Send news messages
         private void postNewsButton_Click(object sender, EventArgs e) {
-            logicManager.ConnectionManager.Commands.Post(this.postNewsTextBox.Text);
+            string text = this.postNewsTextBox.Text.Trim();
+            if (text.Length > 0) {
+                logicManager.ConnectionManager.Commands.Post(this.postNewsTextBox.Text);
+            }
             postNewsTextBox.Clear();
         }
         #endregion

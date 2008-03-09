@@ -74,6 +74,11 @@ namespace SharpWired.Gui.Chat {
             WriteHTMLToChat(gmi);
         }
 
+        public void OnUserInformation(object sender, MessageEvents.MessageEventArgs_308 e) {
+            GuiMessageItem gmi = new GuiMessageItem(e);
+            WriteHTMLToChat(gmi);
+        }
+
         private void WriteHTMLToChat(GuiMessageItem guiMessage)
         {
             if(this.InvokeRequired){

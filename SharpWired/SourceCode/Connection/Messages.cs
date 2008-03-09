@@ -634,30 +634,49 @@ namespace SharpWired.Connection
         {
             if (ClientInformationEvent != null)
             {
-                string[] w = SplitMessage(message);
-                int userId = int.Parse(w[0]);
-                bool idle = Utility.ConvertIntToBool(int.Parse(w[1]));
-                bool admin = Utility.ConvertIntToBool(int.Parse(w[2]));
-                int icon = int.Parse(w[3]);
-                string nick = w[4];
-                string login = w[5];
-                IPAddress ip = IPAddress.Parse(w[6]);
-                string host = w[7];
-                string clientVersion = w[8]; // TODO: This type is not optimal
-                string cipherName = w[9]; // TODO: This type is not optimal
-                int cipherBits = int.Parse(w[10]);
-                DateTime loginTime = DateTime.Parse(w[11]);
-                DateTime idleTime = DateTime.Parse(w[12]);
-                string downloads = w[13]; // TODO: This is not optimal type
-                string uploads = w[14]; // TODO: This is not optimal type
-                string status = w[15];
-                Bitmap image = SharpWired.Utility.Base64StringToBitmap(w[16]);
-                string transfer = w[16];
-                string path = w[17];
-                int transferred = int.Parse(w[18]);
-                int size = int.Parse(w[19]);
-                int speed = int.Parse(w[20]);
+                string[] w;
+                string nick, login, host, clientVersion, cipherName, downloads,
+                    uploads, status, transfer, path;
+                int userId, icon, cipherBits, transferred, size, speed;
+                bool idle, admin;
+                IPAddress ip;
+                DateTime loginTime, idleTime;
+                Bitmap image;
 
+                w                 = SplitMessage(message);
+                userId            = int.Parse(w[0]);
+                idle              = Utility.ConvertIntToBool(int.Parse(w[1]));
+                admin             = Utility.ConvertIntToBool(int.Parse(w[2]));
+                icon              = int.Parse(w[3]);
+                nick              = w[4];
+                login             = w[5];
+                ip                = IPAddress.Parse(w[6]);
+                host              = w[7];
+                clientVersion     = w[8]; // TODO: This type is not optimal
+                cipherName        = w[9]; // TODO: This type is not optimal
+                cipherBits        = int.Parse(w[10]);
+                loginTime         = DateTime.Parse(w[11]);
+                idleTime          = DateTime.Parse(w[12]);
+                downloads         = w[13]; // TODO: This is not optimal type
+                uploads           = w[14]; // TODO: This is not optimal type
+                status            = w[15];
+                image             = SharpWired.Utility.Base64StringToBitmap(w[16]);
+                try {
+                    // TODO: Report bug to WiredServer?
+                    // This try is needed because of a possbile bug in
+                    // WiredServer which omitts the last five fields.
+                    transfer      = w[17];
+                    path          = w[18];
+                    transferred   = int.Parse(w[19]);
+                    size          = int.Parse(w[20]);
+                    speed         = int.Parse(w[21]);
+                } catch (IndexOutOfRangeException e) {
+                    transfer      = "";
+                    path          = "";
+                    transferred   = -1;
+                    size          = -1;
+                    speed         = -1;
+                }
                 MessageEventArgs_308 m = new MessageEventArgs_308(messageId, messageName, userId, image, idle, admin, icon, nick, login, status, ip, host, clientVersion, cipherName, cipherBits, loginTime, idleTime, downloads, uploads, transfer, path, transferred, size, speed);
 
                 ClientInformationEvent(this, m);
@@ -1435,7 +1454,7 @@ namespace SharpWired.Connection
         {
             // Parse the server information event
             char[] delimiterChars = { Convert.ToChar(Utility.FS) };
-            return message.Split(delimiterChars);
+            return message.Split(delimiterChars, StringSplitOptions.None);
         }
 
         /// <summary>

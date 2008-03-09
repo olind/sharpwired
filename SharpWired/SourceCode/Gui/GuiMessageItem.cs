@@ -168,20 +168,23 @@ namespace SharpWired.Gui {
         /// </summary>
         /// <param name="newPost"></param>
         public GuiMessageItem(NewsObject newPost) {
-            /*
-
-                "<div class=\"newsEntry\">" +
-                    "<div class=\"time\">" + HttpUtility.HtmlEncode(newPost.PostTime.ToString()) + "</div>" +
-                    "<div class=\"nickName\">" + HttpUtility.HtmlEncode(newPost.Nick) + "</div>" +
-                    "<div class=\"message\">" + HttpUtility.HtmlEncode(postMessage) +"</div>" +
-                "</div>"
-             * */
-
             messageType = "newsEntry";
             timeStamp = newPost.PostTime;
             nickName = newPost.Nick;
             message = newPost.Post;
+        }
 
+        // TODO: Make generic info output instead of specific for all events
+        // in connection layer.
+        public GuiMessageItem(MessageEvents.MessageEventArgs_308 e) {
+            this.messageType = "errorEntry";
+            this.message = "";
+            this.isErrorMessage = true;
+            this.timeStamp = DateTime.Now;
+            this.nickName = e.Nick;
+            this.errorDescription = e.Ip.ToString();
+            this.solutionIdea = e.Login;
+            this.bookmark = new Bookmark();
         }
     }
 }
