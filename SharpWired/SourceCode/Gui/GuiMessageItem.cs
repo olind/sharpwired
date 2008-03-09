@@ -86,9 +86,13 @@ namespace SharpWired.Gui {
                 html.Append("<div class=\"" + messageType + "\">");
                 html.Append("<div class=\"time\">" + timeStamp + "</div>");
 
-                nickName = HttpUtility.HtmlEncode(nickName);
+                if(nickName != null)
+                    nickName = HttpUtility.HtmlEncode(nickName);
+                if (message != null)
                 message = HttpUtility.HtmlEncode(message);
+                if (errorDescription != null)
                 errorDescription = HttpUtility.HtmlEncode(errorDescription);
+                if (solutionIdea != null)
                 solutionIdea = HttpUtility.HtmlEncode(solutionIdea);
 
                 message = message.Replace("\\r\\n", "<br />");
@@ -174,17 +178,44 @@ namespace SharpWired.Gui {
             message = newPost.Post;
         }
 
-        // TODO: Make generic info output instead of specific for all events
-        // in connection layer.
+        /// <summary>
+        /// Constructor for Client Information
+        /// </summary>
+        /// <param name="e"></param>
         public GuiMessageItem(MessageEvents.MessageEventArgs_308 e) {
-            this.messageType = "errorEntry";
-            this.message = "";
-            this.isErrorMessage = true;
+            // TODO: Make generic info output instead of specific for all events
+            // in connection layer.
+
+            this.messageType = "infoEntry";
+            this.nickName = "";
             this.timeStamp = DateTime.Now;
-            this.nickName = e.Nick;
-            this.errorDescription = e.Ip.ToString();
-            this.solutionIdea = e.Login;
-            this.bookmark = new Bookmark();
+            StringBuilder s = new StringBuilder();
+            s.Append("User Information" + "\\r\\n\\r\\n");
+            s.Append("Nick: " + e.Nick + "\\r\\n");
+            s.Append("Login: " + e.Login + "\\r\\n");
+            s.Append("UserId: " + e.UserId + "\\r\\n");
+            s.Append("Idle: " + e.Idle + "\\r\\n");
+            s.Append("IdleTime: " + e.IdleTime + "\\r\\n");
+            s.Append("LoginTime: " + e.LoginTime + "\\r\\n");
+            s.Append("Status: " + e.Status + "\\r\\n");
+            s.Append("Admin: " + e.Admin + "\\r\\n");
+            s.Append("Host: " + e.Host + "\\r\\n");
+            s.Append("Ip:  "+ e.Ip + "\\r\\n");
+            s.Append("ClientVersion: " + e.ClientVersion + "\\r\\n");
+            s.Append("Downloads: " + e.Downloads + "\\r\\n");
+            s.Append("Path: " + e.Path + "\\r\\n");
+            s.Append("Size: " + e.Size + "\\r\\n");
+            s.Append("Speed: " + e.Speed + "\\r\\n");
+            s.Append("Transfer: " + e.Transfer + "\\r\\n");
+            s.Append("Transferred: " + e.Transferred + "\\r\\n");
+            s.Append("Uploads: " + e.Uploads + "\\r\\n");
+            s.Append("CipherBits: " + e.CipherBits + "\\r\\n");
+            s.Append("CipherName: " + e.CipherName + "\\r\\n");
+            //s.Append("Icon" + e.Icon + "\\r\\n");
+            //s.Append("Image" + e.Image + "\\r\\n");
+
+            this.message = s.ToString();
+
         }
     }
 }

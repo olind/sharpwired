@@ -186,6 +186,11 @@ html, body {
 	padding: 2px 6px;
 }
 
+.infoEntry .time {
+	font-size: x-small;
+	float: right;
+}
+
 .infoEntry .message {
 }
 

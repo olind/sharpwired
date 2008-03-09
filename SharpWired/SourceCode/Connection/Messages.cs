@@ -676,6 +676,7 @@ namespace SharpWired.Connection
                     transferred   = -1;
                     size          = -1;
                     speed         = -1;
+                    Console.WriteLine("Messages.cs: Failed to set client information string. Exception: " + e);
                 }
                 MessageEventArgs_308 m = new MessageEventArgs_308(messageId, messageName, userId, image, idle, admin, icon, nick, login, status, ip, host, clientVersion, cipherName, cipherBits, loginTime, idleTime, downloads, uploads, transfer, path, transferred, size, speed);
 
