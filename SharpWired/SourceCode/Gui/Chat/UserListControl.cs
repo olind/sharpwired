@@ -56,12 +56,12 @@ namespace SharpWired.Gui.Chat
                 this.Invoke(ucb, new object[] { user });
             } else {
                 ListView.ListViewItemCollection items = this.userListView.Items;
-                if (!items.ContainsKey(user.Login)) {
+                if (!items.ContainsKey(user.UserId.ToString())) {
 
                     if (user.Image != null)
-                        userListView.LargeImageList.Images.Add(user.Login, user.Image);
+                        userListView.LargeImageList.Images.Add(user.UserId.ToString(), user.Image);
 
-                    ListViewItem userItem = items.Add(user.Login, user.Nick, user.Login);
+                    ListViewItem userItem = items.Add(user.UserId.ToString(), user.Nick, user.UserId.ToString());
                     user.UpdatedEvent += UpdateUser;
                     userItem.Text = user.Nick;
                     userItem.SubItems.Add(user.Status);
@@ -75,11 +75,11 @@ namespace SharpWired.Gui.Chat
                 this.Invoke(ucb, new object[] { user });
             } else {
                 ListView.ListViewItemCollection items = this.userListView.Items;
-                if (items.ContainsKey(user.Login)) {
-                    ListViewItem userItem = items[items.IndexOfKey(user.Login)];
+                if (items.ContainsKey(user.UserId.ToString())) {
+                    ListViewItem userItem = items[items.IndexOfKey(user.UserId.ToString())];
 
                     if (user.Image != null)
-                        userListView.LargeImageList.Images.Add(user.Login, user.Image);
+                        userListView.LargeImageList.Images.Add(user.UserId.ToString(), user.Image);
 
                     userItem.Text = user.Nick;
                     userItem.SubItems[1].Text = user.Status;
@@ -92,7 +92,7 @@ namespace SharpWired.Gui.Chat
                 AddUserCallback ucb = new AddUserCallback(RemoveUser);
                 this.Invoke(ucb, new object[] { user });
             } else {
-                this.userListView.Items.RemoveByKey(user.Login);
+                this.userListView.Items.RemoveByKey(user.UserId.ToString());
                 user.UpdatedEvent -= UpdateUser;
             }
         }
