@@ -59,6 +59,7 @@ namespace SharpWired.Gui.Chat
             } else {
                 ListView.ListViewItemCollection items = this.userListView.Items;
                 if (!items.ContainsKey(user.UserId.ToString())) {
+                    user.UpdatedEvent += UpdateUser;
 
                     if (user.Image != null)
                         userListView.LargeImageList.Images.Add(user.UserId.ToString(), user.Image);
@@ -66,8 +67,6 @@ namespace SharpWired.Gui.Chat
                     WiredListViewItem item = new WiredListViewItem(user,
                         new string[] {user.Nick, user.Status}, user.UserId.ToString());
                     items.Add(item);
-
-                    user.UpdatedEvent += UpdateUser;
                 }
             }
         }
@@ -77,14 +76,13 @@ namespace SharpWired.Gui.Chat
                 AddUserCallback ucb = new AddUserCallback(UpdateUser);
                 this.Invoke(ucb, new object[] { user });
             } else {
-                ListView.ListViewItemCollection items = this.userListView.Items;
-                if (items.ContainsKey(user.UserId.ToString())) {
-                    ListViewItem userItem = items[items.IndexOfKey(user.UserId.ToString())];
+                WiredListViewItem u = FindUserById(user);
+                if(u != null) {
                     if (user.Image != null)
                         userListView.LargeImageList.Images.Add(user.UserId.ToString(), user.Image);
 
-                    userItem.Text = user.Nick;
-                    userItem.SubItems[1].Text = user.Status;
+                    u.Text = user.Nick;
+                    u.SubItems[1].Text = user.Status;
                 }
             }
         }
@@ -94,14 +92,25 @@ namespace SharpWired.Gui.Chat
                 AddUserCallback ucb = new AddUserCallback(RemoveUser);
                 this.Invoke(ucb, new object[] { user });
             } else {
-                this.userListView.Items.RemoveByKey(user.UserId.ToString());
                 user.UpdatedEvent -= UpdateUser;
+                WiredListViewItem u = FindUserById(user);
+                if (u != null)
+                    this.userListView.Items.Remove(u);
             }
+        }
+
+        private WiredListViewItem FindUserById(UserItem user) {
+            ListView.ListViewItemCollection items = this.userListView.Items;
+            WiredListViewItem u = null;
+            foreach (WiredListViewItem wli in items)
+                if (wli.UserItem.UserId == user.UserId)
+                    u = wli;
+
+            return u;
         }
         #endregion
 
         #region Initialization of UserListControl
-
         /// <summary>
         /// Init this component, set up the listeners etc
         /// </summary>

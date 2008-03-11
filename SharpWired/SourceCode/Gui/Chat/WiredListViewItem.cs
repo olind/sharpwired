@@ -13,8 +13,13 @@ namespace SharpWired.Gui.Chat {
             set { userItem = value; }
         }
 
+        public WiredListViewItem(UserItem user, string nick, string imageIndex) 
+            : base(nick, imageIndex) {
+            this.UserItem = user;
+        }
+
         public WiredListViewItem(UserItem user, string[] subItems, string imageKey)
-            : base(subItems, imageKey) { 
+            : base( subItems, imageKey) { 
             this.UserItem = user;
         }
     }
