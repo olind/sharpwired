@@ -130,8 +130,8 @@ namespace SharpWired.Connection.Sockets
             }
 
             // Create an SSL stream that will close the client's stream.
-            //FIXME: The validate server certificate allways returns true
-            //       If the validation fails we should ask the user to connect anyway
+            //TODO: The validate server certificate allways returns true
+            //      If the validation fails we should ask the user to connect anyway
             sslStream = new SslStream(client.GetStream(), 
                 false, 
                 new RemoteCertificateValidationCallback(ValidateServerCertificate), 
@@ -180,8 +180,8 @@ namespace SharpWired.Connection.Sockets
 			if (sslPolicyErrors == SslPolicyErrors.None)
 				return true;
 
-			// FIXME: We should trow an exception if the validate is not valid, 
-			//        for now return true anyway
+			// TODO: We should trow an exception if the validate is not valid, 
+			//       for now return true anyway
 			return true;
 		}
 		#endregion
@@ -218,7 +218,7 @@ namespace SharpWired.Connection.Sockets
         /// The read callback acts as the asynchronous message receive loop.
         /// Note: This code is inspired from Socio (see: socio.sf.net for more information)
         /// </summary>
-        /// <param name="result">TODO: !!</param>
+        /// <param name="result">The result that the socket received</param>
         private void ReadCallback(IAsyncResult result)
         {
 			FileTransferStateObject trans = (FileTransferStateObject)result.AsyncState;

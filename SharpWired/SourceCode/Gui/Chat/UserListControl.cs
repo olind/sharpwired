@@ -59,7 +59,7 @@ namespace SharpWired.Gui.Chat
             } else {
                 ListView.ListViewItemCollection items = this.userListView.Items;
                 if (!items.ContainsKey(user.UserId.ToString())) {
-                    user.UpdatedEvent += UpdateUser;
+                    user.Updated += UpdateUser;
 
                     if (user.Image != null)
                         userListView.LargeImageList.Images.Add(user.UserId.ToString(), user.Image);
@@ -92,7 +92,7 @@ namespace SharpWired.Gui.Chat
                 AddUserCallback ucb = new AddUserCallback(RemoveUser);
                 this.Invoke(ucb, new object[] { user });
             } else {
-                user.UpdatedEvent -= UpdateUser;
+                user.Updated -= UpdateUser;
                 WiredListViewItem u = FindUserById(user);
                 if (u != null)
                     this.userListView.Items.Remove(u);
@@ -117,8 +117,8 @@ namespace SharpWired.Gui.Chat
         /// <param name="logicManager"></param>
         public void Init(LogicManager logicManager) {
             this.logicManager = logicManager;
-            this.logicManager.UserHandler.UserModel.ClientJoinEvent += AddUser;
-            this.logicManager.UserHandler.UserModel.ClientLeftEvent += RemoveUser;
+            this.logicManager.UserHandler.UserModel.ClientJoined += AddUser;
+            this.logicManager.UserHandler.UserModel.ClientLeft += RemoveUser;
         }
 
         /// <summary>

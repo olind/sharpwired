@@ -61,221 +61,141 @@ namespace SharpWired.MessageEvents
         /// <summary>
         /// Get if this user is idle or not
         /// </summary>
-        public bool Idle
-        {
-            get
-            {
-                return idle;
-            }
+        public bool Idle {
+            get { return idle; }
         }
 
         /// <summary>
         /// Get if this user is admin
         /// </summary>
-        public bool Admin
-        {
-            get
-            {
-                return admin;
-            }
+        public bool Admin {
+            get { return admin; }
         }
 
         /// <summary>
         /// Get the icon for this user
         /// </summary>
-        public int Icon
-        {
-            get
-            {
-                return icon;
-            }
+        public int Icon {
+            get { return icon; }
         }
 
         /// <summary>
         /// Get the nick for this user
         /// </summary>
-        public string Nick
-        {
-            get
-            {
-                return nick;
-            }
+        public string Nick {
+            get { return nick; }
         }
 
         /// <summary>
         /// Get the login for this user
         /// </summary>
-        public string Login
-        {
-            get
-            {
-                return login;
-            }
+        public string Login {
+            get { return login; }
         }
 
         /// <summary>
         /// Get the status for this user
         /// </summary>
-        public string Status
-        {
-            get
-            {
-                return status;
-            }
+        public string Status {
+            get { return status; }
         }
 
         /// <summary>
         /// Get the IP Address for this user
         /// </summary>
-        public IPAddress Ip
-        {
-            get
-            {
-                return ip;
-            }
+        public IPAddress Ip {
+            get { return ip; }
         }
 
         /// <summary>
         /// Get the host for this user
         /// </summary>
-        public string Host
-        {
-            get
-            {
-                return host;
-            }
+        public string Host {
+            get { return host; }
         }
 
         /// <summary>
         /// Get the client version for this user
         /// </summary>
-        public string ClientVersion
-        {
-            get
-            {
-                return clientVersion;
-            }
+        public string ClientVersion {
+            get { return clientVersion; }
         }
 
         /// <summary>
         /// Get the cipher name for this user
         /// </summary>
-        public string CipherName
-        {
-            get
-            {
-                return cipherName;
-            }
+        public string CipherName {
+            get { return cipherName; }
         }
 
         /// <summary>
         /// Get the cipher bits for this user
         /// </summary>
-        public int CipherBits
-        {
-            get
-            {
-                return cipherBits;
-            }
+        public int CipherBits {
+            get { return cipherBits; }
         }
 
         /// <summary>
         /// Get the login time for this user
         /// </summary>
-        public DateTime LoginTime
-        {
-            get
-            {
-                return loginTime;
-            }
+        public DateTime LoginTime {
+            get { return loginTime; }
         }
 
         /// <summary>
         /// Get the idle time for this user
         /// </summary>
-        public DateTime IdleTime
-        {
-            get
-            {
-                return idleTime;
-            }
+        public DateTime IdleTime {
+            get { return idleTime; }
         }
 
         /// <summary>
         /// Get the current download for this user
         /// </summary>
-        public string Downloads
-        {
-            get
-            {
-                return downloads;
-            }
+        public string Downloads {
+            get { return downloads; }
         }
 
         /// <summary>
         /// Get the current upload for this user
         /// </summary>
-        public string Uploads
-        {
-            get
-            {
-                return uploads;
-            }
+        public string Uploads {
+            get { return uploads; }
         }
 
         /// <summary>
         /// Get the transfer this user currently have
         /// </summary>
-        public string Transfer
-        {
-            get
-            {
-                return transfer;
-            }
+        public string Transfer {
+            get { return transfer; }
         }
 
         /// <summary>
         /// Get the path (path transferred size speed)
         /// </summary>
-        public string Path
-        {
-            get
-            {
-                return path;
-            }
+        public string Path {
+            get { return path; }
         }
 
         /// <summary>
         /// Get the ammount of transferred data
         /// </summary>
-        public int Transferred
-        {
-            get
-            {
-                return transferred;
-            }
+        public int Transferred {
+            get { return transferred; }
         }
 
         /// <summary>
         /// Get the size for the current download?
         /// </summary>
-        public int Size
-        {
-            get
-            {
-                return size;
-            }
+        public int Size {
+            get { return size; }
         }
 
         /// <summary>
         /// Get the speed for the current download?
         /// </summary>
-        public int Speed
-        {
-            get
-            {
-                return speed;
-            }
+        public int Speed {
+            get { return speed; }
         }
         
         /// <summary>

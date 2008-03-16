@@ -76,7 +76,6 @@ namespace SharpWired.Connection
                 //TODO: Below should only be sent if the server responds with 200 Server Information
                 //"NICK", "ICON", "STATUS" and "CLIENT"
                 Nick(userInformation.Nick);
-                //TODO: If we decide to use icons and images send icon here
                 User(userInformation.UserName);
                 Pass(userInformation.Password);
                 Client();
@@ -155,11 +154,14 @@ namespace SharpWired.Connection
         {
             if (socket != null)
             {
-                //TODO: Group and privileges
+                throw new NotImplementedException();
+                /*
+                //TODO:
                 string group = "";
                 string privileges = "";
                 socket.SendMessage("CREATEUSER" + Utility.SP + name
                     + Utility.FS + password + Utility.FS + group + Utility.FS + privileges);
+                */
             }
         }
 
@@ -171,9 +173,12 @@ namespace SharpWired.Connection
         {
             if (socket != null)
             {
-                //TODO: Privileges
+                throw new NotImplementedException();
+                /*
+                //TODO:
                 string privileges = "";
                 socket.SendMessage("CREATEGROUP" + Utility.SP + name + Utility.FS + privileges);
+                */
             }
         }
 
@@ -228,9 +233,12 @@ namespace SharpWired.Connection
         {
             if (socket != null)
             {
-                //TODO: Privileges
+                throw new NotImplementedException();
+                /*
+                //TODO:
                 socket.SendMessage("EDITUSER" + Utility.SP + name + Utility.FS
                     + password + Utility.FS + group + Utility.FS + privileges);
+                */ 
             }
         }
 
@@ -243,8 +251,11 @@ namespace SharpWired.Connection
         {
             if (socket != null)
             {
-                //TODO Privileges
+                throw new NotImplementedException();
+                /*
+                //TODO
                 socket.SendMessage("EDITGROUP" + Utility.SP + name + Utility.FS + privileges);
+                */
             }
         }
 
@@ -262,12 +273,12 @@ namespace SharpWired.Connection
         /// Request a download of a file
         /// </summary>
         /// <param name="path">The path for the file to request</param>
-        /// <param name="offset">The offset for the file FIXME: Is an int sufficient?</param>
+        /// <param name="offset">The offset for the file</param>
         public void Get(string path, int offset)
         {
             if (socket != null)
             {
-                //TODO Offset?
+                //An int might not be big enough for the offset?
                 socket.SendMessage("GET" + Utility.SP + path + Utility.FS + offset);
             }
         }
@@ -300,7 +311,7 @@ namespace SharpWired.Connection
         /// <param name="image">The custom icon image</param>
         public void Icon(int icon, Image image)
         {
-            //TODO: We are currently only sending the image not the icon
+            // We are currently only sending the image not the icon
             if (socket != null)
             {
                 String b64Image = SharpWired.Utility.BitmapToBase64String(image);
@@ -492,7 +503,6 @@ namespace SharpWired.Connection
         /// <param name="checksum">The checksum</param>
         public void Put(string path, int size, string checksum)
         {
-            //TODO: Should we have another mechanism for checksum?
             if (socket != null)
             {
                 socket.SendMessage("PUT" + Utility.SP + path + Utility.FS +

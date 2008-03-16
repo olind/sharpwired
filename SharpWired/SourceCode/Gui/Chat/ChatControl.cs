@@ -77,9 +77,8 @@ namespace SharpWired.Gui.Chat {
         /// <summary>
         /// Call this method to write client information to chat window
         /// </summary>
-        /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void OnUserInformation(object sender, MessageEvents.MessageEventArgs_308 e) {
+        public void OnUserInformation(MessageEvents.MessageEventArgs_308 e) {
             //TODO: Don't listen to event directly from MessagesEvents. Use model implementation
             GuiMessageItem gmi = new GuiMessageItem(e);
             WriteHTMLToChat(gmi);

@@ -34,111 +34,185 @@ namespace SharpWired.Model.Users
     /// <summary>
     /// Represents a user
     /// </summary>
-    public class UserModel
-    {
-        private LogicManager logicManager;
+    public class UserModel {
+
+        #region Variables
         private List<UserItem> userList;
+        #endregion
 
         #region Properties
-
         /// <summary>
-        /// Get the list of users connected to this list of users.
+        /// Get a copy of the list with users connected to this model.
+        /// NOTE! Since we pass a copy of the list editing the content of 
+        /// this list outside this class will have no effect.
         /// </summary>
-        public List<UserItem> UserList
-        {
-            get
-            {
-                return userList;
-            }
-        }
-
-        #endregion
-
-        #region Methods: User list manipulation
-
-        /// <summary>
-        /// Add the given user to this list of users
-        /// </summary>
-        /// <param name="messageEventArgs"></param>
-        public void AddUser(MessageEventArgs_302310 messageEventArgs)
-        {
-            if (!UserExists(messageEventArgs.UserId))
-            {
-                UserItem newUser = new UserItem(messageEventArgs);
-                this.userList.Add(newUser);
-                this.OnClientJoinEvent(newUser);
-            }
-        }
-
-        /// <summary>
-        /// Add the given user to this list of users
-        /// </summary>
-        /// <param name="messageEventArgs"></param>
-        public void AddUser(MessageEventArgs_304 messageEventArgs)
-        {
-            if (!UserExists(messageEventArgs.UserId))
-            {
-                UserItem newUser = new UserItem(messageEventArgs);
-                this.userList.Add(newUser);
-                this.OnClientJoinEvent(newUser);
-            }
-        }
-
-        /// <summary>
-        /// Remove the given user from this list of users
-        /// </summary>
-        /// <param name="messageEventArgs"></param>
-        public void RemoveUser(MessageEventArgs_303331332 messageEventArgs)
-        {
-            if (UserExists(messageEventArgs.UserId))
-            {
-                UserItem leftUser = GetUser(messageEventArgs.UserId);
-                this.userList.Remove(leftUser);
-                this.OnClientLeavEvent(leftUser);
-                //TODO: Should we delete the user on the server if we have privileges?
-            }
-        }
-
-        /// <summary>
-        /// Refresh the user list.
-        /// </summary>
-        public void RefreshUserList()
-        {
-            OnUserListUpdatedEvent();
-        }
-
-
-        /// <summary>
-        /// Called when the user status has been changed.
-        /// </summary>
-        /// <param name="messageEventArgs"></param>
-        public void StatusChanged(MessageEventArgs_304 messageEventArgs)
-        {
-            if (GetUser(messageEventArgs.UserId) == null)
-            {
-                AddUser(messageEventArgs);
-            }
-
-            UserItem u = GetUser(messageEventArgs.UserId);
-
-            u.UserId = messageEventArgs.UserId;
-            u.Idle = messageEventArgs.Idle;
-            u.Admin = messageEventArgs.Admin;
-            u.Icon = messageEventArgs.Icon;
-            u.Nick = messageEventArgs.Nick;
-            u.Status = messageEventArgs.Status;
+        public List<UserItem> UserList {
+            get { return new List<UserItem>(userList); }
         }
         #endregion
 
+        #region Handler methods to be called when a message is received from connection layer
+        /// <summary>
+        /// Changes the status for the user in the given message.
+        /// Call this method when a Status Changed Message (304) is 
+        /// received from the server.
+        /// </summary>
+        /// <param name="message"></param>
+        public void OnStatusChangedMessage(MessageEventArgs_304 message) {
+            UserItem u = this.GetUser(message.UserId);
+            if (u != null) {
+                u.OnStatusChangedMessage(message);
+            }
+        }
+
+        /// <summary>
+        /// Changes the Client Information for the user in the given message.
+        /// Call this method when a Client Information Message (308) is 
+        /// received from the server.
+        /// </summary>
+        /// <param name="message"></param>
+        public void OnClientInformationMessage(MessageEventArgs_308 message) {
+            UserItem u = this.GetUser(message.UserId);
+            if (u != null)
+                u.OnClientInformationMessage(message);
+        }
+
+        /// <summary>
+        /// Changes the Client Image for the user in the given message.
+        /// Call this method when a Client Image Changes Messsage (340) is
+        /// received from the server.
+        /// </summary>
+        /// <param name="message"></param>
+        public void OnClientImageChangedMessage(MessageEventArgs_340 message) {
+            UserItem u = this.GetUser(message.UserId);
+            if (u != null)
+                u.OnClientImageChangedMessage(message);
+        }
+
+        /// <summary>
+        /// Adds the given user to the list of users for this model. 
+        /// If the user exists it updates the user information.
+        /// Call this method when a Client Join Message (302) is 
+        /// received from the server.
+        /// </summary>
+        /// <param name="message"></param>
+        public void OnClientJoinMessage(MessageEventArgs_302310 message) {
+            if (!this.UserExists(message.UserId)) {
+                UserItem newUser = new UserItem(message);
+                this.userList.Add(newUser);
+                this.ClientJoined(newUser);
+            } else {
+                UserItem u = this.GetUser(message.UserId);
+                if (u != null)
+                    u.UpdateUserInformation(message);
+            }
+        }
+
+        /// <summary>
+        /// Removes the user in the given message from this model.
+        /// Call this method when a Client Leave Message (303) is
+        /// received from the server.
+        /// </summary>
+        /// <param name="message"></param>
+        public void OnClientLeaveMessage(MessageEventArgs_303331332 message) {
+            UserItem user = GetUser(message.UserId);
+            if (user != null) {
+                this.userList.Remove(user);
+                this.ClientLeft(user);
+            }
+        }
+
+        /// <summary>
+        /// Removes the user in the given message from this model since he or 
+        /// she was kicked.
+        /// Call this method when a Client Kicked Message (306) is
+        /// received from the server.
+        /// </summary>
+        /// <param name="message"></param>
+        public void OnClientKickedMessage(MessageEventArgs_306307 message) {
+            UserItem user = GetUser(message.Victim);
+            if (user != null) {
+                this.userList.Remove(user);
+                this.ClientLeft(user); //TODO: Send a message for why this user was kicked
+            }
+        }
+
+        /// <summary>
+        /// Removes the user in the given message from this model since he or 
+        /// she was banned.
+        /// Call this method when a Client Banned Message (307) is
+        /// received from the server.
+        /// </summary>
+        /// <param name="message"></param>
+        public void OnClientBannedMessage(MessageEventArgs_306307 message) {
+            UserItem user = GetUser(message.Victim);
+            if (user != null) {
+                this.userList.Remove(user);
+                this.ClientLeft(user); //TODO: Send a message for why this user was banned
+            }
+        }
+
+        /// <summary>
+        /// Adds the user in the given message if it isn't already in the list 
+        /// of user for this model. If the user exists it updates the user
+        /// information.
+        /// Call this method when a User List Message (310) is
+        /// received from the server.
+        /// </summary>
+        /// <param name="message"></param>
+        public void OnUserListMessage(MessageEventArgs_302310 message) {
+            if (!this.UserExists(message.UserId)) {
+                UserItem newUser = new UserItem(message);
+                this.userList.Add(newUser);
+                this.ClientJoined(newUser);
+            } else {
+                UserItem u = this.GetUser(message.UserId);
+                if (u != null)
+                    u.UpdateUserInformation(message);
+            }
+        }
+
+        /// <summary>
+        /// Adds or updates the privileges for the user in the given message
+        /// </summary>
+        /// <param name="message"></param>
+        public void OnPrivilegesSpecificationMessage(MessageEventArgs_602 message) {
+            UserItem u = this.GetUser(message.Privileges.UserName);
+            if (u != null)
+                u.OnPrivilegesSpecificationMessage(message);
+        }
+
+        #endregion 
+
+        #region User list Events - Usage: listen from GUI for changes in model
+        /// <summary>
+        /// Delegate for a user join event
+        /// </summary>
+        /// <param name="user"></param>
+        public delegate void ClientJoinDelegate(UserItem user);
+        /// <summary>
+        /// Notifies when a user joined this user list
+        /// </summary>
+        public event ClientJoinDelegate ClientJoined;
+        /// <summary>
+        /// Delegate for ClientLeft event
+        /// </summary>
+        /// <param name="user"></param>
+        public delegate void ClientLeaveDelegate(UserItem user);
+        /// <summary>
+        /// Notifies when a user has left this user list
+        /// </summary>
+        public event ClientLeaveDelegate ClientLeft;
+        #endregion
+
+        #region Methods for finding users in the list
         /// <summary>
         /// Gets the user with the given user id
         /// </summary>
         /// <param name="userId">The UserId for the searched user</param>
         /// <returns>The UserItem with the given user name, null if no user is found</returns>
-        public UserItem GetUser(int userId)
-        {
-            foreach (UserItem u in userList)
-            {
+        public UserItem GetUser(int userId) {
+            foreach (UserItem u in userList) {
                 if (userId == u.UserId)
                     return u;
             }
@@ -150,14 +224,10 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="login">The login for the searched user</param>
         /// <returns>The UserItem with the given user name, null if no user is found</returns>
-        public UserItem GetUser(string login)
-        {
-            foreach (UserItem u in userList)
-            {
+        public UserItem GetUser(string login) {
+            foreach (UserItem u in userList) {
                 if (login == u.Login)
-                {
                     return u;
-                }
             }
             return null;
         }
@@ -167,14 +237,10 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="nick">The nick for the searched user</param>
         /// <returns>The UserItem with the given nick, null if no user was found</returns>
-        public UserItem GetUserByNick(string nick)
-        {
-            foreach (UserItem u in userList)
-            {
+        public UserItem GetUserByNick(string nick) {
+            foreach (UserItem u in userList) {
                 if (nick == u.Nick)
-                {
                     return u;
-                }
             }
             return null;
         }
@@ -184,83 +250,23 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="userId">The UserId for the user</param>
         /// <returns>True if the user exists, false otherwise</returns>
-        private bool UserExists(int userId)
-        {
+        private bool UserExists(int userId) {
             bool userExists = false;
-            foreach (UserItem user in userList)
-            {
+            foreach (UserItem user in userList) {
                 if (userId == user.UserId)
                     userExists = true;
             }
             return userExists;
         }
-
-        #region Delegates, Events and Raisers for the events
-
-        // Delegates
-        /// <summary>
-        /// Delegate for a user join event
-        /// </summary>
-        /// <param name="newUser"></param>
-        public delegate void ClientJoinDelegate(UserItem newUser);
-        /// <summary>
-        /// Delegate for a user leav event
-        /// </summary>
-        /// <param name="leftUser"></param>
-        public delegate void ClientLeftDelegate(UserItem leftUser);
-        /// <summary>
-        /// Delegate for a user list updated event
-        /// </summary>
-        /// <param name="userList"></param>
-        public delegate void UserListUpdatedDelegate(List<UserItem> userList);
-
-        // Events
-        /// <summary>
-        /// Event that's raised when a client join a chat 
-        /// </summary>
-        public event ClientJoinDelegate ClientJoinEvent;
-        /// <summary>
-        /// Event that's raised when a client lefts a chat
-        /// </summary>
-        public event ClientLeftDelegate ClientLeftEvent;
-        /// <summary>
-        /// Event that's reaised when the user list for a chat has been updated
-        /// </summary>
-        public event UserListUpdatedDelegate UserListUpdatedEvent;
-
-        // Raiser methods for events
-        private void OnClientJoinEvent(UserItem newUser)
-        {
-            if (ClientJoinEvent != null)
-                ClientJoinEvent(newUser);
-        }
-
-        private void OnClientLeavEvent(UserItem leftUser)
-        {
-            if (ClientLeftEvent != null)
-                ClientLeftEvent(leftUser);
-        }
-
-        private void OnUserListUpdatedEvent()
-        {
-            if (UserListUpdatedEvent != null)
-                UserListUpdatedEvent(userList);
-        }
-        
-        #endregion 
+        #endregion
 
         #region Initialization
-
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="logicManager"></param>
-        public UserModel(LogicManager logicManager)
-        {
-            this.logicManager = logicManager;
+        public UserModel() {
             this.userList = new List<UserItem>();
         }
-
         #endregion
     }
 }

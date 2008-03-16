@@ -52,14 +52,7 @@ namespace SharpWired.Connection
         /// The socket for this connection
         /// </summary>
         private SecureSocket socket;
-        /// <summary>
-        /// TODO: This delegate is obsolete and should be used for debuging only.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <param name="message"></param>
-        public delegate void MessageReceived(object sender, EventArgs e, string message);
-
+        
         //
         // All server messages follows
         //
@@ -77,23 +70,23 @@ namespace SharpWired.Connection
         /// 301
         public delegate void ActionChatEventHandler(object sender, MessageEventArgs_300301 messageEventArgs);
         /// 302
-        public delegate void ClientJoinEventHandler(object sender, MessageEventArgs_302310 messageEventArgs);
+        public delegate void ClientJoinEventHandler(MessageEventArgs_302310 messageEventArgs);
         /// 303
-        public delegate void ClientLeaveEventHandler(object sender, MessageEventArgs_303331332 messageEventArgs);
+        public delegate void ClientLeaveEventHandler(MessageEventArgs_303331332 messageEventArgs);
         /// 304
-        public delegate void StatusChangeEventHandler(object sender, MessageEventArgs_304 messageEventArgs);
+        public delegate void StatusChangeEventHandler(MessageEventArgs_304 messageEventArgs);
         /// 305
         public delegate void PrivateMessageEventHandler(object sender, MessageEventArgs_305309 messageEventArgs);
         /// 306
-        public delegate void ClientKickedEventHandler(object sender, MessageEventArgs_306307 messageEventArgs);
+        public delegate void ClientKickedEventHandler(MessageEventArgs_306307 messageEventArgs);
         /// 307
-        public delegate void ClientBannedEventHandler(object sender, MessageEventArgs_306307 messageEventArgs);
+        public delegate void ClientBannedEventHandler(MessageEventArgs_306307 messageEventArgs);
         /// 308
-        public delegate void ClientInformationEventHandler(object sender, MessageEventArgs_308 messageEventArgs);
+        public delegate void ClientInformationEventHandler(MessageEventArgs_308 messageEventArgs);
         /// 309
         public delegate void BroadcastMessageEventHandler(object sender, MessageEventArgs_305309 messageEventArgs);
         /// 310
-        public delegate void UserListEventHandler(object sender, MessageEventArgs_302310 messageEventArgs);
+        public delegate void UserListEventHandler(MessageEventArgs_302310 messageEventArgs);
         /// 311
         public delegate void UserListDoneEventHandler(object sender, MessageEventArgs_311330 messageEventArgs);
         /// 320
@@ -109,7 +102,7 @@ namespace SharpWired.Connection
         /// 332
         public delegate void PrivateChatDeclinedEventHandler(object sender, MessageEventArgs_303331332 messageEventArgs);
         /// 340
-        public delegate void ClientImageChangedEventHandler(object sender, MessageEventArgs_340 messageEventArgs);
+        public delegate void ClientImageChangedEventHandler(MessageEventArgs_340 messageEventArgs);
         /// 341
         public delegate void ChatTopicEventHandler(object sender, MessageEventArgs_341 messageEventArgs);
         /// 400
@@ -161,7 +154,7 @@ namespace SharpWired.Connection
         /// 601
         public delegate void GroupSpecificationEventHandler(object sender, MessageEventArgs_601 messageEventArgs);
         /// 602
-        public delegate void PrivilegesSpecificationEventHandler(object sender, MessageEventArgs_602 messageEventArgs);
+        public delegate void PrivilegesSpecificationEventHandler(MessageEventArgs_602 messageEventArgs);
         /// 610
         public delegate void UserListingEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
         /// 611
@@ -171,8 +164,7 @@ namespace SharpWired.Connection
         /// 621
         public delegate void GroupListingDoneEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
 
-        /// Tracker specific
-        /// TODO: We should have specifict events for these tracker specific
+        /// Tracker specific events
         /// 710 TrackerCategoryListingEvent	
         public delegate void TrackerCategoryListingEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
         /// 711 TrackerCategoryListingDoneEvent
@@ -534,7 +526,7 @@ namespace SharpWired.Connection
 
                 MessageEventArgs_302310 m = new MessageEventArgs_302310(messageId, messageName, chatId, userId, idle, admin, icon, nick, login, ip, host, status, image);
 
-                ClientJoinEvent(this, m);
+                ClientJoinEvent(m);
             }
         }
 
@@ -549,7 +541,7 @@ namespace SharpWired.Connection
 
                 MessageEventArgs_303331332 m = new MessageEventArgs_303331332(messageId, messageName, chatId, userId);
 
-                ClientLeaveEvent(this, m);
+                ClientLeaveEvent(m);
             }
         }
 
@@ -575,7 +567,7 @@ namespace SharpWired.Connection
 
                 MessageEventArgs_304 m = new MessageEventArgs_304(messageId, messageName, userId, idle, admin, icon, nick, status);
 
-                StatusChangeEvent(this, m);
+                StatusChangeEvent(m);
             }
         }
 
@@ -608,7 +600,7 @@ namespace SharpWired.Connection
 
                 MessageEventArgs_306307 m = new MessageEventArgs_306307(messageId, messageName, parsedMessage, victimId, killerId);
 
-                ClientKickedEvent(this, m);
+                ClientKickedEvent(m);
             }
         }
 
@@ -625,7 +617,7 @@ namespace SharpWired.Connection
 
                 MessageEventArgs_306307 m = new MessageEventArgs_306307(messageId, messageName, parsedMessage, victimId, killerId);
 
-                ClientBannedEvent(this, m);
+                ClientBannedEvent(m);
             }
         }
 
@@ -652,17 +644,16 @@ namespace SharpWired.Connection
                 login             = w[5];
                 ip                = IPAddress.Parse(w[6]);
                 host              = w[7];
-                clientVersion     = w[8]; // TODO: This type is not optimal
-                cipherName        = w[9]; // TODO: This type is not optimal
+                clientVersion     = w[8];
+                cipherName        = w[9];
                 cipherBits        = int.Parse(w[10]);
                 loginTime         = DateTime.Parse(w[11]);
                 idleTime          = DateTime.Parse(w[12]);
-                downloads         = w[13]; // TODO: This is not optimal type
-                uploads           = w[14]; // TODO: This is not optimal type
+                downloads         = w[13];
+                uploads           = w[14];
                 status            = w[15];
                 image             = SharpWired.Utility.Base64StringToBitmap(w[16]);
                 try {
-                    // TODO: Report bug to WiredServer?
                     // This try is needed because of a possbile bug in
                     // WiredServer which omitts the last five fields.
                     transfer      = w[17];
@@ -680,7 +671,7 @@ namespace SharpWired.Connection
                 }
                 MessageEventArgs_308 m = new MessageEventArgs_308(messageId, messageName, userId, image, idle, admin, icon, nick, login, status, ip, host, clientVersion, cipherName, cipherBits, loginTime, idleTime, downloads, uploads, transfer, path, transferred, size, speed);
 
-                ClientInformationEvent(this, m);
+                ClientInformationEvent(m);
             }
         }
 
@@ -719,7 +710,7 @@ namespace SharpWired.Connection
 
                 MessageEventArgs_302310 m = new MessageEventArgs_302310(messageId, messageName, chatId, userId, idle, admin, icon, nick, login, ip, host, status, image);
 
-                UserListEvent(this, m);
+                UserListEvent(m);
             }
         }
 
@@ -823,7 +814,7 @@ namespace SharpWired.Connection
                 int userId = int.Parse(w[0]);
                 Bitmap image = SharpWired.Utility.Base64StringToBitmap(w[1]);
                 MessageEventArgs_340 m = new MessageEventArgs_340(messageId, messageName, userId, image);
-                ClientImageChangedEvent(this, m);
+                ClientImageChangedEvent(m);
             }
         }
 
@@ -880,7 +871,7 @@ namespace SharpWired.Connection
             {
                 string[] w = SplitMessage(message);
                 string path = w[0];
-                string fileType = w[1]; // TODO: This is not an optimal type
+                string fileType = w[1];
                 int size = int.Parse(w[2]);
                 DateTime created = DateTime.Parse(w[3]);
                 DateTime modified = DateTime.Parse(w[4]);
@@ -898,8 +889,8 @@ namespace SharpWired.Connection
             {
                 string[] w = SplitMessage(message);
                 string path = w[0];
-                string fileType = w[1]; // TODO: this type is not optimal
-                long size = long.Parse(w[2]); //FIXME: Must be a long
+                string fileType = w[1];
+                long size = long.Parse(w[2]);
                 DateTime created = DateTime.Parse(w[3]);
                 DateTime modified = DateTime.Parse(w[4]);
                 MessageEventArgs_410420 m = new MessageEventArgs_410420(messageId, messageName, path, fileType, size, created, modified);
@@ -927,7 +918,7 @@ namespace SharpWired.Connection
             {
                 string[] w = SplitMessage(message);
                 string path = w[0];
-                string fileType = w[1]; // TODO: this type is not optimal
+                string fileType = w[1];
                 int size = int.Parse(w[2]);
                 DateTime created = DateTime.Parse(w[3]);
                 DateTime modified = DateTime.Parse(w[4]);
@@ -1108,11 +1099,12 @@ namespace SharpWired.Connection
                 string[] w = SplitMessage(message);
                 string name = w[0];
                 string password = w[1];
-                string group = w[2];
-                //string privileges = w[3]; // TODO: This is not optimal type
-                Privileges p = new Privileges(name, w[3]);
+                string user = w[2];
+                string privileges = w[3];
+                Privileges p = null;
+                //Privileges p = new Privileges(name, w[3]);
 
-                MessageEventArgs_600 m = new MessageEventArgs_600(messageId, messageName, p, name, password, group);
+                MessageEventArgs_600 m = new MessageEventArgs_600(messageId, messageName, p, name, password, user);
 
                 UserSpecificationEvent(this, m);
             }
@@ -1125,7 +1117,8 @@ namespace SharpWired.Connection
             {
                 string[] w = SplitMessage(message);
                 string name = w[0];
-                Privileges p = new Privileges (name, w[1]); // TODO: this is not optimal type, instead we should create some smarter for privileges
+                Privileges p = null;
+                //Privileges p = new Privileges (name, w[1]);
 
                 MessageEventArgs_601 m = new MessageEventArgs_601(messageId, messageName, p, name);
 
@@ -1138,10 +1131,10 @@ namespace SharpWired.Connection
         {
             if (PrivilegesSpecificationEvent != null)
             {
-                // string privileges = message; // TODO: This is not optimal type
-                Privileges p = new Privileges("", message); // CheckThis
+                Privileges p = null;
+                //Privileges p = new Privileges("", message); // CheckThis
                 MessageEventArgs_602 m = new MessageEventArgs_602(messageId, messageName, p);
-                PrivilegesSpecificationEvent(this, m);
+                PrivilegesSpecificationEvent(m);
             }
         }
 
@@ -1190,7 +1183,6 @@ namespace SharpWired.Connection
         {
             if (TrackerCategoryListingEvent != null)
             {
-                // TODO: Implement the tracker as well.
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 TrackerCategoryListingEvent(this, m);
             }
@@ -1201,7 +1193,6 @@ namespace SharpWired.Connection
         {
             if (TrackerCategoryListingDoneEvent != null)
             {
-                // TODO: Implement the tracker as well.
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 TrackerCategoryListingDoneEvent(this, m);
             }
@@ -1212,7 +1203,6 @@ namespace SharpWired.Connection
         {
             if (TrackerServerListingEvent != null)
             {
-                // TODO: Implement the tracker as well.
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 TrackerServerListingEvent(this, m);
             }
@@ -1223,7 +1213,6 @@ namespace SharpWired.Connection
         {
             if (TrackerServerListingDoneEvent != null)
             {
-                // TODO: Implement the tracker as well.
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 TrackerServerListingDoneEvent(this, m);
             }
@@ -1420,7 +1409,7 @@ namespace SharpWired.Connection
                     OnTrackerServerListingDoneEvent(this, msgId, "Tracker Server Listing Done", argument);
                     break;
                 default:
-                    Console.WriteLine("Unhandled message id {0}", msgId); // TODO: Exception instead!
+                    Console.WriteLine("Unhandled message id {0}", msgId); // TODO: Handle error
                     break;
             }
         }

@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SharpWired;
+using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.Users
 {
@@ -66,358 +67,169 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Get the user id for this privileges mask (object).
         /// </summary>
-        public string UserName
-        {
-            get
-            {
-                return userName;
-            }
-            set
-            {
-                userName = value;
-            }
+        public string UserName {
+            get { return userName; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to get user information or not?
+        /// Get if this user is allowed to get user information or not?
         /// </summary>
-        public bool GetUserInfo
-        {
-            get
-            {
-                return getUserInfo;
-            }
-            set
-            {
-                getUserInfo = value;
-            }
+        public bool GetUserInfo {
+            get { return getUserInfo; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to send broadcast messages or not?
         /// </summary>
-        public bool Broadcast
-        {
-            get
-            {
-                return broadcast;
-            }
-            set 
-            { 
-                broadcast = value; 
-            }
+        public bool Broadcast {
+            get { return broadcast; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to post news or not?
         /// </summary>
-        public bool PostNews
-        {
-            get
-            {
-                return postNews;
-            }
-            set
-            {
-                postNews = value;
-            }
+        public bool PostNews {
+            get { return postNews; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to clear news or not?
         /// </summary>
-        public bool ClearNews
-        {
-            get
-            {
-                return clearNews;
-            }
-            set { clearNews = value; }
+        public bool ClearNews {
+            get { return clearNews; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to download or not?
         /// </summary>
-        public bool Download
-        {
-            get
-            {
-                return download;
-            }
-            set
-            {
-                download = value;
-            }
+        public bool Download {
+            get { return download; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to upload or not?
         /// </summary>
-        public bool Upload
-        {
-            get
-            {
-                return upload;
-            }
-            set
-            {
-                upload = value;
-            }
+        public bool Upload {
+            get { return upload; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to upload anywhere or not?
         /// </summary>
-        public bool UploadAnywhere
-        {
-            get
-            {
-                return uploadAnywhere;
-            }
-            set
-            {
-                uploadAnywhere = value;
-            }
+        public bool UploadAnywhere {
+            get { return uploadAnywhere; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to create folders or not?
         /// </summary>
-        public bool CreateFolders
-        {
-            get
-            {
-                return createFolders;
-            }
-            set
-            {
-                createFolders = value;
-            }
+        public bool CreateFolders {
+            get { return createFolders; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to alter files or not?
         /// </summary>
-        public bool AlterFiles
-        {
-            get
-            {
-                return alterFiles;
-            }
-            set
-            {
-                alterFiles = value;
-            }
+        public bool AlterFiles {
+            get { return alterFiles; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to delete files or not?
         /// </summary>
-        public bool DeleteFiles
-        {
-            get
-            {
-                return deleteFiles;
-            }
-            set 
-            { 
-                deleteFiles = value; 
-            }
+        public bool DeleteFiles {
+            get { return deleteFiles; }
         }
 
         /// <summary>
         /// Get or set whether this is user allowed to view dropboxe or not?
         /// </summary>
-        public bool ViewDropboxes
-        {
-            get
-            {
-                return viewDropboxes;
-            }
-            set 
-            { 
-                viewDropboxes = value; 
-            }
+        public bool ViewDropboxes {
+            get { return viewDropboxes; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to create accounts or not?
         /// </summary>
-        public bool CreateAccounts
-        {
-            get
-            {
-                return createAccounts;
-            }
-            set 
-            { 
-                createAccounts = value;
-            }
+        public bool CreateAccounts {
+            get { return createAccounts; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to edit accounts or not?
         /// </summary>
-        public bool EditAccounts
-        {
-            get
-            {
-                return editAccounts;
-            }
-            set 
-            { 
-                editAccounts = value; 
-            }
+        public bool EditAccounts {
+            get { return editAccounts; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to delete accounts or not?
         /// </summary>
-        public bool DeleteAccounts
-        {
-            get
-            {
-                return deleteAccounts;
-            }
-            set
-            {
-                deleteAccounts = value;
-            }
+        public bool DeleteAccounts {
+            get { return deleteAccounts; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to elevate privileges or not?
         /// </summary>
-        public bool ElevatePrivileges
-        {
-            get
-            {
-                return elevatePrivileges;
-            }
-            set
-            {
-                elevatePrivileges = value;
-            }
+        public bool ElevatePrivileges {
+            get { return elevatePrivileges; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to kick users or not?
         /// </summary>
-        public bool KickUsers
-        {
-            get
-            {
-                return kickUsers;
-            }
-            set
-            {
-                kickUsers = value;
-            }
+        public bool KickUsers {
+            get { return kickUsers; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to ban users or not?
         /// </summary>
-        public bool BanUsers
-        {
-            get
-            {
-                return banUsers;
-            }
-            set
-            {
-                banUsers = value;
-            }
+        public bool BanUsers {
+            get { return banUsers; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to be kicked or not.
         /// </summary>
-        public bool CannotBeKicked
-        {
-            get
-            {
-                return cannotBeKicked;
-            }
-            set
-            {
-                cannotBeKicked = value;
-            }
+        public bool CannotBeKicked {
+            get { return cannotBeKicked; }
         }
 
         /// <summary>
         /// Get or set the download speed for this user.
         /// </summary>
-        public int DownloadSpeed
-        {
-            get
-            {
-                return downloadSpeed;
-            }
-            set
-            {
-                downloadSpeed = value;
-            }
+        public int DownloadSpeed {
+            get { return downloadSpeed; }
         }
 
         /// <summary>
         /// Get or set the upload speed for this user.
         /// </summary>
-        public int UploadSpeed
-        {
-            get
-            {
-                return UploadSpeed;
-            }
-            set
-            {
-                uploadSpeed = value;
-            }
+        public int UploadSpeed {
+            get { return UploadSpeed; }
         }
 
         /// <summary>
         /// Get or set whether the download limit for this user.
         /// </summary>
-        public int DownloadLimit
-        {
-            get
-            {
-                return downloadLimit;
-            }
-            set
-            {
-                downloadLimit = value;
-            }
+        public int DownloadLimit {
+            get { return downloadLimit; }
         }
 
         /// <summary>
         /// Get or set whether the upload limit for this user.
         /// </summary>
-        public int UploadLimit
-        {
-            get
-            {
-                return uploadLimit;
-            }
-            set
-            {
-                uploadLimit = value;
-            }
+        public int UploadLimit {
+            get { return uploadLimit; }
         }
 
         /// <summary>
         /// Get or set whether this user is allowed to change chat topic or not?
         /// </summary>
-        public bool ChangeTopic
-        {
-            get
-            {
-                return changeTopic;
-            }
-            set
-            {
-                changeTopic = value;
-            }
+        public bool ChangeTopic {
+            get { return changeTopic; }
         }
 
         /// <summary>
@@ -425,7 +237,7 @@ namespace SharpWired.Model.Users
         /// compatible with the Wired protocol.
         /// </summary>
         /// <returns></returns>
-        public string convertToWiredPrivilegesMask()
+        private string convertToWiredPrivilegesMask()
         {
             string wiredPrivilegesMask;
 
@@ -463,31 +275,45 @@ namespace SharpWired.Model.Users
         /// <param name="p">The updated privileges</param>
         public void UpdatePrivileges(Privileges p)
         {
-            this.AlterFiles = p.AlterFiles;
-            this.BanUsers = p.BanUsers;
-            this.Broadcast = p.Broadcast;
-            this.CannotBeKicked = p.CannotBeKicked;
-            this.ChangeTopic = p.ChangeTopic;
+            this.alterFiles = p.AlterFiles;
+            this.banUsers = p.BanUsers;
+            this.broadcast = p.Broadcast;
+            this.cannotBeKicked = p.CannotBeKicked;
+            this.changeTopic = p.ChangeTopic;
             this.clearNews = p.ClearNews;
-            this.CreateAccounts = p.CreateAccounts;
-            this.CreateFolders = p.CreateFolders;
-            this.DeleteAccounts = p.DeleteAccounts;
-            this.DeleteFiles = p.DeleteFiles;
-            this.Download = p.Download;
-            this.DownloadLimit = p.DownloadLimit;
-            this.DownloadSpeed = p.DownloadSpeed;
-            this.EditAccounts = p.EditAccounts;
-            this.ElevatePrivileges = p.ElevatePrivileges;
-            this.GetUserInfo = p.GetUserInfo;
-            this.KickUsers = p.KickUsers;
-            this.PostNews = p.PostNews;
-            this.Upload = p.Upload;
-            this.UploadAnywhere = p.UploadAnywhere;
-            this.UploadLimit = p.UploadLimit;
-            this.UploadSpeed = p.UploadSpeed;
-            this.UserName = p.UserName;
-            this.ViewDropboxes = p.ViewDropboxes;
+            this.createAccounts = p.CreateAccounts;
+            this.createFolders = p.CreateFolders;
+            this.deleteAccounts = p.DeleteAccounts;
+            this.deleteFiles = p.DeleteFiles;
+            this.download = p.Download;
+            this.downloadLimit = p.DownloadLimit;
+            this.downloadSpeed = p.DownloadSpeed;
+            this.editAccounts = p.EditAccounts;
+            this.elevatePrivileges = p.ElevatePrivileges;
+            this.getUserInfo = p.GetUserInfo;
+            this.kickUsers = p.KickUsers;
+            this.postNews = p.PostNews;
+            this.upload = p.Upload;
+            this.uploadAnywhere = p.UploadAnywhere;
+            this.uploadLimit = p.UploadLimit;
+            this.uploadSpeed = p.UploadSpeed;
+            this.userName = p.UserName;
+            this.viewDropboxes = p.ViewDropboxes;
         }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="p"></param>
+        public Privileges(Privileges p) {
+            UpdatePrivileges(p);
+        }
+
+/*
+TODO: Started out with a User Model cleanup which isn't done yet. Disabled the privileges in the following 3 methods in Messages class. Make the privileges work.
+private void OnUserSpecificationEvent(object sender, int messageId, string messageName, string message)
+private void OnGroupSpecificationEvent(object sender, int messageId, string messageName, string message)
+private void OnPrivilegesSpecificationEvent(object sender, int messageId, string messageName, string message)
 
         /// <summary>
         /// Constructor
@@ -498,37 +324,38 @@ namespace SharpWired.Model.Users
         {
             this.userName = userName;
         }
-
+        
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="privilegesString">The string from Wired that contains the privileges. Wired protocol 1.1.</param>
-        public Privileges(string privilegesString)
+        private Privileges(string privilegesString)
         {
             string[] privilegesStringSplitted = Utility.SplitWiredString(privilegesString);
-            GetUserInfo = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[0]));
-            Broadcast = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[1]));
-            PostNews = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[2]));
-            ClearNews = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[3]));
-            Download = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[4]));
-            Upload = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[5]));
+            getUserInfo = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[0]));
+            broadcast = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[1]));
+            postNews = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[2]));
+            clearNews = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[3]));
+            download = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[4]));
+            upload = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[5]));
             uploadAnywhere = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[6]));
-            CreateFolders = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[7]));
-            AlterFiles = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[8]));
-            DeleteFiles = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[9]));
-            ViewDropboxes = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[10]));
+            createFolders = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[7]));
+            alterFiles = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[8]));
+            deleteFiles = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[9]));
+            viewDropboxes = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[10]));
             createAccounts = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[11]));
-            EditAccounts = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[12]));
-            DeleteAccounts = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[13]));
-            ElevatePrivileges = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[14]));
-            KickUsers = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[15]));
-            BanUsers = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[16]));
-            CannotBeKicked = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[17]));
-            DownloadSpeed = int.Parse(privilegesStringSplitted[18]);
-            UploadSpeed = int.Parse(privilegesStringSplitted[19]);
-            DownloadLimit = int.Parse(privilegesStringSplitted[20]);
-            UploadLimit = int.Parse(privilegesStringSplitted[21]);
-            ChangeTopic = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[22]));
+            editAccounts = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[12]));
+            deleteAccounts = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[13]));
+            elevatePrivileges = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[14]));
+            kickUsers = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[15]));
+            banUsers = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[16]));
+            cannotBeKicked = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[17]));
+            downloadSpeed = int.Parse(privilegesStringSplitted[18]);
+            uploadSpeed = int.Parse(privilegesStringSplitted[19]);
+            downloadLimit = int.Parse(privilegesStringSplitted[20]);
+            uploadLimit = int.Parse(privilegesStringSplitted[21]);
+            changeTopic = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[22]));
         }
+ */
     }
 }

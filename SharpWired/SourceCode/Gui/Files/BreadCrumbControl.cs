@@ -118,7 +118,7 @@ namespace SharpWired.Gui.Files
         /// </summary>
         public void OnRootNodeInitialized(List<FileSystemEntry> nodes)
         {
-            //FIXME: Unsubscribe from root node listening. 
+            //TODO: Unsubscribe from root node listening. 
             //The listener is connected in GuiFilesController 
             //and I have no idea for how to unsubscribe.
             //We should only redraw the root node the first time it's updated
@@ -127,7 +127,7 @@ namespace SharpWired.Gui.Files
                 Button b = new Button();
                 b.Text = SharpWired.Utility.PATH_SEPARATOR;
 
-                ClearFlowLayout(); //TODO: Must be thread safe
+                ClearFlowLayout();
                 AddButtonsToFlowLayout(b);
                 doRootNode = false;
             }

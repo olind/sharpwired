@@ -132,8 +132,8 @@ namespace SharpWired.Connection.Sockets
             }
 
             // Create an SSL stream that will close the client's stream.
-            //FIXME: The validate server certificate allways returns true
-            //       If the validation fails we should ask the user to connect anyway
+            //TODO: The validate server certificate allways returns true
+            //      If the validation fails we should ask the user to connect anyway
             sslStream = new SslStream(client.GetStream(), 
                 false, 
                 new RemoteCertificateValidationCallback(ValidateServerCertificate), 
@@ -199,8 +199,8 @@ namespace SharpWired.Connection.Sockets
                 return true;
 
 			//throw new ValidationException("Could not validate SSL certificate!");
-			// FIXME: We should trow an exception if the validate is not valid, 
-			//        for now return true anyway
+			// TODO: We should trow an exception if the validate is not valid, 
+			//       for now return true anyway
 			return true;
         }
 
@@ -208,7 +208,7 @@ namespace SharpWired.Connection.Sockets
         /// The read callback acts as the asynchronous message receive loop.
         /// Note: This code is inspired from Socio (see: socio.sf.net for more information)
         /// </summary>
-        /// <param name="result">TODO: !!</param>
+        /// <param name="result">The result from the socket</param>
         private void ReadCallback(IAsyncResult result)
         {
             sslStream.EndRead(result); //TODO: If the client are banned we crash here. Probably since the server dissconects us before we are done reading...

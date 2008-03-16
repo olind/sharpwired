@@ -35,7 +35,7 @@ using System.Net.Sockets;
 namespace SharpWired.Connection
 {
 	/// <summary>
-	/// TODO: TODO!
+	/// Manages connections
 	/// </summary>
     public class ConnectionManager
     {

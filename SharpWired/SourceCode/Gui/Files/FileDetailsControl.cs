@@ -87,10 +87,10 @@ namespace SharpWired.Gui.Files
         /// <param name="nodes"></param>
         public void OnRootNodeInitialized(List<FileSystemEntry> nodes)
         {
-            //FIXME: Unsubscribe from root node listening. 
-            //The listener is connected in GuiFilesController 
-            //and I have no idea for how to unsubscribe.
-            //We should only redraw the root node the first time it's updated
+            //TODO: Unsubscribe from root node listening. 
+            //      The listener is connected in GuiFilesController 
+            //      and I have no idea for how to unsubscribe.
+            //      We should only redraw the root node the first time it's updated
             if(doRootNode) {
                 NodeListToListView(nodes);
                 doRootNode = false;
@@ -146,9 +146,6 @@ namespace SharpWired.Gui.Files
             if (node != null && node.ModelNode is FolderNode){
                 guiFilesController.ChangeSelectedNode(this, node.ModelNode);
             }
-            else{
-                //TODO: How should we handle double clicking on a file
-            }
         }
 
         /// <summary>
@@ -169,9 +166,9 @@ namespace SharpWired.Gui.Files
         private void listView1_KeyUp(object sender, KeyEventArgs e)
         {
             /*
-                TODO: The following shortcuts is windows standard should be implemented. We might want to 
-                      make some more general functionallity for this to make it work native on other 
-                      plattforms as well.
+                The following shortcuts is windows standard should be implemented. We might want to 
+                make some more general functionallity for this to make it work native on other 
+                plattforms as well.
 
                 Move backward to a previous view.   ALT+LEFT ARROW
                 Move forward to a previous view.    ALT+RIGHT ARROW

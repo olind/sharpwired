@@ -45,7 +45,6 @@ namespace SharpWired.Gui.Chat
         LogicManager logicManager;
         private int altItemCounter = 0;
 
-        //TODO: Find a better way for calculating alt/standard divs
         private string AltItemBeginningHtml {
             get {
                 if (altItemCounter % 2 == 0) {

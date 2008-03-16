@@ -64,9 +64,7 @@ namespace SharpWired.Connection
                     }
                     else
                     {
-                        //TODO We probably want to handle this error some way. 
-                        //     I don't know how though. For now we are 
-                        //     returning the last successful lag
+                        //If we fail we return last succesful lag time
                         return lag;
                     }
                 }

@@ -59,7 +59,7 @@ namespace SharpWired.Model.Files
         /// </summary>
         public List<FileSystemEntry> Children
         {
-            get { return children; } //FIXME: If one gets this list and adds nodes to it the event that tells if a node is updated will not be triggered!
+            get { return children; } //TODO: If one gets this list and adds nodes to it the event that tells if a node is updated will not be triggered!
         }
 
         /// <summary>

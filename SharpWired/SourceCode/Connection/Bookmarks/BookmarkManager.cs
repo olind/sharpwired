@@ -307,7 +307,7 @@ namespace SharpWired.Connection.Bookmarks
 						}
 						finally
 						{
-							// TODO: Handle?
+							// TODO: Handle failure of saving bookmarks
                             Console.WriteLine("Trying to save bookmarks. Failing with: " + ioe);
 						}
                     }
@@ -318,9 +318,7 @@ namespace SharpWired.Connection.Bookmarks
                         if (s.Length < int.MaxValue)
                             stream.Write(s.GetBuffer(), 0, (int)s.Length);
                         else
-                        {
-                            //TODO: :-))
-                        }
+                            throw new ApplicationException("Bookmark files greater than 2GB ('" + int.MaxValue + "') is not supported.");
                     }
 
                     BookmarkManager.EncryptFile(file);
@@ -390,7 +388,8 @@ namespace SharpWired.Connection.Bookmarks
             {
                 Console.Error.WriteLine("Unknown Error Encrypting File:"
                     + e.ToString());
-                //TODO: Raise error event for error handler to print
+                //TODO: Raise error event for error handler notifying 
+                //      the user that the bookmark file is saved unencrypted
             }
         }
 
@@ -408,7 +407,8 @@ namespace SharpWired.Connection.Bookmarks
             {
                 Console.Error.WriteLine("Unknown Error Decrypting File:"
                     + e.ToString());
-                //TODO: Raise error event for error handler to print
+                //TODO: Raise error event for error handler notifying 
+                //      the user that the bookmark file is saved unencrypted
             }
         }
         #endregion
