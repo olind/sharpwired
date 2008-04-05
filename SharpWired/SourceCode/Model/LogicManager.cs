@@ -143,20 +143,16 @@ namespace SharpWired.Model
         /// <summary>
         /// Connects the client to the server.
         /// </summary>
-        public void Connect(Bookmark bookmark)
-        {
-            try
-            {
+        public void Connect(Bookmark bookmark) {
+            try {
                 connectionManager.Connect(bookmark);
-            }
-            catch (ConnectionException ce)
-            {
+
+                // Listen to events
+                connectionManager.Messages.LoginSucceededEvent += new Messages.LoginSucceededEventHandler(Messages_LoginSucceededEvent);
+                connectionManager.Messages.ServerInformationEvent += new Messages.ServerInformationEventHandler(Messages_ServerInformationEvent);
+            } catch (ConnectionException ce) {
                 errorHandler.ReportConnectionExceptionError(ce);   
             }
-
-            // Listen to events
-            connectionManager.Messages.LoginSucceededEvent += new Messages.LoginSucceededEventHandler(Messages_LoginSucceededEvent);
-            connectionManager.Messages.ServerInformationEvent += new Messages.ServerInformationEventHandler(Messages_ServerInformationEvent);
         }
 
         #endregion
@@ -170,10 +166,6 @@ namespace SharpWired.Model
             SharpWired.Gui.Resources.Icons.IconHandler iconHandler = new SharpWired.Gui.Resources.Icons.IconHandler();
             connectionManager.Commands.Icon(1, iconHandler.UserImage);
 
-            chatHandler.Init(connectionManager);
-            newsHandler.Init(connectionManager);
-            fileListingHandler.Init(connectionManager);
-            privateMessagesHandler.Init(connectionManager);
             serverInformation.Connected = true;
 
             //Starts the heart beat pings to the server
@@ -190,6 +182,20 @@ namespace SharpWired.Model
         {
             serverInformation.Init(messageEventArgs);
         }
+
+        public delegate void ConnectionDelegate();
+        public event ConnectionDelegate Connected;
+        public event ConnectionDelegate Disconnected;
+
+        void OnConnected() {
+            if (Connected != null)
+                Connected();
+        }
+
+        void OnDisconnected() {
+            if (Disconnected != null)
+                Disconnected();
+        }
         #endregion
 
         #region Commands to server
@@ -198,10 +204,13 @@ namespace SharpWired.Model
         /// </summary>
         public void Disconnect()
         {
-            connectionManager.Commands.Leave(1);
-            serverInformation.Connected = false;
-            if(heartBeatTimer!=null)
+            if (heartBeatTimer != null)
                 heartBeatTimer.StopTimer();
+
+            // TODO: Create enum for chat id 1
+            connectionManager.Commands.Leave(1);
+            connectionManager.Disconnect();
+            serverInformation.Connected = false;
         }
         #endregion
 
@@ -213,13 +222,19 @@ namespace SharpWired.Model
         public LogicManager()
         {
             connectionManager = new ConnectionManager();
+            connectionManager.Connected += OnConnected;
+            connectionManager.Disconnected += OnDisconnected;
+
             chatHandler = new ChatHandler(this);
             userHandler = new UserHandler(this);
             groupHandler = new GroupHandler(this);
             newsHandler = new NewsHandler(this);
             fileListingHandler = new FileListingHandler(this);
 			fileTransferHandler = new FileTransferHandler(this);
+            // TODO: Should listen for ConnectionManager.Connected?
             serverInformation = new ServerInformation();
+
+            // TODO: Should listen for ConnectionManager.Connected?
             errorHandler = new ErrorHandler(this);
             privateMessagesHandler = new PrivateMessageHandler(this);
         }

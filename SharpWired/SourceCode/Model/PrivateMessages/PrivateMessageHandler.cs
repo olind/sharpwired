@@ -51,9 +51,8 @@ namespace SharpWired.Model.PrivateMessages
         }
         #endregion
 
-        #region Listeners from socket layer
-        void Messages_PrivateMessageEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_305309 messageEventArgs)
-        {
+        #region Event Listeners
+        void OnPrivateMessageEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_305309 messageEventArgs)  {
             UserItem u = logicManager.UserHandler.UserModel.GetUser(messageEventArgs.UserId);
             privateMessageModel.AddReceivedPrivateMessage(new PrivateMessageItem(u, messageEventArgs.Message));
         }
@@ -75,24 +74,17 @@ namespace SharpWired.Model.PrivateMessages
         #endregion
 
         #region Initialization
-        /// <summary>
-        /// Initiate the private message handler
-        /// </summary>
-        /// <param name="connectionManager"></param>
-        public override void Init(ConnectionManager connectionManager)
-        {
-            this.connectionManager = connectionManager;
-            base.Init(connectionManager);
-            connectionManager.Messages.PrivateMessageEvent += new Messages.PrivateMessageEventHandler(Messages_PrivateMessageEvent);
+        public override void OnConnected() {
+            base.OnConnected();
+            Messages.PrivateMessageEvent += OnPrivateMessageEvent;
         }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="logicManager"></param>
-        public PrivateMessageHandler(LogicManager logicManager) 
-            : base(logicManager)
-        {
+        public override void OnDisconnected() {
+            base.OnDisconnected();
+            Messages.PrivateMessageEvent -= OnPrivateMessageEvent;
+        }
+
+        public PrivateMessageHandler(LogicManager logicManager) : base(logicManager)  {
             privateMessageModel = new PrivateMessageModel();
         }
         #endregion

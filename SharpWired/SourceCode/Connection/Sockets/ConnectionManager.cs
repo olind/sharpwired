@@ -87,7 +87,23 @@ namespace SharpWired.Connection
 
 		#endregion
 
-		/// <summary>
+        #region Events
+        /// <summary>
+        /// Fired when a TCP connection is established to a server.
+        /// </summary>
+        public event ConnectionDelegate Connected;
+        /// <summary>
+        /// Fired when the TCP connection is closed to the server.
+        /// </summary>
+        public event ConnectionDelegate Disconnected;
+        /// <summary>
+        /// Empyt delegate for the connection events.
+        /// </summary>
+        public delegate void ConnectionDelegate();
+        #endregion
+
+        #region Methods
+        /// <summary>
 		/// Connect to the Server in the Bookmark using the UserInfo from the
         /// bookmark as well.
 		/// </summary>
@@ -101,6 +117,15 @@ namespace SharpWired.Connection
                     commandSocket.Connect(bookmark.Server);
                     commands.InitConnection(bookmark.UserInformation);
                     mCurrentBookmark = bookmark;
+
+                    commandSocket.MessageReceived += messages.MessageReceived;
+                    messages.PingReplyEvent += lagHandler.OnPingReceived;
+                    commands.PingSentEvent += lagHandler.OnPingSent;
+
+                    if (Connected != null)
+                        Connected();
+                        // TODO: Make all listeners of Server Info use this
+                        // instead.
                 } else {
                     // TODO: Log instead of write to std out
                     Console.WriteLine("ERROR - ConnectionManager.Connect(): " +
@@ -112,6 +137,22 @@ namespace SharpWired.Connection
                 ce.Bookmark = bookmark;
                 throw (ce);
             }
+        }
+
+        /// <summary>
+        /// Close the TCP connection to the server.
+        /// </summary>
+        public void Disconnect() {
+            commandSocket.MessageReceived -= messages.MessageReceived;
+            messages.PingReplyEvent -= lagHandler.OnPingReceived;
+            commands.PingSentEvent -= lagHandler.OnPingSent;
+
+            commandSocket.Disconnect();
+
+            mCurrentBookmark = null;
+
+            if (Disconnected != null)
+                Disconnected();
         }
 
 		/// <summary>
@@ -152,7 +193,9 @@ namespace SharpWired.Connection
 			BinarySecureSocket binarySocket = GetFileTransferSocket();
 			binarySocket.Connect(bookmark.Server, fileStream, fileSize, offset);
 			return binarySocket;
-		}
+        }
+
+        #endregion
 
         #region Constructor - Creates commands, messages and sockets
         /// <summary>
@@ -161,13 +204,9 @@ namespace SharpWired.Connection
         public ConnectionManager()
         {
             this.commandSocket = new SecureSocket();
-            this.messages = new Messages(this.commandSocket);
+            this.messages = new Messages();
             this.commands = new Commands(this.commandSocket);
-
-            //Set up the lag handler
             this.lagHandler = new LagHandler();
-            messages.PingReplyEvent += new Messages.PingReplyEventHandler(lagHandler.OnPingReceived);
-            commands.PingSentEvent +=new Commands.PingSentDelegate(lagHandler.OnPingSent);
         }
         #endregion
 	}

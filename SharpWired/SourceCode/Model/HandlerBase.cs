@@ -55,19 +55,22 @@ namespace SharpWired.Model
         /// <summary>
         /// Gets or sets the LogicManager
         /// </summary>
-        public LogicManager LogicManager
-        {
+        public LogicManager LogicManager {
             get { return logicManager; }
-            set { logicManager = value; }
         }
 
         /// <summary>
         /// Gets or sets the SharpWired.Connection.Commands class
         /// </summary>
-        public Commands Commands
-        {
-            get { return commands; }
-            set { commands = value; }
+        public Commands Commands {
+            get { return logicManager.ConnectionManager.Commands; }
+        }
+
+        /// <summary>
+        /// Gets or sets the SharpWired.Connection.Messages class
+        /// </summary>
+        public Messages Messages {
+            get { return logicManager.ConnectionManager.Messages; }
         }
 
         #endregion
@@ -75,23 +78,25 @@ namespace SharpWired.Model
         #region Initialization of the HandlerBase
 
         /// <summary>
-        /// Inits this class. Should be done when we are connected.
+        /// Called when the TCP connection is opened.
         /// </summary>
-        /// <param name="connectionManager"></param>
-        public virtual void Init(ConnectionManager connectionManager)
-        {
-            commands = connectionManager.Commands;
-        }
+        public virtual void OnConnected()  { }
 
         /// <summary>
-        /// Corstructor
+        /// Called when the TCP connection is closed.
+        /// </summary>
+        public virtual void OnDisconnected() { }
+
+        /// <summary>
+        /// Constructor
         /// </summary>
         /// <param name="logicManager"></param>
-        public HandlerBase(LogicManager logicManager)
-        {
+        public HandlerBase(LogicManager logicManager) {
             this.logicManager = logicManager;
-        }
 
+            logicManager.Connected += OnConnected;
+            logicManager.Disconnected += OnDisconnected;
+        }
         #endregion
     }
 }

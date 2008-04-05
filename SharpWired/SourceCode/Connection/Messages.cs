@@ -43,20 +43,17 @@ namespace SharpWired.Connection
     ///
     /// Authors:	Ola Lindberg (d02ola@ituniv.se)
     ///				Peter Thorin (it3thpe@ituniv.se)
+    ///				Adam Lindberg (eproxus@gmail.com)
     /// 
     /// NOTE: This class has derived from the Socio Project. See http://socio.sf.net/
     /// </summary>
     public class Messages
     {
-        /// <summary>
-        /// The socket for this connection
-        /// </summary>
-        private SecureSocket socket;
-        
         //
         // All server messages follows
         //
 
+        #region Delegates
         /// 200
         public delegate void ServerInformationEventHandler(object sender, MessageEventArgs_200 messageEventArgs);
         /// 201
@@ -173,12 +170,13 @@ namespace SharpWired.Connection
         public delegate void TrackerServerListingEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
         /// 721 TrackerServerListingDoneEvent
         public delegate void TrackerServerListingDoneEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+        #endregion
 
+        #region Events
         /// <summary>
         /// Basic information about the server
         /// </summary>
         public event ServerInformationEventHandler ServerInformationEvent;
-
         /// <summary>
         /// Login succeded
         /// </summary>
@@ -391,6 +389,7 @@ namespace SharpWired.Connection
         /// NOTE! This is for the administration of the server.
         /// </summary>
         public event GroupListingDoneEventHandler GroupListingDoneEvent;
+        #endregion
 
         #region Tracker specific events (doesn't exist in the protocol specification)
         /// <summary>
@@ -411,8 +410,7 @@ namespace SharpWired.Connection
         public event TrackerServerListingDoneEventHandler TrackerServerListingDoneEvent;
         #endregion
 
-        #region create events and raise
-
+        #region Event Creators
         /// 
         /// Here follows the Raisers of events
         ///
@@ -1220,7 +1218,7 @@ namespace SharpWired.Connection
 
 #endregion
 
-        #region Parse message and create appropreate messageArgs
+        #region Message Parser
 
         /// <summary>
         /// Parses the messages
@@ -1416,13 +1414,14 @@ namespace SharpWired.Connection
 
         #endregion
 
+        #region Other Methods
         /// <summary>
         /// Handles incoming messages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <param name="message"></param>
-        private void socket_MessageReceived(object sender, EventArgs e, string message)
+        public void MessageReceived(string message)
         {
 			try
 			{
@@ -1446,16 +1445,6 @@ namespace SharpWired.Connection
             char[] delimiterChars = { Convert.ToChar(Utility.FS) };
             return message.Split(delimiterChars, StringSplitOptions.None);
         }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="socket">The secure socket that this messages will listen to</param>
-        public Messages(SecureSocket socket)
-        {
-            this.socket = socket;
-            // Listen to events from the socket.
-            socket.MessageReceived += new SecureSocket.MessageReceivedHandler(socket_MessageReceived);
-        }
+        #endregion
     }
 }

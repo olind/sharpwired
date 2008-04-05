@@ -55,17 +55,17 @@ namespace SharpWired.Model.Chat
 
         #region Listeners: from communication layer
 
-        void Messages_ChatEvent(object sender, MessageEventArgs_300301 messageEventArgs) {
+        void OnChatEvent(object sender, MessageEventArgs_300301 messageEventArgs) {
             UserItem u = logicManager.UserHandler.UserModel.GetUser(messageEventArgs.UserId);
             chatModel.OnChatMessageItemReceived(messageEventArgs, u, false);
         }
 
-        void Messages_ActionChatEvent(object sender, MessageEventArgs_300301 messageEventArgs) {
+        void OnActionChatEvent(object sender, MessageEventArgs_300301 messageEventArgs) {
             UserItem u = logicManager.UserHandler.UserModel.GetUser(messageEventArgs.UserId);
             chatModel.OnChatMessageItemReceived(messageEventArgs, u, true);
         }
 
-        void Messages_ChatTopicEvent(object sender, MessageEventArgs_341 messageEventArgs) {
+        void OnChatTopicEvent(object sender, MessageEventArgs_341 messageEventArgs) {
             ChatTopicItem chatTopicObject = new ChatTopicItem(messageEventArgs);
             chatModel.OnChatTopicChanged(chatTopicObject);
         }
@@ -96,23 +96,21 @@ namespace SharpWired.Model.Chat
 
         #region Initialization
 
-        /// <summary>
-        /// Initiates the ChatHandler
-        /// </summary>
-        /// <param name="connectionManager"></param>
-        public override void Init(global::SharpWired.Connection.ConnectionManager connectionManager)
-        {
-            base.Init(connectionManager);
-            connectionManager.Messages.ChatEvent += new Messages.ChatEventHandler(Messages_ChatEvent);
-            connectionManager.Messages.ChatTopicEvent += new Messages.ChatTopicEventHandler(Messages_ChatTopicEvent);
-            connectionManager.Messages.ActionChatEvent += new Messages.ActionChatEventHandler(Messages_ActionChatEvent);
+        public override void OnConnected() {
+            base.OnConnected();
+            Messages.ChatEvent += OnChatEvent;
+            Messages.ChatTopicEvent += OnChatTopicEvent;
+            Messages.ActionChatEvent += OnActionChatEvent;
         }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public ChatHandler(LogicManager logicManager) : base(logicManager)
-        {
+        public override void OnDisconnected() {
+            base.OnDisconnected();
+            Messages.ChatEvent -= OnChatEvent;
+            Messages.ChatTopicEvent -= OnChatTopicEvent;
+            Messages.ActionChatEvent -= OnActionChatEvent;
+        }
+
+        public ChatHandler(LogicManager logicManager) : base(logicManager)  {
             chatModel = new ChatModel(logicManager);
         }
 

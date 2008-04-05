@@ -51,7 +51,7 @@ namespace SharpWired.Gui.Chat
         delegate void RedrawUserListCallback(List<UserItem> userList);
         #endregion
 
-        #region Logic
+        #region Event listeners
         void AddUser(UserItem user) {
             if (this.InvokeRequired) {
                 AddUserCallback ucb = new AddUserCallback(AddUser);
@@ -108,19 +108,26 @@ namespace SharpWired.Gui.Chat
 
             return u;
         }
+
+        public void OnConnected() {
+            userModel.ClientJoined += AddUser;
+            userModel.ClientLeft += RemoveUser;
+        }
+
+        public void OnDisconnected() {
+            userModel.ClientJoined += AddUser;
+            userModel.ClientLeft += RemoveUser;
+        }
+
+        //TODO Remove!
+        UserModel userModel;
+        public void Init(UserModel userModel) {
+            this.userModel = userModel;
+        }
+
         #endregion
 
         #region Initialization of UserListControl
-        /// <summary>
-        /// Init this component, set up the listeners etc
-        /// </summary>
-        /// <param name="logicManager"></param>
-        public void Init(LogicManager logicManager) {
-            this.logicManager = logicManager;
-            this.logicManager.UserHandler.UserModel.ClientJoined += AddUser;
-            this.logicManager.UserHandler.UserModel.ClientLeft += RemoveUser;
-        }
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -133,7 +140,6 @@ namespace SharpWired.Gui.Chat
 
             Size s = new Size(130, 34);
             this.userListView.TileSize = s;
-
         }
 
         #endregion

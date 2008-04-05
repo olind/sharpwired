@@ -33,7 +33,7 @@ namespace SharpWired.Model.Users
     /// <summary>
     /// Handles groups
     /// </summary>
-    class GroupHandler
+    class GroupHandler : HandlerBase
     {
         private LogicManager logicManager;
         private List<Group> groups = new List<Group>();
@@ -90,8 +90,8 @@ namespace SharpWired.Model.Users
             return false;
         }
 
-        #region Listener handler methods
-        void Messages_GroupSpecificationEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_601 messageEventArgs)
+        #region Event Listeners
+        void OnGroupSpecificationEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_601 messageEventArgs)
         {
             if (GroupExists(messageEventArgs.Name))
             {
@@ -107,15 +107,16 @@ namespace SharpWired.Model.Users
         }
         #endregion
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="logicManager"></param>
-        public GroupHandler(LogicManager logicManager)
-        {
-            this.logicManager = logicManager;
-
-            logicManager.ConnectionManager.Messages.GroupSpecificationEvent += new SharpWired.Connection.Messages.GroupSpecificationEventHandler(Messages_GroupSpecificationEvent);
+        public override void OnConnected() {
+            base.OnConnected();
+            Messages.GroupSpecificationEvent += OnGroupSpecificationEvent;
         }
+
+        public override void OnDisconnected() {
+            base.OnDisconnected();
+            Messages.GroupSpecificationEvent -= OnGroupSpecificationEvent;
+        }
+
+        public GroupHandler(LogicManager logicManager) : base(logicManager) { }
     }
 }

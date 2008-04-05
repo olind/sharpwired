@@ -86,21 +86,22 @@ namespace SharpWired.Gui {
                 html.Append("<div class=\"" + messageType + "\">");
                 html.Append("<div class=\"time\">" + timeStamp + "</div>");
 
-                if(nickName != null)
-                    nickName = HttpUtility.HtmlEncode(nickName);
-                if (message != null)
-                message = HttpUtility.HtmlEncode(message);
-                if (errorDescription != null)
-                errorDescription = HttpUtility.HtmlEncode(errorDescription);
-                if (solutionIdea != null)
-                solutionIdea = HttpUtility.HtmlEncode(solutionIdea);
-
-                message = message.Replace("\\r\\n", "<br />");
-
                 if (!isErrorMessage) {
+                    if (nickName != null)
+                        nickName = HttpUtility.HtmlEncode(nickName);
+                    if (message != null)
+                        message = HttpUtility.HtmlEncode(message);
+
+                    message = message.Replace("\\r\\n", "<br />");
+
                     html.Append("<div class=\"userName\">" + nickName + "</div>");
                     html.Append("<div class=\"message\">" + message + "</div>");
                 } else if (isErrorMessage) {
+                    if (errorDescription != null)
+                        errorDescription = HttpUtility.HtmlEncode(errorDescription);
+                    if (solutionIdea != null)
+                        solutionIdea = HttpUtility.HtmlEncode(solutionIdea);
+
                     html.Append("<div class=\"errorDescription\"><em>Problem: </em>" + errorDescription + "</div>");
                     html.Append("<div class=\"solutionIdea\"><em>Resolution: </em>" + solutionIdea + "</div>");
                     html.Append("<div class=\"serverInformation\"><em>Server: </em>" + bookmark.Server.ServerName + "</div>");

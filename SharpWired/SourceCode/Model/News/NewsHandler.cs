@@ -101,27 +101,23 @@ namespace SharpWired.Model.News
 
         #region Initialization
 
-        /// <summary>
-        /// Init this handler
-        /// </summary>
-        /// <param name="connectionManager">The connection manager</param>
-        public override void Init(ConnectionManager connectionManager)
-        {
-            base.Init(connectionManager);
+        public override void OnConnected() {
+            base.OnConnected();
+            Messages.NewsDoneEvent += Messages_NewsDoneEvent;
+            Messages.NewsEvent += Messages_NewsEvent;
+            Messages.NewsPostedEvent += Messages_NewsPostedEvent;
 
-            connectionManager.Messages.NewsDoneEvent += new Messages.NewsDoneEventHandler(Messages_NewsDoneEvent);
-            connectionManager.Messages.NewsEvent += new Messages.NewsEventHandler(Messages_NewsEvent);
-            connectionManager.Messages.NewsPostedEvent += new Messages.NewsPostedEventHandler(Messages_NewsPostedEvent);
-
-            this.ReloadNewsFromServer();
+            ReloadNewsFromServer();
         }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="logicManager">The logic manager</param>
-        public NewsHandler(LogicManager logicManager): base(logicManager)
-        {
+        public override void OnDisconnected() {
+            base.OnDisconnected();
+            Messages.NewsDoneEvent -= Messages_NewsDoneEvent;
+            Messages.NewsEvent -= Messages_NewsEvent;
+            Messages.NewsPostedEvent -= Messages_NewsPostedEvent;
+        }
+
+        public NewsHandler(LogicManager logicManager): base(logicManager) {
             newsModel = new NewsModel(logicManager);
             newsListObjects = new List<NewsObject>();
         }

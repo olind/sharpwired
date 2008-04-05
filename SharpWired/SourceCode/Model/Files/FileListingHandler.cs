@@ -101,13 +101,13 @@ namespace SharpWired.Model.Files
         }
         #endregion
 
-        #region Listeners from message layer
+        #region Event Listeners
         /// <summary>
         /// A file listing message was received (Listener (from message layer) for FileListingEvents)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="messageEventArgs"></param>
-        void Messages_FileListingEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_410420 messageEventArgs)
+        void OnFileListingEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_410420 messageEventArgs)
         {
             FileSystemEntry newNode;
             if (messageEventArgs.FileType == "0")
@@ -140,7 +140,7 @@ namespace SharpWired.Model.Files
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="messageEventArgs"></param>
-        void Messages_FileListingDoneEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_411 messageEventArgs)
+        void OnFileListingDoneEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_411 messageEventArgs)
         {
             fileListingModel.FileListingDone(messageEventArgs);
 
@@ -225,27 +225,21 @@ namespace SharpWired.Model.Files
         #endregion
 
         #region Initialization
-        /// <summary>
-        /// Initializor
-        /// </summary>
-        /// <param name="connectionManager"></param>
-        public override void Init(ConnectionManager connectionManager)
-        {
-            base.Init(connectionManager);
-
-            // Setting up listerens
-            connectionManager.Messages.FileListingEvent += new Messages.FileListingEventHandler(Messages_FileListingEvent);
-            connectionManager.Messages.FileListingDoneEvent += new Messages.FileListingDoneEventHandler(Messages_FileListingDoneEvent);
+        public override void OnConnected() {
+            base.OnConnected();
+            Messages.FileListingEvent += OnFileListingEvent;
+            Messages.FileListingDoneEvent += OnFileListingDoneEvent;
 
             this.ReloadFileList();
         }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public FileListingHandler(LogicManager logicManager)
-            : base(logicManager)
-        {
+        public override void OnDisconnected() {
+            base.OnDisconnected();
+            Messages.FileListingEvent -= OnFileListingEvent;
+            Messages.FileListingDoneEvent -= OnFileListingDoneEvent;
+        }
+
+        public FileListingHandler(LogicManager logicManager)  : base(logicManager) {
             fileListingModel = new FileListingModel(logicManager);
             fileTreeRootNode = fileListingModel.RootNode;
         }

@@ -63,11 +63,12 @@ namespace SharpWired.Gui.Chat {
         /// <param name="userListControl"></param>
         public GuiChatController(LogicManager logicManager, 
             ChatControl chatControl, UserListControl userListControl) {
-
             this.logicManager = logicManager;
 
-            userListControl.Init(logicManager);
             chatControl.Init(this, 1); //Set id to 1 since this is public chat.
+
+            userListControl.Init(logicManager.UserHandler.UserModel);
+            userListControl.OnConnected();
 
             //attach listeners in gui classes
             logicManager.ChatHandler.ChatModel.ChatMessageReceivedEvent += chatControl.OnChatMessageArrived;

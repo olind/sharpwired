@@ -35,6 +35,7 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 
 using SharpWired;
+using System.IO;
 
 namespace SharpWired.Connection.Sockets
 {
@@ -70,7 +71,7 @@ namespace SharpWired.Connection.Sockets
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <param name="message"></param>
-        public delegate void MessageReceivedHandler(object sender, EventArgs e, string message);
+        public delegate void MessageReceivedHandler(string message);
         /// <summary>
         /// Message raised when a message is received from the server
         /// </summary>
@@ -84,6 +85,14 @@ namespace SharpWired.Connection.Sockets
         }
 
         /// <summary>
+        /// Connects to the server using Connect(Port, MachineName, ServerName).
+        /// </summary>
+        /// <param name="server">The Server to connect to.</param>
+        internal void Connect(Server server) {
+            Connect(server.ServerPort, server.MachineName, server.ServerName);
+        }
+
+        /// <summary>
         /// Connects the client to the server.
         /// </summary>
         /// <param name="serverPort">The port for the server to use for this connection</param>
@@ -91,7 +100,6 @@ namespace SharpWired.Connection.Sockets
         /// <param name="serverName">The machine name for the server, must match the machine name in the server certificate</param>
         private void Connect(int serverPort, string machineName, string serverName)
         {
-
             // Create a TCP/IP client socket.
             // Set up a temporary connection that is unencrypted, used to transfer the certificates?
             try
@@ -167,7 +175,7 @@ namespace SharpWired.Connection.Sockets
         /// </summary>
         /// <param name="message">The message to be sent (without any EOT).</param>
         public void SendMessage(string message) {
-            if (sslStream != null)
+            if (sslStream != null && sslStream.CanWrite)
             {
                 message = message.Replace("\r\n", "\\r\\n");
                 byte[] messsage = Encoding.UTF8.GetBytes(message + Utility.EOT);
@@ -181,8 +189,10 @@ namespace SharpWired.Connection.Sockets
         /// </summary>
         public void Disconnect()
         {
-             // Close the client connection.
-            client.Close();
+            if (client != null)
+                client.Close();
+            if (sslStream != null)
+                sslStream.Close();
         }
 
         /// <summary>
@@ -211,46 +221,34 @@ namespace SharpWired.Connection.Sockets
         /// <param name="result">The result from the socket</param>
         private void ReadCallback(IAsyncResult result)
         {
-            sslStream.EndRead(result); //TODO: If the client are banned we crash here. Probably since the server dissconects us before we are done reading...
-            string data_received = Encoding.UTF8.GetString((byte[])result.AsyncState);
+            if (client.Connected) {
+                sslStream.EndRead(result); //TODO: If the client are banned we crash here. Probably since the server dissconects us before we are done reading...
+                string data_received = Encoding.UTF8.GetString((byte[])result.AsyncState);
 
-            string msg;
-            int index_EOT;
-            System.Text.RegularExpressions.Regex eot_regex = new System.Text.RegularExpressions.Regex("[" + Utility.EOT + "]");
-            while (eot_regex.IsMatch(data_received))
-            {
-                // Are there more than one EOTs?
-                index_EOT = data_received.IndexOf(Utility.EOT);
-                msg = data_received.Substring(0, index_EOT);
-                data_received = data_received.Remove(0, index_EOT + 1);
-                MessageReceived(this, null, msg);
+                string msg;
+                int index_EOT;
+                System.Text.RegularExpressions.Regex eot_regex = new System.Text.RegularExpressions.Regex("[" + Utility.EOT + "]");
+                while (eot_regex.IsMatch(data_received)) {
+                    // Are there more than one EOTs?
+                    index_EOT = data_received.IndexOf(Utility.EOT);
+                    msg = data_received.Substring(0, index_EOT);
+                    data_received = data_received.Remove(0, index_EOT + 1);
+                    MessageReceived(msg);
+                }
+
+                System.Text.RegularExpressions.Regex alpha_numeric = new System.Text.RegularExpressions.Regex("[a-zA-Z0-9]");
+                if (alpha_numeric.IsMatch(data_received)) {
+                    // Extend the buffer and continue reading until we receive a complete message
+                    byte[] saved_bytes = Encoding.UTF8.GetBytes(data_received);
+                    byte[] read_buffer = new byte[buffer_size + saved_bytes.Length];
+                    Array.Copy(saved_bytes, read_buffer, saved_bytes.Length);
+                    sslStream.BeginRead(read_buffer, saved_bytes.Length, buffer_size, new AsyncCallback(ReadCallback), read_buffer);
+                } else {
+                    // What do we do here?!
+                    byte[] read_buffer = new byte[buffer_size];
+                    sslStream.BeginRead(read_buffer, 0, read_buffer.Length, new AsyncCallback(ReadCallback), read_buffer);
+                }
             }
-
-            System.Text.RegularExpressions.Regex alpha_numeric = new System.Text.RegularExpressions.Regex("[a-zA-Z0-9]");
-            if (alpha_numeric.IsMatch(data_received))
-            {
-                // Extend the buffer and continue reading until we receive a complete message
-                byte[] saved_bytes = Encoding.UTF8.GetBytes(data_received);
-                byte[] read_buffer = new byte[buffer_size + saved_bytes.Length];
-                Array.Copy(saved_bytes, read_buffer, saved_bytes.Length);
-                sslStream.BeginRead(read_buffer, saved_bytes.Length, buffer_size, new AsyncCallback(ReadCallback), read_buffer);
-            }
-            else
-            {
-				// What do we do here?!
-                byte[] read_buffer = new byte[buffer_size];
-                sslStream.BeginRead(read_buffer, 0, read_buffer.Length, new AsyncCallback(ReadCallback), read_buffer);
-            }
-        }
-
-
-		/// <summary>
-		/// Connects to the server using Connect(Port, MachineName, ServerName).
-		/// </summary>
-		/// <param name="server">The Server to connect to.</param>
-        internal void Connect(Server server)
-        {
-            Connect(server.ServerPort, server.MachineName, server.ServerName);
         }
     }
 }
