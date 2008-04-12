@@ -36,7 +36,7 @@ using SharpWired.Model.Files;
 using SharpWired.MessageEvents;
 using SharpWired.Connection.Transfers;
 using System.Drawing;
-using SharpWired.Model.Errors;
+using SharpWired.Controller;
 using SharpWired.Model.PrivateMessages;
 
 namespace SharpWired.Model
