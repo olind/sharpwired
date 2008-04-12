@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Text;
 using SharpWired.Model;
 using SharpWired.Model.Files;
+using SharpWired.Controller;
 
 namespace SharpWired.Gui.Files
 {

@@ -114,14 +114,10 @@
     <Compile Include="Connection\Messages.cs" />
     <Compile Include="Model\Chat\ChatModel.cs" />
     <Compile Include="Model\Chat\ChatMessageItem.cs" />
-    <Compile Include="Model\Chat\ChatController.cs" />
     <Compile Include="Model\Chat\ChatTopicItem.cs" />
     <Compile Include="Model\Users\Group.cs" />
     <Compile Include="Model\Users\Groups.cs" />
-    <Compile Include="Model\LogicManager.cs" />
-    <Compile Include="Model\ControllerBase.cs" />
     <Compile Include="Model\Users\UserItem.cs" />
-    <Compile Include="Model\Users\UserController.cs" />
     <Compile Include="Model\Users\Privileges.cs" />
     <Compile Include="Model\Users\UserModel.cs" />
     <Compile Include="Utility.cs" />
@@ -232,6 +228,14 @@
     <Compile Include="Connection\Transfers\TranserWorker.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controller\ChatController.cs" />
+    <Compile Include="Controller\ControllerBase.cs" />
+    <Compile Include="Controller\ErrorController.cs" />
+    <Compile Include="Controller\FileListingController.cs" />
+    <Compile Include="Controller\GroupController.cs" />
+    <Compile Include="Controller\NewsController.cs" />
+    <Compile Include="Controller\PrivateMessageController.cs" />
+    <Compile Include="Controller\UserController.cs" />
     <Compile Include="Gui\About\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -302,22 +306,18 @@
     </Compile>
     <Compile Include="Gui\Resources\Icons\IconHandler.cs" />
     <Compile Include="Gui\Resources\Icons\IconList.cs" />
-    <Compile Include="Model\Errors\ErrorController.cs" />
-    <Compile Include="Model\Files\FileListingController.cs" />
+    <Compile Include="LogicManager.cs" />
     <Compile Include="Model\Files\FileListingModel.cs" />
     <Compile Include="Model\Files\FileNode.cs" />
     <Compile Include="Model\Files\FileSystemEntry.cs" />
     <Compile Include="Model\Files\FolderNode.cs" />
     <Compile Include="Model\Files\FolderNodeDropBox.cs" />
     <Compile Include="Model\Files\FolderNodeUploads.cs" />
-    <Compile Include="Model\News\NewsController.cs" />
     <Compile Include="Model\News\NewsModel.cs" />
     <Compile Include="Model\News\NewsObject.cs" />
-    <Compile Include="Model\PrivateMessages\PrivateMessageController.cs" />
     <Compile Include="Model\PrivateMessages\PrivateMessageItem.cs" />
     <Compile Include="Model\PrivateMessages\PrivateMessageModel.cs" />
     <Compile Include="Model\ServerInformation.cs" />
-    <Compile Include="Model\Users\GroupController.cs" />
     <Compile Include="SharpWiredClientInfo.cs" />
     <Compile Include="Utils\Pair.cs" />
     <None Include="Icons\Tango22px\system-log-out.png" />
@@ -361,6 +361,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Gui\Transfers\" />
+    <Folder Include="Model\Errors\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

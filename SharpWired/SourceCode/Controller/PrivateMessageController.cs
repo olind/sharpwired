@@ -29,8 +29,9 @@ using System.Collections.Generic;
 using System.Text;
 using SharpWired.Connection;
 using SharpWired.Model.Users;
+using SharpWired.Model.PrivateMessages;
 
-namespace SharpWired.Model.PrivateMessages
+namespace SharpWired.Controller.PrivateMessages
 {
     /// <summary>
     /// The logic for private messages. Provides functionality for 
@@ -38,7 +39,6 @@ namespace SharpWired.Model.PrivateMessages
     /// </summary>
     public class PrivateMessageController : ControllerBase
     {
-        private ConnectionManager connectionManager;
         private PrivateMessageModel privateMessageModel;
 
         #region Properties
@@ -67,7 +67,7 @@ namespace SharpWired.Model.PrivateMessages
         public void Msg(UserItem user, String message)
         {
             //TODO: Make some error checking (empty message etc)
-            connectionManager.Commands.Msg(user.UserId, message);
+            logicManager.ConnectionManager.Commands.Msg(user.UserId, message);
             PrivateMessageItem newSentMessage = new PrivateMessageItem(user, message);
             privateMessageModel.AddSentPrivateMessage(newSentMessage);
         }

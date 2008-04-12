@@ -28,8 +28,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SharpWired.Connection;
+using SharpWired.Model.Files;
 
-namespace SharpWired.Model.Files
+namespace SharpWired.Controller
 {
     /// <summary>
     /// Handles the local model for all file interactions

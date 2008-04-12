@@ -27,15 +27,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SharpWired.Model.Users;
 
-namespace SharpWired.Model.Users
+namespace SharpWired.Controller
 {
     /// <summary>
     /// Handles groups
     /// </summary>
     class GroupController : ControllerBase
     {
-        private LogicManager logicManager;
         private List<Group> groups = new List<Group>();
 
 

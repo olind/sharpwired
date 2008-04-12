@@ -38,8 +38,11 @@ using SharpWired.Connection.Transfers;
 using System.Drawing;
 using SharpWired.Controller;
 using SharpWired.Model.PrivateMessages;
+using SharpWired.Model;
+using SharpWired.Controller.Errors;
+using SharpWired.Controller.PrivateMessages;
 
-namespace SharpWired.Model
+namespace SharpWired
 {
     /// <summary>
     /// Central class. Holds references to a number of objects and listens to connection layer.

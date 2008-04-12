@@ -121,8 +121,9 @@ namespace SharpWired.Gui.Chat
 
         //TODO Remove!
         UserModel userModel;
-        public void Init(UserModel userModel) {
-            this.userModel = userModel;
+        public void Init(LogicManager logicManager) {
+            this.userModel = logicManager.UserHandler.UserModel;
+            this.logicManager = logicManager;
         }
 
         #endregion

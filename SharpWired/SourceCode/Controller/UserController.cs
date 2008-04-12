@@ -30,8 +30,9 @@ using System.Text;
 using System.Collections;
 using SharpWired.MessageEvents;
 using SharpWired.Connection;
+using SharpWired.Model.Users;
 
-namespace SharpWired.Model.Users
+namespace SharpWired.Controller
 {
     /// <summary>
     /// This class represents the users connected to the chat. If this chat is the public chat, 

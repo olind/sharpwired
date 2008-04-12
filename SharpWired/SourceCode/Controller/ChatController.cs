@@ -30,8 +30,9 @@ using System.Text;
 using SharpWired.MessageEvents;
 using SharpWired.Connection;
 using SharpWired.Model.Users;
+using SharpWired.Model.Chat;
 
-namespace SharpWired.Model.Chat
+namespace SharpWired.Controller
 {
     /// <summary>
     /// The logic for the chats. Provides functionality for for example sending messages

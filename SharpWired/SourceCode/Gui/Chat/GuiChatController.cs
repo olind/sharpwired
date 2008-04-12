@@ -67,7 +67,7 @@ namespace SharpWired.Gui.Chat {
 
             chatControl.Init(this, 1); //Set id to 1 since this is public chat.
 
-            userListControl.Init(logicManager.UserHandler.UserModel);
+            userListControl.Init(logicManager);
             userListControl.OnConnected();
 
             //attach listeners in gui classes

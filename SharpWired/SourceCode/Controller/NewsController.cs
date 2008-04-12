@@ -28,8 +28,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SharpWired.Connection;
+using SharpWired.Model.News;
 
-namespace SharpWired.Model.News
+namespace SharpWired.Controller
 {
     /// <summary>
     /// Model representation of the news

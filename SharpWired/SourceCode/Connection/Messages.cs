@@ -1418,8 +1418,6 @@ namespace SharpWired.Connection
         /// <summary>
         /// Handles incoming messages
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         /// <param name="message"></param>
         public void MessageReceived(string message)
         {

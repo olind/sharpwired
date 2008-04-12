@@ -31,7 +31,7 @@ using SharpWired.Connection;
 using SharpWired.Connection.Bookmarks;
 using SharpWired.MessageEvents;
 
-namespace SharpWired.Model.Errors
+namespace SharpWired.Controller.Errors
 {
     /// <summary>
     /// Reads error messages from various sources (ie the connection layer) and 

@@ -10,6 +10,7 @@ using System.IO;
 using SharpWired.Connection.Bookmarks;
 using SharpWired.Connection.Sockets;
 using SharpWired.Gui.Files;
+using SharpWired.Controller;
 
 namespace SharpWired.Connection.Transfers
 {

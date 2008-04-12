@@ -68,8 +68,6 @@ namespace SharpWired.Connection.Sockets
         /// <summary>
         /// A delegate type for hooking up message received notifications.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         /// <param name="message"></param>
         public delegate void MessageReceivedHandler(string message);
         /// <summary>

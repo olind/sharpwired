@@ -29,7 +29,7 @@ using System.Collections.Generic;
 using System.Text;
 using SharpWired.Connection;
 
-namespace SharpWired.Model
+namespace SharpWired.Controller
 {
     /// <summary>
     /// The basic functionality for the handlers for all different handler objects
