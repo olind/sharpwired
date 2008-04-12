@@ -34,7 +34,7 @@ namespace SharpWired.Model
     /// <summary>
     /// The basic functionality for the handlers for all different handler objects
     /// </summary>
-    public class HandlerBase
+    public class ControllerBase
     {
 
         #region Variables
@@ -91,7 +91,7 @@ namespace SharpWired.Model
         /// Constructor
         /// </summary>
         /// <param name="logicManager"></param>
-        public HandlerBase(LogicManager logicManager) {
+        public ControllerBase(LogicManager logicManager) {
             this.logicManager = logicManager;
 
             logicManager.Connected += OnConnected;

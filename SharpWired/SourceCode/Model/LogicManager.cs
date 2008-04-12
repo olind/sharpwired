@@ -50,15 +50,15 @@ namespace SharpWired.Model
         #region Variables
 
         private ConnectionManager connectionManager;
-        private ChatHandler chatHandler;
-        private UserHandler userHandler;
-        private NewsHandler newsHandler;
-        private FileListingHandler fileListingHandler;
+        private ChatController chatHandler;
+        private UserController userHandler;
+        private NewsController newsHandler;
+        private FileListingController fileListingHandler;
 		private FileTransferHandler fileTransferHandler;
         private ServerInformation serverInformation;
-        private GroupHandler groupHandler;
-        private ErrorHandler errorHandler;
-        private PrivateMessageHandler privateMessagesHandler;
+        private GroupController groupHandler;
+        private ErrorController errorHandler;
+        private PrivateMessageController privateMessagesHandler;
         private HeartBeatTimer heartBeatTimer;
         #endregion
 
@@ -75,7 +75,7 @@ namespace SharpWired.Model
         /// <summary>
         /// Get the private messages handler
         /// </summary>
-        public PrivateMessageHandler PrivateMessagesHandler
+        public PrivateMessageController PrivateMessagesHandler
         {
             get { return privateMessagesHandler; }
         }
@@ -83,7 +83,7 @@ namespace SharpWired.Model
         /// <summary>
         /// Get the error handler
         /// </summary>
-        public ErrorHandler ErrorHandler
+        public ErrorController ErrorHandler
         {
             get { return errorHandler; }
         }
@@ -99,7 +99,7 @@ namespace SharpWired.Model
         /// <summary>
         /// Get the chat handler
         /// </summary>
-        public ChatHandler ChatHandler
+        public ChatController ChatHandler
         {
             get { return chatHandler; }
         }
@@ -107,7 +107,7 @@ namespace SharpWired.Model
         /// <summary>
         /// Get the user handler
         /// </summary>
-        public UserHandler UserHandler
+        public UserController UserHandler
         {
             get { return userHandler; }
         }
@@ -115,7 +115,7 @@ namespace SharpWired.Model
         /// <summary>
         /// Get the news handler
         /// </summary>
-        public NewsHandler NewsHandler
+        public NewsController NewsHandler
         {
             get { return newsHandler; }
         }
@@ -123,7 +123,7 @@ namespace SharpWired.Model
         /// <summary>
         /// Get the FileListingHandler
         /// </summary>
-        public FileListingHandler FileListingHandler
+        public FileListingController FileListingHandler
         {
             get { return fileListingHandler;}
         }
@@ -225,18 +225,18 @@ namespace SharpWired.Model
             connectionManager.Connected += OnConnected;
             connectionManager.Disconnected += OnDisconnected;
 
-            chatHandler = new ChatHandler(this);
-            userHandler = new UserHandler(this);
-            groupHandler = new GroupHandler(this);
-            newsHandler = new NewsHandler(this);
-            fileListingHandler = new FileListingHandler(this);
+            chatHandler = new ChatController(this);
+            userHandler = new UserController(this);
+            groupHandler = new GroupController(this);
+            newsHandler = new NewsController(this);
+            fileListingHandler = new FileListingController(this);
 			fileTransferHandler = new FileTransferHandler(this);
             // TODO: Should listen for ConnectionManager.Connected?
             serverInformation = new ServerInformation();
 
             // TODO: Should listen for ConnectionManager.Connected?
-            errorHandler = new ErrorHandler(this);
-            privateMessagesHandler = new PrivateMessageHandler(this);
+            errorHandler = new ErrorController(this);
+            privateMessagesHandler = new PrivateMessageController(this);
         }
         #endregion
     }

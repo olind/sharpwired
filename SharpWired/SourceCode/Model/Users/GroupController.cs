@@ -33,7 +33,7 @@ namespace SharpWired.Model.Users
     /// <summary>
     /// Handles groups
     /// </summary>
-    class GroupHandler : HandlerBase
+    class GroupController : ControllerBase
     {
         private LogicManager logicManager;
         private List<Group> groups = new List<Group>();
@@ -117,6 +117,6 @@ namespace SharpWired.Model.Users
             Messages.GroupSpecificationEvent -= OnGroupSpecificationEvent;
         }
 
-        public GroupHandler(LogicManager logicManager) : base(logicManager) { }
+        public GroupController(LogicManager logicManager) : base(logicManager) { }
     }
 }

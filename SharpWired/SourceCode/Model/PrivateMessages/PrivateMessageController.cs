@@ -36,7 +36,7 @@ namespace SharpWired.Model.PrivateMessages
     /// The logic for private messages. Provides functionality for 
     /// sending and receiving private messages.
     /// </summary>
-    public class PrivateMessageHandler : HandlerBase
+    public class PrivateMessageController : ControllerBase
     {
         private ConnectionManager connectionManager;
         private PrivateMessageModel privateMessageModel;
@@ -84,7 +84,7 @@ namespace SharpWired.Model.PrivateMessages
             Messages.PrivateMessageEvent -= OnPrivateMessageEvent;
         }
 
-        public PrivateMessageHandler(LogicManager logicManager) : base(logicManager)  {
+        public PrivateMessageController(LogicManager logicManager) : base(logicManager)  {
             privateMessageModel = new PrivateMessageModel();
         }
         #endregion

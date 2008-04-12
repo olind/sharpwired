@@ -38,7 +38,7 @@ namespace SharpWired.Model.Users
     /// it represents the users connected to the server, if it is a private chat it represents
     /// the users available in that chat.
     /// </summary>
-    public class UserHandler : HandlerBase
+    public class UserController : ControllerBase
     {
 
         #region Variables
@@ -58,7 +58,7 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Constructor
         /// </summary>
-        public UserHandler(LogicManager logicManager) : base(logicManager) {
+        public UserController(LogicManager logicManager) : base(logicManager) {
             this.userModel = new UserModel();
             Messages m = logicManager.ConnectionManager.Messages;
 

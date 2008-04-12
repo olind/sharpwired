@@ -34,7 +34,7 @@ namespace SharpWired.Model.Files
     /// <summary>
     /// Handles the local model for all file interactions
     /// </summary>
-    public class FileListingHandler : HandlerBase
+    public class FileListingController : ControllerBase
     {
 
         #region Variables
@@ -239,7 +239,7 @@ namespace SharpWired.Model.Files
             Messages.FileListingDoneEvent -= OnFileListingDoneEvent;
         }
 
-        public FileListingHandler(LogicManager logicManager)  : base(logicManager) {
+        public FileListingController(LogicManager logicManager)  : base(logicManager) {
             fileListingModel = new FileListingModel(logicManager);
             fileTreeRootNode = fileListingModel.RootNode;
         }

@@ -34,7 +34,7 @@ namespace SharpWired.Model.News
     /// <summary>
     /// Model representation of the news
     /// </summary>
-    public class NewsHandler : HandlerBase
+    public class NewsController : ControllerBase
     {
         private NewsModel newsModel;
         /// <summary>
@@ -117,7 +117,7 @@ namespace SharpWired.Model.News
             Messages.NewsPostedEvent -= Messages_NewsPostedEvent;
         }
 
-        public NewsHandler(LogicManager logicManager): base(logicManager) {
+        public NewsController(LogicManager logicManager): base(logicManager) {
             newsModel = new NewsModel(logicManager);
             newsListObjects = new List<NewsObject>();
         }

@@ -133,10 +133,10 @@ namespace SharpWired.Gui.Files
             // Attach listeners to other GUI files
             this.SelectedFolderNodeChangedEvent+=new EventHandler<WiredNodeArgs>(fileDetailsControl.OnFolderNodeChanged);
             this.SelectedFolderNodeChangedEvent += new EventHandler<WiredNodeArgs>(breadCrumbControl.OnFolderNodeChanged);
-            logicManager.FileListingHandler.FileModelUpdatedEvent += new FileListingHandler.FileModelUpdatedDelegate(fileTreeControl.OnNewNodesAdded);
+            logicManager.FileListingHandler.FileModelUpdatedEvent += new FileListingController.FileModelUpdatedDelegate(fileTreeControl.OnNewNodesAdded);
             // To get the initial listing in the details view
-            logicManager.FileListingHandler.FileModelUpdatedEvent+=new FileListingHandler.FileModelUpdatedDelegate(fileDetailsControl.OnRootNodeInitialized);
-            logicManager.FileListingHandler.FileModelUpdatedEvent += new FileListingHandler.FileModelUpdatedDelegate(breadCrumbControl.OnRootNodeInitialized);
+            logicManager.FileListingHandler.FileModelUpdatedEvent+=new FileListingController.FileModelUpdatedDelegate(fileDetailsControl.OnRootNodeInitialized);
+            logicManager.FileListingHandler.FileModelUpdatedEvent += new FileListingController.FileModelUpdatedDelegate(breadCrumbControl.OnRootNodeInitialized);
         }
     }
 }

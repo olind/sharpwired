@@ -16,7 +16,7 @@ namespace SharpWired.Connection.Transfers
 	/// <summary>
 	/// Handler for file transfers.
 	/// </summary>
-	public class FileTransferHandler : HandlerBase
+	public class FileTransferHandler : ControllerBase
 	{
 		#region Fields
 		private bool downloading = false;

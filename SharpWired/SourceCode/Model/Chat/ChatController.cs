@@ -36,7 +36,7 @@ namespace SharpWired.Model.Chat
     /// <summary>
     /// The logic for the chats. Provides functionality for for example sending messages
     /// </summary>
-    public class ChatHandler : HandlerBase
+    public class ChatController : ControllerBase
     {
         #region Variables
         private ChatModel chatModel;
@@ -110,7 +110,7 @@ namespace SharpWired.Model.Chat
             Messages.ActionChatEvent -= OnActionChatEvent;
         }
 
-        public ChatHandler(LogicManager logicManager) : base(logicManager)  {
+        public ChatController(LogicManager logicManager) : base(logicManager)  {
             chatModel = new ChatModel(logicManager);
         }
 

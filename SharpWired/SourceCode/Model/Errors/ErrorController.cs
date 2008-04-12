@@ -37,7 +37,7 @@ namespace SharpWired.Model.Errors
     /// Reads error messages from various sources (ie the connection layer) and 
     /// raises nicer error messages to consume by GUI
     /// </summary>
-    public class ErrorHandler
+    public class ErrorController
     {
         private LogicManager logicManager;
 
@@ -90,7 +90,7 @@ namespace SharpWired.Model.Errors
         /// <summary>
         /// Constructor
         /// </summary>
-        public ErrorHandler(LogicManager logicManager)
+        public ErrorController(LogicManager logicManager)
         {
             this.logicManager = logicManager;
 
