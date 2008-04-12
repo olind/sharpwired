@@ -87,7 +87,7 @@ namespace SharpWired.Gui.Files
         }
         #endregion
 
-        #region Old populate file tree functionallity Handler for the TreeNode
+        #region Old populate file tree functionallity Controller for the TreeNode
         /// <summary>
         /// Populates the filetree from the given super root.
         /// </summary>
@@ -185,10 +185,10 @@ namespace SharpWired.Gui.Files
 
         private void WantDownloadFile(FileNode fileNode)
         {
-            logicManager.FileTransferHandler.EnqueueDownload(
+            logicManager.FileTransferController.EnqueueDownload(
                 logicManager.ConnectionManager.CurrentBookmark,
                 fileNode,
-                logicManager.FileTransferHandler.DefaultDownloadFolder);
+                logicManager.FileTransferController.DefaultDownloadFolder);
         }
 
         #endregion
@@ -238,7 +238,7 @@ namespace SharpWired.Gui.Files
         {
             //TODO: My original idea was to use the addedNodes and update the file tree with those nodes only
             //but that requires a remake of the populateFileTree - functionallity.
-            PopulateFileTree(this.rootTreeView, logicManager.FileListingHandler.FileListingModel.RootNode);
+            PopulateFileTree(this.rootTreeView, logicManager.FileListingController.FileListingModel.RootNode);
         }
         #endregion
     }

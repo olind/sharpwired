@@ -1,6 +1,6 @@
 #region Information and licence agreements
 /*
- * ErrorHandler.cs 
+ * ErrorController.cs 
  * Created by Ola Lindberg 2007-12-15
  * 
  * SharpWired - a Wired client.

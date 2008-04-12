@@ -46,22 +46,22 @@ namespace SharpWired
 {
     /// <summary>
     /// Central class. Holds references to a number of objects and listens to connection layer.
-    /// Initializes the other handlers
+    /// Initializes the other controllers
     /// </summary>
     public class LogicManager
     {
         #region Variables
 
         private ConnectionManager connectionManager;
-        private ChatController chatHandler;
-        private UserController userHandler;
-        private NewsController newsHandler;
-        private FileListingController fileListingHandler;
-		private FileTransferHandler fileTransferHandler;
+        private ChatController chatController;
+        private UserController userController;
+        private NewsController newsController;
+        private FileListingController fileListingController;
+		private FileTransferHandler fileTransferController;
         private ServerInformation serverInformation;
-        private GroupController groupHandler;
-        private ErrorController errorHandler;
-        private PrivateMessageController privateMessagesHandler;
+        private GroupController groupController;
+        private ErrorController errorController;
+        private PrivateMessageController privateMessagesController;
         private HeartBeatTimer heartBeatTimer;
         #endregion
 
@@ -78,17 +78,17 @@ namespace SharpWired
         /// <summary>
         /// Get the private messages handler
         /// </summary>
-        public PrivateMessageController PrivateMessagesHandler
+        public PrivateMessageController PrivateMessagesController
         {
-            get { return privateMessagesHandler; }
+            get { return privateMessagesController; }
         }
 
         /// <summary>
         /// Get the error handler
         /// </summary>
-        public ErrorController ErrorHandler
+        public ErrorController ErrorController
         {
-            get { return errorHandler; }
+            get { return errorController; }
         }
 
         /// <summary>
@@ -102,41 +102,41 @@ namespace SharpWired
         /// <summary>
         /// Get the chat handler
         /// </summary>
-        public ChatController ChatHandler
+        public ChatController ChatController
         {
-            get { return chatHandler; }
+            get { return chatController; }
         }
 
         /// <summary>
         /// Get the user handler
         /// </summary>
-        public UserController UserHandler
+        public UserController UserController
         {
-            get { return userHandler; }
+            get { return userController; }
         }
 
         /// <summary>
         /// Get the news handler
         /// </summary>
-        public NewsController NewsHandler
+        public NewsController NewsController
         {
-            get { return newsHandler; }
+            get { return newsController; }
         }
 
         /// <summary>
-        /// Get the FileListingHandler
+        /// Get the FileListingController
         /// </summary>
-        public FileListingController FileListingHandler
+        public FileListingController FileListingController
         {
-            get { return fileListingHandler;}
+            get { return fileListingController;}
         }
 
         /// <summary>
         /// Get 
         /// </summary>
-		public FileTransferHandler FileTransferHandler
+		public FileTransferHandler FileTransferController
 		{
-			get { return fileTransferHandler; }
+			get { return fileTransferController; }
 		}
 
         #endregion
@@ -154,7 +154,7 @@ namespace SharpWired
                 connectionManager.Messages.LoginSucceededEvent += new Messages.LoginSucceededEventHandler(Messages_LoginSucceededEvent);
                 connectionManager.Messages.ServerInformationEvent += new Messages.ServerInformationEventHandler(Messages_ServerInformationEvent);
             } catch (ConnectionException ce) {
-                errorHandler.ReportConnectionExceptionError(ce);   
+                errorController.ReportConnectionExceptionError(ce);   
             }
         }
 
@@ -228,18 +228,18 @@ namespace SharpWired
             connectionManager.Connected += OnConnected;
             connectionManager.Disconnected += OnDisconnected;
 
-            chatHandler = new ChatController(this);
-            userHandler = new UserController(this);
-            groupHandler = new GroupController(this);
-            newsHandler = new NewsController(this);
-            fileListingHandler = new FileListingController(this);
-			fileTransferHandler = new FileTransferHandler(this);
+            chatController = new ChatController(this);
+            userController = new UserController(this);
+            groupController = new GroupController(this);
+            newsController = new NewsController(this);
+            fileListingController = new FileListingController(this);
+			fileTransferController = new FileTransferHandler(this);
             // TODO: Should listen for ConnectionManager.Connected?
             serverInformation = new ServerInformation();
 
             // TODO: Should listen for ConnectionManager.Connected?
-            errorHandler = new ErrorController(this);
-            privateMessagesHandler = new PrivateMessageController(this);
+            errorController = new ErrorController(this);
+            privateMessagesController = new PrivateMessageController(this);
         }
         #endregion
     }

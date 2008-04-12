@@ -69,7 +69,7 @@ namespace SharpWired.Gui.Files
                     SelectedFolderNodeChangedEvent(sender, nodeArgs);
                 }
 
-                this.logicManager.FileListingHandler.ReloadFileList((FolderNode)selectedNode);
+                this.logicManager.FileListingController.ReloadFileList((FolderNode)selectedNode);
             }
             else if (selectedNode is FileNode)
             {
@@ -84,7 +84,7 @@ namespace SharpWired.Gui.Files
         /// <param name="path">The path to change as selected</param>
         public void ChangeSelectedNode(object sender, string path)
         {
-            ChangeSelectedNode(sender, this.logicManager.FileListingHandler.FileListingModel.GetNode(path));
+            ChangeSelectedNode(sender, this.logicManager.FileListingController.FileListingModel.GetNode(path));
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace SharpWired.Gui.Files
         /// </param>
         public void RequestNodeDownload(object sender, FileSystemEntry node)
         {
-            logicManager.FileTransferHandler.EnqueEntry(node);
+            logicManager.FileTransferController.EnqueEntry(node);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace SharpWired.Gui.Files
         /// <param name="sender"></param>
         public void ChangeSelectedNodeToRootNode(object sender)
         {
-            ChangeSelectedNode(sender, this.logicManager.FileListingHandler.FileListingModel.RootNode);
+            ChangeSelectedNode(sender, this.logicManager.FileListingController.FileListingModel.RootNode);
         }
 
         /// <summary>
@@ -134,10 +134,10 @@ namespace SharpWired.Gui.Files
             // Attach listeners to other GUI files
             this.SelectedFolderNodeChangedEvent+=new EventHandler<WiredNodeArgs>(fileDetailsControl.OnFolderNodeChanged);
             this.SelectedFolderNodeChangedEvent += new EventHandler<WiredNodeArgs>(breadCrumbControl.OnFolderNodeChanged);
-            logicManager.FileListingHandler.FileModelUpdatedEvent += new FileListingController.FileModelUpdatedDelegate(fileTreeControl.OnNewNodesAdded);
+            logicManager.FileListingController.FileModelUpdatedEvent += new FileListingController.FileModelUpdatedDelegate(fileTreeControl.OnNewNodesAdded);
             // To get the initial listing in the details view
-            logicManager.FileListingHandler.FileModelUpdatedEvent+=new FileListingController.FileModelUpdatedDelegate(fileDetailsControl.OnRootNodeInitialized);
-            logicManager.FileListingHandler.FileModelUpdatedEvent += new FileListingController.FileModelUpdatedDelegate(breadCrumbControl.OnRootNodeInitialized);
+            logicManager.FileListingController.FileModelUpdatedEvent+=new FileListingController.FileModelUpdatedDelegate(fileDetailsControl.OnRootNodeInitialized);
+            logicManager.FileListingController.FileModelUpdatedEvent += new FileListingController.FileModelUpdatedDelegate(breadCrumbControl.OnRootNodeInitialized);
         }
     }
 }

@@ -1,6 +1,6 @@
 #region Information and licence agreements
 /*
- * UserHandler.cs 
+ * UserController.cs 
  * Created by Ola Lindberg, 2006-10-15
  * 
  * SharpWired - a Wired client.

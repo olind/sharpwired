@@ -1,6 +1,6 @@
 #region Information and licence agreements
 /*
- * PrivateMessageHandler.cs 
+ * PrivateMessageController.cs 
  * Created by Ola Lindberg, 2007-12-20
  * 
  * SharpWired - a Wired client.
@@ -53,7 +53,7 @@ namespace SharpWired.Controller.PrivateMessages
 
         #region Event Listeners
         void OnPrivateMessageEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_305309 messageEventArgs)  {
-            UserItem u = logicManager.UserHandler.UserModel.GetUser(messageEventArgs.UserId);
+            UserItem u = logicManager.UserController.UserModel.GetUser(messageEventArgs.UserId);
             privateMessageModel.AddReceivedPrivateMessage(new PrivateMessageItem(u, messageEventArgs.Message));
         }
         #endregion

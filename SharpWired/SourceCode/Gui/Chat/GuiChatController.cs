@@ -44,7 +44,7 @@ namespace SharpWired.Gui.Chat {
         /// </summary>
         /// <param name="newTopic"></param>
         public void ChangeTopic(String newTopic) {
-            logicManager.ChatHandler.ChangeTopic(newTopic);
+            logicManager.ChatController.ChangeTopic(newTopic);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace SharpWired.Gui.Chat {
         /// </summary>
         /// <param name="message"></param>
         public void SendChatMessage(String message) {
-            logicManager.ChatHandler.SendChatMessage(message);
+            logicManager.ChatController.SendChatMessage(message);
         }
 
         /// <summary>
@@ -71,10 +71,10 @@ namespace SharpWired.Gui.Chat {
             userListControl.OnConnected();
 
             //attach listeners in gui classes
-            logicManager.ChatHandler.ChatModel.ChatMessageReceivedEvent += chatControl.OnChatMessageArrived;
-            logicManager.ChatHandler.ChatModel.ChatTopicChangedEvent += chatControl.OnChatTopicChanged;
-            logicManager.ErrorHandler.LoginToServerFailedEvent += chatControl.OnErrorEvent;
-            logicManager.PrivateMessagesHandler.PrivateMessageModel.ReceivedPrivateMessageEvent += chatControl.OnPrivateMessageReceived;
+            logicManager.ChatController.ChatModel.ChatMessageReceivedEvent += chatControl.OnChatMessageArrived;
+            logicManager.ChatController.ChatModel.ChatTopicChangedEvent += chatControl.OnChatTopicChanged;
+            logicManager.ErrorController.LoginToServerFailedEvent += chatControl.OnErrorEvent;
+            logicManager.PrivateMessagesController.PrivateMessageModel.ReceivedPrivateMessageEvent += chatControl.OnPrivateMessageReceived;
             logicManager.ConnectionManager.Messages.ClientInformationEvent += chatControl.OnUserInformation;
         }
     }

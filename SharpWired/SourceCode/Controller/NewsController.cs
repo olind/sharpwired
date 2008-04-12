@@ -1,6 +1,6 @@
 #region Information and licence agreements
 /*
- * NewsHandler.cs 
+ * NewsController.cs 
  * Created by Ola Lindberg, 2006-12-09
  * 
  * SharpWired - a Wired client.

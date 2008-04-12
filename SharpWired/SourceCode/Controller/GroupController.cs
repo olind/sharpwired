@@ -1,6 +1,6 @@
 #region Information and licence agreements
 /*
- * GroupHandler.cs 
+ * GroupController.cs 
  * Created by Ola Lindberg, 2007-12-14
  * 
  * SharpWired - a Wired client.

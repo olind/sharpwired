@@ -128,8 +128,8 @@ namespace SharpWired.Gui.News
         {
             this.logicManager = logicManager;
 
-            logicManager.NewsHandler.NewsModel.NewsPostedEvent += OnNewsMessageArrived;
-            logicManager.NewsHandler.NewsModel.NewsListReplacedEvent += OnNewsListReplaced;
+            logicManager.NewsController.NewsModel.NewsPostedEvent += OnNewsMessageArrived;
+            logicManager.NewsController.NewsModel.NewsListReplacedEvent += OnNewsListReplaced;
         }
 
         /// <summary>

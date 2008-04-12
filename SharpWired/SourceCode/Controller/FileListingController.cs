@@ -1,6 +1,6 @@
 #region Information and licence agreements
 /*
- * FileListingHandler.cs 
+ * FileListingController.cs 
  * Created by Ola Lindberg, 2007-01-28
  * 
  * SharpWired - a Wired client.

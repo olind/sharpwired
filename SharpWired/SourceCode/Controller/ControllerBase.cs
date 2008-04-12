@@ -1,6 +1,6 @@
 #region Information and licence agreements
 /*
- * HandlerBase.cs 
+ * ControllerBase.cs 
  * Created by Ola Lindberg and Peter Holmdahl, 2006-11-25
  * 
  * SharpWired - a Wired client.
@@ -32,7 +32,7 @@ using SharpWired.Connection;
 namespace SharpWired.Controller
 {
     /// <summary>
-    /// The basic functionality for the handlers for all different handler objects
+    /// The basic functionality for the controllers for all different controller objects
     /// </summary>
     public class ControllerBase
     {
@@ -75,8 +75,6 @@ namespace SharpWired.Controller
 
         #endregion
 
-        #region Initialization of the HandlerBase
-
         /// <summary>
         /// Called when the TCP connection is opened.
         /// </summary>
@@ -97,6 +95,5 @@ namespace SharpWired.Controller
             logicManager.Connected += OnConnected;
             logicManager.Disconnected += OnDisconnected;
         }
-        #endregion
     }
 }

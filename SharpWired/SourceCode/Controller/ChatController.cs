@@ -1,6 +1,6 @@
 #region Information and licence agreements
 /*
- * ChatHandler.cs 
+ * ChatController.cs 
  * Created by Ola Lindberg and Peter Holmdahl, 2006-11-25
  * 
  * SharpWired - a Wired client.
@@ -45,7 +45,7 @@ namespace SharpWired.Controller
 
         #region Properties
         /// <summary>
-        /// Gets or sets the ChatModel for this ChatHandler
+        /// Gets or sets the ChatModel
         /// </summary>
         public ChatModel ChatModel
         {
@@ -57,12 +57,12 @@ namespace SharpWired.Controller
         #region Listeners: from communication layer
 
         void OnChatEvent(object sender, MessageEventArgs_300301 messageEventArgs) {
-            UserItem u = logicManager.UserHandler.UserModel.GetUser(messageEventArgs.UserId);
+            UserItem u = logicManager.UserController.UserModel.GetUser(messageEventArgs.UserId);
             chatModel.OnChatMessageItemReceived(messageEventArgs, u, false);
         }
 
         void OnActionChatEvent(object sender, MessageEventArgs_300301 messageEventArgs) {
-            UserItem u = logicManager.UserHandler.UserModel.GetUser(messageEventArgs.UserId);
+            UserItem u = logicManager.UserController.UserModel.GetUser(messageEventArgs.UserId);
             chatModel.OnChatMessageItemReceived(messageEventArgs, u, true);
         }
 
