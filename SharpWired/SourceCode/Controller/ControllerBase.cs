@@ -76,24 +76,11 @@ namespace SharpWired.Controller
         #endregion
 
         /// <summary>
-        /// Called when the TCP connection is opened.
-        /// </summary>
-        public virtual void OnConnected()  { }
-
-        /// <summary>
-        /// Called when the TCP connection is closed.
-        /// </summary>
-        public virtual void OnDisconnected() { }
-
-        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="logicManager"></param>
         public ControllerBase(LogicManager logicManager) {
             this.logicManager = logicManager;
-
-            logicManager.Connected += OnConnected;
-            logicManager.Disconnected += OnDisconnected;
         }
     }
 }

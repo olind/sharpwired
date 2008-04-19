@@ -29,8 +29,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-using SharpWired.Connection;
 using SharpWired;
+using SharpWired.Connection;
 using SharpWired.Connection.Bookmarks;
 
 namespace SharpWired
@@ -49,8 +49,11 @@ namespace SharpWired
 			// We run the public chat window
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			SharpWiredMain sharpWired = new SharpWiredMain();
-			sharpWired.publicChat = new global::SharpWired.Gui.SharpWiredForm();
+			
+            SharpWiredMain sharpWired = new SharpWiredMain();
+            LogicManager logicManager = new LogicManager();
+			
+            sharpWired.publicChat = new global::SharpWired.Gui.SharpWiredForm(logicManager);
 			Application.Run(sharpWired.publicChat);
         }
     }

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Text;
 using System.Windows.Forms;
-using SharpWired.Model.Chat;
 using SharpWired.Connection.Bookmarks;
+using SharpWired.MessageEvents;
+using SharpWired.Model.Messaging;
 
 namespace SharpWired.Gui.Chat {
 
@@ -39,8 +36,8 @@ namespace SharpWired.Gui.Chat {
         /// Formats and writes the text on an Chat Event to the GUI
         /// </summary>
         /// <param name="chatTopicItem"></param>
-        public void OnChatTopicChanged(ChatTopicItem chatTopicItem) {
-            GuiMessageItem guiMessage = new GuiMessageItem(chatTopicItem);
+        public void OnChatTopicChanged(MessageEventArgs_341 message) {
+            GuiMessageItem guiMessage = new GuiMessageItem(message);
             ChangeTopic(guiMessage);
         }
 

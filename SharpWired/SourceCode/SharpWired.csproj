@@ -112,14 +112,13 @@
     </Compile>
     <Compile Include="MessageEvents\MessageEventArgs_Path.cs" />
     <Compile Include="Connection\Messages.cs" />
-    <Compile Include="Model\Chat\ChatModel.cs" />
-    <Compile Include="Model\Chat\ChatMessageItem.cs" />
-    <Compile Include="Model\Chat\ChatTopicItem.cs" />
+    <Compile Include="Model\Messaging\Chat.cs" />
+    <Compile Include="Model\Messaging\ChatMessageItem.cs" />
     <Compile Include="Model\Users\Group.cs" />
     <Compile Include="Model\Users\Groups.cs" />
-    <Compile Include="Model\Users\UserItem.cs" />
+    <Compile Include="Model\Users\User.cs" />
     <Compile Include="Model\Users\Privileges.cs" />
-    <Compile Include="Model\Users\UserModel.cs" />
+    <Compile Include="Model\Users\UserList.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="SharpWiredMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -317,7 +316,7 @@
     <Compile Include="Model\News\NewsObject.cs" />
     <Compile Include="Model\PrivateMessages\PrivateMessageItem.cs" />
     <Compile Include="Model\PrivateMessages\PrivateMessageModel.cs" />
-    <Compile Include="Model\ServerInformation.cs" />
+    <Compile Include="Model\Server.cs" />
     <Compile Include="SharpWiredClientInfo.cs" />
     <Compile Include="Utils\Pair.cs" />
     <None Include="Icons\Tango22px\system-log-out.png" />

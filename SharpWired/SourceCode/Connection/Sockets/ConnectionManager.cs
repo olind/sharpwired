@@ -50,6 +50,21 @@ namespace SharpWired.Connection
         LagHandler lagHandler;
 		#endregion
 
+        #region Constructor
+        /// <summary>
+        /// Constructs a ConnectionManager. Creates a SecureSocket, a Message, and a Commands.
+        /// </summary>
+        public ConnectionManager() {
+            this.commandSocket = new SecureSocket();
+            this.messages = new Messages();
+            this.commands = new Commands(this.commandSocket);
+            this.lagHandler = new LagHandler();
+
+            messages.ServerInformationEvent += OnServerInfo;
+            messages.BannedEvent += OnBanned;
+        }
+        #endregion
+
 		#region Properties
 
 		/// <summary>
@@ -89,17 +104,31 @@ namespace SharpWired.Connection
 
         #region Events
         /// <summary>
-        /// Fired when a TCP connection is established to a server.
+        /// Fired when succesfully connect to the server.
         /// </summary>
-        public event ConnectionDelegate Connected;
+        public event Connection Connected;
         /// <summary>
         /// Fired when the TCP connection is closed to the server.
         /// </summary>
-        public event ConnectionDelegate Disconnected;
+        public event Disconnection Disconnected;
         /// <summary>
-        /// Empyt delegate for the connection events.
+        /// Fired when being banned on the server.
         /// </summary>
-        public delegate void ConnectionDelegate();
+        public event Ban Banned;
+
+        public delegate void Connection(MessageEvents.MessageEventArgs_200 message);
+        public delegate void Disconnection();
+        public delegate void Ban(MessageEvents.MessageEventArgs message);
+
+        public void OnServerInfo(object sender, MessageEvents.MessageEventArgs_200 message) {
+            if (Connected != null)
+                Connected(message);
+        }
+
+        public void OnBanned(object sender, MessageEvents.MessageEventArgs message) {
+            if (Banned != null)
+                Banned(message);
+        }
         #endregion
 
         #region Methods
@@ -121,11 +150,6 @@ namespace SharpWired.Connection
                     commandSocket.MessageReceived += messages.MessageReceived;
                     messages.PingReplyEvent += lagHandler.OnPingReceived;
                     commands.PingSentEvent += lagHandler.OnPingSent;
-
-                    if (Connected != null)
-                        Connected();
-                        // TODO: Make all listeners of Server Info use this
-                        // instead.
                 } else {
                     // TODO: Log instead of write to std out
                     Console.WriteLine("ERROR - ConnectionManager.Connect(): " +
@@ -143,6 +167,9 @@ namespace SharpWired.Connection
         /// Close the TCP connection to the server.
         /// </summary>
         public void Disconnect() {
+            if (Disconnected != null)
+                Disconnected();
+
             commandSocket.MessageReceived -= messages.MessageReceived;
             messages.PingReplyEvent -= lagHandler.OnPingReceived;
             commands.PingSentEvent -= lagHandler.OnPingSent;
@@ -150,9 +177,6 @@ namespace SharpWired.Connection
             commandSocket.Disconnect();
 
             mCurrentBookmark = null;
-
-            if (Disconnected != null)
-                Disconnected();
         }
 
 		/// <summary>
@@ -195,19 +219,6 @@ namespace SharpWired.Connection
 			return binarySocket;
         }
 
-        #endregion
-
-        #region Constructor - Creates commands, messages and sockets
-        /// <summary>
-        /// Constructs a ConnectionManager. Creates a SecureSocket, a Message, and a Commands.
-        /// </summary>
-        public ConnectionManager()
-        {
-            this.commandSocket = new SecureSocket();
-            this.messages = new Messages();
-            this.commands = new Commands(this.commandSocket);
-            this.lagHandler = new LagHandler();
-        }
         #endregion
 	}
 }

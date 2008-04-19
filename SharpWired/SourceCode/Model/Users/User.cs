@@ -36,7 +36,7 @@ namespace SharpWired.Model.Users
     /// <summary>
     /// Represents one user that's online to a Wired server.
     /// </summary>
-    public class UserItem
+    public class User
     {
         #region Variables
         private bool admin;
@@ -250,7 +250,7 @@ namespace SharpWired.Model.Users
         /// Delegate for update event
         /// </summary>
         /// <param name="u">The new status</param>
-        public delegate void UpdatedDelegate(UserItem u);
+        public delegate void UpdatedDelegate(User u);
 
         /// <summary>
         /// The user information for this user was updated.
@@ -375,7 +375,7 @@ namespace SharpWired.Model.Users
         /// Constructor
         /// </summary>
         /// <param name="message">The message event arg that caused the adding of this user</param>
-        public UserItem(MessageEventArgs_302310 message) {
+        public User(MessageEventArgs_302310 message) {
             this.SetUserInformation(message);
         }
         #endregion

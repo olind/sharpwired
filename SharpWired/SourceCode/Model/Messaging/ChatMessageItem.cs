@@ -30,7 +30,7 @@ using System.Text;
 using SharpWired.MessageEvents;
 using SharpWired.Model.Users;
 
-namespace SharpWired.Model.Chat
+namespace SharpWired.Model.Messaging
 {
     /// <summary>
     /// The standard chat object that other chat object inherits from
@@ -41,7 +41,7 @@ namespace SharpWired.Model.Chat
         private bool isActionChatMessage = false;
         private MessageEventArgs_300301 messageEventArgs;
         private DateTime timeStamp = DateTime.Now;
-        private UserItem fromUser;
+        private User fromUser;
 
         /// <summary>
         /// Get the timestamp for this message. 
@@ -70,7 +70,7 @@ namespace SharpWired.Model.Chat
         /// <summary>
         /// Gets the user that sent this message
         /// </summary>
-        public UserItem FromUser {
+        public User FromUser {
             get { return fromUser; }
         }
 
@@ -81,7 +81,7 @@ namespace SharpWired.Model.Chat
         /// <param name="fromUser">The user that sent this message</param>
         /// <param name="isActionChatMessage">Is this message an action chat message or not</param>
         public ChatMessageItem(MessageEventArgs_300301 messageEventArgs, 
-            UserItem fromUser, bool isActionChatMessage)
+            User fromUser, bool isActionChatMessage)
         {
             this.isActionChatMessage = isActionChatMessage;
             this.messageEventArgs = messageEventArgs;

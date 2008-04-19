@@ -30,7 +30,7 @@ using System.Text;
 using SharpWired.MessageEvents;
 using SharpWired.Connection;
 using SharpWired.Model.Users;
-using SharpWired.Model.Chat;
+using SharpWired.Model.Messaging;
 
 namespace SharpWired.Controller
 {
@@ -39,41 +39,11 @@ namespace SharpWired.Controller
     /// </summary>
     public class ChatController : ControllerBase
     {
-        #region Variables
-        private ChatModel chatModel;
+        #region Constructor
+        public ChatController(LogicManager logicManager) : base(logicManager) { }
         #endregion
 
-        #region Properties
-        /// <summary>
-        /// Gets or sets the ChatModel
-        /// </summary>
-        public ChatModel ChatModel
-        {
-            get { return chatModel; }
-            set { chatModel = value; }
-        }
-        #endregion
-
-        #region Listeners: from communication layer
-
-        void OnChatEvent(object sender, MessageEventArgs_300301 messageEventArgs) {
-            UserItem u = logicManager.UserController.UserModel.GetUser(messageEventArgs.UserId);
-            chatModel.OnChatMessageItemReceived(messageEventArgs, u, false);
-        }
-
-        void OnActionChatEvent(object sender, MessageEventArgs_300301 messageEventArgs) {
-            UserItem u = logicManager.UserController.UserModel.GetUser(messageEventArgs.UserId);
-            chatModel.OnChatMessageItemReceived(messageEventArgs, u, true);
-        }
-
-        void OnChatTopicEvent(object sender, MessageEventArgs_341 messageEventArgs) {
-            ChatTopicItem chatTopicObject = new ChatTopicItem(messageEventArgs);
-            chatModel.OnChatTopicChanged(chatTopicObject);
-        }
-        #endregion
-
-        #region Sending to the communication layer
-
+        #region Methods
         /// <summary>
         /// Send a chat message to the server
         /// </summary>
@@ -92,30 +62,6 @@ namespace SharpWired.Controller
             //TODO: Check permissions before setting topic
             this.logicManager.ConnectionManager.Commands.Topic(1, topic);
         }
-
         #endregion
-
-        #region Initialization
-
-        public override void OnConnected() {
-            base.OnConnected();
-            Messages.ChatEvent += OnChatEvent;
-            Messages.ChatTopicEvent += OnChatTopicEvent;
-            Messages.ActionChatEvent += OnActionChatEvent;
-        }
-
-        public override void OnDisconnected() {
-            base.OnDisconnected();
-            Messages.ChatEvent -= OnChatEvent;
-            Messages.ChatTopicEvent -= OnChatTopicEvent;
-            Messages.ActionChatEvent -= OnActionChatEvent;
-        }
-
-        public ChatController(LogicManager logicManager) : base(logicManager)  {
-            chatModel = new ChatModel(logicManager);
-        }
-
-        #endregion
-
     }
 }

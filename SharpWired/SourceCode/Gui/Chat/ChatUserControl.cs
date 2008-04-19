@@ -33,7 +33,7 @@ using System.Text;
 using System.Windows.Forms;
 using SharpWired.Model;
 using SharpWired.Model.Users;
-using SharpWired.Model.Chat;
+using SharpWired.Model.Messaging;
 
 namespace SharpWired.Gui.Chat
 {

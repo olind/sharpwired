@@ -107,16 +107,17 @@ namespace SharpWired.Controller
         }
         #endregion
 
-        public override void OnConnected() {
-            base.OnConnected();
+        public void OnConnected() {
             Messages.GroupSpecificationEvent += OnGroupSpecificationEvent;
         }
 
-        public override void OnDisconnected() {
-            base.OnDisconnected();
+        public void OnDisconnected() {
             Messages.GroupSpecificationEvent -= OnGroupSpecificationEvent;
         }
 
-        public GroupController(LogicManager logicManager) : base(logicManager) { }
+        public GroupController(LogicManager logicManager) : base(logicManager) {
+            logicManager.LoggedIn += OnConnected;
+            logicManager.LoggedOut += OnDisconnected;
+        }
     }
 }

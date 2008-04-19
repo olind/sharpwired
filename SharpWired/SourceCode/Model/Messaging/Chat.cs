@@ -24,55 +24,50 @@
  */
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.Text;
+using SharpWired.Connection;
 using SharpWired.MessageEvents;
 using SharpWired.Model.Users;
 
-namespace SharpWired.Model.Chat
-{
+namespace SharpWired.Model.Messaging {
     /// <summary>
     /// The model that the gui can listen to for changes in the chat
     /// </summary>
-    public class ChatModel
-    {
-        private LogicManager logicManager;
-        private List<ChatTopicItem> chatTopics;
-        private List<ChatMessageItem> chatMessages;
-        
+    public class Chat {
+        #region Fields
+        LogicManager logicManager;
+        int chatId;
+        UserList users;
+        MessageEventArgs_341 topic;
+        List<ChatMessageItem> chatMessages;
+        #endregion
+
+        #region Constructor
         /// <summary>
-        /// Call this method when a new message has been received.
+        /// Constructor
         /// </summary>
-        /// <param name="messageEventArgs">The message event args associated 
-        ///     with the received chat message.</param>
-        /// <param name="fromUser">The user that sent the message</param>
-        /// <param name="isActionChat">Tells if this is an action chat message 
-        ///     or not. True means action chat message. False means normal chat 
-        ///     message.</param>
-        public void OnChatMessageItemReceived (MessageEventArgs_300301 messageEventArgs, 
-            UserItem fromUser, bool isActionChat){
+        /// <param name="logicManager"></param>
+        public Chat(LogicManager logicManager, int chatId) {
+            Messages m = logicManager.ConnectionManager.Messages;
 
-            if (ChatMessageReceivedEvent != null) {
-                ChatMessageItem cmi = new ChatMessageItem(messageEventArgs, fromUser, isActionChat);
-                chatMessages.Add(cmi);
-                ChatMessageReceivedEvent(cmi);
-            }
+            this.logicManager = logicManager;
+            this.chatId = chatId;
+            this.chatMessages = new List<ChatMessageItem>();
+            this.users = new UserList(m);
+
+            m.ChatTopicEvent += OnTopicChanged;
+            m.ChatEvent += OnChatEvent;
+            m.ActionChatEvent += OnActionChatEvent;
         }
+        #endregion
 
-        /// <summary>
-        /// Call this method when the chat topic has been changed
-        /// </summary>
-        /// <param name="chatTopicObject">The chat topic object.</param>
-        public void OnChatTopicChanged(ChatTopicItem chatTopicObject)
-        {
-            if (ChatTopicChangedEvent != null) {
-                chatTopics.Add(chatTopicObject);
-                ChatTopicChangedEvent(chatTopicObject);
-            }
+        #region Properties
+        public UserList Users {
+            get { return users; }
         }
+        #endregion
 
-        #region Delegate and Event declarations
+        #region Events & Listeners
         /// <summary>
         /// Delegate for the ChatMessageReceivedEvent
         /// </summary>
@@ -87,27 +82,40 @@ namespace SharpWired.Model.Chat
         /// Delegate for the ChatTopicChangedEvent
         /// </summary>
         /// <param name="chatTopicObject"></param>
-        public delegate void ChatTopicChangedDelegate(ChatTopicItem chatTopicObject);
+        public delegate void ChatTopicChangedDelegate(MessageEventArgs_341 message);
         /// <summary>
         /// Event that's raised when the chat topic has been changed
         /// </summary>
         public event ChatTopicChangedDelegate ChatTopicChangedEvent;
-        #endregion
 
-        #region Initialization
+        public void OnTopicChanged(MessageEventArgs_341 message) {
+            if (message.ChatId == this.chatId) {
+                this.topic = message;
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="logicManager"></param>
-        public ChatModel(LogicManager logicManager)
-        {
-            this.logicManager = logicManager;
-            chatTopics = new List<ChatTopicItem>();
-            chatMessages = new List<ChatMessageItem>();
+                if (ChatTopicChangedEvent != null)
+                    ChatTopicChangedEvent(message);
+            }
         }
 
-        #endregion
+        public void OnChatEvent(object sender, MessageEventArgs_300301 message) {
+            HandleMessage(message, false);
+        }
 
+        public void OnActionChatEvent(object sender, MessageEventArgs_300301 message) {
+            HandleMessage(message, true);
+        }
+
+        // TODO: MessageEventArgs_3003001 could contain isActionChat from the beginning!
+        private void HandleMessage(MessageEventArgs_300301 message, bool isActionChat) {
+            if (message.ChatId == this.chatId) {
+                User u = this.users.GetUser(message.UserId);
+                ChatMessageItem cmi = new ChatMessageItem(message, u, isActionChat);
+                chatMessages.Add(cmi);
+
+                if (ChatMessageReceivedEvent != null)
+                    ChatMessageReceivedEvent(cmi);
+            }
+        }
+        #endregion
     }
 }

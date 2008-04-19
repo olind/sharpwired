@@ -34,6 +34,7 @@ using System.Drawing;
 using SharpWired.MessageEvents;
 using SharpWired.Connection.Sockets;
 using SharpWired.Model.Users;
+using System.Diagnostics;
 
 namespace SharpWired.Connection
 {
@@ -101,7 +102,7 @@ namespace SharpWired.Connection
         /// 340
         public delegate void ClientImageChangedEventHandler(MessageEventArgs_340 messageEventArgs);
         /// 341
-        public delegate void ChatTopicEventHandler(object sender, MessageEventArgs_341 messageEventArgs);
+        public delegate void ChatTopicEventHandler(MessageEventArgs_341 messageEventArgs);
         /// 400
         public delegate void TransferReadyEventHandler(object sender, MessageEventArgs_400 messageEventArgs);
         /// 401
@@ -831,7 +832,7 @@ namespace SharpWired.Connection
 
                 MessageEventArgs_341 m = new MessageEventArgs_341(messageId, messageName, chatId, nick, login, ip, time, topic);
 
-                ChatTopicEvent(this, m);
+                ChatTopicEvent(m);
             }
         }
 
@@ -1230,9 +1231,20 @@ namespace SharpWired.Connection
             int msgId = Convert.ToInt32(msg.Substring(0, 3));
             string argument = msg.Substring(4);
 
-            // Switch on the message identifier and call the proper event
-            if(msgId != 320 && msgId != 321 && msgId != 410 && msgId != 411) //Messages spamming console
-                System.Diagnostics.Debug.WriteLine("Starting switch on msgId: " + msgId + " with argument: " + argument);
+            if (msgId == 310 || msgId == 340) {
+                int length = 120;
+                string end = "...'";
+                if (argument.Length < 120) {
+                    length = argument.Length;
+                    end = "'";
+                }
+                Debug.WriteLine("Received " + msgId + ": '" 
+                                + argument.Substring(0, length) + end);
+            } else if (msgId != 320 && msgId != 321 
+                            && msgId != 410 && msgId != 411)
+                Debug.WriteLine("Received " + msgId + ": '" 
+                                + argument + "'");
+
             switch (msgId)
             {
                 case 200:

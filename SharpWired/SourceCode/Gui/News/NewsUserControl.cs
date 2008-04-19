@@ -124,12 +124,21 @@ namespace SharpWired.Gui.News
         /// Inits the news class
         /// </summary>
         /// <param name="logicManager"></param>
-        public void Init(LogicManager logicManager)
-        {
+        public void Init(LogicManager logicManager) {
             this.logicManager = logicManager;
 
+            logicManager.LoggedIn += OnLoggedIn;
+            logicManager.LoggedOut += OnLoggedOut;
+        }
+
+        public void OnLoggedIn() {
             logicManager.NewsController.NewsModel.NewsPostedEvent += OnNewsMessageArrived;
             logicManager.NewsController.NewsModel.NewsListReplacedEvent += OnNewsListReplaced;
+        }
+
+        public void OnLoggedOut() {
+            logicManager.NewsController.NewsModel.NewsPostedEvent -= OnNewsMessageArrived;
+            logicManager.NewsController.NewsModel.NewsListReplacedEvent -= OnNewsListReplaced;
         }
 
         /// <summary>

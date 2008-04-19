@@ -41,18 +41,20 @@ namespace SharpWired.Gui.Chat
     /// <summary>
     /// The gui class for the user list
     /// </summary>
-    public partial class UserListControl : UserControl
-    {
-        private LogicManager logicManager;
+    public partial class UserListControl : UserControl {
+        #region Fields
+        LogicManager logicManager;
+        UserList userList;
+        #endregion
 
         #region Events
-        delegate void RemoveUserCallback(UserItem removeUser);
-        delegate void AddUserCallback(UserItem newUser);
-        delegate void RedrawUserListCallback(List<UserItem> userList);
+        delegate void RemoveUserCallback(User removeUser);
+        delegate void AddUserCallback(User newUser);
+        delegate void RedrawUserListCallback(List<User> userList);
         #endregion
 
         #region Event listeners
-        void AddUser(UserItem user) {
+        void AddUser(User user) {
             if (this.InvokeRequired) {
                 AddUserCallback ucb = new AddUserCallback(AddUser);
                 this.Invoke(ucb, new object[] { user });
@@ -71,7 +73,7 @@ namespace SharpWired.Gui.Chat
             }
         }
 
-        void UpdateUser(UserItem user) {
+        void UpdateUser(User user) {
             if (this.InvokeRequired) {
                 AddUserCallback ucb = new AddUserCallback(UpdateUser);
                 this.Invoke(ucb, new object[] { user });
@@ -87,7 +89,7 @@ namespace SharpWired.Gui.Chat
             }
         }
 
-        void RemoveUser(UserItem user) {
+        void RemoveUser(User user) {
             if (this.InvokeRequired) {
                 AddUserCallback ucb = new AddUserCallback(RemoveUser);
                 this.Invoke(ucb, new object[] { user });
@@ -99,7 +101,7 @@ namespace SharpWired.Gui.Chat
             }
         }
 
-        private WiredListViewItem FindUserById(UserItem user) {
+        private WiredListViewItem FindUserById(User user) {
             ListView.ListViewItemCollection items = this.userListView.Items;
             WiredListViewItem u = null;
             foreach (WiredListViewItem wli in items)
@@ -109,20 +111,20 @@ namespace SharpWired.Gui.Chat
             return u;
         }
 
-        public void OnConnected() {
-            userModel.ClientJoined += AddUser;
-            userModel.ClientLeft += RemoveUser;
+        public void OnLoggedIn() {
+            this.userList = logicManager.Server.PublicChat.Users;
+
+            userList.ClientJoined += AddUser;
+            userList.ClientLeft += RemoveUser;
         }
 
-        public void OnDisconnected() {
-            userModel.ClientJoined += AddUser;
-            userModel.ClientLeft += RemoveUser;
+        public void OnLoggedOut() {
+            userList.ClientJoined -= AddUser;
+            userList.ClientLeft -= RemoveUser;
+            userListView.Clear();
         }
 
-        //TODO Remove!
-        UserModel userModel;
         public void Init(LogicManager logicManager) {
-            this.userModel = logicManager.UserController.UserModel;
             this.logicManager = logicManager;
         }
 

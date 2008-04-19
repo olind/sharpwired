@@ -24,57 +24,16 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections;
-using SharpWired.MessageEvents;
-using SharpWired.Connection;
-using SharpWired.Model.Users;
-
-namespace SharpWired.Controller
-{
+namespace SharpWired.Controller {
     /// <summary>
     /// This class represents the users connected to the chat. If this chat is the public chat, 
     /// it represents the users connected to the server, if it is a private chat it represents
     /// the users available in that chat.
     /// </summary>
-    public class UserController : ControllerBase
-    {
-
-        #region Variables
-        private UserModel userModel;
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// Get the user model
-        /// </summary>
-        public UserModel UserModel {
-            get { return userModel; }
-        }
-        #endregion
-
-        #region Initialization
+    public class UserController : ControllerBase {
         /// <summary>
         /// Constructor
         /// </summary>
-        public UserController(LogicManager logicManager) : base(logicManager) {
-            this.userModel = new UserModel();
-            Messages m = logicManager.ConnectionManager.Messages;
-
-            //Attach the events with the model listener methods
-            m.StatusChangeEvent += userModel.OnStatusChangedMessage;
-            m.ClientImageChangedEvent += userModel.OnClientImageChangedMessage;
-            m.ClientInformationEvent += userModel.OnClientInformationMessage;
-            m.ClientJoinEvent += userModel.OnClientJoinMessage;
-            m.UserListEvent += userModel.OnUserListMessage;
-            m.ClientLeaveEvent += userModel.OnClientLeaveMessage;
-            m.ClientKickedEvent += userModel.OnClientKickedMessage;
-            m.ClientBannedEvent += userModel.OnClientBannedMessage;
-            m.PrivilegesSpecificationEvent += userModel.OnPrivilegesSpecificationMessage;
-        }
-
-        #endregion
+        public UserController(LogicManager logicManager) : base(logicManager) { }
     }
 }

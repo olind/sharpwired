@@ -37,7 +37,34 @@ namespace SharpWired.Gui.Chat {
     /// Provides methods for sending to model layer.
     /// </summary>
     public class GuiChatController {
-        private LogicManager logicManager;
+        #region Fields
+        LogicManager logicManager;
+        ChatControl chatControl;
+        UserListControl userListControl;
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="logicManager"></param>
+        /// <param name="chatControl"></param>
+        /// <param name="userListControl"></param>
+        public GuiChatController(LogicManager logicManager,
+            ChatControl chatControl, UserListControl userListControl) {
+            this.logicManager = logicManager;
+            this.chatControl = chatControl;
+            this.userListControl = userListControl;
+
+            chatControl.Init(this, 1); //Set id to 1 since this is public chat.
+
+            logicManager.LoggedIn += OnLoggedIn;
+            logicManager.LoggedOut += OnLoggedOut;
+            //This is done here since userListControl doesn't have access to logicManager
+            logicManager.LoggedIn += userListControl.OnLoggedIn;
+            logicManager.LoggedOut += userListControl.OnLoggedOut;
+        }
+        #endregion
 
         /// <summary>
         /// Change the topic
@@ -55,27 +82,23 @@ namespace SharpWired.Gui.Chat {
             logicManager.ChatController.SendChatMessage(message);
         }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="logicManager"></param>
-        /// <param name="chatControl"></param>
-        /// <param name="userListControl"></param>
-        public GuiChatController(LogicManager logicManager, 
-            ChatControl chatControl, UserListControl userListControl) {
-            this.logicManager = logicManager;
-
-            chatControl.Init(this, 1); //Set id to 1 since this is public chat.
-
+        public void OnLoggedIn() {
             userListControl.Init(logicManager);
-            userListControl.OnConnected();
 
             //attach listeners in gui classes
-            logicManager.ChatController.ChatModel.ChatMessageReceivedEvent += chatControl.OnChatMessageArrived;
-            logicManager.ChatController.ChatModel.ChatTopicChangedEvent += chatControl.OnChatTopicChanged;
+            logicManager.Server.PublicChat.ChatMessageReceivedEvent += chatControl.OnChatMessageArrived;
+            logicManager.Server.PublicChat.ChatTopicChangedEvent += chatControl.OnChatTopicChanged;
             logicManager.ErrorController.LoginToServerFailedEvent += chatControl.OnErrorEvent;
             logicManager.PrivateMessagesController.PrivateMessageModel.ReceivedPrivateMessageEvent += chatControl.OnPrivateMessageReceived;
             logicManager.ConnectionManager.Messages.ClientInformationEvent += chatControl.OnUserInformation;
+        }
+
+        public void OnLoggedOut() {
+            logicManager.Server.PublicChat.ChatMessageReceivedEvent -= chatControl.OnChatMessageArrived;
+            logicManager.Server.PublicChat.ChatTopicChangedEvent -= chatControl.OnChatTopicChanged;
+            logicManager.ErrorController.LoginToServerFailedEvent -= chatControl.OnErrorEvent;
+            logicManager.PrivateMessagesController.PrivateMessageModel.ReceivedPrivateMessageEvent -= chatControl.OnPrivateMessageReceived;
+            logicManager.ConnectionManager.Messages.ClientInformationEvent -= chatControl.OnUserInformation;
         }
     }
 }

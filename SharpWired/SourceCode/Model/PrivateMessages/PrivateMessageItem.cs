@@ -36,14 +36,14 @@ namespace SharpWired.Model.PrivateMessages
     /// </summary>
     public class PrivateMessageItem
     {
-        private UserItem userItem;
+        private User userItem;
         private string message;
         private DateTime timeStamp;
 
         /// <summary>
         /// Get the user sending or receiving this message
         /// </summary>
-        public UserItem UserItem
+        public User UserItem
         {
             get { return userItem; }
         }
@@ -69,7 +69,7 @@ namespace SharpWired.Model.PrivateMessages
         /// <summary>
         /// Constructor
         /// </summary>
-        public PrivateMessageItem(UserItem user, String message)
+        public PrivateMessageItem(User user, String message)
         {
             this.userItem = user;
             this.message = message;

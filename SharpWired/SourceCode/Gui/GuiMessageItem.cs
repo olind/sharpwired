@@ -27,12 +27,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SharpWired.Model.Chat;
+using SharpWired.Model.Messaging;
 using SharpWired.Model.Users;
 using SharpWired.Connection.Bookmarks;
 using SharpWired.Model.PrivateMessages;
 using System.Web;
 using SharpWired.Model.News;
+using SharpWired.MessageEvents;
 
 namespace SharpWired.Gui {
     /// <summary>
@@ -116,12 +117,12 @@ namespace SharpWired.Gui {
         /// Creates a HTML writable object from a ChatTopicItem
         /// </summary>
         /// <param name="item"></param>
-        public GuiMessageItem(ChatTopicItem item) {
+        public GuiMessageItem(MessageEventArgs_341 messageArgs) {
             messageType = "topicEntry";
 
-            timeStamp = item.MessageEventArgs.Time;
-            nickName = item.MessageEventArgs.Nick;
-            message = item.MessageEventArgs.Topic;
+            timeStamp = messageArgs.Time;
+            nickName = messageArgs.Nick;
+            message = messageArgs.Topic;
         }
 
         /// <summary>

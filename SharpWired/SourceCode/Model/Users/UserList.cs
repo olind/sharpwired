@@ -24,9 +24,8 @@
  */
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.Text;
+using SharpWired.Connection;
 using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.Users
@@ -34,10 +33,29 @@ namespace SharpWired.Model.Users
     /// <summary>
     /// Represents a user
     /// </summary>
-    public class UserModel {
+    public class UserList {
 
-        #region Variables
-        private List<UserItem> userList;
+        #region Fields
+        private List<User> userList;
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public UserList(Messages m) {
+            this.userList = new List<User>();
+
+            m.StatusChangeEvent += OnStatusChangedMessage;
+            m.ClientImageChangedEvent += OnClientImageChangedMessage;
+            m.ClientInformationEvent += OnClientInformationMessage;
+            m.ClientJoinEvent += OnClientJoinMessage;
+            m.UserListEvent += OnUserListMessage;
+            m.ClientLeaveEvent += OnClientLeaveMessage;
+            m.ClientKickedEvent += OnClientKickedMessage;
+            m.ClientBannedEvent += OnClientBannedMessage;
+            m.PrivilegesSpecificationEvent += OnPrivilegesSpecificationMessage;
+        }
         #endregion
 
         #region Properties
@@ -46,12 +64,12 @@ namespace SharpWired.Model.Users
         /// NOTE! Since we pass a copy of the list editing the content of 
         /// this list outside this class will have no effect.
         /// </summary>
-        public List<UserItem> UserList {
-            get { return new List<UserItem>(userList); }
+        public List<User> Users {
+            get { return new List<User>(userList); }
         }
         #endregion
 
-        #region Handler methods to be called when a message is received from connection layer
+        #region Events & Listeners
         /// <summary>
         /// Changes the status for the user in the given message.
         /// Call this method when a Status Changed Message (304) is 
@@ -59,7 +77,7 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnStatusChangedMessage(MessageEventArgs_304 message) {
-            UserItem u = this.GetUser(message.UserId);
+            User u = this.GetUser(message.UserId);
             if (u != null) {
                 u.OnStatusChangedMessage(message);
             }
@@ -72,7 +90,7 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnClientInformationMessage(MessageEventArgs_308 message) {
-            UserItem u = this.GetUser(message.UserId);
+            User u = this.GetUser(message.UserId);
             if (u != null)
                 u.OnClientInformationMessage(message);
         }
@@ -84,7 +102,7 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnClientImageChangedMessage(MessageEventArgs_340 message) {
-            UserItem u = this.GetUser(message.UserId);
+            User u = this.GetUser(message.UserId);
             if (u != null)
                 u.OnClientImageChangedMessage(message);
         }
@@ -98,11 +116,11 @@ namespace SharpWired.Model.Users
         /// <param name="message"></param>
         public void OnClientJoinMessage(MessageEventArgs_302310 message) {
             if (!this.UserExists(message.UserId)) {
-                UserItem newUser = new UserItem(message);
+                User newUser = new User(message);
                 this.userList.Add(newUser);
                 this.ClientJoined(newUser);
             } else {
-                UserItem u = this.GetUser(message.UserId);
+                User u = this.GetUser(message.UserId);
                 if (u != null)
                     u.UpdateUserInformation(message);
             }
@@ -115,7 +133,7 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnClientLeaveMessage(MessageEventArgs_303331332 message) {
-            UserItem user = GetUser(message.UserId);
+            User user = GetUser(message.UserId);
             if (user != null) {
                 this.userList.Remove(user);
                 this.ClientLeft(user);
@@ -130,7 +148,7 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnClientKickedMessage(MessageEventArgs_306307 message) {
-            UserItem user = GetUser(message.Victim);
+            User user = GetUser(message.Victim);
             if (user != null) {
                 this.userList.Remove(user);
                 this.ClientLeft(user); //TODO: Send a message for why this user was kicked
@@ -145,7 +163,7 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnClientBannedMessage(MessageEventArgs_306307 message) {
-            UserItem user = GetUser(message.Victim);
+            User user = GetUser(message.Victim);
             if (user != null) {
                 this.userList.Remove(user);
                 this.ClientLeft(user); //TODO: Send a message for why this user was banned
@@ -162,11 +180,13 @@ namespace SharpWired.Model.Users
         /// <param name="message"></param>
         public void OnUserListMessage(MessageEventArgs_302310 message) {
             if (!this.UserExists(message.UserId)) {
-                UserItem newUser = new UserItem(message);
+                User newUser = new User(message);
                 this.userList.Add(newUser);
-                this.ClientJoined(newUser);
+
+                if (ClientJoined != null)
+                    this.ClientJoined(newUser);
             } else {
-                UserItem u = this.GetUser(message.UserId);
+                User u = this.GetUser(message.UserId);
                 if (u != null)
                     u.UpdateUserInformation(message);
             }
@@ -177,19 +197,16 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnPrivilegesSpecificationMessage(MessageEventArgs_602 message) {
-            UserItem u = this.GetUser(message.Privileges.UserName);
+            User u = this.GetUser(message.Privileges.UserName);
             if (u != null)
                 u.OnPrivilegesSpecificationMessage(message);
         }
 
-        #endregion 
-
-        #region User list Events - Usage: listen from GUI for changes in model
         /// <summary>
         /// Delegate for a user join event
         /// </summary>
         /// <param name="user"></param>
-        public delegate void ClientJoinDelegate(UserItem user);
+        public delegate void ClientJoinDelegate(User user);
         /// <summary>
         /// Notifies when a user joined this user list
         /// </summary>
@@ -198,21 +215,21 @@ namespace SharpWired.Model.Users
         /// Delegate for ClientLeft event
         /// </summary>
         /// <param name="user"></param>
-        public delegate void ClientLeaveDelegate(UserItem user);
+        public delegate void ClientLeaveDelegate(User user);
         /// <summary>
         /// Notifies when a user has left this user list
         /// </summary>
         public event ClientLeaveDelegate ClientLeft;
         #endregion
 
-        #region Methods for finding users in the list
+        #region Methods
         /// <summary>
         /// Gets the user with the given user id
         /// </summary>
         /// <param name="userId">The UserId for the searched user</param>
         /// <returns>The UserItem with the given user name, null if no user is found</returns>
-        public UserItem GetUser(int userId) {
-            foreach (UserItem u in userList) {
+        public User GetUser(int userId) {
+            foreach (User u in userList) {
                 if (userId == u.UserId)
                     return u;
             }
@@ -224,8 +241,8 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="login">The login for the searched user</param>
         /// <returns>The UserItem with the given user name, null if no user is found</returns>
-        public UserItem GetUser(string login) {
-            foreach (UserItem u in userList) {
+        public User GetUser(string login) {
+            foreach (User u in userList) {
                 if (login == u.Login)
                     return u;
             }
@@ -237,8 +254,8 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="nick">The nick for the searched user</param>
         /// <returns>The UserItem with the given nick, null if no user was found</returns>
-        public UserItem GetUserByNick(string nick) {
-            foreach (UserItem u in userList) {
+        public User GetUserByNick(string nick) {
+            foreach (User u in userList) {
                 if (nick == u.Nick)
                     return u;
             }
@@ -252,20 +269,11 @@ namespace SharpWired.Model.Users
         /// <returns>True if the user exists, false otherwise</returns>
         private bool UserExists(int userId) {
             bool userExists = false;
-            foreach (UserItem user in userList) {
+            foreach (User user in userList) {
                 if (userId == user.UserId)
                     userExists = true;
             }
             return userExists;
-        }
-        #endregion
-
-        #region Initialization
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public UserModel() {
-            this.userList = new List<UserItem>();
         }
         #endregion
     }

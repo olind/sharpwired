@@ -102,8 +102,7 @@ namespace SharpWired.Controller
 
         #region Initialization
 
-        public override void OnConnected() {
-            base.OnConnected();
+        public void OnConnected() {
             Messages.NewsDoneEvent += Messages_NewsDoneEvent;
             Messages.NewsEvent += Messages_NewsEvent;
             Messages.NewsPostedEvent += Messages_NewsPostedEvent;
@@ -111,8 +110,7 @@ namespace SharpWired.Controller
             ReloadNewsFromServer();
         }
 
-        public override void OnDisconnected() {
-            base.OnDisconnected();
+        public void OnDisconnected() {
             Messages.NewsDoneEvent -= Messages_NewsDoneEvent;
             Messages.NewsEvent -= Messages_NewsEvent;
             Messages.NewsPostedEvent -= Messages_NewsPostedEvent;
@@ -121,6 +119,9 @@ namespace SharpWired.Controller
         public NewsController(LogicManager logicManager): base(logicManager) {
             newsModel = new NewsModel(logicManager);
             newsListObjects = new List<NewsObject>();
+
+            logicManager.LoggedIn += OnConnected;
+            logicManager.LoggedOut += OnDisconnected;
         }
 
         #endregion

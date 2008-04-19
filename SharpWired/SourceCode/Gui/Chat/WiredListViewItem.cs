@@ -6,19 +6,19 @@ using SharpWired.Model.Users;
 
 namespace SharpWired.Gui.Chat {
     class WiredListViewItem : ListViewItem {
-        private UserItem userItem;
+        private User userItem;
 
-        public UserItem UserItem {
+        public User UserItem {
             get { return userItem; }
             set { userItem = value; }
         }
 
-        public WiredListViewItem(UserItem user, string nick, string imageIndex) 
+        public WiredListViewItem(User user, string nick, string imageIndex) 
             : base(nick, imageIndex) {
             this.UserItem = user;
         }
 
-        public WiredListViewItem(UserItem user, string[] subItems, string imageKey)
+        public WiredListViewItem(User user, string[] subItems, string imageKey)
             : base( subItems, imageKey) { 
             this.UserItem = user;
         }

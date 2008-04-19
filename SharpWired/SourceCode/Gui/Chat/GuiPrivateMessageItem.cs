@@ -35,13 +35,13 @@ namespace SharpWired.Gui.Chat
     /// </summary>
     public class GuiPrivateMessageItem
     {
-        private UserItem toUser = null;
+        private User toUser = null;
         private string message = "";
 
         /// <summary>
         /// Gets the user who should receive the message
         /// </summary>
-        public UserItem ToUser
+        public User ToUser
         {
             get { return toUser; }
         }
@@ -75,7 +75,7 @@ namespace SharpWired.Gui.Chat
 
             //TODO: Error handling
             string searchedNick = message.Substring(f + 1, (l - f - 1));
-            this.toUser = logicManager.UserController.UserModel.GetUserByNick(searchedNick);
+            this.toUser = logicManager.Server.PublicChat.Users.GetUserByNick(searchedNick);
             this.message = message.Substring(l + 1).Trim();
         }
     }

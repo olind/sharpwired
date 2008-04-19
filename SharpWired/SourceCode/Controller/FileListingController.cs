@@ -226,16 +226,14 @@ namespace SharpWired.Controller
         #endregion
 
         #region Initialization
-        public override void OnConnected() {
-            base.OnConnected();
+        public void OnConnected() {
             Messages.FileListingEvent += OnFileListingEvent;
             Messages.FileListingDoneEvent += OnFileListingDoneEvent;
 
             this.ReloadFileList();
         }
 
-        public override void OnDisconnected() {
-            base.OnDisconnected();
+        public void OnDisconnected() {
             Messages.FileListingEvent -= OnFileListingEvent;
             Messages.FileListingDoneEvent -= OnFileListingDoneEvent;
         }
@@ -243,6 +241,9 @@ namespace SharpWired.Controller
         public FileListingController(LogicManager logicManager)  : base(logicManager) {
             fileListingModel = new FileListingModel(logicManager);
             fileTreeRootNode = fileListingModel.RootNode;
+
+            logicManager.LoggedIn += OnConnected;
+            logicManager.LoggedOut += OnDisconnected;
         }
         #endregion
     }

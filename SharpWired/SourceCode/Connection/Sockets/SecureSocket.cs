@@ -175,6 +175,12 @@ namespace SharpWired.Connection.Sockets
         public void SendMessage(string message) {
             if (sslStream != null && sslStream.CanWrite)
             {
+
+                if(message.StartsWith("ICON"))
+                    Console.WriteLine("Sending: '" + message.Substring(0, 30) + "...'");
+                else
+                    Console.WriteLine("Sending: '" + message + "'");
+
                 message = message.Replace("\r\n", "\\r\\n");
                 byte[] messsage = Encoding.UTF8.GetBytes(message + Utility.EOT);
                 sslStream.Write(messsage);

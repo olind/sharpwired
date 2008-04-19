@@ -28,24 +28,53 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SharpWired.MessageEvents;
+using SharpWired.Model.Messaging;
 
 namespace SharpWired.Model
 {
     /// <summary>
     /// Represents the connected server
     /// </summary>
-    public class ServerInformation
-    {
-        private MessageEventArgs_200 messageEventArgs;
-        private string appVersion;
-        private int filesCount;
-        private long fileSize;
-        private string protocolVersion;
-        private string serverDescription;
-        private string serverName;
-        private DateTime startTime;
-        private bool connected;
+    public class Server {
+        #region Fields
+        string appVersion;
+        int filesCount;
+        long fileSize;
+        string protocolVersion;
+        string serverDescription;
+        string serverName;
+        DateTime startTime;
+        bool connected;
+        Chat publicChat;
+        LogicManager logicManager;
+        #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Constructor - Empty
+        /// </summary>
+        public Server(LogicManager logicManager, MessageEventArgs_200 message) {
+            this.logicManager = logicManager;
+
+            this.appVersion = message.AppVersion;
+            this.filesCount = message.FilesCount;
+            this.fileSize = message.FilesSize;
+            this.protocolVersion = message.ProtocolVersion;
+            this.serverDescription = message.ServerDescription;
+            this.serverName = message.ServerName;
+            this.startTime = message.StartTime;
+
+            this.publicChat = new Chat(logicManager, 1);
+
+            logicManager.LoggedIn += OnLoggedIn;
+            logicManager.LoggedOut += OnLoggedOut;
+
+            // TODO: If done in OnLoggedIn() creates a race with the GUI.
+            publicChat = new Chat(logicManager, 1); // 1 = public chat
+        }
+        #endregion
+
+        #region Properties
         /// <summary>
         /// Get or set the server app version
         /// </summary>
@@ -109,58 +138,17 @@ namespace SharpWired.Model
             set { startTime = value; }
         }
 
-        /// <summary>
-        /// Get or set the online status
-        /// </summary>
-        public bool Connected
-        {
-            get {
-                if (ServerOnlineStatusChangedEvent != null)
-                {
-                    ServerOnlineStatusChangedEvent(connected);
-                }
-                return connected;
-            }
-            set { 
-                connected = value;
-                if (ServerOnlineStatusChangedEvent != null)
-                {
-                    ServerOnlineStatusChangedEvent(connected);
-                }
-            }
+        public Chat PublicChat {
+            get { return publicChat; }
         }
+        #endregion
 
-        /// <summary>
-        /// Delegate for ServerOnlineStatusChangedEvent
-        /// </summary>
-        /// <param name="connected"></param>
-        public delegate void ServerOnlineStatusChangedDelegate(bool connected);
-        /// <summary>
-        /// Event raised when the server online status changed ie you get connected or disconnected
-        /// </summary>
-        public event ServerOnlineStatusChangedDelegate ServerOnlineStatusChangedEvent;
+        #region Events & Listeners
+        public void OnLoggedIn() { }
 
-        /// <summary>
-        /// Init the server information when we are online
-        /// </summary>
-        /// <param name="messageEventArgs"></param>
-        public void Init(MessageEventArgs_200 messageEventArgs)
-        {
-            this.messageEventArgs = messageEventArgs;
-            this.appVersion = messageEventArgs.AppVersion;
-            this.filesCount = messageEventArgs.FilesCount;
-            this.fileSize = messageEventArgs.FilesSize;
-            this.protocolVersion = messageEventArgs.ProtocolVersion;
-            this.serverDescription = messageEventArgs.ServerDescription;
-            this.serverName = messageEventArgs.ServerName;
-            this.startTime = messageEventArgs.StartTime;
+        public void OnLoggedOut() {
+            publicChat = null;
         }
-
-        /// <summary>
-        /// Constructor - Empty
-        /// </summary>
-        public ServerInformation()
-        {
-        }
+        #endregion
     }
 }

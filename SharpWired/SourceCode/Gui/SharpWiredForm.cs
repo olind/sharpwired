@@ -57,10 +57,9 @@ namespace SharpWired.Gui
         /// <summary>
         /// Constructor
         /// </summary>
-        public SharpWiredForm()
-        {
-            logicManager = new LogicManager();
-            
+        public SharpWiredForm(LogicManager logicManager) {
+            this.logicManager = logicManager;
+
             InitializeComponent();
 
             chatUserControl1.Init(logicManager);
@@ -81,30 +80,22 @@ namespace SharpWired.Gui
 
 			BookmarkManager.GetBookmarks();
 
-            logicManager.ServerInformation.ServerOnlineStatusChangedEvent += new ServerInformation.ServerOnlineStatusChangedDelegate(ServerInformation_ServerOnlineStatusChangedEvent);
+            logicManager.LoggedIn += OnLoggedIn;
+            logicManager.LoggedOut += OnLoggedOut;
         }
 
-        /// <summary>
-        /// The server information was changed
-        /// </summary>
-        /// <param name="connected"></param>
-        void ServerInformation_ServerOnlineStatusChangedEvent(bool connected)
-        {
-            if (connected)
-            {
-                StringBuilder onlineMessage = new StringBuilder();
-                onlineMessage.Append("Connected");
-                if (logicManager.ServerInformation.ServerName != "")
-                {
-                    onlineMessage.Append(" to: " + logicManager.ServerInformation.ServerName);
-                }
+        public void OnLoggedIn() {
+            StringBuilder onlineMessage = new StringBuilder();
+            onlineMessage.Append("Connected");
+            if (logicManager.ServerInformation.ServerName != "") {
+                onlineMessage.Append(" to: " + logicManager.ServerInformation.ServerName);
+            }
 
-                UpdateToolStripText(onlineMessage.ToString());
-            }
-            else
-            {
-                UpdateToolStripText("Disconnected");
-            }
+            UpdateToolStripText(onlineMessage.ToString());
+        }
+
+        public void OnLoggedOut() {
+            UpdateToolStripText("Disconnected");
         }
 
         private void Exit(object sender)
