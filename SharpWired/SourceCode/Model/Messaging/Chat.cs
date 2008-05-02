@@ -34,6 +34,7 @@ namespace SharpWired.Model.Messaging {
     /// The model that the gui can listen to for changes in the chat
     /// </summary>
     public class Chat {
+
         #region Fields
         LogicManager logicManager;
         int chatId;
@@ -47,6 +48,7 @@ namespace SharpWired.Model.Messaging {
         /// Constructor
         /// </summary>
         /// <param name="logicManager"></param>
+        /// <param name="chatId"></param>
         public Chat(LogicManager logicManager, int chatId) {
             Messages m = logicManager.ConnectionManager.Messages;
 
@@ -81,7 +83,7 @@ namespace SharpWired.Model.Messaging {
         /// <summary>
         /// Delegate for the ChatTopicChangedEvent
         /// </summary>
-        /// <param name="chatTopicObject"></param>
+        /// <param name="message"></param>
         public delegate void ChatTopicChangedDelegate(MessageEventArgs_341 message);
         /// <summary>
         /// Event that's raised when the chat topic has been changed

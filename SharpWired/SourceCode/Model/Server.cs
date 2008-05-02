@@ -44,8 +44,8 @@ namespace SharpWired.Model
         string serverDescription;
         string serverName;
         DateTime startTime;
-        bool connected;
         Chat publicChat;
+        SharpWired.Model.News.News news;
         LogicManager logicManager;
         #endregion
 
@@ -64,13 +64,12 @@ namespace SharpWired.Model
             this.serverName = message.ServerName;
             this.startTime = message.StartTime;
 
-            this.publicChat = new Chat(logicManager, 1);
-
             logicManager.LoggedIn += OnLoggedIn;
             logicManager.LoggedOut += OnLoggedOut;
 
             // TODO: If done in OnLoggedIn() creates a race with the GUI.
             publicChat = new Chat(logicManager, 1); // 1 = public chat
+            news = new SharpWired.Model.News.News(logicManager);
         }
         #endregion
 
@@ -138,8 +137,18 @@ namespace SharpWired.Model
             set { startTime = value; }
         }
 
+        /// <summary>
+        /// Get the public chat for this server
+        /// </summary>
         public Chat PublicChat {
             get { return publicChat; }
+        }
+
+        /// <summary>
+        /// Get the news for this server
+        /// </summary>
+        public SharpWired.Model.News.News News {
+            get { return news; }
         }
         #endregion
 
@@ -148,6 +157,7 @@ namespace SharpWired.Model
 
         public void OnLoggedOut() {
             publicChat = null;
+            news = null;
         }
         #endregion
     }

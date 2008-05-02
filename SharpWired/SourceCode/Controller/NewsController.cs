@@ -30,100 +30,34 @@ using System.Text;
 using SharpWired.Connection;
 using SharpWired.Model.News;
 
-namespace SharpWired.Controller
-{
+namespace SharpWired.Controller {
     /// <summary>
     /// Model representation of the news
     /// </summary>
-    public class NewsController : ControllerBase
-    {
-        private NewsModel newsModel;
-        /// <summary>
-        /// Used to stack all news objects until we receive a NewsDoneEvent
-        /// </summary>
-        private List<NewsObject> newsListObjects;
-
-        #region Properties
-
-        /// <summary>
-        /// Get the news model
-        /// </summary>
-        public NewsModel NewsModel
-        {
-            get { return newsModel; }
+    public class NewsController : ControllerBase {
+        #region Constructor
+        public NewsController(LogicManager logicManager) 
+                : base(logicManager) {
+            ReloadNewsFromServer();
         }
-
         #endregion
 
-        #region Sending to commands layer
-
+        #region Methods
         /// <summary>
         /// Send a post message to the server
         /// </summary>
         /// <param name="newsMessage"></param>
-        public void PostNewsMessage(string newsMessage)
-        {
-            this.LogicManager.ConnectionManager.Commands.Post(newsMessage);
+        public void PostNewsMessage(string newsMessage) {
+            //TODO: Check permissions before posting news
+            Commands.Post(newsMessage);
         }
 
         /// <summary>
         /// Refresh the news from the server
         /// </summary>
-        public void ReloadNewsFromServer()
-        {
-            this.LogicManager.ConnectionManager.Commands.News();
+        public void ReloadNewsFromServer() {
+            Commands.News();
         }
-
-        #endregion
-
-        #region Listeners from messages layer
-
-        void Messages_NewsPostedEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_320322 messageEventArgs)
-        {
-            // Asyncronomysly when a new post is posted
-            NewsObject n = new NewsObject(messageEventArgs);
-            newsModel.AddNewsPost(n);
-        }
-
-        void Messages_NewsEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_320322 messageEventArgs)
-        {
-            // Run when we issue the NEWS command
-            NewsObject n = new NewsObject(messageEventArgs);
-            newsListObjects.Add(n);
-        }
-
-        void Messages_NewsDoneEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_Messages messageEventArgs)
-        {
-            newsModel.ReplaceNewsList(newsListObjects);
-            newsListObjects.Clear();          
-        }
-
-        #endregion
-
-        #region Initialization
-
-        public void OnConnected() {
-            Messages.NewsDoneEvent += Messages_NewsDoneEvent;
-            Messages.NewsEvent += Messages_NewsEvent;
-            Messages.NewsPostedEvent += Messages_NewsPostedEvent;
-
-            ReloadNewsFromServer();
-        }
-
-        public void OnDisconnected() {
-            Messages.NewsDoneEvent -= Messages_NewsDoneEvent;
-            Messages.NewsEvent -= Messages_NewsEvent;
-            Messages.NewsPostedEvent -= Messages_NewsPostedEvent;
-        }
-
-        public NewsController(LogicManager logicManager): base(logicManager) {
-            newsModel = new NewsModel(logicManager);
-            newsListObjects = new List<NewsObject>();
-
-            logicManager.LoggedIn += OnConnected;
-            logicManager.LoggedOut += OnDisconnected;
-        }
-
         #endregion
     }
 }

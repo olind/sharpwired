@@ -27,89 +27,79 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SharpWired.Connection;
+using SharpWired.MessageEvents;
 
-namespace SharpWired.Model.News
-{
+namespace SharpWired.Model.News {
     /// <summary>
     /// Represents all the news posted on the server
     /// </summary>
-    public class NewsModel
-    {
-        private LogicManager logicManager;
-        private List<NewsObject> newsListObjects;
+    public class News {
 
-        /// <summary>
-        /// Add a new newspost to this model
-        /// </summary>
-        /// <param name="newPost"></param>
-        public void AddNewsPost(NewsObject newPost)
-        {
-            this.newsListObjects.Add(newPost);
-            OnNewsPostedEvent(newPost);
-        }
-
-        /// <summary>
-        /// Replaces the current list of news with the one provided.
-        /// </summary>
-        /// <param name="allNewsObjects"></param>
-        public void ReplaceNewsList(List<NewsObject> allNewsObjects)
-        {
-            this.newsListObjects = allNewsObjects;
-            OnNewsListReplacedEvent(newsListObjects);
-        }
-
-        #region Delegates, events and raiser methods
-
-        /// <summary>
-        /// Delegate for NewsPostEvent 
-        /// </summary>
-        /// <param name="newPost"></param>
-        public delegate void NewsPostedDelegate(NewsObject newPost);
-        /// <summary>
-        /// Delegate for NewsListReplacedEvent
-        /// </summary>
-        /// <param name="newsList"></param>
-        public delegate void NewsListReplacedDelegate(List<NewsObject> newsList);
-        
-        /// <summary>
-        /// Event for new news post
-        /// </summary>
-        public event NewsPostedDelegate NewsPostedEvent;
-        /// <summary>
-        /// Event to update the news listing
-        /// </summary>
-        public event NewsListReplacedDelegate NewsListReplacedEvent;
-
-        private void OnNewsPostedEvent(NewsObject newPost)
-        {
-            if (NewsPostedEvent != null)
-                NewsPostedEvent(newPost);
-        }
-
-        /// <summary>
-        /// Handler for adding the new post to the model
-        /// </summary>
-        /// <param name="newsList"></param>
-        private void OnNewsListReplacedEvent(List<NewsObject> newsList)
-        {
-            if (NewsListReplacedEvent != null)
-                NewsListReplacedEvent(newsList);
-        }
-
+        #region Fields
+        List<NewsPost> newsList = new List<NewsPost>();
         #endregion
 
-        #region Initialization
-
+        #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="logicManager"></param>
-        public NewsModel(LogicManager logicManager)
-        {
-            this.logicManager = logicManager;
-            newsListObjects = new List<NewsObject>();
+        public News(LogicManager logicManager) {
+            Messages m = logicManager.ConnectionManager.Messages;
+            //All three are needed in order to sort the list
+            m.NewsPostedEvent += OnNewsPosted;
+            m.NewsEvent += OnNews;
+            m.NewsDoneEvent += OnNewsDone;
+        }
+        #endregion
+
+        #region Methods
+        void OnNewsPosted(MessageEventArgs_320322 message) {
+            NewsPost n = new NewsPost(message);
+            if (!newsList.Contains(n)) { //TODO: Verify that contains works
+                newsList.Add(n);
+                if (NewsPostedEvent != null)
+                    NewsPostedEvent(n);
+            }
         }
 
+        void OnNews(MessageEventArgs_320322 message) {
+            NewsPost n = new NewsPost(message);
+            if (!newsList.Contains(n)) //TODO: Verify that contains works
+                newsList.Add(n);
+        }
+
+        void OnNewsDone(MessageEventArgs_Messages message) {
+            if (NewsListingDoneEvent != null) {
+                NewsListingDoneEvent(NewsList);
+            }
+        }
+
+        /// <summary>
+        /// Gets the news list. Sorted Descending (e.g. earliest post first).
+        /// </summary>
+        public List<NewsPost> NewsList {
+            get {
+                List<NewsPost> l = new List<NewsPost>(newsList);
+                l.Reverse();
+                return l;
+            }
+        }
+
+        #endregion
+
+        #region Events & Listeners
+        public delegate void NewsPostedDelegate(NewsPost newsPost);
+        public delegate void NewsListingDoneDelegate(List<NewsPost> newsListing);
+        /// <summary>
+        /// Raised when a news post is received from the server
+        /// </summary>
+        public event NewsPostedDelegate NewsPostedEvent;
+        /// <summary>
+        /// Raised when the requested news listing (eg. in respons to NEWS) is done.
+        /// </summary>
+        public event NewsListingDoneDelegate NewsListingDoneEvent;
         #endregion
     }
 }

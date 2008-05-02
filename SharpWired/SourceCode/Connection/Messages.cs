@@ -88,11 +88,11 @@ namespace SharpWired.Connection
         /// 311
         public delegate void UserListDoneEventHandler(object sender, MessageEventArgs_311330 messageEventArgs);
         /// 320
-        public delegate void NewsEventHandler(object sender, MessageEventArgs_320322 messageEventArgs);
+        public delegate void NewsEventHandler(MessageEventArgs_320322 messageEventArgs);
         /// 321
-        public delegate void NewsDoneEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+        public delegate void NewsDoneEventHandler(MessageEventArgs_Messages messageEventArgs);
         /// 322
-        public delegate void NewsPostedEventHandler(object sender, MessageEventArgs_320322 messageEventArgs);
+        public delegate void NewsPostedEventHandler(MessageEventArgs_320322 messageEventArgs);
         /// 330
         public delegate void PrivateChatCreatedEventHandler(object sender, MessageEventArgs_311330 messageEventArgs);
         /// 331e
@@ -243,7 +243,7 @@ namespace SharpWired.Connection
         /// </summary>
         public event NewsEventHandler NewsEvent;
         /// <summary>
-        /// Event to be notified when a news post done has been received
+        /// Event to be notified when a news post done has been received. In response to comman NEWS.
         /// </summary>
         public event NewsDoneEventHandler NewsDoneEvent;
         /// <summary>
@@ -736,7 +736,7 @@ namespace SharpWired.Connection
 
                 MessageEventArgs_320322 m = new MessageEventArgs_320322(messageId, messageName, nick, postTime, post);
 
-                NewsEvent(this, m);
+                NewsEvent(m);
             }
         }
 
@@ -746,7 +746,7 @@ namespace SharpWired.Connection
             if (NewsDoneEvent != null)
             {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
-                NewsDoneEvent(this, m);
+                NewsDoneEvent(m);
             }
         }
 
@@ -762,7 +762,7 @@ namespace SharpWired.Connection
 
                 MessageEventArgs_320322 m = new MessageEventArgs_320322(messageId, messageName, nick, postTime, post);
 
-                NewsPostedEvent(this, m);
+                NewsPostedEvent(m);
             }
         }
 

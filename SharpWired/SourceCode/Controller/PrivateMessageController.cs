@@ -53,7 +53,7 @@ namespace SharpWired.Controller.PrivateMessages
 
         #region Event Listeners
         void OnPrivateMessageEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_305309 messageEventArgs)  {
-            User u = logicManager.Server.PublicChat.Users.GetUser(messageEventArgs.UserId);
+            User u = LogicManager.Server.PublicChat.Users.GetUser(messageEventArgs.UserId);
             privateMessageModel.AddReceivedPrivateMessage(new PrivateMessageItem(u, messageEventArgs.Message));
         }
         #endregion
@@ -67,7 +67,7 @@ namespace SharpWired.Controller.PrivateMessages
         public void Msg(User user, String message)
         {
             //TODO: Make some error checking (empty message etc)
-            logicManager.ConnectionManager.Commands.Msg(user.UserId, message);
+            LogicManager.ConnectionManager.Commands.Msg(user.UserId, message);
             PrivateMessageItem newSentMessage = new PrivateMessageItem(user, message);
             privateMessageModel.AddSentPrivateMessage(newSentMessage);
         }
@@ -77,8 +77,8 @@ namespace SharpWired.Controller.PrivateMessages
         public void OnConnected() {
             Messages.PrivateMessageEvent += OnPrivateMessageEvent;
 
-            logicManager.LoggedIn += OnConnected;
-            logicManager.LoggedOut += OnDisconnected;
+            LogicManager.LoggedIn += OnConnected;
+            LogicManager.LoggedOut += OnDisconnected;
         }
 
         public void OnDisconnected() {

@@ -56,24 +56,6 @@ namespace SharpWired.Gui.Chat
             }
         }
 
-        #region OBSOLETED
-
-        /// <summary>
-        /// Format HTML for current lag
-        /// </summary>
-        private void FormatAndWriteHTMLForCurrentLag(TimeSpan lag)
-        {
-            string formatedText = this.AltItemBeginningHtml +
-                "<div class=\"infoEntry\">" +
-                    "<div class=\"message\"> Current lag is: " + lag.Seconds + " seconds.</div>" +
-                "</div>" +
-            "</div>";
-
-//            WriteHTMLToChat(formatedText);
-        }
-
-        #endregion
-
         #region Initialization
         /// <summary>
         /// Constructor

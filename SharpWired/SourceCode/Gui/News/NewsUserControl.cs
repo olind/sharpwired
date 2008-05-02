@@ -35,11 +35,11 @@ using SharpWired.Model;
 using SharpWired.Model.News;
 using SharpWired.Model.Users;
 using System.Web;
+using System.Diagnostics;
 
-namespace SharpWired.Gui.News
-{
-    public partial class NewsUserControl : UserControl
-    {
+namespace SharpWired.Gui.News {
+    public partial class NewsUserControl : UserControl {
+        #region Fields
         LogicManager logicManager;
         StringBuilder newsBodyContent = new StringBuilder();
         string newsStyleSheet;
@@ -48,7 +48,38 @@ namespace SharpWired.Gui.News
         string newsFooter;
         string chatCSSFilePath;
         private int altItemCounter;
-        delegate void WriteToNewsCallback(GuiMessageItem guiMessage);
+        #endregion
+
+        #region Constructor + Init
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public NewsUserControl() {
+            InitializeComponent();
+
+            newsStyleSheet = "<link href=\"" + CSSFilePath + "\\GUI\\SharpWiredStyleSheet.css\" rel=\"stylesheet\" type=\"text/css\" />";
+            newsJavaScript = "<script>function pageDown () { if (window.scrollBy) window.scrollBy(0, window.innerHeight ? window.innerHeight : document.body.clientHeight); }</script>";
+
+            newsHeader = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" +
+                "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">" +
+                "<head><title>SharpWired</title>" +
+                    newsJavaScript +
+                    newsStyleSheet +
+                "</head><body onload=\"pageDown(); return false;\">";
+
+            newsFooter = "</body></html>";
+            newsWebBrowser.DocumentText = newsHeader + newsFooter;
+        }
+        /// <summary>
+        /// Inits the news class - Call when logged in correctly
+        /// </summary>
+        /// <param name="logicManager"></param>
+        public void Init(LogicManager logicManager) {
+            this.logicManager = logicManager;
+            logicManager.LoggedIn += OnLoggedIn;
+            logicManager.LoggedOut += OnLoggedOut;
+        }
+        #endregion
 
         #region Properties
         /// <summary>
@@ -78,89 +109,58 @@ namespace SharpWired.Gui.News
         }
         #endregion
 
-        void OnNewsListReplaced(List<NewsObject>  newsList) {
-            List<SharpWired.Model.News.NewsObject> reversedNewsList = newsList;
-            reversedNewsList.Reverse();
-            foreach (NewsObject n in reversedNewsList) {
-                OnNewsMessageArrived(n);
-            }
-        }
-
-        void OnNewsMessageArrived(NewsObject newPost) {
-            GuiMessageItem m = new GuiMessageItem(newPost);
-            WriteHTMLToNews(m);
-        }
-
-        # region Send news messages
+        # region Methods: Sending messages
         private void postNewsButton_Click(object sender, EventArgs e) {
             string text = this.postNewsTextBox.Text.Trim();
-            if (text.Length > 0) {
+            if (text.Length > 0)
                 logicManager.ConnectionManager.Commands.Post(this.postNewsTextBox.Text);
-            }
             postNewsTextBox.Clear();
         }
         #endregion
 
+        #region Methods: Receiving messages
         /// <summary>
         /// Writes the HTML-formated string to the GUI
         /// </summary>
         /// <param name="guiMessage"></param>
         private void WriteHTMLToNews(GuiMessageItem guiMessage) {
             if (this.InvokeRequired) {
-                WriteToNewsCallback writeToNewsCallback = 
+                WriteToNewsCallback writeToNewsCallback =
                     new WriteToNewsCallback(WriteHTMLToNews);
                 this.Invoke(writeToNewsCallback, new object[] { guiMessage });
             } else {
                 newsBodyContent.Append(this.AltItemBeginningHtml);
                 newsBodyContent.Append(guiMessage.GeneratedHTML);
                 newsBodyContent.Append("</div>");
-                newsWebBrowser.DocumentText = newsHeader + 
+                newsWebBrowser.DocumentText = newsHeader +
                     newsBodyContent + newsFooter;
             }
         }
 
-        #region Initialization
-        /// <summary>
-        /// Inits the news class
-        /// </summary>
-        /// <param name="logicManager"></param>
-        public void Init(LogicManager logicManager) {
-            this.logicManager = logicManager;
-
-            logicManager.LoggedIn += OnLoggedIn;
-            logicManager.LoggedOut += OnLoggedOut;
+        void OnNewsListingDone(List<NewsPost> newsList) {
+            foreach (NewsPost n in newsList) {
+                GuiMessageItem m = new GuiMessageItem(n);
+                WriteHTMLToNews(m);
+            }
         }
 
-        public void OnLoggedIn() {
-            logicManager.NewsController.NewsModel.NewsPostedEvent += OnNewsMessageArrived;
-            logicManager.NewsController.NewsModel.NewsListReplacedEvent += OnNewsListReplaced;
+        void OnNewsPostReceived(NewsPost newPost) {
+            GuiMessageItem m = new GuiMessageItem(newPost);
+            WriteHTMLToNews(m);
         }
+        #endregion
 
-        public void OnLoggedOut() {
-            logicManager.NewsController.NewsModel.NewsPostedEvent -= OnNewsMessageArrived;
-            logicManager.NewsController.NewsModel.NewsListReplacedEvent -= OnNewsListReplaced;
+        #region Events & Listeners
+        delegate void WriteToNewsCallback(GuiMessageItem guiMessage);
+
+        void OnLoggedIn() {
+            logicManager.Server.News.NewsPostedEvent += OnNewsPostReceived;
+            logicManager.Server.News.NewsListingDoneEvent += OnNewsListingDone;
+
         }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public NewsUserControl()
-        {
-            InitializeComponent();
-
-            newsStyleSheet = "<link href=\"" + CSSFilePath + "\\GUI\\SharpWiredStyleSheet.css\" rel=\"stylesheet\" type=\"text/css\" />";
-            newsJavaScript = "<script>function pageDown () { if (window.scrollBy) window.scrollBy(0, window.innerHeight ? window.innerHeight : document.body.clientHeight); }</script>";
-
-            newsHeader = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" +
-                "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">" +
-                "<head><title>SharpWired</title>" +
-                    newsJavaScript +
-                    newsStyleSheet +
-                "</head><body onload=\"pageDown(); return false;\">";
-
-            newsFooter = "</body></html>";
-
-            newsWebBrowser.DocumentText = newsHeader + newsFooter;
+        void OnLoggedOut() {
+            logicManager.Server.News.NewsPostedEvent -= OnNewsPostReceived;
+            logicManager.Server.News.NewsListingDoneEvent += OnNewsListingDone;
         }
         #endregion
     }

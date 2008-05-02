@@ -149,8 +149,7 @@ namespace SharpWired {
 
         void OnLoggedIn(object sender, MessageEventArgs_201 messageEventArgs) {
             //TODO: We shouldn't set the user icon here but instead have
-            //      some user object so we can change the icon. Maybe by setting the
-            //      icon on the bookmark.
+            //      some user object so we can change the icon.
             SharpWired.Gui.Resources.Icons.IconHandler iconHandler = new SharpWired.Gui.Resources.Icons.IconHandler();
             connectionManager.Commands.Icon(1, iconHandler.UserImage);
 

@@ -35,7 +35,7 @@ namespace SharpWired.Gui.Chat {
         /// <summary>
         /// Formats and writes the text on an Chat Event to the GUI
         /// </summary>
-        /// <param name="chatTopicItem"></param>
+        /// <param name="message"></param>
         public void OnChatTopicChanged(MessageEventArgs_341 message) {
             GuiMessageItem guiMessage = new GuiMessageItem(message);
             ChangeTopic(guiMessage);

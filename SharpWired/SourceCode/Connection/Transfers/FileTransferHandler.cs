@@ -54,11 +54,11 @@ namespace SharpWired.Connection.Transfers
 				}
 			}
 
-			#region Attach event listeners.
-			logicManager.ConnectionManager.Messages.TransferReadyEvent += new Messages.TransferReadyEventHandler(Messages_TransferReadyEvent);
-			logicManager.ConnectionManager.Messages.TransferQueuedEvent += new Messages.TransferQueuedEventHandler(Messages_TransferQueuedEvent);
-			logicManager.ConnectionManager.Messages.FileOrDirectoryNotFoundEvent += new Messages.FileOrDirectoryNotFoundEventHandler(Messages_FileOrDirectoryNotFoundEvent);
-			logicManager.ConnectionManager.Messages.QueueLimitExceededEvent += new Messages.QueueLimitExceededEventHandler(Messages_QueueLimitExceededEvent);
+			#region Attach event listeners
+            Messages.TransferReadyEvent += Messages_TransferReadyEvent;
+			Messages.TransferQueuedEvent += Messages_TransferQueuedEvent;
+			Messages.FileOrDirectoryNotFoundEvent += Messages_FileOrDirectoryNotFoundEvent;
+			Messages.QueueLimitExceededEvent += Messages_QueueLimitExceededEvent;
 			#endregion
 		}
 
@@ -158,7 +158,7 @@ namespace SharpWired.Connection.Transfers
 			downloading = true;
 			// NOTE: check server here too.
 			// No offset for now.
-			logicManager.ConnectionManager.Commands.Get(entry.FromLocation, 0);			
+			Commands.Get(entry.FromLocation, 0);			
 		}
 
 		#region Server Message EventHandlers.
@@ -171,7 +171,7 @@ namespace SharpWired.Connection.Transfers
 		{
 			Console.WriteLine("Transfer is ready! File '" + path + "', with ID '" + id + "'.");
 
-			Bookmark currentBookmark = logicManager.ConnectionManager.CurrentBookmark;
+			Bookmark currentBookmark = LogicManager.ConnectionManager.CurrentBookmark;
 
 			DownloadEntry entry = GetDownloadItem(path);
 			mDownloadQueue.Remove(entry);

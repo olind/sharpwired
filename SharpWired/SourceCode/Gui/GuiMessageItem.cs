@@ -116,7 +116,7 @@ namespace SharpWired.Gui {
         /// <summary>
         /// Creates a HTML writable object from a ChatTopicItem
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="messageArgs"></param>
         public GuiMessageItem(MessageEventArgs_341 messageArgs) {
             messageType = "topicEntry";
 
@@ -173,7 +173,7 @@ namespace SharpWired.Gui {
         /// Constructor for news post
         /// </summary>
         /// <param name="newPost"></param>
-        public GuiMessageItem(NewsObject newPost) {
+        public GuiMessageItem(NewsPost newPost) {
             messageType = "newsEntry";
             timeStamp = newPost.PostTime;
             nickName = newPost.Nick;

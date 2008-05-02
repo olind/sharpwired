@@ -36,45 +36,11 @@ namespace SharpWired.Controller
     /// </summary>
     public class ControllerBase
     {
-
-        #region Variables
-		/// <summary>
-		/// TODO: comments. NOTE: This should be protected and not private - right?
-		/// </summary>
-        protected Commands commands;
-
-		/// <summary>
-		/// TODO: comments. NOTE: This should be protected and not private - right?
-		/// </summary>
-        protected LogicManager logicManager;
-
+        #region Fields
+        LogicManager logicManager;
         #endregion
 
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the LogicManager
-        /// </summary>
-        public LogicManager LogicManager {
-            get { return logicManager; }
-        }
-
-        /// <summary>
-        /// Gets or sets the SharpWired.Connection.Commands class
-        /// </summary>
-        public Commands Commands {
-            get { return logicManager.ConnectionManager.Commands; }
-        }
-
-        /// <summary>
-        /// Gets or sets the SharpWired.Connection.Messages class
-        /// </summary>
-        public Messages Messages {
-            get { return logicManager.ConnectionManager.Messages; }
-        }
-
-        #endregion
-
+        #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
@@ -82,5 +48,30 @@ namespace SharpWired.Controller
         public ControllerBase(LogicManager logicManager) {
             this.logicManager = logicManager;
         }
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the LogicManager
+        /// </summary>
+        public LogicManager LogicManager {
+            get { return this.logicManager; }
+        }
+
+        /// <summary>
+        /// Gets the SharpWired.Connection.Commands class
+        /// </summary>
+        public Commands Commands {
+            get { return this.logicManager.ConnectionManager.Commands; }
+        }
+
+        /// <summary>
+        /// Gets the SharpWired.Connection.Messages class
+        /// </summary>
+        public Messages Messages {
+            get { return this.logicManager.ConnectionManager.Messages; }
+        }
+        #endregion
     }
 }

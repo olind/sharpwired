@@ -303,8 +303,8 @@
     <Compile Include="Gui\News\NewsUserControl.Designer.cs">
       <DependentUpon>NewsUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\Resources\Icons\IconHandler.cs" />
-    <Compile Include="Gui\Resources\Icons\IconList.cs" />
+    <Compile Include="Gui\Transfers\Resources\Icons\IconHandler.cs" />
+    <Compile Include="Gui\Transfers\Resources\Icons\IconList.cs" />
     <Compile Include="LogicManager.cs" />
     <Compile Include="Model\Files\FileListingModel.cs" />
     <Compile Include="Model\Files\FileNode.cs" />
@@ -312,8 +312,8 @@
     <Compile Include="Model\Files\FolderNode.cs" />
     <Compile Include="Model\Files\FolderNodeDropBox.cs" />
     <Compile Include="Model\Files\FolderNodeUploads.cs" />
-    <Compile Include="Model\News\NewsModel.cs" />
-    <Compile Include="Model\News\NewsObject.cs" />
+    <Compile Include="Model\News\News.cs" />
+    <Compile Include="Model\News\NewsPost.cs" />
     <Compile Include="Model\PrivateMessages\PrivateMessageItem.cs" />
     <Compile Include="Model\PrivateMessages\PrivateMessageModel.cs" />
     <Compile Include="Model\Server.cs" />
@@ -359,7 +359,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Gui\Transfers\" />
     <Folder Include="Model\Errors\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
