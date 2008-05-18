@@ -238,7 +238,7 @@ namespace SharpWired.Gui.Files
         {
             //TODO: My original idea was to use the addedNodes and update the file tree with those nodes only
             //but that requires a remake of the populateFileTree - functionallity.
-            PopulateFileTree(this.rootTreeView, logicManager.FileListingController.FileListingModel.RootNode);
+            PopulateFileTree(this.rootTreeView, logicManager.Server.FileListingModel.RootNode);
         }
         #endregion
     }

@@ -35,35 +35,29 @@ namespace SharpWired.Controller
     /// <summary>
     /// Handles the local model for all file interactions
     /// </summary>
-    public class FileListingController : ControllerBase
-    {
+    public class FileListingController : ControllerBase {
 
-        #region Variables
-        FileListingModel fileListingModel;
-        private List<FileSystemEntry> recentlyAddedNodes = new List<FileSystemEntry>();
-        #endregion
-
-        #region Properties
-
-        private FolderNode fileTreeRootNode;
-
-        /// <summary>
-        /// Gets the file listing model
-        /// </summary>
-        public FileListingModel FileListingModel
-        {
-            get { return fileListingModel; }
+        #region Constructor
+        public FileListingController(LogicManager logicManager) : base(logicManager) {
+            ReloadFileList();
         }
-	
         #endregion
 
-        #region Methods: Sending to command layer
+        #region Methods
         /// <summary>
         /// Requests a reload of the filelisting from root node on this server.
         /// </summary>
-        public void ReloadFileList()
-        {
+        public void ReloadFileList() {
             ReloadFileList(""); //Reloads from the root directory
+        }
+
+        /// <summary>
+        /// Requests a reload of the filelisting on this server on the given node. 
+        /// Note! Does only reload direct children to this node and not grand childrens etc.
+        /// </summary>
+        /// <param name="node">The node where reloading should be requested.</param>
+        public void ReloadFileList(FolderNode node) {
+            ReloadFileList(node.Path);
         }
 
         /// <summary>
@@ -72,178 +66,18 @@ namespace SharpWired.Controller
         /// requests a reload. NOTE! If the node is not found in the tree we do a reload from the server root.
         /// </summary>
         /// <param name="path">The path node where reloading should be requested.</param>
-        private void ReloadFileList(string path)
-        {
-            FileSystemEntry reloadNode = fileListingModel.GetNode(path, fileListingModel.RootNode);
-            if(reloadNode != null && reloadNode is FolderNode){
+        private void ReloadFileList(string path) {
+            FileListingModel flm = this.LogicManager.Server.FileListingModel;
+            FileSystemEntry reloadNode = flm.GetNode(path, flm.RootNode);
+             if(reloadNode != null && reloadNode is FolderNode) {
                 if (((FolderNode)reloadNode).HasChildren())
-                {
                     (reloadNode as FolderNode).DoneUpdating();
-                }
                 else
-                {
                     this.LogicManager.ConnectionManager.Commands.List(path);
-                }
-            }
-            else if (reloadNode == null)
-            {
-                // To load the initial file list
-                this.LogicManager.ConnectionManager.Commands.List("/");
-            }
-        }
-
-        /// <summary>
-        /// Requests a reload of the filelisting on this server on the given node
-        /// </summary>
-        /// <param name="node">The node where reloading should be requested.</param>
-        public void ReloadFileList(FolderNode node)
-        {
-            ReloadFileList(node.Path);
-        }
-        #endregion
-
-        #region Event Listeners
-        /// <summary>
-        /// A file listing message was received (Listener (from message layer) for FileListingEvents)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="messageEventArgs"></param>
-        void OnFileListingEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_410420 messageEventArgs)
-        {
-            FileSystemEntry newNode;
-            if (messageEventArgs.FileType == "0")
-            {
-                newNode = new FileNode(messageEventArgs);
-            }
-            else if(messageEventArgs.FileType == "1")
-            {
-                newNode = new FolderNode(messageEventArgs);
-            }
-            else if (messageEventArgs.FileType == "2")
-            {
-                newNode = new FolderNodeUploads(messageEventArgs);
-            }
-            else if (messageEventArgs.FileType == "3")
-            {
-                newNode = new FolderNodeDropBox(messageEventArgs);
-            }
-            else
-            {
-                throw new Exception("File or Folder type is not of any recognable type.");
-            }
-
-            // Add the node newNode anywhere below our root node in our file tree
-            this.Add(newNode, fileListingModel.RootNode);
-        }
-
-        /// <summary>
-        /// File listing done message was received
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="messageEventArgs"></param>
-        void OnFileListingDoneEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_411 messageEventArgs)
-        {
-            fileListingModel.FileListingDone(messageEventArgs);
-
-            if (FileModelUpdatedEvent != null && recentlyAddedNodes != null && recentlyAddedNodes.Count > 0)
-            {
-                FileModelUpdatedEvent(recentlyAddedNodes);
-                recentlyAddedNodes.Clear();
-            }
-        }
-
-        /// <summary>
-        /// Delegate for FileModelUpdatedEvent
-        /// </summary>
-        /// <param name="addedNodes"></param>
-        public delegate void FileModelUpdatedDelegate(List<FileSystemEntry> addedNodes);
-        /// <summary>
-        /// Raised when new files are added to the model
-        /// </summary>
-        public event FileModelUpdatedDelegate FileModelUpdatedEvent;
-        #endregion
-
-        #region Edit the file model
-
-        /// <summary>
-        /// Adds the given newNode to the correct location below the given superParentNode.
-        /// 
-        /// Note! If we try to load the content of a foldernode that are below what we have 
-        /// loaded so far we will not add that node to our tree. It might be necessary to load the file
-        ///  tree from the root node since we need to get additional folder information from the server (comments, file size, etc)
-        ///  Example: If we load the folder /Folder1 before we load / we will never add /Folder1
-        /// </summary>
-        /// <param name="newNode">The node to add.</param>
-        /// <param name="superParentNode">The parent or grandparent node where newNode should be added to.</param>
-        /// <param name="depth"></param>
-        /// <returns>True if newNode was added successfully or if the node already existed. False otherwise.</returns>
-        private bool Add(FileSystemEntry newNode, FolderNode superParentNode, int depth)
-        {
-            // We are at the correct location and the node should be added
-            if (superParentNode.Path == newNode.ParentPath)
-            {
-                if (superParentNode.HasChild(newNode))
-                {
-                    if (newNode is FolderNode)
-                        ((FolderNode)newNode).DoneUpdating();
-
-                    return false; //Return false if the file/folder already exists
-                }
-                else
-                {
-                    superParentNode.AddChildren(newNode);
-                    newNode.Parent = superParentNode;
-                    recentlyAddedNodes.Add(newNode);
-                    return true;
-                }
-            }
-
-            // Traverse the tree to find the correct location
-            foreach (FileSystemEntry parent in superParentNode.FolderNodes)
-            {
-                if (parent.PathArray[depth] == newNode.PathArray[depth])
-                {
-                    bool added = Add(newNode, ((FolderNode)parent), depth + 1);
-                    if (added)
-                        return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Add a new node to the corresponding location in the tree
-        /// </summary>
-        /// <param name="newNode">The new node to add</param>
-        /// <param name="superParentNode">A node in the tree where the new node should be added to. 
-        /// Note! New node might be added further down in the tree.</param>
-        /// <returns></returns>
-        public bool Add(FileSystemEntry newNode, FolderNode superParentNode)
-        {
-            return this.Add(newNode, superParentNode, 0);
-        }
-
-        #endregion
-
-        #region Initialization
-        public void OnConnected() {
-            Messages.FileListingEvent += OnFileListingEvent;
-            Messages.FileListingDoneEvent += OnFileListingDoneEvent;
-
-            this.ReloadFileList();
-        }
-
-        public void OnDisconnected() {
-            Messages.FileListingEvent -= OnFileListingEvent;
-            Messages.FileListingDoneEvent -= OnFileListingDoneEvent;
-        }
-
-        public FileListingController(LogicManager logicManager)  : base(logicManager) {
-            fileListingModel = new FileListingModel(logicManager);
-            fileTreeRootNode = fileListingModel.RootNode;
-
-            logicManager.LoggedIn += OnConnected;
-            logicManager.LoggedOut += OnDisconnected;
+             } else if (reloadNode == null) {
+                 // To load the initial file list
+                 this.LogicManager.ConnectionManager.Commands.List("/");
+             }
         }
         #endregion
     }

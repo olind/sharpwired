@@ -183,9 +183,7 @@ namespace SharpWired.Model.Files
         /// <summary>
         /// Constructor - Empty
         /// </summary>
-        public FolderNode()
-        {
-        }
+        public FolderNode() : base() {}
         #endregion
     }
 }

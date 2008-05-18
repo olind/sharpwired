@@ -36,6 +36,7 @@ using System.Security.Authentication;
 
 using SharpWired;
 using System.IO;
+using System.Diagnostics;
 
 namespace SharpWired.Connection.Sockets
 {
@@ -177,9 +178,9 @@ namespace SharpWired.Connection.Sockets
             {
 
                 if(message.StartsWith("ICON"))
-                    Console.WriteLine("Sending: '" + message.Substring(0, 30) + "...'");
+                    Debug.WriteLine("Sending: '" + message.Substring(0, 30) + "...'");
                 else
-                    Console.WriteLine("Sending: '" + message + "'");
+                    Debug.WriteLine("Sending: '" + message + "'");
 
                 message = message.Replace("\r\n", "\\r\\n");
                 byte[] messsage = Encoding.UTF8.GetBytes(message + Utility.EOT);

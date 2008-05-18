@@ -28,6 +28,7 @@ using System.Text;
 using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
+using System.Diagnostics;
 
 namespace SharpWired
 {
@@ -152,12 +153,17 @@ namespace SharpWired
         /// <returns>The given image as a Base64 string</returns>
         public static string BitmapToBase64String(Image image)
         {
-            MemoryStream memory = new MemoryStream();
-            image.Save(memory, ImageFormat.Bmp);
-            string base64 = Convert.ToBase64String(memory.ToArray());
-            memory.Close();
-            memory.Dispose();
-            return base64;
+            if (image != null) {
+                MemoryStream memory = new MemoryStream();
+                image.Save(memory, ImageFormat.Bmp);
+                string base64 = Convert.ToBase64String(memory.ToArray());
+                memory.Close();
+                memory.Dispose();
+                return base64;
+            } else {
+                Debug.WriteLine("Warning: Tried to convert null Bitmap to Base64");
+            }
+            return null;
         }
 
         /// <summary>

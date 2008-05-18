@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SharpWired.MessageEvents;
+using SharpWired.Connection;
 
 namespace SharpWired.Model.Files
 {
@@ -36,28 +37,34 @@ namespace SharpWired.Model.Files
 	/// </summary>
     public class FileListingModel
     {
-
-        #region Variables
-        private LogicManager logicManager;
+        #region Fields
         private FolderNode rootNode;
+        private List<FileSystemEntry> recentlyAddedNodes = new List<FileSystemEntry>();
         #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="logicManager"></param>
+        public FileListingModel(LogicManager logicManager) {
+            Messages m = logicManager.ConnectionManager.Messages;
+            m.FileListingEvent += OnFileListingEvent;
+            m.FileListingDoneEvent += OnFileListingDoneEvent;
+            rootNode = new FolderNode();
+        }
+        #endregion
 
         #region Properties
         /// <summary>
         /// Gets the root node for this file three
         /// </summary>
-        public FolderNode RootNode
-        {
+        public FolderNode RootNode {
             get { return rootNode; }
         }
-
         #endregion
 
-
-		#region Search Node
-
-
+		#region Methods: Search Node
         /// <summary>
         /// Gets the node at the given path.
         /// </summary>
@@ -74,10 +81,8 @@ namespace SharpWired.Model.Files
 		/// <param name="requestedNodePath">The path. Must be not be null or empty.</param>
 		/// <param name="traversingNode">The node from where search should be started</param>
         /// <returns>If the node exists in the model; the node at whe given path nodePath otherwise null</returns>
-        public FileSystemEntry GetNode(string requestedNodePath, FileSystemEntry traversingNode)
-        {
+        public FileSystemEntry GetNode(string requestedNodePath, FileSystemEntry traversingNode) {
 			if (string.IsNullOrEmpty(requestedNodePath))
-				//    throw new ArgumentException("The path for a node must not be null or empty!");
 				return null;
 			
             if (traversingNode.Path == requestedNodePath) //If we are searching for a FileNode this will return
@@ -160,37 +165,112 @@ namespace SharpWired.Model.Files
 		}
 		#endregion
 
-
-		/// <summary>
-        /// Call this method when the file listing is done
+        #region Methods: Edit the model
+        /// <summary>
+        /// Adds the given newNode to the correct location below the given superParentNode.
+        /// 
+        /// Note! If we try to load the content of a foldernode that are below what we have 
+        /// loaded so far we will not add that node to our tree. It might be necessary to load the file
+        ///  tree from the root node since we need to get additional folder information from the server (comments, file size, etc)
+        ///  Example: If we load the folder /Folder1 before we load / we will never add /Folder1
         /// </summary>
-		/// <param name="updatedDoneEventArgs">The update event from server.</param>
-        public void FileListingDone(MessageEventArgs_411 updatedDoneEventArgs)
-        {
-			FileSystemEntry searchedNode = GetNode(updatedDoneEventArgs.Path, (FileSystemEntry)rootNode);
-			if (searchedNode != null)
-			{
-				if (searchedNode is FolderNode)
-					(searchedNode as FolderNode).DoneUpdating();
-			}
-            else
-			{
-				// NOTE: Experimental!
-				rootNode.DoneUpdating();
-			}
-		}
+        /// <param name="newNode">The node to add.</param>
+        /// <param name="superParentNode">The parent or grandparent node where newNode should be added to.</param>
+        /// <param name="depth"></param>
+        /// <returns>True if newNode was added successfully or if the node already existed. False otherwise.</returns>
+        private bool Add(FileSystemEntry newNode, FolderNode superParentNode, int depth) {
+            // We are at the correct location and the node should be added
+            if (superParentNode.Path == newNode.ParentPath) {
+                if (superParentNode.HasChild(newNode)) {
+                    if (newNode is FolderNode)
+                        ((FolderNode)newNode).DoneUpdating();
 
-		#region Initialization
-		/// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="logicManager">The Manager that can call server and more.</param>
-        public FileListingModel(LogicManager logicManager)
-        {
-            this.logicManager = logicManager;
-            rootNode = new FolderNode();
-            rootNode.InitRootNode();
+                    return false; //Return false if the file/folder already exists
+                } else {
+                    superParentNode.AddChildren(newNode);
+                    newNode.Parent = superParentNode;
+                    recentlyAddedNodes.Add(newNode);
+                    return true;
+                }
+            }
+
+            // Traverse the tree to find the correct location
+            foreach (FileSystemEntry parent in superParentNode.FolderNodes) {
+                if (parent.PathArray[depth] == newNode.PathArray[depth]) {
+                    bool added = Add(newNode, ((FolderNode)parent), depth + 1);
+                    if (added)
+                        return true;
+                }
+            }
+            return false;
         }
+
+        /// <summary>
+        /// Add a new node to the corresponding location in the tree
+        /// </summary>
+        /// <param name="newNode">The new node to add</param>
+        /// <param name="superParentNode">A node in the tree where the new node should be added to. 
+        /// Note! New node might be added further down in the tree.</param>
+        /// <returns></returns>
+        public bool Add(FileSystemEntry newNode, FolderNode superParentNode) {
+            return this.Add(newNode, superParentNode, 0);
+        }
+        #endregion
+
+        #region Events & Listeners
+        /// <summary>
+        /// A file listing message was received (Listener (from message layer) for FileListingEvents)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="messageEventArgs"></param>
+        void OnFileListingEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_410420 messageEventArgs) {
+            FileSystemEntry newNode;
+            if (messageEventArgs.FileType == "0") {
+                newNode = new FileNode(messageEventArgs);
+            } else if (messageEventArgs.FileType == "1") {
+                newNode = new FolderNode(messageEventArgs);
+            } else if (messageEventArgs.FileType == "2") {
+                newNode = new FolderNodeUploads(messageEventArgs);
+            } else if (messageEventArgs.FileType == "3") {
+                newNode = new FolderNodeDropBox(messageEventArgs);
+            } else {
+                throw new Exception("File or Folder type is not of any recognable type.");
+            }
+
+            // Add the node newNode anywhere below our root node in our file tree
+            this.Add(newNode, this.rootNode);
+        }
+
+        /// <summary>
+        /// File listing done message was received
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="messageEventArgs"></param>
+        void OnFileListingDoneEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_411 messageEventArgs) {
+            FileSystemEntry searchedNode = GetNode(messageEventArgs.Path, (FileSystemEntry)rootNode);
+            if (searchedNode != null) {
+                if (searchedNode is FolderNode)
+                    (searchedNode as FolderNode).DoneUpdating();
+            } else {
+                // NOTE: Experimental!
+                rootNode.DoneUpdating();
+            }
+
+            if (FileModelUpdatedEvent != null && recentlyAddedNodes != null && recentlyAddedNodes.Count > 0) {
+                FileModelUpdatedEvent(recentlyAddedNodes);
+                recentlyAddedNodes.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Delegate for FileModelUpdatedEvent
+        /// </summary>
+        /// <param name="addedNodes"></param>
+        public delegate void FileModelUpdatedDelegate(List<FileSystemEntry> addedNodes);
+        /// <summary>
+        /// Raised when new files are added to the model
+        /// </summary>
+        public event FileModelUpdatedDelegate FileModelUpdatedEvent;
         #endregion
     }
 }

@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Text;
 using SharpWired.MessageEvents;
 using SharpWired.Model.Messaging;
+using SharpWired.Model.Files;
 
 namespace SharpWired.Model
 {
@@ -37,6 +38,8 @@ namespace SharpWired.Model
     /// </summary>
     public class Server {
         #region Fields
+        LogicManager logicManager;
+
         string appVersion;
         int filesCount;
         long fileSize;
@@ -44,9 +47,10 @@ namespace SharpWired.Model
         string serverDescription;
         string serverName;
         DateTime startTime;
+
         Chat publicChat;
         SharpWired.Model.News.News news;
-        LogicManager logicManager;
+        FileListingModel fileListingModel;
         #endregion
 
         #region Constructor
@@ -70,6 +74,7 @@ namespace SharpWired.Model
             // TODO: If done in OnLoggedIn() creates a race with the GUI.
             publicChat = new Chat(logicManager, 1); // 1 = public chat
             news = new SharpWired.Model.News.News(logicManager);
+            fileListingModel = new FileListingModel(logicManager);
         }
         #endregion
 
@@ -150,6 +155,13 @@ namespace SharpWired.Model
         public SharpWired.Model.News.News News {
             get { return news; }
         }
+
+        /// <summary>
+        /// Gets the file listing model
+        /// </summary>
+        public FileListingModel FileListingModel {
+            get { return fileListingModel; }
+        }
         #endregion
 
         #region Events & Listeners
@@ -158,6 +170,7 @@ namespace SharpWired.Model
         public void OnLoggedOut() {
             publicChat = null;
             news = null;
+            fileListingModel = null;
         }
         #endregion
     }

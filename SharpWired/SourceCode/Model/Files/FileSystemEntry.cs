@@ -127,19 +127,6 @@ namespace SharpWired.Model.Files
         #endregion
 
         #region Initialization
-
-        /// <summary>
-        /// Initializes the root node of a tree
-        /// </summary>
-        public void InitRootNode()
-        {
-            this.created = DateTime.Now;
-            this.modified = this.created;
-            this.path = "/";
-            this.pathArray = new string[1];
-            this.pathArray[0] = "";
-        }
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -159,7 +146,20 @@ namespace SharpWired.Model.Files
 			this.parentPath = BuildParentPath(pathArray);
         }
 
-		/// <summary>
+        /// <summary>
+        /// Constructor - Sets up this node with default values
+        /// </summary>
+        public FileSystemEntry() {
+            this.created = DateTime.Now;
+            this.modified = this.created;
+            this.path = "/";
+            this.pathArray = new string[1];
+            this.pathArray[0] = "";
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
 		/// Splits the path to an array.
 		/// </summary>
 		/// <param name="path">The path like "folder/hejsan/file.fil".</param>
@@ -195,18 +195,11 @@ namespace SharpWired.Model.Files
 				}
 			}
 			return buildPath.ToString();
-		}
-
-        /// <summary>
-        /// Constructor - Empty
-        /// </summary>
-        public FileSystemEntry()
-        {
         }
         #endregion
 
-		#region Overrides
-		/// <summary>
+        #region Overrides
+        /// <summary>
 		/// Path.
 		/// </summary>
 		/// <returns>The Path.</returns>
