@@ -46,9 +46,8 @@ namespace SharpWired.Model.Files
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="logicManager"></param>
-        public FileListingModel(LogicManager logicManager) {
-            Messages m = logicManager.ConnectionManager.Messages;
+        /// <param name="model"></param>
+        public FileListingModel(Messages m) {
             m.FileListingEvent += OnFileListingEvent;
             m.FileListingDoneEvent += OnFileListingDoneEvent;
             rootNode = new FolderNode();

@@ -58,8 +58,8 @@ namespace SharpWired.Gui.Chat
         /// Constructor - Parses the message
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="logicManager"></param>
-        public GuiPrivateMessageItem(LogicManager logicManager, string message)
+        /// <param name="model"></param>
+        public GuiPrivateMessageItem(SharpWiredModel model, string message)
         {
             //Searching for users with string written as "/msg "nick name" message (space separated)
             int f = message.IndexOf("\"", 4);
@@ -75,7 +75,7 @@ namespace SharpWired.Gui.Chat
 
             //TODO: Error handling
             string searchedNick = message.Substring(f + 1, (l - f - 1));
-            this.toUser = logicManager.Server.PublicChat.Users.GetUserByNick(searchedNick);
+            this.toUser = model.Server.PublicChat.Users.GetUserByNick(searchedNick);
             this.message = message.Substring(l + 1).Trim();
         }
     }

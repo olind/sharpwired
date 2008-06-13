@@ -24,6 +24,7 @@
  */
 #endregion
 
+using SharpWired.Model;
 namespace SharpWired.Controller {
     /// <summary>
     /// This class represents the users connected to the chat. If this chat is the public chat, 
@@ -34,6 +35,6 @@ namespace SharpWired.Controller {
         /// <summary>
         /// Constructor
         /// </summary>
-        public UserController(LogicManager logicManager) : base(logicManager) { }
+        public UserController(SharpWiredModel model) : base(model) { }
     }
 }

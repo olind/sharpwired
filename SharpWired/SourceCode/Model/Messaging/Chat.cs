@@ -36,7 +36,6 @@ namespace SharpWired.Model.Messaging {
     public class Chat {
 
         #region Fields
-        LogicManager logicManager;
         int chatId;
         UserList users;
         MessageEventArgs_341 topic;
@@ -47,12 +46,9 @@ namespace SharpWired.Model.Messaging {
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="logicManager"></param>
+        /// <param name="model"></param>
         /// <param name="chatId"></param>
-        public Chat(LogicManager logicManager, int chatId) {
-            Messages m = logicManager.ConnectionManager.Messages;
-
-            this.logicManager = logicManager;
+        public Chat(Messages m, int chatId) {
             this.chatId = chatId;
             this.chatMessages = new List<ChatMessageItem>();
             this.users = new UserList(m);

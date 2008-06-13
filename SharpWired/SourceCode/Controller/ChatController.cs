@@ -31,6 +31,7 @@ using SharpWired.MessageEvents;
 using SharpWired.Connection;
 using SharpWired.Model.Users;
 using SharpWired.Model.Messaging;
+using SharpWired.Model;
 
 namespace SharpWired.Controller {
     /// <summary>
@@ -38,7 +39,7 @@ namespace SharpWired.Controller {
     /// </summary>
     public class ChatController : ControllerBase {
         #region Constructor
-        public ChatController(LogicManager logicManager) : base(logicManager) { }
+        public ChatController(SharpWiredModel model) : base(model) { }
         #endregion
 
         #region Methods
@@ -47,7 +48,7 @@ namespace SharpWired.Controller {
         /// </summary>
         /// <param name="message">The message to send to the server</param>
         public void SendChatMessage(string message) {
-            this.Commands.Say(message);
+            commands.Say(message);
         }
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace SharpWired.Controller {
         /// <param name="topic"></param>
         public void ChangeTopic(string topic) {
             //TODO: Check permissions before setting topic
-            this.Commands.Topic(1, topic); //1 for setting the topic on public chat
+            commands.Topic(1, topic); //1 for setting the topic on public chat
         }
         #endregion
     }

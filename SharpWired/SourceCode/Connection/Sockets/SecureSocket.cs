@@ -238,7 +238,11 @@ namespace SharpWired.Connection.Sockets
                     index_EOT = data_received.IndexOf(Utility.EOT);
                     msg = data_received.Substring(0, index_EOT);
                     data_received = data_received.Remove(0, index_EOT + 1);
-                    MessageReceived(msg);
+                    if (MessageReceived != null)
+                        MessageReceived(msg);
+                    else
+                        Debug.WriteLine("WARNING, Unhandled message: '" + msg + "'");
+
                 }
 
                 System.Text.RegularExpressions.Regex alpha_numeric = new System.Text.RegularExpressions.Regex("[a-zA-Z0-9]");

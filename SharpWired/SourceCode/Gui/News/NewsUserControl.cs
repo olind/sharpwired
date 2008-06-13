@@ -36,11 +36,12 @@ using SharpWired.Model.News;
 using SharpWired.Model.Users;
 using System.Web;
 using System.Diagnostics;
+using SharpWired.Controller;
 
 namespace SharpWired.Gui.News {
     public partial class NewsUserControl : UserControl {
         #region Fields
-        LogicManager logicManager;
+        SharpWiredModel model;
         StringBuilder newsBodyContent = new StringBuilder();
         string newsStyleSheet;
         string newsJavaScript;
@@ -73,11 +74,11 @@ namespace SharpWired.Gui.News {
         /// <summary>
         /// Inits the news class - Call when logged in correctly
         /// </summary>
-        /// <param name="logicManager"></param>
-        public void Init(LogicManager logicManager) {
-            this.logicManager = logicManager;
-            logicManager.LoggedIn += OnLoggedIn;
-            logicManager.LoggedOut += OnLoggedOut;
+        /// <param name="model"></param>
+        public void Init(SharpWiredModel model, SharpWiredController controller) {
+            this.model = model;
+            //model.LoggedIn += OnLoggedIn;
+            //model.LoggedOut += OnLoggedOut;
         }
         #endregion
 
@@ -113,7 +114,7 @@ namespace SharpWired.Gui.News {
         private void postNewsButton_Click(object sender, EventArgs e) {
             string text = this.postNewsTextBox.Text.Trim();
             if (text.Length > 0)
-                logicManager.ConnectionManager.Commands.Post(this.postNewsTextBox.Text);
+                model.ConnectionManager.Commands.Post(this.postNewsTextBox.Text);
             postNewsTextBox.Clear();
         }
         #endregion
@@ -154,13 +155,13 @@ namespace SharpWired.Gui.News {
         delegate void WriteToNewsCallback(GuiMessageItem guiMessage);
 
         void OnLoggedIn() {
-            logicManager.Server.News.NewsPostedEvent += OnNewsPostReceived;
-            logicManager.Server.News.NewsListingDoneEvent += OnNewsListingDone;
+            model.Server.News.NewsPostedEvent += OnNewsPostReceived;
+            model.Server.News.NewsListingDoneEvent += OnNewsListingDone;
 
         }
         void OnLoggedOut() {
-            logicManager.Server.News.NewsPostedEvent -= OnNewsPostReceived;
-            logicManager.Server.News.NewsListingDoneEvent += OnNewsListingDone;
+            model.Server.News.NewsPostedEvent -= OnNewsPostReceived;
+            model.Server.News.NewsListingDoneEvent += OnNewsListingDone;
         }
         #endregion
     }

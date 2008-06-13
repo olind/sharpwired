@@ -43,7 +43,7 @@ namespace SharpWired.Gui.Chat
     /// </summary>
     public partial class UserListControl : UserControl {
         #region Fields
-        LogicManager logicManager;
+        SharpWiredModel model;
         UserList userList;
         #endregion
 
@@ -112,7 +112,7 @@ namespace SharpWired.Gui.Chat
         }
 
         public void OnLoggedIn() {
-            this.userList = logicManager.Server.PublicChat.Users;
+            this.userList = model.Server.PublicChat.Users;
 
             userList.ClientJoined += AddUser;
             userList.ClientLeft += RemoveUser;
@@ -124,8 +124,8 @@ namespace SharpWired.Gui.Chat
             userListView.Clear();
         }
 
-        public void Init(LogicManager logicManager) {
-            this.logicManager = logicManager;
+        public void Init(SharpWiredModel model) {
+            this.model = model;
         }
 
         #endregion
@@ -172,7 +172,7 @@ namespace SharpWired.Gui.Chat
         private void OnInformationClick(object sender, EventArgs e) {
             ListView.SelectedListViewItemCollection userItems = this.userListView.SelectedItems;
             foreach (WiredListViewItem li in userItems) {
-                logicManager.ConnectionManager.Commands.Info(li.UserItem.UserId);
+                model.ConnectionManager.Commands.Info(li.UserItem.UserId);
             }
         }
     }

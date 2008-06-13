@@ -56,7 +56,7 @@ namespace SharpWired.Connection
 
         #region Delegates
         /// 200
-        public delegate void ServerInformationEventHandler(object sender, MessageEventArgs_200 messageEventArgs);
+        public delegate void ServerInformationEventHandler(MessageEventArgs_200 messageEventArgs);
         /// 201
         public delegate void LoginSucceededEventHandler(object sender, MessageEventArgs_201 messageEventArgs);
         /// 202
@@ -436,7 +436,7 @@ namespace SharpWired.Connection
 
                 MessageEventArgs_200 m = new MessageEventArgs_200(messageId, messageName, appVersion, protocolVersion, serverName, serverDescription, startTime, filesCount, filesSize);
 
-                ServerInformationEvent(this, m);
+                ServerInformationEvent(m);
             }
         }
 

@@ -37,6 +37,7 @@ using System.Collections;
 using SharpWired.Gui.Resources;
 using SharpWired.Gui.Resources.Icons;
 using SharpWired.Connection.Transfers;
+using SharpWired.Controller;
 
 namespace SharpWired.Gui.Files
 {
@@ -46,7 +47,7 @@ namespace SharpWired.Gui.Files
     public partial class FilesUserControl : UserControl
     {
         #region Variables
-        private LogicManager logicManager;
+        private SharpWiredModel model;
         #endregion
         private int mSuspendCount = 0; //Counter for knowing if the cursor is suspended or not.
         #region Properties
@@ -93,14 +94,14 @@ namespace SharpWired.Gui.Files
         /// <summary>
         /// Inits this class and it's subclasses
         /// </summary>
-        /// <param name="logicManager"></param>
-        public void Init(LogicManager logicManager)
+        /// <param name="model"></param>
+        public void Init(SharpWiredModel model, SharpWiredController controller)
         {
-            this.logicManager = logicManager;
+            this.model = model;
             //TODO: Move initialization of controller class to a non GUI class
-            GuiFilesController filesController = new GuiFilesController(this.logicManager, fileTreeControl, fileDetailsControl, pathButtonControl);
+            GuiFilesController filesController = new GuiFilesController(model, controller, fileTreeControl, fileDetailsControl, pathButtonControl);
         }
-
+        
         /// <summary>
         /// Constructor - Empty
         /// </summary>

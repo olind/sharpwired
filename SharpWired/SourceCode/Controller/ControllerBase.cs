@@ -27,7 +27,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SharpWired.Connection;
+using SharpWired.Model;
 
 namespace SharpWired.Controller
 {
@@ -37,40 +37,22 @@ namespace SharpWired.Controller
     public class ControllerBase
     {
         #region Fields
-        LogicManager logicManager;
+        protected SharpWiredModel model;
+        protected Server server;
+        protected SharpWired.Connection.Commands commands;
+        protected SharpWired.Connection.Messages messages;
         #endregion
 
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="logicManager"></param>
-        public ControllerBase(LogicManager logicManager) {
-            this.logicManager = logicManager;
-        }
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the LogicManager
-        /// </summary>
-        public LogicManager LogicManager {
-            get { return this.logicManager; }
-        }
-
-        /// <summary>
-        /// Gets the SharpWired.Connection.Commands class
-        /// </summary>
-        public Commands Commands {
-            get { return this.logicManager.ConnectionManager.Commands; }
-        }
-
-        /// <summary>
-        /// Gets the SharpWired.Connection.Messages class
-        /// </summary>
-        public Messages Messages {
-            get { return this.logicManager.ConnectionManager.Messages; }
+        /// <param name="model"></param>
+        public ControllerBase(SharpWired.Model.SharpWiredModel model) {
+            this.model = model;
+            this.server = model.Server;
+            this.commands = model.ConnectionManager.Commands;
+            this.messages = model.ConnectionManager.Messages;
         }
         #endregion
     }

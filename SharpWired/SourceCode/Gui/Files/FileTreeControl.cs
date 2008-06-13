@@ -44,7 +44,7 @@ namespace SharpWired.Gui.Files
     public partial class FileTreeControl : UserControl
     {
         #region Variables
-        private LogicManager logicManager;
+        private SharpWiredModel model;
         private GuiFilesController guiFilesController;
         #endregion
 
@@ -185,10 +185,10 @@ namespace SharpWired.Gui.Files
 
         private void WantDownloadFile(FileNode fileNode)
         {
-            logicManager.FileTransferController.EnqueueDownload(
-                logicManager.ConnectionManager.CurrentBookmark,
+            guiFilesController.SharpWiredController.FileTransferHandler.EnqueueDownload(
+                model.ConnectionManager.CurrentBookmark,
                 fileNode,
-                logicManager.FileTransferController.DefaultDownloadFolder);
+                guiFilesController.SharpWiredController.FileTransferHandler.DefaultDownloadFolder);
         }
 
         #endregion
@@ -205,11 +205,11 @@ namespace SharpWired.Gui.Files
 		/// <summary>
 		/// Inits the FieTreeController
 		/// </summary>
-		/// <param name="logicManager"></param>
+		/// <param name="model"></param>
 		/// <param name="guiFilesController"></param>
-        public void Init(LogicManager logicManager, GuiFilesController guiFilesController)
+        public void Init(SharpWiredModel model, GuiFilesController guiFilesController)
         {
-            this.logicManager = logicManager;
+            this.model = model;
             this.guiFilesController = guiFilesController;
 
             ImageList rootTreeViewIcons = new ImageList();
@@ -238,7 +238,7 @@ namespace SharpWired.Gui.Files
         {
             //TODO: My original idea was to use the addedNodes and update the file tree with those nodes only
             //but that requires a remake of the populateFileTree - functionallity.
-            PopulateFileTree(this.rootTreeView, logicManager.Server.FileListingModel.RootNode);
+            PopulateFileTree(this.rootTreeView, model.Server.FileListingModel.RootNode);
         }
         #endregion
     }

@@ -30,8 +30,9 @@ using System.Text;
 using SharpWired.Connection;
 using SharpWired.Connection.Bookmarks;
 using SharpWired.MessageEvents;
+using SharpWired.Model;
 
-namespace SharpWired.Controller.Errors
+namespace SharpWired.Controller
 {
     /// <summary>
     /// Reads error messages from various sources (ie the connection layer) and 
@@ -39,7 +40,7 @@ namespace SharpWired.Controller.Errors
     /// </summary>
     public class ErrorController
     {
-        private LogicManager logicManager;
+        private SharpWiredModel model;
 
         /// <summary>
         /// Report a Connection Exception
@@ -90,19 +91,19 @@ namespace SharpWired.Controller.Errors
         /// <summary>
         /// Constructor
         /// </summary>
-        public ErrorController(LogicManager logicManager)
+        public ErrorController(SharpWiredModel model)
         {
-            this.logicManager = logicManager;
+            this.model = model;
 
-            logicManager.ConnectionManager.Messages.LoginFailedEvent += new Messages.LoginFailedEventHandler(Messages_LoginFailedEvent);
-            logicManager.ConnectionManager.Messages.BannedEvent += new Messages.BannedEventHandler(Messages_BannedEvent);
-            logicManager.ConnectionManager.Messages.ClientNotFoundEvent += new Messages.ClientNotFoundEventHandler(Messages_ClientNotFoundEvent);
+            model.ConnectionManager.Messages.LoginFailedEvent += new Messages.LoginFailedEventHandler(Messages_LoginFailedEvent);
+            model.ConnectionManager.Messages.BannedEvent += new Messages.BannedEventHandler(Messages_BannedEvent);
+            model.ConnectionManager.Messages.ClientNotFoundEvent += new Messages.ClientNotFoundEventHandler(Messages_ClientNotFoundEvent);
         }
 
         #region Listeners to connection layer - messages
         void Messages_LoginFailedEvent(object sender, MessageEventArgs_Messages messageEventArgs)
         {
-            Bookmark currentBookmark = logicManager.ConnectionManager.CurrentBookmark;
+            Bookmark currentBookmark = model.ConnectionManager.CurrentBookmark;
 
             StringBuilder errorDescription = new StringBuilder();
             StringBuilder solutionIdea = new StringBuilder();
@@ -115,7 +116,7 @@ namespace SharpWired.Controller.Errors
 
         void Messages_ClientNotFoundEvent(object sender, MessageEventArgs_Messages messageEventArgs)
         {
-            Bookmark currentBookmark = logicManager.ConnectionManager.CurrentBookmark;
+            Bookmark currentBookmark = model.ConnectionManager.CurrentBookmark;
 
             StringBuilder errorDescription = new StringBuilder();
             StringBuilder solutionIdea = new StringBuilder();
@@ -128,7 +129,7 @@ namespace SharpWired.Controller.Errors
 
         void Messages_BannedEvent(object sender, MessageEventArgs_Messages messageEventArgs)
         {
-            Bookmark currentBookmark = logicManager.ConnectionManager.CurrentBookmark;
+            Bookmark currentBookmark = model.ConnectionManager.CurrentBookmark;
 
             StringBuilder errorDescription = new StringBuilder();
             StringBuilder solutionIdea = new StringBuilder();

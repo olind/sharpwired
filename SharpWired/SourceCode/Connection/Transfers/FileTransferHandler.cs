@@ -34,8 +34,8 @@ namespace SharpWired.Connection.Transfers
 		/// <summary>
 		/// Construct and set up.
 		/// </summary>
-		/// <param name="logic">The LogicManager to get ConnectionManager and more from.</param>
-		public FileTransferHandler(LogicManager logic)
+		/// <param name="logic">The SharpWiredModel to get ConnectionManager and more from.</param>
+		public FileTransferHandler(SharpWiredModel logic)
 			: base(logic)
 		{
 			connectionManager = logic.ConnectionManager;
@@ -55,10 +55,10 @@ namespace SharpWired.Connection.Transfers
 			}
 
 			#region Attach event listeners
-            Messages.TransferReadyEvent += Messages_TransferReadyEvent;
-			Messages.TransferQueuedEvent += Messages_TransferQueuedEvent;
-			Messages.FileOrDirectoryNotFoundEvent += Messages_FileOrDirectoryNotFoundEvent;
-			Messages.QueueLimitExceededEvent += Messages_QueueLimitExceededEvent;
+            messages.TransferReadyEvent += Messages_TransferReadyEvent;
+			messages.TransferQueuedEvent += Messages_TransferQueuedEvent;
+			messages.FileOrDirectoryNotFoundEvent += Messages_FileOrDirectoryNotFoundEvent;
+			messages.QueueLimitExceededEvent += Messages_QueueLimitExceededEvent;
 			#endregion
 		}
 
@@ -158,7 +158,7 @@ namespace SharpWired.Connection.Transfers
 			downloading = true;
 			// NOTE: check server here too.
 			// No offset for now.
-			Commands.Get(entry.FromLocation, 0);			
+			commands.Get(entry.FromLocation, 0);			
 		}
 
 		#region Server Message EventHandlers.
@@ -171,7 +171,7 @@ namespace SharpWired.Connection.Transfers
 		{
 			Console.WriteLine("Transfer is ready! File '" + path + "', with ID '" + id + "'.");
 
-			Bookmark currentBookmark = LogicManager.ConnectionManager.CurrentBookmark;
+			Bookmark currentBookmark = model.ConnectionManager.CurrentBookmark;
 
 			DownloadEntry entry = GetDownloadItem(path);
 			mDownloadQueue.Remove(entry);

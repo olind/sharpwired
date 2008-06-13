@@ -44,9 +44,8 @@ namespace SharpWired.Model.News {
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="logicManager"></param>
-        public News(LogicManager logicManager) {
-            Messages m = logicManager.ConnectionManager.Messages;
+        /// <param name="model"></param>
+        public News(Messages m) {
             //All three are needed in order to sort the list
             m.NewsPostedEvent += OnNewsPosted;
             m.NewsEvent += OnNews;

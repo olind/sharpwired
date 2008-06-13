@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SharpWired.Model;
+using SharpWired.Controller;
 
 namespace SharpWired.Gui.Chat {
 
@@ -38,31 +39,31 @@ namespace SharpWired.Gui.Chat {
     /// </summary>
     public class GuiChatController {
         #region Fields
-        LogicManager logicManager;
+        SharpWiredModel model;
         ChatControl chatControl;
         UserListControl userListControl;
+
+        SharpWiredController controller;
         #endregion
 
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="logicManager"></param>
+        /// <param name="model"></param>
         /// <param name="chatControl"></param>
         /// <param name="userListControl"></param>
-        public GuiChatController(LogicManager logicManager,
+        public GuiChatController(SharpWiredModel model, SharpWiredController controller,
             ChatControl chatControl, UserListControl userListControl) {
-            this.logicManager = logicManager;
+            this.model = model;
             this.chatControl = chatControl;
             this.userListControl = userListControl;
 
+            this.controller = controller;
+
             chatControl.Init(this, 1); //Set id to 1 since this is public chat.
 
-            logicManager.LoggedIn += OnLoggedIn;
-            logicManager.LoggedOut += OnLoggedOut;
-            //This is done here since userListControl doesn't have access to logicManager
-            logicManager.LoggedIn += userListControl.OnLoggedIn;
-            logicManager.LoggedOut += userListControl.OnLoggedOut;
+            model.Connected += OnLoggedIn;
         }
         #endregion
 
@@ -71,7 +72,7 @@ namespace SharpWired.Gui.Chat {
         /// </summary>
         /// <param name="newTopic"></param>
         public void ChangeTopic(String newTopic) {
-            logicManager.ChatController.ChangeTopic(newTopic);
+            controller.ChatController.ChangeTopic(newTopic);
         }
 
         /// <summary>
@@ -79,26 +80,31 @@ namespace SharpWired.Gui.Chat {
         /// </summary>
         /// <param name="message"></param>
         public void SendChatMessage(String message) {
-            logicManager.ChatController.SendChatMessage(message);
+            controller.ChatController.SendChatMessage(message);
         }
 
-        public void OnLoggedIn() {
-            userListControl.Init(logicManager);
+        public void OnLoggedIn(Server s) {
+            model.Server.Offline += Offline;
 
-            //attach listeners in gui classes
-            logicManager.Server.PublicChat.ChatMessageReceivedEvent += chatControl.OnChatMessageArrived;
-            logicManager.Server.PublicChat.ChatTopicChangedEvent += chatControl.OnChatTopicChanged;
-            logicManager.ErrorController.LoginToServerFailedEvent += chatControl.OnErrorEvent;
-            logicManager.PrivateMessagesController.PrivateMessageModel.ReceivedPrivateMessageEvent += chatControl.OnPrivateMessageReceived;
-            logicManager.ConnectionManager.Messages.ClientInformationEvent += chatControl.OnUserInformation;
+            userListControl.Init(model);
+            s.Online += OnLine;
         }
 
-        public void OnLoggedOut() {
-            logicManager.Server.PublicChat.ChatMessageReceivedEvent -= chatControl.OnChatMessageArrived;
-            logicManager.Server.PublicChat.ChatTopicChangedEvent -= chatControl.OnChatTopicChanged;
-            logicManager.ErrorController.LoginToServerFailedEvent -= chatControl.OnErrorEvent;
-            logicManager.PrivateMessagesController.PrivateMessageModel.ReceivedPrivateMessageEvent -= chatControl.OnPrivateMessageReceived;
-            logicManager.ConnectionManager.Messages.ClientInformationEvent -= chatControl.OnUserInformation;
+        public void OnLine() {
+            model.Server.PublicChat.ChatMessageReceivedEvent += chatControl.OnChatMessageArrived;
+            model.Server.PublicChat.ChatTopicChangedEvent += chatControl.OnChatTopicChanged;
+        }
+
+        public void Offline() {
+            model.Server.Offline -= Offline;
+
+            model.Server.PublicChat.ChatMessageReceivedEvent -= chatControl.OnChatMessageArrived;
+            model.Server.PublicChat.ChatTopicChangedEvent -= chatControl.OnChatTopicChanged;
+
+            // TODO: Remove dependency on model and controllers for events
+            //model.ErrorController.LoginToServerFailedEvent -= chatControl.OnErrorEvent;
+            //model.PrivateMessagesController.PrivateMessageModel.ReceivedPrivateMessageEvent -= chatControl.OnPrivateMessageReceived;
+            //model.ConnectionManager.Messages.ClientInformationEvent -= chatControl.OnUserInformation;
         }
     }
 }

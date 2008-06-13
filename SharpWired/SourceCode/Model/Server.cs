@@ -30,6 +30,7 @@ using System.Text;
 using SharpWired.MessageEvents;
 using SharpWired.Model.Messaging;
 using SharpWired.Model.Files;
+using SharpWired.Connection;
 
 namespace SharpWired.Model
 {
@@ -38,7 +39,7 @@ namespace SharpWired.Model
     /// </summary>
     public class Server {
         #region Fields
-        LogicManager logicManager;
+        Messages messages;
 
         string appVersion;
         int filesCount;
@@ -57,9 +58,7 @@ namespace SharpWired.Model
         /// <summary>
         /// Constructor - Empty
         /// </summary>
-        public Server(LogicManager logicManager, MessageEventArgs_200 message) {
-            this.logicManager = logicManager;
-
+        public Server(SharpWiredModel model, MessageEventArgs_200 message) {
             this.appVersion = message.AppVersion;
             this.filesCount = message.FilesCount;
             this.fileSize = message.FilesSize;
@@ -68,13 +67,9 @@ namespace SharpWired.Model
             this.serverName = message.ServerName;
             this.startTime = message.StartTime;
 
-            logicManager.LoggedIn += OnLoggedIn;
-            logicManager.LoggedOut += OnLoggedOut;
+            this.messages = model.ConnectionManager.Messages;
 
-            // TODO: If done in OnLoggedIn() creates a race with the GUI.
-            publicChat = new Chat(logicManager, 1); // 1 = public chat
-            news = new SharpWired.Model.News.News(logicManager);
-            fileListingModel = new FileListingModel(logicManager);
+            model.LoggedIn += OnLoggedIn;
         }
         #endregion
 
@@ -165,9 +160,28 @@ namespace SharpWired.Model
         #endregion
 
         #region Events & Listeners
-        public void OnLoggedIn() { }
+        public delegate void ServerStatus();
+    
+        public event ServerStatus Online;
+        public event ServerStatus Offline;
 
-        public void OnLoggedOut() {
+        void OnLoggedIn(Server s) {
+
+            // TODO: If done in OnLoggedIn() creates a race with the GUI.
+            publicChat = new Chat(messages, 1); // 1 = chat id for public chat
+            news = new SharpWired.Model.News.News(messages);
+            fileListingModel = new FileListingModel(messages);
+
+            if (Online != null)
+                Online();
+        }
+        #endregion
+
+        #region Methods
+        public void GoOffline() {
+            if (Offline != null)
+                Offline();
+
             publicChat = null;
             news = null;
             fileListingModel = null;

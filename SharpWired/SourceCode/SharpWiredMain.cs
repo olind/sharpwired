@@ -32,6 +32,9 @@ using System.Windows.Forms;
 using SharpWired;
 using SharpWired.Connection;
 using SharpWired.Connection.Bookmarks;
+using SharpWired.Model;
+using SharpWired.Controller;
+using SharpWired.Gui;
 
 namespace SharpWired
 {
@@ -43,18 +46,14 @@ namespace SharpWired
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
-        {
-
-			// We run the public chat window
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			
+        static void Main() {
             SharpWiredMain sharpWired = new SharpWiredMain();
-            LogicManager logicManager = new LogicManager();
-			
-            sharpWired.publicChat = new global::SharpWired.Gui.SharpWiredForm(logicManager);
-			Application.Run(sharpWired.publicChat);
+        }
+
+        public SharpWiredMain() {
+            SharpWiredModel model = new SharpWiredModel();
+            SharpWiredController sharpWiredController = new SharpWiredController(model);
+            SharpWiredGui sharpWiredGui = new SharpWiredGui(model, sharpWiredController);
         }
     }
 }

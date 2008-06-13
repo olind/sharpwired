@@ -59,9 +59,6 @@ namespace SharpWired.Connection
             this.messages = new Messages();
             this.commands = new Commands(this.commandSocket);
             this.lagHandler = new LagHandler();
-
-            messages.ServerInformationEvent += OnServerInfo;
-            messages.BannedEvent += OnBanned;
         }
         #endregion
 
@@ -102,35 +99,6 @@ namespace SharpWired.Connection
 
 		#endregion
 
-        #region Events
-        /// <summary>
-        /// Fired when succesfully connect to the server.
-        /// </summary>
-        public event Connection Connected;
-        /// <summary>
-        /// Fired when the TCP connection is closed to the server.
-        /// </summary>
-        public event Disconnection Disconnected;
-        /// <summary>
-        /// Fired when being banned on the server.
-        /// </summary>
-        public event Ban Banned;
-
-        public delegate void Connection(MessageEvents.MessageEventArgs_200 message);
-        public delegate void Disconnection();
-        public delegate void Ban(MessageEvents.MessageEventArgs message);
-
-        public void OnServerInfo(object sender, MessageEvents.MessageEventArgs_200 message) {
-            if (Connected != null)
-                Connected(message);
-        }
-
-        public void OnBanned(object sender, MessageEvents.MessageEventArgs message) {
-            if (Banned != null)
-                Banned(message);
-        }
-        #endregion
-
         #region Methods
         /// <summary>
 		/// Connect to the Server in the Bookmark using the UserInfo from the
@@ -143,11 +111,12 @@ namespace SharpWired.Connection
             try
             {
                 if (bookmark != null) {
+                    commandSocket.MessageReceived += messages.MessageReceived;
+
                     commandSocket.Connect(bookmark.Server);
                     commands.InitConnection(bookmark.UserInformation);
                     mCurrentBookmark = bookmark;
-
-                    commandSocket.MessageReceived += messages.MessageReceived;
+                    
                     messages.PingReplyEvent += lagHandler.OnPingReceived;
                     commands.PingSentEvent += lagHandler.OnPingSent;
                 } else {
@@ -167,9 +136,6 @@ namespace SharpWired.Connection
         /// Close the TCP connection to the server.
         /// </summary>
         public void Disconnect() {
-            if (Disconnected != null)
-                Disconnected();
-
             commandSocket.MessageReceived -= messages.MessageReceived;
             messages.PingReplyEvent -= lagHandler.OnPingReceived;
             commands.PingSentEvent -= lagHandler.OnPingSent;

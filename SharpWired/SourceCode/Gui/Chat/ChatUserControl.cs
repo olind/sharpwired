@@ -34,6 +34,7 @@ using System.Windows.Forms;
 using SharpWired.Model;
 using SharpWired.Model.Users;
 using SharpWired.Model.Messaging;
+using SharpWired.Controller;
 
 namespace SharpWired.Gui.Chat
 {
@@ -42,7 +43,7 @@ namespace SharpWired.Gui.Chat
     /// </summary>
     public partial class ChatUserControl : UserControl
     {
-        LogicManager logicManager;
+        SharpWiredModel model;
         private int altItemCounter = 0;
 
         private string AltItemBeginningHtml {
@@ -60,14 +61,14 @@ namespace SharpWired.Gui.Chat
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="logicManager"></param>
-        public void Init(LogicManager logicManager)
+        /// <param name="model"></param>
+        public void Init(SharpWiredModel model, SharpWiredController controller)
         {
-            this.logicManager = logicManager;
+            this.model = model;
             //TODO: It's a bit aquard that this gui class initializes the 
             //      controller class. This is done since we place the controls
             //      in the Visual studio designer
-            GuiChatController guiChatController = new GuiChatController(logicManager, this.chatControl, this.userListControl);
+            GuiChatController guiChatController = new GuiChatController(model, controller, this.chatControl, this.userListControl);
         }
 
         /// <summary>

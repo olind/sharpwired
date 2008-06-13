@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Text;
 using SharpWired.Connection;
 using SharpWired.Model.Files;
+using SharpWired.Model;
 
 namespace SharpWired.Controller
 {
@@ -38,8 +39,8 @@ namespace SharpWired.Controller
     public class FileListingController : ControllerBase {
 
         #region Constructor
-        public FileListingController(LogicManager logicManager) : base(logicManager) {
-            ReloadFileList();
+        public FileListingController(SharpWiredModel model) : base(model) {
+            //ReloadFileList();
         }
         #endregion
 
@@ -67,16 +68,16 @@ namespace SharpWired.Controller
         /// </summary>
         /// <param name="path">The path node where reloading should be requested.</param>
         private void ReloadFileList(string path) {
-            FileListingModel flm = this.LogicManager.Server.FileListingModel;
+            FileListingModel flm = this.server.FileListingModel;
             FileSystemEntry reloadNode = flm.GetNode(path, flm.RootNode);
              if(reloadNode != null && reloadNode is FolderNode) {
                 if (((FolderNode)reloadNode).HasChildren())
                     (reloadNode as FolderNode).DoneUpdating();
                 else
-                    this.LogicManager.ConnectionManager.Commands.List(path);
+                    this.model.ConnectionManager.Commands.List(path);
              } else if (reloadNode == null) {
                  // To load the initial file list
-                 this.LogicManager.ConnectionManager.Commands.List("/");
+                 this.model.ConnectionManager.Commands.List("/");
              }
         }
         #endregion

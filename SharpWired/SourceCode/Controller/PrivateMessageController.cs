@@ -27,11 +27,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SharpWired.Connection;
 using SharpWired.Model.Users;
 using SharpWired.Model.PrivateMessages;
+using SharpWired.Model;
 
-namespace SharpWired.Controller.PrivateMessages
+namespace SharpWired.Controller
 {
     /// <summary>
     /// The logic for private messages. Provides functionality for 
@@ -53,7 +53,7 @@ namespace SharpWired.Controller.PrivateMessages
 
         #region Event Listeners
         void OnPrivateMessageEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_305309 messageEventArgs)  {
-            User u = LogicManager.Server.PublicChat.Users.GetUser(messageEventArgs.UserId);
+            User u = model.Server.PublicChat.Users.GetUser(messageEventArgs.UserId);
             privateMessageModel.AddReceivedPrivateMessage(new PrivateMessageItem(u, messageEventArgs.Message));
         }
         #endregion
@@ -67,26 +67,27 @@ namespace SharpWired.Controller.PrivateMessages
         public void Msg(User user, String message)
         {
             //TODO: Make some error checking (empty message etc)
-            LogicManager.ConnectionManager.Commands.Msg(user.UserId, message);
+            model.ConnectionManager.Commands.Msg(user.UserId, message);
             PrivateMessageItem newSentMessage = new PrivateMessageItem(user, message);
             privateMessageModel.AddSentPrivateMessage(newSentMessage);
         }
         #endregion
 
         #region Initialization
-        public void OnConnected() {
-            Messages.PrivateMessageEvent += OnPrivateMessageEvent;
-
-            LogicManager.LoggedIn += OnConnected;
-            LogicManager.LoggedOut += OnDisconnected;
+        public void OnConnected(Server s) {
+            messages.PrivateMessageEvent += OnPrivateMessageEvent;
+            s.Offline += OnOffline;
         }
 
-        public void OnDisconnected() {
-            Messages.PrivateMessageEvent -= OnPrivateMessageEvent;
+        public void OnOffline() {
+            messages.PrivateMessageEvent -= OnPrivateMessageEvent;
         }
 
-        public PrivateMessageController(LogicManager logicManager) : base(logicManager)  {
+        public PrivateMessageController(SharpWiredModel model) : base(model)  {
             privateMessageModel = new PrivateMessageModel();
+
+            model.Connected += OnConnected;
+            
         }
         #endregion
     }

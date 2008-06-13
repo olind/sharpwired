@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SharpWired.Model.Users;
+using SharpWired.Model;
 
 namespace SharpWired.Controller
 {
@@ -107,17 +108,17 @@ namespace SharpWired.Controller
         }
         #endregion
 
-        public void OnConnected() {
-            Messages.GroupSpecificationEvent += OnGroupSpecificationEvent;
+        public void OnConnected(Server s) {
+            messages.GroupSpecificationEvent += OnGroupSpecificationEvent;
+            s.Offline += OnOffline;
         }
 
-        public void OnDisconnected() {
-            Messages.GroupSpecificationEvent -= OnGroupSpecificationEvent;
+        public void OnOffline() {
+            messages.GroupSpecificationEvent -= OnGroupSpecificationEvent;
         }
 
-        public GroupController(LogicManager logicManager) : base(logicManager) {
-            logicManager.LoggedIn += OnConnected;
-            logicManager.LoggedOut += OnDisconnected;
+        public GroupController(SharpWiredModel model) : base(model) {
+            model.Connected += OnConnected;
         }
     }
 }

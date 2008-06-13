@@ -36,7 +36,6 @@ using System.Collections;
 using SharpWired.MessageEvents;
 
 using SharpWired;
-using SharpWired.Connection;
 using SharpWired.Model;
 using SharpWired.Gui.Chat;
 using SharpWired.Connection.Bookmarks;
@@ -44,6 +43,8 @@ using SharpWired.Gui.Bookmarks;
 using WiredControls.ToolStripItems;
 using WiredControls.Containers.Forms;
 using SharpWired.Gui.About;
+using SharpWired.Controller;
+using SharpWired.Gui.Files;
 
 namespace SharpWired.Gui
 {
@@ -52,19 +53,21 @@ namespace SharpWired.Gui
     /// </summary>
     public partial class SharpWiredForm : WiredForm
     {
-        private LogicManager logicManager;
+        private SharpWiredModel model;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public SharpWiredForm(LogicManager logicManager) {
-            this.logicManager = logicManager;
+        public SharpWiredForm(SharpWiredModel model, 
+            SharpWiredController sharpWiredController) {
+
+            this.model = model;
 
             InitializeComponent();
 
-            chatUserControl1.Init(logicManager);
-            newsUserControl1.Init(logicManager);
-            filesUserControl1.Init(logicManager);
+            chatUserControl1.Init(model, sharpWiredController);
+            newsUserControl1.Init(model, sharpWiredController);
+            filesUserControl1.Init(model, sharpWiredController);
 
             chatTabControl.Dock = DockStyle.Fill;
             newsUserControl1.Dock = DockStyle.Fill;
@@ -75,26 +78,26 @@ namespace SharpWired.Gui
             filesUserControl1.Visible = false;
 
             publicChatToolStripButton.Enabled = false;
-            
-            /* TODO: Giant sequence diagram ends here */
 
 			BookmarkManager.GetBookmarks();
 
-            logicManager.LoggedIn += OnLoggedIn;
-            logicManager.LoggedOut += OnLoggedOut;
+            model.Connected += OnLoggedIn;
         }
 
-        public void OnLoggedIn() {
+        public void OnLoggedIn(SharpWired.Model.Server s) {
+
+            s.Offline += OnOffline;
+
             StringBuilder onlineMessage = new StringBuilder();
             onlineMessage.Append("Connected");
-            if (logicManager.ServerInformation.ServerName != "") {
-                onlineMessage.Append(" to: " + logicManager.ServerInformation.ServerName);
+            if (model.ServerInformation.ServerName != "") {
+                onlineMessage.Append(" to: " + model.ServerInformation.ServerName);
             }
 
             UpdateToolStripText(onlineMessage.ToString());
         }
 
-        public void OnLoggedOut() {
+        public void OnOffline() {
             UpdateToolStripText("Disconnected");
         }
 
@@ -105,7 +108,7 @@ namespace SharpWired.Gui
 
         private void Disconnect(object sender)
         {
-            logicManager.Disconnect();
+            model.Disconnect();
             //TODO: Clear all the data from the previous connection
         }
 
@@ -124,7 +127,7 @@ namespace SharpWired.Gui
 
                 if (diag.BookmarkToConnect != null) {
                     Bookmark bookmark = diag.BookmarkToConnect;
-                    logicManager.Connect(bookmark);
+                    model.Connect(bookmark);
                 }
             }
         }
@@ -219,7 +222,7 @@ namespace SharpWired.Gui
 		void BookmarkItemClick(object sender, EventArgs e)
 		{
 			if ((sender as ToolStripMenuItem).Tag is Bookmark)
-				logicManager.Connect((sender as ToolStripMenuItem).Tag as Bookmark);
+				model.Connect((sender as ToolStripMenuItem).Tag as Bookmark);
 		}
 
 		/// <summary>
