@@ -96,7 +96,7 @@ namespace SharpWired.Controller
             this.model = model;
 
             model.ConnectionManager.Messages.LoginFailedEvent += new Messages.LoginFailedEventHandler(Messages_LoginFailedEvent);
-            model.ConnectionManager.Messages.BannedEvent += new Messages.BannedEventHandler(Messages_BannedEvent);
+            model.ConnectionManager.Messages.BannedEvent += Messages_BannedEvent;
             model.ConnectionManager.Messages.ClientNotFoundEvent += new Messages.ClientNotFoundEventHandler(Messages_ClientNotFoundEvent);
         }
 
@@ -127,8 +127,9 @@ namespace SharpWired.Controller
             LoginToServerFailedEvent(errorDescription.ToString(), solutionIdea.ToString(), currentBookmark);
         }
 
-        void Messages_BannedEvent(object sender, MessageEventArgs_Messages messageEventArgs)
+        void Messages_BannedEvent(MessageEventArgs_Messages messageEventArgs)
         {
+            //TODO: Throwing exception in SharpWiredModel on banned received message since this implementation should be build from scratch
             Bookmark currentBookmark = model.ConnectionManager.CurrentBookmark;
 
             StringBuilder errorDescription = new StringBuilder();

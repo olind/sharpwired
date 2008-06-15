@@ -70,18 +70,7 @@ namespace SharpWired.Connection
         public void InitConnection(UserInformation userInformation)
         {
             if (socket != null)
-            {
                 SendMessage("HELLO");
-
-                //TODO: Below should only be sent if the server responds with 200 Server Information
-                //"NICK", "ICON", "STATUS" and "CLIENT"
-                Nick(userInformation.Nick);
-                User(userInformation.UserName);
-                Pass(userInformation.Password);
-                Client();
-                Who(1);
-                Ping(this);
-            }
         }
 
         /// <summary>
@@ -300,6 +289,7 @@ namespace SharpWired.Connection
         /// <param name="serverName">The machine name for the server, must match the machine name in the server certificate</param>
         public void Hello(string machineName, int serverPort, string serverName)
         {
+            //TODO: The input data in this method is never used...
             if (socket != null)
                 socket.SendMessage("HELLO");
         }

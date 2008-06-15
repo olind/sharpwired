@@ -30,6 +30,7 @@ using System.Text;
 using SharpWired.MessageEvents;
 using SharpWired.Model.Messaging;
 using SharpWired.Model.Files;
+using SharpWired.Model.News;
 using SharpWired.Connection;
 
 namespace SharpWired.Model
@@ -40,7 +41,6 @@ namespace SharpWired.Model
     public class Server {
         #region Fields
         Messages messages;
-
         string appVersion;
         int filesCount;
         long fileSize;
@@ -48,10 +48,10 @@ namespace SharpWired.Model
         string serverDescription;
         string serverName;
         DateTime startTime;
-
         Chat publicChat;
         SharpWired.Model.News.News news;
         FileListingModel fileListingModel;
+        private int ownUserId;
         #endregion
 
         #region Constructor
@@ -154,9 +154,13 @@ namespace SharpWired.Model
         /// <summary>
         /// Gets the file listing model
         /// </summary>
-        public FileListingModel FileListingModel {
-            get { return fileListingModel; }
-        }
+        public FileListingModel FileListingModel { get { return fileListingModel; } }
+
+        /// <summary>
+        /// Sets the user id for this user.
+        /// </summary>
+        public int OwnUserId { set { ownUserId = value; } }
+
         #endregion
 
         #region Events & Listeners
@@ -166,10 +170,8 @@ namespace SharpWired.Model
         public event ServerStatus Offline;
 
         void OnLoggedIn(Server s) {
-
-            // TODO: If done in OnLoggedIn() creates a race with the GUI.
             publicChat = new Chat(messages, 1); // 1 = chat id for public chat
-            news = new SharpWired.Model.News.News(messages);
+            news = new News.News(messages); //TODO: Why must we create News with News.News(..)?
             fileListingModel = new FileListingModel(messages);
 
             if (Online != null)

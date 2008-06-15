@@ -114,7 +114,7 @@ namespace SharpWired.Connection
                     commandSocket.MessageReceived += messages.MessageReceived;
 
                     commandSocket.Connect(bookmark.Server);
-                    commands.InitConnection(bookmark.UserInformation);
+                    commands.Hello(bookmark.Server.MachineName, bookmark.Server.ServerPort, bookmark.Server.ServerName);
                     mCurrentBookmark = bookmark;
                     
                     messages.PingReplyEvent += lagHandler.OnPingReceived;

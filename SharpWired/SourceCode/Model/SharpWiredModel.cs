@@ -31,6 +31,7 @@ using SharpWired.Controller;
 using SharpWired.MessageEvents;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace SharpWired.Model {
     /// <summary>
@@ -40,11 +41,7 @@ namespace SharpWired.Model {
     public class SharpWiredModel {
         #region Fields
         private ConnectionManager connectionManager;
-
-
-
         private HeartBeatTimer heartBeatTimer;
-
         private SharpWired.Model.Server server;
         #endregion
 
@@ -77,31 +74,44 @@ namespace SharpWired.Model {
         public event ServerChanged Connected;
         public event ServerChanged LoggedIn;
 
+        void OnBanned(MessageEventArgs_Messages message) {
+            //TODO: Implement handling for banned
+            throw new NotImplementedException("Client banned from server. Not implemented yet, please report to SharpWired bug tracker.");
+        }
 
         void OnConnected(MessageEventArgs_200 message) {
             connectionManager.Messages.LoginSucceededEvent += OnLoginSucceeded;
 
             server = new SharpWired.Model.Server(this, message);
 
+            UserInformation ui = connectionManager.CurrentBookmark.UserInformation;
+            SharpWired.Gui.Resources.Icons.IconHandler ih = new SharpWired.Gui.Resources.Icons.IconHandler();
+
+            Commands c = connectionManager.Commands;
+            c.Nick(ui.Nick);            //Required
+            c.Icon(1, ih.UserImage);    //Optional
+            //STATUS                    //Optional TODO: Set status
+            c.Client();                 //Optional but highly required
+
+            c.User(ui.UserName);
+            c.Pass(ui.Password);
+
             if (Connected != null)
                 Connected(server);
         }
 
-        void OnDisconnected() {
+        void OnDisconnected() { }
 
-        }
+        void OnLoginSucceeded(object sender, MessageEventArgs_201 message) {
+            server.OwnUserId = message.UserId;
 
-        void OnLoginSucceeded(object sender, MessageEventArgs_201 messageEventArgs) {
-            //TODO: We shouldn't set the user icon here but instead have
-            //      some user object so we can change the icon.
-            SharpWired.Gui.Resources.Icons.IconHandler iconHandler = new SharpWired.Gui.Resources.Icons.IconHandler();
-            connectionManager.Commands.Icon(1, iconHandler.UserImage);
+            Commands c = connectionManager.Commands;
+            c.Who(1); //1 = Public Chat
+            c.Ping(this);
 
             //Starts the heart beat pings to the server
             heartBeatTimer = new HeartBeatTimer(connectionManager);
             heartBeatTimer.StartTimer();
-
-
 
             if (LoggedIn != null)
                 LoggedIn(server);
@@ -129,13 +139,15 @@ namespace SharpWired.Model {
         #endregion
 
         #region Initialization
-
         /// <summary>
         /// Constructor
         /// </summary>
         public SharpWiredModel() {
             connectionManager = new ConnectionManager();
-            connectionManager.Messages.ServerInformationEvent += OnConnected;
+
+            Messages m = connectionManager.Messages;
+            m.ServerInformationEvent += OnConnected;
+            m.BannedEvent += OnBanned;
         }
         #endregion
     }

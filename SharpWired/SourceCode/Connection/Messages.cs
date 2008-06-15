@@ -62,7 +62,7 @@ namespace SharpWired.Connection
         /// 202
         public delegate void PingReplyEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
         /// 203
-        public delegate void ServerBannerEventHandler(object sender, MessageEventArgs_203 messageEventArgs);
+        public delegate void ServerBannerEventHandler(MessageEventArgs_203 messageEventArgs);
         /// 300
         public delegate void ChatEventHandler(object sender, MessageEventArgs_300301 messageEventArgs);
         /// 301
@@ -128,7 +128,7 @@ namespace SharpWired.Connection
         /// 510
         public delegate void LoginFailedEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
         /// 511
-        public delegate void BannedEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+        public delegate void BannedEventHandler(MessageEventArgs_Messages messageEventArgs);
         /// 512
         public delegate void ClientNotFoundEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
         /// 513
@@ -468,7 +468,7 @@ namespace SharpWired.Connection
             {
                 Bitmap serverBanner = new Bitmap(SharpWired.Utility.Base64StringToBitmap(message));
                 MessageEventArgs_203 m = new MessageEventArgs_203(messageId, messageName, serverBanner);
-                ServerBannerEvent(this, m);
+                ServerBannerEvent(m);
             }
         }
 
@@ -994,7 +994,7 @@ namespace SharpWired.Connection
             if (BannedEvent != null)
             {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
-                BannedEvent(this, m);
+                BannedEvent(m);
             }
         }
 
