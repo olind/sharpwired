@@ -11,6 +11,7 @@ using SharpWired.Connection.Bookmarks;
 using SharpWired.Connection.Sockets;
 using SharpWired.Gui.Files;
 using SharpWired.Controller;
+using System.Diagnostics;
 
 namespace SharpWired.Connection.Transfers
 {
@@ -49,7 +50,7 @@ namespace SharpWired.Connection.Transfers
 				}
 				catch (Exception e)
 				{
-					Console.Error.WriteLine("Error trying to create default download dir '"
+					Debug.WriteLine("Error trying to create default download dir '"
 						+ mDefaultDownloadFolder + "'.\n" + e.ToString());
 				}
 			}
@@ -169,7 +170,7 @@ namespace SharpWired.Connection.Transfers
 
 		private void StartTransfer(string path, int offset, string id)
 		{
-			Console.WriteLine("Transfer is ready! File '" + path + "', with ID '" + id + "'.");
+			Debug.WriteLine("Transfer is ready! File '" + path + "', with ID '" + id + "'.");
 
 			Bookmark currentBookmark = model.ConnectionManager.CurrentBookmark;
 
@@ -190,7 +191,7 @@ namespace SharpWired.Connection.Transfers
 				sedan lägger kallar du på beginRead på den socketens sslStream
 				(med FileTransfer som dess state obkect, och FileTransferReadCallback som AsyncCallback)
 			*/
-			Console.WriteLine("Sending 'TRANSFER' commanf for file now...");
+			Debug.WriteLine("Sending 'TRANSFER' commanf for file now...");
 			socket.SendMessage("TRANSFER" + Utility.SP + id);
 		}
 
@@ -240,7 +241,7 @@ namespace SharpWired.Connection.Transfers
 
 		void Messages_TransferQueuedEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_401 messageEventArgs)
 		{
-			Console.WriteLine("The Transfer have been queued! File '" + messageEventArgs.Path + "'.");
+			Debug.WriteLine("The Transfer have been queued! File '" + messageEventArgs.Path + "'.");
 		}
 		#endregion
 

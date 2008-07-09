@@ -33,6 +33,7 @@ using System.Text;
 using System.Windows.Forms;
 using SharpWired.Model.Files;
 using SharpWired.Gui.Resources.Icons;
+using System.Diagnostics;
 
 namespace SharpWired.Gui.Files
 {
@@ -214,7 +215,7 @@ namespace SharpWired.Gui.Files
             }
             catch (Exception e)
             {
-                Console.WriteLine("FileUserControl.cs | Failed to add images for rootTreView. Exception: " + e); //TODO: Throw exception
+                Debug.WriteLine("FileUserControl.cs | Failed to add images for rootTreView. Exception: " + e); //TODO: Throw exception
             }
 
             listView1.SmallImageList = fileViewIcons;

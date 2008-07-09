@@ -78,8 +78,8 @@ namespace SharpWired.Gui
             this.chatTabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.filesUserControl1 = new SharpWired.Gui.Files.FilesUserControl();
-            this.chatUserControl1 = new SharpWired.Gui.Chat.ChatUserControl();
-            this.newsUserControl1 = new SharpWired.Gui.News.NewsUserControl();
+            this.chatUserContainer = new SharpWired.Gui.Chat.ChatUserContainer();
+            this.newsContainer = new SharpWired.Gui.News.NewsContainer();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -262,7 +262,7 @@ namespace SharpWired.Gui
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.chatUserControl1);
+            this.tabPage1.Controls.Add(this.chatUserContainer);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -280,20 +280,20 @@ namespace SharpWired.Gui
             // 
             // chatUserControl1
             // 
-            this.chatUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chatUserControl1.Location = new System.Drawing.Point(3, 3);
-            this.chatUserControl1.Name = "chatUserControl1";
-            this.chatUserControl1.Size = new System.Drawing.Size(512, 295);
-            this.chatUserControl1.TabIndex = 8;
+            this.chatUserContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chatUserContainer.Location = new System.Drawing.Point(3, 3);
+            this.chatUserContainer.Name = "chatUserControl1";
+            this.chatUserContainer.Size = new System.Drawing.Size(512, 295);
+            this.chatUserContainer.TabIndex = 8;
             // 
             // newsUserControl1
             // 
-            this.newsUserControl1.CSSFilePath = "C:\\Program\\Microsoft Visual Studio 9.0\\Common7\\IDE";
-            this.newsUserControl1.Location = new System.Drawing.Point(45, 132);
-            this.newsUserControl1.Name = "newsUserControl1";
-            this.newsUserControl1.Size = new System.Drawing.Size(572, 342);
-            this.newsUserControl1.TabIndex = 9;
-            this.newsUserControl1.Visible = false;
+            this.newsContainer.CSSFilePath = "C:\\Program\\Microsoft Visual Studio 9.0\\Common7\\IDE";
+            this.newsContainer.Location = new System.Drawing.Point(45, 132);
+            this.newsContainer.Name = "newsUserControl1";
+            this.newsContainer.Size = new System.Drawing.Size(572, 342);
+            this.newsContainer.TabIndex = 9;
+            this.newsContainer.Visible = false;
             // 
             // SharpWiredForm
             // 
@@ -302,7 +302,7 @@ namespace SharpWired.Gui
             this.ClientSize = new System.Drawing.Size(617, 496);
             this.Controls.Add(this.filesUserControl1);
             this.Controls.Add(this.chatTabControl);
-            this.Controls.Add(this.newsUserControl1);
+            this.Controls.Add(this.newsContainer);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -344,8 +344,8 @@ namespace SharpWired.Gui
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_ServerStatus;
 		private System.Windows.Forms.ToolStripMenuItem mLoadingToolStripMenuItem;
         private System.Windows.Forms.Timer mBookmarkLoadingTimer;
-        private ChatUserControl chatUserControl1;
-        private SharpWired.Gui.News.NewsUserControl newsUserControl1;
+        private ChatUserContainer chatUserContainer;
+        private SharpWired.Gui.News.NewsContainer newsContainer;
         private System.Windows.Forms.TabControl chatTabControl;
         private System.Windows.Forms.TabPage tabPage1;
         private SharpWired.Gui.Files.FilesUserControl filesUserControl1;

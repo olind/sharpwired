@@ -34,6 +34,7 @@ using System.Security.Authentication;
 
 using SharpWired;
 using System.IO;
+using System.Diagnostics;
 
 namespace SharpWired.Connection.Sockets
 {
@@ -113,7 +114,7 @@ namespace SharpWired.Connection.Sockets
             try
             {
                 client = new TcpClient(machineName, serverPort);
-                Console.WriteLine("Client connected.");
+                Debug.WriteLine("Client connected.");
             }
             catch (ArgumentNullException argExp)
             {

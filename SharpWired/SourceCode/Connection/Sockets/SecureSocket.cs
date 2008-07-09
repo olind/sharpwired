@@ -104,7 +104,7 @@ namespace SharpWired.Connection.Sockets
             try
             {
                 client = new TcpClient(machineName, serverPort);
-                Console.WriteLine("Client connected.");
+                Debug.WriteLine("Client connected.");
             }
             catch (ArgumentNullException argExp)
             {

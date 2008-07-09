@@ -31,6 +31,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using SharpWired.Utils;
+using System.Diagnostics;
 
 namespace SharpWired.Gui.Resources.Icons
 {
@@ -231,7 +232,7 @@ namespace SharpWired.Gui.Resources.Icons
             catch (Exception e)
             {
 				// TODO: Add to log instead.
-				Console.Error.WriteLine("Error loading image from file '"
+				Debug.WriteLine("Error loading image from file '"
 					+ fileName + "'. The created path was '"
 					+ file + "'.\n" + e.ToString());
                 return null;

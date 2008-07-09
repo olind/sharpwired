@@ -666,7 +666,7 @@ namespace SharpWired.Connection
                     transferred   = -1;
                     size          = -1;
                     speed         = -1;
-                    Console.WriteLine("Messages.cs: Failed to set client information string. Exception: " + e);
+                    Debug.WriteLine("Messages.cs: Failed to set client information string. Setting default values. Exception: " + e);
                 }
                 MessageEventArgs_308 m = new MessageEventArgs_308(messageId, messageName, userId, image, idle, admin, icon, nick, login, status, ip, host, clientVersion, cipherName, cipherBits, loginTime, idleTime, downloads, uploads, transfer, path, transferred, size, speed);
 
@@ -1041,7 +1041,7 @@ namespace SharpWired.Connection
         // 516
         private void OnPermissionDeniedEvent(object sender, int messageId, string messageName, string message)
         {
-            Console.WriteLine("Permission denied. ID: " + messageId + " : message: " + message);
+            Debug.WriteLine("Permission denied. ID: " + messageId + " : message: " + message);
 
             if (PermissionDeniedEvent != null)
             {
@@ -1419,7 +1419,7 @@ namespace SharpWired.Connection
                     OnTrackerServerListingDoneEvent(this, msgId, "Tracker Server Listing Done", argument);
                     break;
                 default:
-                    Console.WriteLine("Unhandled message id {0}", msgId); // TODO: Handle error
+                    Debug.WriteLine("Unhandled message id: '" + msgId + "'"); // TODO: Handle error
                     break;
             }
         }
@@ -1439,7 +1439,7 @@ namespace SharpWired.Connection
 			}
 			catch (FormatException formatExp)
 			{
-				Console.Error.WriteLine("Error trying to parse the message "
+				Debug.WriteLine("Error trying to parse the message "
 				+ "recieved on socket!\nReason\n" + formatExp.ToString());
 			}
         }

@@ -71,7 +71,13 @@ namespace SharpWired.Model {
         #endregion
 
         public delegate void ServerChanged(Server server);
+        /// <summary>
+        /// We have a connection to the server but are NOT yet logged in.
+        /// </summary>
         public event ServerChanged Connected;
+        /// <summary>
+        /// We are now logged in to the server.
+        /// </summary>
         public event ServerChanged LoggedIn;
 
         void OnBanned(MessageEventArgs_Messages message) {

@@ -38,7 +38,7 @@ namespace SharpWired.Controller
     /// Reads error messages from various sources (ie the connection layer) and 
     /// raises nicer error messages to consume by GUI
     /// </summary>
-    public class ErrorController
+    public class ErrorModel
     {
         private SharpWiredModel model;
 
@@ -91,7 +91,7 @@ namespace SharpWired.Controller
         /// <summary>
         /// Constructor
         /// </summary>
-        public ErrorController(SharpWiredModel model)
+        public ErrorModel(SharpWiredModel model)
         {
             this.model = model;
 

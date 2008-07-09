@@ -33,6 +33,7 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Runtime.Serialization;
 using System.Security;
+using System.Diagnostics;
 
 namespace SharpWired.Connection.Bookmarks
 {
@@ -308,7 +309,7 @@ namespace SharpWired.Connection.Bookmarks
 						finally
 						{
 							// TODO: Handle failure of saving bookmarks
-                            Console.WriteLine("Trying to save bookmarks. Failing with: " + ioe);
+                            Debug.WriteLine("Trying to save bookmarks. Failing with: " + ioe);
 						}
                     }
 
@@ -386,10 +387,12 @@ namespace SharpWired.Connection.Bookmarks
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine("Unknown Error Encrypting File:"
+                Debug.WriteLine("Unknown Error Encrypting File:"
                     + e.ToString());
                 //TODO: Raise error event for error handler notifying 
                 //      the user that the bookmark file is saved unencrypted
+
+                
             }
         }
 
@@ -405,7 +408,7 @@ namespace SharpWired.Connection.Bookmarks
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine("Unknown Error Decrypting File:"
+                Debug.WriteLine("Unknown Error Decrypting File:"
                     + e.ToString());
                 //TODO: Raise error event for error handler notifying 
                 //      the user that the bookmark file is saved unencrypted

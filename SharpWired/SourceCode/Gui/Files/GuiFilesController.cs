@@ -31,6 +31,7 @@ using SharpWired.Model;
 using SharpWired.Model.Files;
 using SharpWired.Controller;
 using SharpWired.Connection.Transfers;
+using System.Diagnostics;
 
 namespace SharpWired.Gui.Files {
     /// <summary>
@@ -74,7 +75,7 @@ namespace SharpWired.Gui.Files {
 
                 controller.FileListingController.ReloadFileList((FolderNode)selectedNode);
             } else if (selectedNode is FileNode) {
-                Console.WriteLine("TODO: Dealing with file nodes are not implemented");
+                Debug.WriteLine("TODO: Dealing with file nodes are not implemented");
             }
         }
 

@@ -35,6 +35,7 @@ using SharpWired.Gui.Files;
 using SharpWired.Model;
 using SharpWired.Gui.Resources.Icons;
 using SharpWired.Model.Files;
+using System.Diagnostics;
 
 namespace SharpWired.Gui.Files
 {
@@ -222,7 +223,7 @@ namespace SharpWired.Gui.Files
             }
             catch (Exception e)
             {
-                Console.WriteLine("FileUserControl.cs | Failed to add images for rootTreView. Exception: " + e); //TODO: Throw exception
+                Debug.WriteLine("FileUserControl.cs | Failed to add images for rootTreView. Exception: " + e); //TODO: Throw exception
             }
             rootTreeView.ImageList = rootTreeViewIcons;
         }

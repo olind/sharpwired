@@ -31,6 +31,7 @@ using SharpWired.Connection.Sockets;
 using SharpWired.Connection.Bookmarks;
 using System.IO;
 using System.Net.Sockets;
+using System.Diagnostics;
 
 namespace SharpWired.Connection
 {
@@ -121,7 +122,7 @@ namespace SharpWired.Connection
                     commands.PingSentEvent += lagHandler.OnPingSent;
                 } else {
                     // TODO: Log instead of write to std out
-                    Console.WriteLine("ERROR - ConnectionManager.Connect(): " +
+                    Debug.WriteLine("ERROR - ConnectionManager.Connect(): " +
                                       "Trying to connect to a null bookmark.");
                 }
             }

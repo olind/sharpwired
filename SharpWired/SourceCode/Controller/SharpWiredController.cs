@@ -13,7 +13,6 @@ namespace SharpWired.Controller {
         private FileListingController       fileListingController;
         private FileTransferHandler         fileTransferHandler; //TODO: Rename to controller
         private GroupController             groupController;
-        private ErrorController             errorController;
         private PrivateMessageController    privateMessagesController;
 
         private SharpWiredModel                  model;
@@ -36,7 +35,6 @@ namespace SharpWired.Controller {
             newsController                  = new NewsController(model);
             fileListingController           = new FileListingController(model);
             fileTransferHandler             = new FileTransferHandler(model);
-            errorController                 = new ErrorController(model);
             privateMessagesController       = new PrivateMessageController(model);
         }
 
@@ -47,7 +45,6 @@ namespace SharpWired.Controller {
             newsController                  = null;
             fileListingController           = null;
             fileTransferHandler             = null;
-            errorController                 = null;
             privateMessagesController       = null;
         }
     }
