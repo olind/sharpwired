@@ -68,11 +68,11 @@
     <Compile Include="Connection\Sockets\ConnectionManager.cs" />
     <Compile Include="Connection\Sockets\SecureSocket.cs" />
     <Compile Include="Connection\UserInformation.cs" />
-    <Compile Include="Gui\Chat\ChatUserControl.cs">
+    <Compile Include="Gui\Chat\ChatUserContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Gui\Chat\ChatUserControl.Designer.cs">
-      <DependentUpon>ChatUserControl.cs</DependentUpon>
+    <Compile Include="Gui\Chat\ChatUserContainer.Designer.cs">
+      <DependentUpon>ChatUserContainer.cs</DependentUpon>
     </Compile>
     <Compile Include="MessageEvents\MessageEventArgs.cs" />
     <Compile Include="MessageEvents\MessageEventArgs_200.cs" />
@@ -104,11 +104,11 @@
     <Compile Include="Gui\SharpWiredForm.Designer.cs">
       <DependentUpon>SharpWiredForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\Chat\UserListControl.cs">
+    <Compile Include="Gui\Chat\UserList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Gui\Chat\UserListControl.Designer.cs">
-      <DependentUpon>UserListControl.cs</DependentUpon>
+    <Compile Include="Gui\Chat\UserList.Designer.cs">
+      <DependentUpon>UserList.cs</DependentUpon>
     </Compile>
     <Compile Include="MessageEvents\MessageEventArgs_Path.cs" />
     <Compile Include="Connection\Messages.cs" />
@@ -134,13 +134,13 @@
       <DependentUpon>BookmarkManagerDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Chat\ChatControl.resx">
-      <DependentUpon>ChatControl.cs</DependentUpon>
+    <EmbeddedResource Include="Gui\Chat\Chat.resx">
+      <DependentUpon>Chat.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Chat\ChatUserControl.resx">
+    <EmbeddedResource Include="Gui\Chat\ChatUserContainer.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>ChatUserControl.cs</DependentUpon>
+      <DependentUpon>ChatUserContainer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Files\FileDetailsControl.resx">
       <DependentUpon>FileDetailsControl.cs</DependentUpon>
@@ -158,17 +158,17 @@
       <DependentUpon>BreadCrumbControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gui\News\NewsUserControl.resx">
+    <EmbeddedResource Include="Gui\News\NewsContainer.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>NewsUserControl.cs</DependentUpon>
+      <DependentUpon>NewsContainer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\SharpWiredForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SharpWiredForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Chat\UserListControl.resx">
+    <EmbeddedResource Include="Gui\Chat\UserList.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>UserListControl.cs</DependentUpon>
+      <DependentUpon>UserList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -229,7 +229,7 @@
     </Compile>
     <Compile Include="Controller\ChatController.cs" />
     <Compile Include="Controller\ControllerBase.cs" />
-    <Compile Include="Controller\ErrorController.cs" />
+    <Compile Include="Model\Errors\ErrorModel.cs" />
     <Compile Include="Controller\FileListingController.cs" />
     <Compile Include="Controller\GroupController.cs" />
     <Compile Include="Controller\NewsController.cs" />
@@ -257,15 +257,12 @@
     <Compile Include="Gui\Bookmarks\BookmarkManagerDialog.Designer.cs">
       <DependentUpon>BookmarkManagerDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\Chat\ChatControl.cs">
+    <Compile Include="Gui\Chat\Chat.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Gui\Chat\ChatControl.Designer.cs">
-      <DependentUpon>ChatControl.cs</DependentUpon>
+    <Compile Include="Gui\Chat\Chat.Designer.cs">
+      <DependentUpon>Chat.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\Chat\GuiChatController.cs">
-    </Compile>
-    <Compile Include="Gui\Chat\GuiPrivateMessageItem.cs" />
     <Compile Include="Gui\Chat\WiredListViewItem.cs" />
     <Compile Include="Gui\GuiMessageItem.cs" />
     <Compile Include="Gui\Files\FileDetailsControl.cs">
@@ -298,15 +295,18 @@
     <Compile Include="Gui\Files\WiredListNode.cs" />
     <Compile Include="Gui\Files\WiredTreeNode.cs" />
     <Compile Include="Gui\GuiUtil.cs" />
-    <Compile Include="Gui\News\NewsUserControl.cs">
+    <Compile Include="Gui\News\NewsContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Gui\News\NewsUserControl.Designer.cs">
-      <DependentUpon>NewsUserControl.cs</DependentUpon>
+    <Compile Include="Gui\News\NewsContainer.Designer.cs">
+      <DependentUpon>NewsContainer.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\Resources\Icons\IconHandler.cs" />
     <Compile Include="Gui\Resources\Icons\IconList.cs" />
     <Compile Include="Gui\SharpWiredGui.cs" />
+    <Compile Include="Gui\SharpWiredGuiBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Model\SharpWiredModel.cs" />
     <Compile Include="Model\Files\FileListingModel.cs" />
     <Compile Include="Model\Files\FileNode.cs" />
@@ -362,7 +362,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Gui\Transfers\" />
-    <Folder Include="Model\Errors\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

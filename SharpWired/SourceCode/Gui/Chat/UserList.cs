@@ -35,16 +35,16 @@ using System.Windows.Forms;
 using SharpWired.Model;
 using System.Collections;
 using SharpWired.Model.Users;
+using SharpWired.Controller;
 
-namespace SharpWired.Gui.Chat
-{
+namespace SharpWired.Gui.Chat {
     /// <summary>
     /// The gui class for the user list
     /// </summary>
-    public partial class UserListControl : UserControl {
+    public partial class UserList : SharpWiredGuiBase {
+
         #region Fields
-        SharpWiredModel model;
-        UserList userList;
+        SharpWired.Model.Users.UserList userList;
         #endregion
 
         #region Events
@@ -67,7 +67,7 @@ namespace SharpWired.Gui.Chat
                         userListView.LargeImageList.Images.Add(user.UserId.ToString(), user.Image);
 
                     WiredListViewItem item = new WiredListViewItem(user,
-                        new string[] {user.Nick, user.Status}, user.UserId.ToString());
+                        new string[] { user.Nick, user.Status }, user.UserId.ToString());
                     items.Add(item);
                 }
             }
@@ -79,7 +79,7 @@ namespace SharpWired.Gui.Chat
                 this.Invoke(ucb, new object[] { user });
             } else {
                 WiredListViewItem u = FindUserById(user);
-                if(u != null) {
+                if (u != null) {
                     if (user.Image != null)
                         userListView.LargeImageList.Images.Add(user.UserId.ToString(), user.Image);
 
@@ -111,21 +111,21 @@ namespace SharpWired.Gui.Chat
             return u;
         }
 
-        public void OnLoggedIn() {
+        protected override void OnOnline() {
             this.userList = model.Server.PublicChat.Users;
 
             userList.ClientJoined += AddUser;
             userList.ClientLeft += RemoveUser;
         }
 
-        public void OnLoggedOut() {
+        protected override void OnOffline() {
             userList.ClientJoined -= AddUser;
             userList.ClientLeft -= RemoveUser;
             userListView.Clear();
         }
 
-        public void Init(SharpWiredModel model) {
-            this.model = model;
+        public void Init(SharpWiredModel model, SharpWiredController controller) {
+            base.Init(model, controller);
         }
 
         #endregion
@@ -134,8 +134,7 @@ namespace SharpWired.Gui.Chat
         /// <summary>
         /// Constructor
         /// </summary>
-        public UserListControl()
-        {
+        public UserList() {
             InitializeComponent();
             this.userListView.LargeImageList = new ImageList();
             this.userListView.LargeImageList.ImageSize = new Size(32, 32);

@@ -29,7 +29,7 @@ namespace SharpWired.Gui.News
     /// <summary>
     /// GUI class for news view
     /// </summary>
-    partial class NewsUserControl
+    partial class NewsContainer
     {
         /// <summary> 
         /// Required designer variable.

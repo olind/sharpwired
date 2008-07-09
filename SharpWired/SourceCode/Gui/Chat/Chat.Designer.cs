@@ -1,5 +1,5 @@
 ﻿namespace SharpWired.Gui.Chat {
-    partial class ChatControl {
+    partial class Chat {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
@@ -26,7 +26,7 @@
             this.components = new System.ComponentModel.Container();
             this.chatWebBrowser = new System.Windows.Forms.WebBrowser();
             this.chatSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.chatPanel = new System.Windows.Forms.Panel();
             this.topicWrapperPanel = new System.Windows.Forms.Panel();
             this.topicDisplayLabel = new System.Windows.Forms.Label();
             this.setByLabel = new System.Windows.Forms.Label();
@@ -39,7 +39,7 @@
             this.chatSplitContainer.Panel1.SuspendLayout();
             this.chatSplitContainer.Panel2.SuspendLayout();
             this.chatSplitContainer.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.chatPanel.SuspendLayout();
             this.topicWrapperPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,7 +62,7 @@
             // 
             // chatSplitContainer.Panel1
             // 
-            this.chatSplitContainer.Panel1.Controls.Add(this.panel1);
+            this.chatSplitContainer.Panel1.Controls.Add(this.chatPanel);
             this.chatSplitContainer.Panel1.Controls.Add(this.topicWrapperPanel);
             // 
             // chatSplitContainer.Panel2
@@ -73,17 +73,17 @@
             this.chatSplitContainer.SplitterDistance = 218;
             this.chatSplitContainer.TabIndex = 3;
             // 
-            // panel1
+            // chatPanel
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.chatPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.chatWebBrowser);
-            this.panel1.Location = new System.Drawing.Point(0, 44);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(439, 173);
-            this.panel1.TabIndex = 4;
+            this.chatPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.chatPanel.Controls.Add(this.chatWebBrowser);
+            this.chatPanel.Location = new System.Drawing.Point(0, 44);
+            this.chatPanel.Name = "chatPanel";
+            this.chatPanel.Size = new System.Drawing.Size(439, 173);
+            this.chatPanel.TabIndex = 4;
             // 
             // topicWrapperPanel
             // 
@@ -179,18 +179,18 @@
             this.sendChatButton.UseVisualStyleBackColor = true;
             this.sendChatButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.sendChatButton_MouseUp);
             // 
-            // ChatControl
+            // Chat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.chatSplitContainer);
-            this.Name = "ChatControl";
+            this.Name = "Chat";
             this.Size = new System.Drawing.Size(439, 258);
             this.chatSplitContainer.Panel1.ResumeLayout(false);
             this.chatSplitContainer.Panel2.ResumeLayout(false);
             this.chatSplitContainer.Panel2.PerformLayout();
             this.chatSplitContainer.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
+            this.chatPanel.ResumeLayout(false);
             this.topicWrapperPanel.ResumeLayout(false);
             this.topicWrapperPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -210,6 +210,6 @@
         private System.Windows.Forms.Label topicDisplayLabel;
         private System.Windows.Forms.ToolTip chatToolTip;
         private System.Windows.Forms.TextBox chatInputTextBox;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel chatPanel;
     }
 }

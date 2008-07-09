@@ -1,6 +1,6 @@
 #region Information and licence agreements
 /*
- * NewsUserControl.cs
+ * News.cs
  * Created by Ola Lindberg, 2006-12-10
  * 
  * SharpWired - a Wired client.
@@ -39,9 +39,8 @@ using System.Diagnostics;
 using SharpWired.Controller;
 
 namespace SharpWired.Gui.News {
-    public partial class NewsUserControl : UserControl {
+    public partial class NewsContainer : SharpWiredGuiBase {
         #region Fields
-        SharpWiredModel model;
         StringBuilder newsBodyContent = new StringBuilder();
         string newsStyleSheet;
         string newsJavaScript;
@@ -55,7 +54,7 @@ namespace SharpWired.Gui.News {
         /// <summary>
         /// Constructor
         /// </summary>
-        public NewsUserControl() {
+        public NewsContainer() {
             InitializeComponent();
 
             newsStyleSheet = "<link href=\"" + CSSFilePath + "\\GUI\\SharpWiredStyleSheet.css\" rel=\"stylesheet\" type=\"text/css\" />";
@@ -76,9 +75,7 @@ namespace SharpWired.Gui.News {
         /// </summary>
         /// <param name="model"></param>
         public void Init(SharpWiredModel model, SharpWiredController controller) {
-            this.model = model;
-            //model.LoggedIn += OnLoggedIn;
-            //model.LoggedOut += OnLoggedOut;
+            base.Init(model, controller);
         }
         #endregion
 
@@ -154,12 +151,12 @@ namespace SharpWired.Gui.News {
         #region Events & Listeners
         delegate void WriteToNewsCallback(GuiMessageItem guiMessage);
 
-        void OnLoggedIn() {
+        protected override void OnOnline() {
             model.Server.News.NewsPostedEvent += OnNewsPostReceived;
             model.Server.News.NewsListingDoneEvent += OnNewsListingDone;
 
         }
-        void OnLoggedOut() {
+        protected override void OnOffline() {
             model.Server.News.NewsPostedEvent -= OnNewsPostReceived;
             model.Server.News.NewsListingDoneEvent += OnNewsListingDone;
         }

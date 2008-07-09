@@ -27,7 +27,7 @@
 using System.Windows.Forms;
 namespace SharpWired.Gui.Chat
 {
-    partial class UserListControl :UserControl
+    partial class UserList
     {
         /// <summary> 
         /// Required designer variable.

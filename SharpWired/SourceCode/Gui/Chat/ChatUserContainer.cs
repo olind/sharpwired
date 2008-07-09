@@ -36,48 +36,28 @@ using SharpWired.Model.Users;
 using SharpWired.Model.Messaging;
 using SharpWired.Controller;
 
-namespace SharpWired.Gui.Chat
-{
+namespace SharpWired.Gui.Chat {
     /// <summary>
     /// User control for the chat
     /// </summary>
-    public partial class ChatUserControl : UserControl
-    {
-        SharpWiredModel model;
-        private int altItemCounter = 0;
+    public partial class ChatUserContainer : SharpWiredGuiBase {
 
-        private string AltItemBeginningHtml {
-            get {
-                if (altItemCounter % 2 == 0) {
-                    altItemCounter++;
-                    return "<div class=\"standard\">";
-                }
-                altItemCounter++;
-                return "<div class=\"alternative\">";
-            }
-        }
-
-        #region Initialization
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="model"></param>
-        public void Init(SharpWiredModel model, SharpWiredController controller)
-        {
-            this.model = model;
-            //TODO: It's a bit aquard that this gui class initializes the 
-            //      controller class. This is done since we place the controls
-            //      in the Visual studio designer
-            GuiChatController guiChatController = new GuiChatController(model, controller, this.chatControl, this.userListControl);
+        /// <param name="controller"></param>
+        public void Init(SharpWiredModel model, SharpWiredController controller) {
+            base.Init(model, controller);
+            chat.Init(model, controller);
+            userList.Init(model, controller);
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public ChatUserControl()
-        {
+        public ChatUserContainer() {
             InitializeComponent();
         }
-        #endregion
     }
 }

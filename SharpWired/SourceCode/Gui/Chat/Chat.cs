@@ -1,24 +1,50 @@
-﻿using System;
+﻿#region Information and licence agreements
+/*
+ * Chat.cs 
+ * Created by Ola Lindberg, 2006-09-28
+ * 
+ * SharpWired - a Wired client.
+ * See: http://www.zankasoftware.com/wired/ for more infromation about Wired
+ * 
+ * Copyright (C) Ola Lindberg (http://olalindberg.com)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+ */
+#endregion
+
+using System;
 using System.Text;
 using System.Windows.Forms;
 using SharpWired.Connection.Bookmarks;
 using SharpWired.MessageEvents;
 using SharpWired.Model.Messaging;
+using SharpWired.Controller;
+using SharpWired.Model;
 
 namespace SharpWired.Gui.Chat {
 
     /// <summary>
     /// Control for chats
     /// </summary>
-    public partial class ChatControl : UserControl {
+    public partial class Chat : SharpWiredGuiBase {
 
         private String chatHeader;
         private String chatFooter;
         private StringBuilder chatBodyContent = new StringBuilder();
         private delegate void WriteToChatCallback(GuiMessageItem guiMessage);
         private delegate void ChangeTopicCallback(GuiMessageItem guiMessage);
-        private GuiChatController guiChatController;
-        private int chatId;
         private int altItemCounter = 0;
 
         private string AltItemBeginningHtml {
@@ -47,7 +73,7 @@ namespace SharpWired.Gui.Chat {
         /// <param name="chatMessageItem">The chat message item that was received</param>
         public void OnChatMessageArrived(ChatMessageItem chatMessageItem) {
             GuiMessageItem guiMessage = new GuiMessageItem(chatMessageItem);
-            WriteHTMLToChat(guiMessage);       
+            WriteHTMLToChat(guiMessage);
         }
 
         /// <summary>
@@ -56,34 +82,14 @@ namespace SharpWired.Gui.Chat {
         /// <param name="errorDescription"></param>
         /// <param name="solutionIdea"></param>
         /// <param name="bookmark"></param>
-        public void OnErrorEvent(string errorDescription, string solutionIdea, 
+        public void OnErrorEvent(string errorDescription, string solutionIdea,
             Bookmark bookmark) {
             GuiMessageItem gmi = new GuiMessageItem(errorDescription, solutionIdea, bookmark);
             WriteHTMLToChat(gmi);
         }
 
-        /// <summary>
-        /// Call this method to write the given private message to chat window
-        /// </summary>
-        /// <param name="receivedPrivateMessage"></param>
-        public void OnPrivateMessageReceived(SharpWired.Model.PrivateMessages.PrivateMessageItem receivedPrivateMessage) {
-            GuiMessageItem gmi = new GuiMessageItem(receivedPrivateMessage);
-            WriteHTMLToChat(gmi);
-        }
-
-        /// <summary>
-        /// Call this method to write client information to chat window
-        /// </summary>
-        /// <param name="e"></param>
-        public void OnUserInformation(MessageEvents.MessageEventArgs_308 e) {
-            //TODO: Don't listen to event directly from MessagesEvents. Use model implementation
-            GuiMessageItem gmi = new GuiMessageItem(e);
-            WriteHTMLToChat(gmi);
-        }
-
-        private void WriteHTMLToChat(GuiMessageItem guiMessage)
-        {
-            if(this.InvokeRequired){
+        private void WriteHTMLToChat(GuiMessageItem guiMessage) {
+            if (this.InvokeRequired) {
                 WriteToChatCallback writeToChatCallback = new WriteToChatCallback(WriteHTMLToChat);
                 this.Invoke(writeToChatCallback, new object[] { guiMessage });
             } else {
@@ -110,13 +116,13 @@ namespace SharpWired.Gui.Chat {
 
         #region Send chat messages
         private void sendChatButton_MouseUp(object sender, MouseEventArgs e) {
-            this.guiChatController.SendChatMessage(chatInputTextBox.Text);
+            controller.ChatController.SendChatMessage(chatInputTextBox.Text);
             chatInputTextBox.Clear();
         }
 
         private void chatInputTextBox_KeyUp(object sender, KeyEventArgs e) {
             if (!e.Shift && e.KeyCode == Keys.Enter) {
-                this.guiChatController.SendChatMessage(chatInputTextBox.Text);
+                controller.ChatController.SendChatMessage(chatInputTextBox.Text);
                 chatInputTextBox.Clear();
             }
             if (e.KeyCode == Keys.Escape) {
@@ -131,7 +137,9 @@ namespace SharpWired.Gui.Chat {
         private void topicTextBox_KeyUp(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter) {
                 enableTopicEditing(false);
-                guiChatController.ChangeTopic(topicTextBox.Text);
+
+                controller.ChatController.ChangeTopic(topicTextBox.Text);
+
                 topicDisplayLabel.Text = "Updating topic on server.";
                 setByLabel.Text = "";
             } else if (e.KeyCode == Keys.Escape) {
@@ -172,7 +180,7 @@ namespace SharpWired.Gui.Chat {
         /// <summary>
         /// Constructor
         /// </summary>
-        public ChatControl() {
+        public Chat() {
             InitializeComponent();
 
             String chatStyleSheet = "<link href=\"" + GuiUtil.CSSFilePath + "\\GUI\\SharpWiredStyleSheet.css\" rel=\"stylesheet\" type=\"text/css\" />";
@@ -193,12 +201,23 @@ namespace SharpWired.Gui.Chat {
         /// <summary>
         /// Initializes this component
         /// </summary>
-        /// <param name="guiChatController"></param>
         /// <param name="chatId">The id for this chat</param>
-        public void Init(GuiChatController guiChatController, int chatId) {
-            this.guiChatController = guiChatController;
-            this.chatId = chatId;
+        /// <param name="controller"></param>
+        /// <param name="model"></param>
+        public void Init(SharpWiredModel model, SharpWiredController controller) {
+            base.Init(model, controller);
         }
         #endregion
+
+        protected override void OnOnline() {
+            model.Server.PublicChat.ChatMessageReceivedEvent += OnChatMessageArrived;
+            model.Server.PublicChat.ChatTopicChangedEvent += OnChatTopicChanged;
+        }
+
+        protected override void OnOffline() {
+            model.Server.Offline -= OnOffline;
+            model.Server.PublicChat.ChatMessageReceivedEvent -= OnChatMessageArrived;
+            model.Server.PublicChat.ChatTopicChangedEvent -= OnChatTopicChanged;
+        }
     }
 }
