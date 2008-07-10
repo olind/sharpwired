@@ -32,6 +32,7 @@ using SharpWired.Model.Messaging;
 using SharpWired.Model.Files;
 using SharpWired.Model.News;
 using SharpWired.Connection;
+using System.Diagnostics;
 
 namespace SharpWired.Model
 {
@@ -52,6 +53,7 @@ namespace SharpWired.Model
         SharpWired.Model.News.News news;
         FileListingModel fileListingModel;
         private int ownUserId;
+        public SharpWiredModel model;
         #endregion
 
         #region Constructor
@@ -170,13 +172,18 @@ namespace SharpWired.Model
         public event ServerStatus Offline;
 
         void OnLoggedIn(Server s) {
-            publicChat = new Chat(messages, 1); // 1 = chat id for public chat
-            news = new News.News(messages); //TODO: Why must we create News with News.News(..)?
-            fileListingModel = new FileListingModel(messages);
+            if (s == this) {
+                publicChat = new Chat(messages, 1); // 1 = chat id for public chat
+                news = new News.News(messages); //TODO: Why must we create News with News.News(..)?
+                fileListingModel = new FileListingModel(messages);
 
-            if (Online != null)
-                Online();
+                if (Online != null)
+                    Online();
+            } else {
+                Debug.WriteLine("Event triggered to wrong server (this: '" + this.GetHashCode() + "' s: '" + s.GetHashCode() + "'). TODO: Fix!");
+            }
         }
+
         #endregion
 
         #region Methods

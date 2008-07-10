@@ -83,6 +83,9 @@ namespace SharpWired.Gui {
         /// </summary>
         public string GeneratedHTML {
             get {
+                if (isEmptyMessage)
+                    return "";
+
                 StringBuilder html = new StringBuilder();
                 html.Append("<div class=\"" + messageType + "\">");
                 html.Append("<div class=\"time\">" + timeStamp + "</div>");
@@ -217,7 +220,15 @@ namespace SharpWired.Gui {
             //s.Append("Image" + e.Image + "\\r\\n");
 
             this.message = s.ToString();
-
         }
+
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
+        public GuiMessageItem() {
+            isEmptyMessage = true;
+        }
+
+        private bool isEmptyMessage = false;
     }
 }

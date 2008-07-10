@@ -112,6 +112,7 @@ namespace SharpWired.Gui.News {
             string text = this.postNewsTextBox.Text.Trim();
             if (text.Length > 0)
                 model.ConnectionManager.Commands.Post(this.postNewsTextBox.Text);
+
             postNewsTextBox.Clear();
         }
         #endregion

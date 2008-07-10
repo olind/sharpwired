@@ -38,7 +38,6 @@ namespace SharpWired.Controller
     {
         #region Fields
         protected SharpWiredModel model;
-        protected Server server;
         protected SharpWired.Connection.Commands commands;
         protected SharpWired.Connection.Messages messages;
         #endregion
@@ -50,7 +49,6 @@ namespace SharpWired.Controller
         /// <param name="model"></param>
         public ControllerBase(SharpWired.Model.SharpWiredModel model) {
             this.model = model;
-            this.server = model.Server;
             this.commands = model.ConnectionManager.Commands;
             this.messages = model.ConnectionManager.Messages;
         }

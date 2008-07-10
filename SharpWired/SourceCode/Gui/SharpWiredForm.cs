@@ -45,6 +45,7 @@ using WiredControls.Containers.Forms;
 using SharpWired.Gui.About;
 using SharpWired.Controller;
 using SharpWired.Gui.Files;
+using System.Diagnostics;
 
 namespace SharpWired.Gui {
     /// <summary>

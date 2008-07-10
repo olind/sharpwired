@@ -32,6 +32,7 @@ using SharpWired.MessageEvents;
 using SharpWired.Model.Messaging;
 using SharpWired.Controller;
 using SharpWired.Model;
+using System.Diagnostics;
 
 namespace SharpWired.Gui.Chat {
 
@@ -116,7 +117,7 @@ namespace SharpWired.Gui.Chat {
 
         #region Send chat messages
         private void sendChatButton_MouseUp(object sender, MouseEventArgs e) {
-            controller.ChatController.SendChatMessage(chatInputTextBox.Text);
+            this.controller.ChatController.SendChatMessage(chatInputTextBox.Text);
             chatInputTextBox.Clear();
         }
 
@@ -212,12 +213,19 @@ namespace SharpWired.Gui.Chat {
         protected override void OnOnline() {
             model.Server.PublicChat.ChatMessageReceivedEvent += OnChatMessageArrived;
             model.Server.PublicChat.ChatTopicChangedEvent += OnChatTopicChanged;
+
+            ToggleWindowsFormControl(chatInputTextBox);
+            ToggleWindowsFormControl(sendChatButton);
+            WriteHTMLToChat(new GuiMessageItem());
         }
 
         protected override void OnOffline() {
             model.Server.Offline -= OnOffline;
             model.Server.PublicChat.ChatMessageReceivedEvent -= OnChatMessageArrived;
             model.Server.PublicChat.ChatTopicChangedEvent -= OnChatTopicChanged;
+
+            ToggleWindowsFormControl(chatInputTextBox);
+            ToggleWindowsFormControl(sendChatButton);
         }
     }
 }

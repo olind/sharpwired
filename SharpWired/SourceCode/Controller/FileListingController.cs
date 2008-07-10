@@ -68,7 +68,7 @@ namespace SharpWired.Controller
         /// </summary>
         /// <param name="path">The path node where reloading should be requested.</param>
         private void ReloadFileList(string path) {
-            FileListingModel flm = this.server.FileListingModel;
+            FileListingModel flm = this.model.Server.FileListingModel;
             FileSystemEntry reloadNode = flm.GetNode(path, flm.RootNode);
              if(reloadNode != null && reloadNode is FolderNode) {
                 if (((FolderNode)reloadNode).HasChildren())

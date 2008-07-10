@@ -32,11 +32,12 @@ using SharpWired.MessageEvents;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 
 namespace SharpWired.Model {
     /// <summary>
     /// Central class. Holds references to a number of objects and listens to connection layer.
-    /// Initializes the other controllers
+    /// Initializes the other models
     /// </summary>
     public class SharpWiredModel {
         #region Fields
@@ -76,7 +77,7 @@ namespace SharpWired.Model {
         /// </summary>
         public event ServerChanged Connected;
         /// <summary>
-        /// We are now logged in to the server.
+        /// We are now logged in to the server. NOTE! Only use this in Server. All other, listen to OnLine in server!
         /// </summary>
         public event ServerChanged LoggedIn;
 
@@ -123,7 +124,6 @@ namespace SharpWired.Model {
                 LoggedIn(server);
         }
 
-        #region Commands to server
         /// <summary>
         /// Dissconnect from the server
         /// </summary>
@@ -133,7 +133,8 @@ namespace SharpWired.Model {
             if (heartBeatTimer != null)
                 heartBeatTimer.StopTimer();
 
-            server.GoOffline();
+            if(server != null)
+                server.GoOffline();
 
             // TODO: Create enum for chat id 1
             connectionManager.Commands.Leave(1);
@@ -142,7 +143,6 @@ namespace SharpWired.Model {
 
             connectionManager.Disconnect();
         }
-        #endregion
 
         #region Initialization
         /// <summary>

@@ -160,6 +160,7 @@
             this.chatInputTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.chatInputTextBox.Enabled = false;
             this.chatInputTextBox.Location = new System.Drawing.Point(0, 1);
             this.chatInputTextBox.Multiline = true;
             this.chatInputTextBox.Name = "chatInputTextBox";
@@ -171,6 +172,7 @@
             // 
             this.sendChatButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.sendChatButton.Enabled = false;
             this.sendChatButton.Location = new System.Drawing.Point(385, 1);
             this.sendChatButton.Name = "sendChatButton";
             this.sendChatButton.Size = new System.Drawing.Size(54, 35);

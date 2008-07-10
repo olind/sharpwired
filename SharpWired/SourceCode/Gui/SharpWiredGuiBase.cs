@@ -30,6 +30,7 @@ using System.Text;
 using System.Windows.Forms;
 using SharpWired.Model;
 using SharpWired.Controller;
+using System.Diagnostics;
 
 namespace SharpWired.Gui {
     /// <summary>
@@ -38,22 +39,36 @@ namespace SharpWired.Gui {
     /// </summary>
     public class SharpWiredGuiBase : UserControl { //I wanted to make this class abstract but then can't the visual studio designer handle it...
 
+        
         protected SharpWiredController controller;
         protected SharpWiredModel model;
+        //protected Server server;
+        private delegate void ToggleWindowsFormsControlCallback(Control control);
 
         public void Init(SharpWiredModel model, SharpWiredController controller) {
             this.model = model;
             this.controller = controller;
 
-            model.LoggedIn += OnLoggedIn;
+            model.Connected += OnConnected;
         }
 
-        private void OnLoggedIn(Server s) {
+        private void OnConnected(Server s) {
             s.Offline += OnOffline;
             s.Online += OnOnline;
+            //this.server = s;
         }
 
         protected virtual void OnOnline() { }
         protected virtual void OnOffline() { }
+
+        protected void ToggleWindowsFormControl(Control control) {
+            if (this.InvokeRequired) {
+                ToggleWindowsFormsControlCallback callback 
+                    = new ToggleWindowsFormsControlCallback(ToggleWindowsFormControl);
+                this.Invoke(callback, new object[] { control });
+            } else {
+                control.Enabled = !control.Enabled;
+            }
+        }
     }
 }
