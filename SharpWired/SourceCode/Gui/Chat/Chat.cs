@@ -33,6 +33,7 @@ using SharpWired.Model.Messaging;
 using SharpWired.Controller;
 using SharpWired.Model;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace SharpWired.Gui.Chat {
 
@@ -181,6 +182,7 @@ namespace SharpWired.Gui.Chat {
             if (editable) {
                 topicDisplayLabel.Visible = false;
                 topicTextBox.Visible = true;
+                topicTextBox.BackColor = Color.White;
                 topicTextBox.Focus();
             } else {
                 topicDisplayLabel.Visible = true;

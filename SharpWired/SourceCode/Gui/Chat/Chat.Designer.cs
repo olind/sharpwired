@@ -33,14 +33,16 @@
             this.setByHeaderLabel = new System.Windows.Forms.Label();
             this.topicHeaderLabel = new System.Windows.Forms.Label();
             this.topicTextBox = new System.Windows.Forms.TextBox();
-            this.chatInputTextBox = new System.Windows.Forms.TextBox();
+            this.chatInputTable = new System.Windows.Forms.TableLayoutPanel();
             this.sendChatButton = new System.Windows.Forms.Button();
+            this.chatInputTextBox = new System.Windows.Forms.TextBox();
             this.chatToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.chatSplitContainer.Panel1.SuspendLayout();
             this.chatSplitContainer.Panel2.SuspendLayout();
             this.chatSplitContainer.SuspendLayout();
             this.chatPanel.SuspendLayout();
             this.topicWrapperPanel.SuspendLayout();
+            this.chatInputTable.SuspendLayout();
             this.SuspendLayout();
             // 
             // chatWebBrowser
@@ -49,12 +51,13 @@
             this.chatWebBrowser.Location = new System.Drawing.Point(0, 0);
             this.chatWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.chatWebBrowser.Name = "chatWebBrowser";
-            this.chatWebBrowser.Size = new System.Drawing.Size(437, 171);
+            this.chatWebBrowser.Size = new System.Drawing.Size(437, 182);
             this.chatWebBrowser.TabIndex = 1;
             // 
             // chatSplitContainer
             // 
             this.chatSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chatSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.chatSplitContainer.Location = new System.Drawing.Point(0, 0);
             this.chatSplitContainer.Margin = new System.Windows.Forms.Padding(0);
             this.chatSplitContainer.Name = "chatSplitContainer";
@@ -67,10 +70,9 @@
             // 
             // chatSplitContainer.Panel2
             // 
-            this.chatSplitContainer.Panel2.Controls.Add(this.chatInputTextBox);
-            this.chatSplitContainer.Panel2.Controls.Add(this.sendChatButton);
+            this.chatSplitContainer.Panel2.Controls.Add(this.chatInputTable);
             this.chatSplitContainer.Size = new System.Drawing.Size(439, 258);
-            this.chatSplitContainer.SplitterDistance = 218;
+            this.chatSplitContainer.SplitterDistance = 229;
             this.chatSplitContainer.TabIndex = 3;
             // 
             // chatPanel
@@ -82,7 +84,7 @@
             this.chatPanel.Controls.Add(this.chatWebBrowser);
             this.chatPanel.Location = new System.Drawing.Point(0, 44);
             this.chatPanel.Name = "chatPanel";
-            this.chatPanel.Size = new System.Drawing.Size(439, 173);
+            this.chatPanel.Size = new System.Drawing.Size(439, 184);
             this.chatPanel.TabIndex = 4;
             // 
             // topicWrapperPanel
@@ -157,31 +159,45 @@
             this.topicTextBox.Leave += new System.EventHandler(this.topicTextBox_Leave);
             this.topicTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.topicTextBox_KeyUp);
             // 
-            // chatInputTextBox
+            // chatInputTable
             // 
-            this.chatInputTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.chatInputTextBox.Enabled = false;
-            this.chatInputTextBox.Location = new System.Drawing.Point(0, 1);
-            this.chatInputTextBox.Multiline = true;
-            this.chatInputTextBox.Name = "chatInputTextBox";
-            this.chatInputTextBox.Size = new System.Drawing.Size(379, 35);
-            this.chatInputTextBox.TabIndex = 10;
-            this.chatInputTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.chatInputTextBox_KeyUp);
+            this.chatInputTable.ColumnCount = 2;
+            this.chatInputTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 78.13212F));
+            this.chatInputTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21.86788F));
+            this.chatInputTable.Controls.Add(this.sendChatButton, 1, 0);
+            this.chatInputTable.Controls.Add(this.chatInputTextBox, 0, 0);
+            this.chatInputTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chatInputTable.Location = new System.Drawing.Point(0, 0);
+            this.chatInputTable.Name = "chatInputTable";
+            this.chatInputTable.RowCount = 1;
+            this.chatInputTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.chatInputTable.Size = new System.Drawing.Size(439, 25);
+            this.chatInputTable.TabIndex = 11;
             // 
             // sendChatButton
             // 
-            this.sendChatButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.sendChatButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sendChatButton.Enabled = false;
-            this.sendChatButton.Location = new System.Drawing.Point(385, 1);
+            this.sendChatButton.Location = new System.Drawing.Point(347, 0);
+            this.sendChatButton.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
             this.sendChatButton.Name = "sendChatButton";
-            this.sendChatButton.Size = new System.Drawing.Size(54, 35);
+            this.sendChatButton.Size = new System.Drawing.Size(92, 25);
             this.sendChatButton.TabIndex = 9;
             this.sendChatButton.Text = "Send";
             this.sendChatButton.UseVisualStyleBackColor = true;
             this.sendChatButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.sendChatButton_MouseUp);
+            // 
+            // chatInputTextBox
+            // 
+            this.chatInputTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chatInputTextBox.Enabled = false;
+            this.chatInputTextBox.Location = new System.Drawing.Point(0, 1);
+            this.chatInputTextBox.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.chatInputTextBox.Multiline = true;
+            this.chatInputTextBox.Name = "chatInputTextBox";
+            this.chatInputTextBox.Size = new System.Drawing.Size(342, 23);
+            this.chatInputTextBox.TabIndex = 10;
+            this.chatInputTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.chatInputTextBox_KeyUp);
             // 
             // Chat
             // 
@@ -192,11 +208,12 @@
             this.Size = new System.Drawing.Size(439, 258);
             this.chatSplitContainer.Panel1.ResumeLayout(false);
             this.chatSplitContainer.Panel2.ResumeLayout(false);
-            this.chatSplitContainer.Panel2.PerformLayout();
             this.chatSplitContainer.ResumeLayout(false);
             this.chatPanel.ResumeLayout(false);
             this.topicWrapperPanel.ResumeLayout(false);
             this.topicWrapperPanel.PerformLayout();
+            this.chatInputTable.ResumeLayout(false);
+            this.chatInputTable.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -215,5 +232,6 @@
         private System.Windows.Forms.ToolTip chatToolTip;
         private System.Windows.Forms.TextBox chatInputTextBox;
         private System.Windows.Forms.Panel chatPanel;
+        private System.Windows.Forms.TableLayoutPanel chatInputTable;
     }
 }

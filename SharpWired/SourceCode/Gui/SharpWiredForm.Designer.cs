@@ -75,16 +75,12 @@ namespace SharpWired.Gui
             this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel_ServerStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.mBookmarkLoadingTimer = new System.Windows.Forms.Timer(this.components);
-            this.chatTabControl = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.chatUserContainer = new SharpWired.Gui.Chat.ChatUserContainer();
             this.filesUserControl1 = new SharpWired.Gui.Files.FilesUserControl();
             this.newsContainer = new SharpWired.Gui.News.NewsContainer();
             this.mainMenu.SuspendLayout();
             this.mainIconMenu.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
-            this.chatTabControl.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenu
@@ -252,46 +248,25 @@ namespace SharpWired.Gui
             // 
             this.mBookmarkLoadingTimer.Tick += new System.EventHandler(this.mBookmarkLoadingTimer_Tick);
             // 
-            // chatTabControl
-            // 
-            this.chatTabControl.Controls.Add(this.tabPage1);
-            this.chatTabControl.Location = new System.Drawing.Point(91, 147);
-            this.chatTabControl.Name = "chatTabControl";
-            this.chatTabControl.SelectedIndex = 0;
-            this.chatTabControl.Size = new System.Drawing.Size(526, 327);
-            this.chatTabControl.TabIndex = 10;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.chatUserContainer);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(518, 301);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Public Chat";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
             // chatUserContainer
             // 
-            this.chatUserContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chatUserContainer.Location = new System.Drawing.Point(3, 3);
+            this.chatUserContainer.Location = new System.Drawing.Point(38, 87);
             this.chatUserContainer.Name = "chatUserContainer";
-            this.chatUserContainer.Size = new System.Drawing.Size(512, 295);
+            this.chatUserContainer.Size = new System.Drawing.Size(288, 176);
             this.chatUserContainer.TabIndex = 8;
             // 
             // filesUserControl1
             // 
-            this.filesUserControl1.Location = new System.Drawing.Point(195, 67);
+            this.filesUserControl1.Location = new System.Drawing.Point(342, 67);
             this.filesUserControl1.Name = "filesUserControl1";
-            this.filesUserControl1.Size = new System.Drawing.Size(410, 238);
+            this.filesUserControl1.Size = new System.Drawing.Size(263, 196);
             this.filesUserControl1.TabIndex = 11;
             // 
             // newsContainer
             // 
-            this.newsContainer.Location = new System.Drawing.Point(45, 132);
+            this.newsContainer.Location = new System.Drawing.Point(25, 286);
             this.newsContainer.Name = "newsContainer";
-            this.newsContainer.Size = new System.Drawing.Size(572, 342);
+            this.newsContainer.Size = new System.Drawing.Size(488, 136);
             this.newsContainer.TabIndex = 9;
             this.newsContainer.Visible = false;
             // 
@@ -300,8 +275,8 @@ namespace SharpWired.Gui
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(617, 496);
+            this.Controls.Add(this.chatUserContainer);
             this.Controls.Add(this.filesUserControl1);
-            this.Controls.Add(this.chatTabControl);
             this.Controls.Add(this.newsContainer);
             this.Controls.Add(this.mainStatusStrip);
             this.Controls.Add(this.mainIconMenu);
@@ -316,8 +291,6 @@ namespace SharpWired.Gui
             this.mainIconMenu.PerformLayout();
             this.mainStatusStrip.ResumeLayout(false);
             this.mainStatusStrip.PerformLayout();
-            this.chatTabControl.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -346,8 +319,6 @@ namespace SharpWired.Gui
         private System.Windows.Forms.Timer mBookmarkLoadingTimer;
         private ChatUserContainer chatUserContainer;
         private SharpWired.Gui.News.NewsContainer newsContainer;
-        private System.Windows.Forms.TabControl chatTabControl;
-        private System.Windows.Forms.TabPage tabPage1;
         private SharpWired.Gui.Files.FilesUserControl filesUserControl1;
     }
 }

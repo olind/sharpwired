@@ -74,12 +74,12 @@ namespace SharpWired.Gui {
 
             filesUserControl1.Init(model, sharpWiredController);
 
-            chatTabControl.Dock = DockStyle.Fill;
+            chatUserContainer.Dock = DockStyle.Fill;
             newsContainer.Dock = DockStyle.Fill;
             filesUserControl1.Dock = DockStyle.Fill;
 
             newsContainer.Visible = false;
-            chatTabControl.Visible = true;
+            chatUserContainer.Visible = true;
             filesUserControl1.Visible = false;
 
             publicChatToolStripButton.Enabled = false;
@@ -278,7 +278,7 @@ namespace SharpWired.Gui {
         /// <param name="e"></param>
         private void newsToolStripButton_Click(object sender, EventArgs e) {
             newsContainer.Visible = true;
-            chatTabControl.Visible = false;
+            chatUserContainer.Visible = false;
             filesUserControl1.Visible = false;
 
             publicChatToolStripButton.Enabled = true;
@@ -294,7 +294,7 @@ namespace SharpWired.Gui {
         /// <param name="e"></param>
         private void publicChatToolStripButton_Click(object sender, EventArgs e) {
             newsContainer.Visible = false;
-            chatTabControl.Visible = true;
+            chatUserContainer.Visible = true;
             filesUserControl1.Visible = false;
 
             publicChatToolStripButton.Enabled = false;
@@ -310,7 +310,7 @@ namespace SharpWired.Gui {
         /// <param name="e"></param>
         private void filesToolStripButton_Click(object sender, EventArgs e) {
             filesUserControl1.Visible = true;
-            chatTabControl.Visible = false;
+            chatUserContainer.Visible = false;
             newsContainer.Visible = false;
 
             publicChatToolStripButton.Enabled = true;

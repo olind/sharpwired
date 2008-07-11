@@ -65,7 +65,7 @@ namespace SharpWired.Gui.Chat
             // chatSplitContainer
             // 
             this.chatSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chatSplitContainer.Location = new System.Drawing.Point(0, 0);
+            this.chatSplitContainer.Location = new System.Drawing.Point(5, 5);
             this.chatSplitContainer.Margin = new System.Windows.Forms.Padding(0);
             this.chatSplitContainer.Name = "chatSplitContainer";
             // 
@@ -76,34 +76,35 @@ namespace SharpWired.Gui.Chat
             // chatSplitContainer.Panel2
             // 
             this.chatSplitContainer.Panel2.Controls.Add(this.userList);
-            this.chatSplitContainer.Size = new System.Drawing.Size(517, 353);
-            this.chatSplitContainer.SplitterDistance = 384;
+            this.chatSplitContainer.Size = new System.Drawing.Size(507, 343);
+            this.chatSplitContainer.SplitterDistance = 375;
             this.chatSplitContainer.TabIndex = 8;
             // 
-            // chatControl
+            // chat
             // 
             this.chat.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chat.Location = new System.Drawing.Point(0, 0);
-            this.chat.Name = "chatControl";
-            this.chat.Size = new System.Drawing.Size(384, 353);
+            this.chat.Name = "chat";
+            this.chat.Size = new System.Drawing.Size(375, 343);
             this.chat.TabIndex = 0;
             // 
-            // userListControl
+            // userList
             // 
             this.userList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.userList.Location = new System.Drawing.Point(2, 0);
-            this.userList.Name = "userListControl";
-            this.userList.Size = new System.Drawing.Size(127, 353);
+            this.userList.Name = "userList";
+            this.userList.Size = new System.Drawing.Size(126, 343);
             this.userList.TabIndex = 0;
             // 
-            // ChatUserControl
+            // ChatUserContainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.chatSplitContainer);
-            this.Name = "ChatUserControl";
+            this.Name = "ChatUserContainer";
+            this.Padding = new System.Windows.Forms.Padding(5);
             this.Size = new System.Drawing.Size(517, 353);
             this.chatSplitContainer.Panel1.ResumeLayout(false);
             this.chatSplitContainer.Panel2.ResumeLayout(false);
