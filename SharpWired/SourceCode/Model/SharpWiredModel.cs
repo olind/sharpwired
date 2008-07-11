@@ -61,12 +61,19 @@ namespace SharpWired.Model {
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Connect to the given bookmark. Note! Dissconnects any current connection.
+        /// </summary>
+        /// <param name="bookmark"></param>
         public void Connect(Bookmark bookmark) {
             try {
+                //TODO: Probably want to let the user confirm dissconnecting the current connection
+                if(server != null && server.PublicChat != null)
+                    Disconnect();
+                
                 connectionManager.Connect(bookmark);
             } catch (ConnectionException ce) {
-                //TODO: Move error controller to controllers.
-                //errorController.ReportConnectionExceptionError(ce);
+                Debug.WriteLine("Failed to connect: '" + ce + "'");
             }
         }
         #endregion

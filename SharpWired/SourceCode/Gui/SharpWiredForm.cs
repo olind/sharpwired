@@ -100,10 +100,33 @@ namespace SharpWired.Gui {
             }
 
             UpdateToolStripText(onlineMessage.ToString());
+
+            ToolStripItem t = GetToolStripMenuItem(mainMenu, "disconnectToolStripMenuItem");
+            if(t != null && !t.Enabled)
+                ToggleToolStripItem(t);
+        }
+
+        /// <summary>
+        /// Returns the first ToolStripItem in the given MenuStrip that matched the given name.
+        /// </summary>
+        /// <param name="strip"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private ToolStripItem GetToolStripMenuItem(MenuStrip strip, string name) {
+            ToolStripItem[] t = strip.Items.Find(name, true);
+            for (int i = 0; i < t.Length; i++) {
+                if (t[i].Name == name)
+                    return t[i];
+            }
+            return null;
         }
 
         public void OnOffline() {
             UpdateToolStripText("Disconnected");
+
+            ToolStripItem t = GetToolStripMenuItem(mainMenu, "disconnectToolStripMenuItem");
+            if (t != null && t.Enabled)
+                ToggleToolStripItem(t);
         }
 
         private void Exit(object sender) {
@@ -307,20 +330,29 @@ namespace SharpWired.Gui {
         #endregion
 
         #region Thread safe manipulation
-        /// <summary>
-        /// Thread safe update the first item in the toolstrip list. 
-        /// </summary>
-        /// <param name="text"></param>
+        delegate void UpdateToolStripTextCallback(String text);
+        delegate void ToggleToolStripItemCallback(ToolStripItem tsi);
+
         private void UpdateToolStripText(String text) {
             if (this.InvokeRequired) {
                 UpdateToolStripTextCallback callback = new UpdateToolStripTextCallback(UpdateToolStripText);
                 this.Invoke(callback, new object[] { text });
             } else {
-                ToolStripItem[] toolstrips = this.statusStrip1.Items.Find("toolStripStatusLabel_ServerStatus", true);
+                ToolStripItem[] toolstrips = this.mainStatusStrip.Items.Find("toolStripStatusLabel_ServerStatus", true);
                 toolstrips[0].Text = text;
             }
         }
-        delegate void UpdateToolStripTextCallback(String text);
+
+        private void ToggleToolStripItem(ToolStripItem tsi) {
+            if (this.InvokeRequired) {
+                ToggleToolStripItemCallback callback
+                    = new ToggleToolStripItemCallback(ToggleToolStripItem);
+                this.Invoke(callback, new object[] { tsi });
+            } else {
+                tsi.Enabled = !tsi.Enabled;
+            }
+        }
+
         #endregion
     }
 }

@@ -115,6 +115,7 @@ namespace SharpWired.Gui.News
             this.postNewsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.postNewsTextBox.Enabled = false;
             this.postNewsTextBox.Location = new System.Drawing.Point(3, 3);
             this.postNewsTextBox.Multiline = true;
             this.postNewsTextBox.Name = "postNewsTextBox";
@@ -125,6 +126,7 @@ namespace SharpWired.Gui.News
             // 
             this.postNewsButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.postNewsButton.Enabled = false;
             this.postNewsButton.Location = new System.Drawing.Point(400, 2);
             this.postNewsButton.Name = "postNewsButton";
             this.postNewsButton.Size = new System.Drawing.Size(64, 54);
@@ -133,12 +135,12 @@ namespace SharpWired.Gui.News
             this.postNewsButton.UseVisualStyleBackColor = true;
             this.postNewsButton.Click += new System.EventHandler(this.postNewsButton_Click);
             // 
-            // NewsUserControl
+            // NewsContainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
-            this.Name = "NewsUserControl";
+            this.Name = "NewsContainer";
             this.Size = new System.Drawing.Size(467, 335);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

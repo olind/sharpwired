@@ -15,11 +15,12 @@ namespace SharpWired.Controller {
         private GroupController             groupController;
         private PrivateMessageController    privateMessagesController;
 
-        private SharpWiredModel                  model;
+        private SharpWiredModel             model;
 
         public FileTransferHandler FileTransferHandler { get { return fileTransferHandler; } }
         public FileListingController FileListingController { get { return fileListingController; } }
         public ChatController ChatController { get { return chatController; } }
+        public UserController UserController { get { return userController; } }
         
         public SharpWiredController(SharpWiredModel model) {
             model.LoggedIn += OnLoggedIn;

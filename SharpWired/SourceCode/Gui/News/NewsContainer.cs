@@ -40,126 +40,53 @@ using SharpWired.Controller;
 
 namespace SharpWired.Gui.News {
     public partial class NewsContainer : SharpWiredGuiBase {
-        #region Fields
-        StringBuilder newsBodyContent = new StringBuilder();
-        string newsStyleSheet;
-        string newsJavaScript;
-        string newsHeader;
-        string newsFooter;
-        string chatCSSFilePath;
-        private int altItemCounter;
-        #endregion
+        delegate void WriteToNewsCallback(GuiMessageItem guiMessage);
 
-        #region Constructor + Init
-        /// <summary>
-        /// Constructor
-        /// </summary>
         public NewsContainer() {
             InitializeComponent();
-
-            newsStyleSheet = "<link href=\"" + CSSFilePath + "\\GUI\\SharpWiredStyleSheet.css\" rel=\"stylesheet\" type=\"text/css\" />";
-            newsJavaScript = "<script>function pageDown () { if (window.scrollBy) window.scrollBy(0, window.innerHeight ? window.innerHeight : document.body.clientHeight); }</script>";
-
-            newsHeader = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" +
-                "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">" +
-                "<head><title>SharpWired</title>" +
-                    newsJavaScript +
-                    newsStyleSheet +
-                "</head><body onload=\"pageDown(); return false;\">";
-
-            newsFooter = "</body></html>";
-            newsWebBrowser.DocumentText = newsHeader + newsFooter;
         }
-        /// <summary>
-        /// Inits the news class - Call when logged in correctly
-        /// </summary>
-        /// <param name="model"></param>
-        public void Init(SharpWiredModel model, SharpWiredController controller) {
+
+        public override void Init(SharpWiredModel model, SharpWiredController controller) {
             base.Init(model, controller);
         }
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// Get or set the file path for the CSS-file
-        /// </summary>
-        public string CSSFilePath {
-            get {
-                if (chatCSSFilePath == null)
-                    return System.Environment.CurrentDirectory;
-                return chatCSSFilePath;
-            }
-            set { chatCSSFilePath = value; }
-        }
-
-        /// <summary>
-        /// Get the HTML-code to output for the standard/alt-items
-        /// </summary>
-        private string AltItemBeginningHtml {
-            get {
-                if (altItemCounter % 2 == 0) {
-                    altItemCounter++;
-                    return "<div class=\"standard\">";
-                }
-                altItemCounter++;
-                return "<div class=\"alternative\">";
-            }
-        }
-        #endregion
-
-        # region Methods: Sending messages
-        private void postNewsButton_Click(object sender, EventArgs e) {
-            string text = this.postNewsTextBox.Text.Trim();
-            if (text.Length > 0)
-                model.ConnectionManager.Commands.Post(this.postNewsTextBox.Text);
-
-            postNewsTextBox.Clear();
-        }
-        #endregion
-
-        #region Methods: Receiving messages
-        /// <summary>
-        /// Writes the HTML-formated string to the GUI
-        /// </summary>
-        /// <param name="guiMessage"></param>
-        private void WriteHTMLToNews(GuiMessageItem guiMessage) {
-            if (this.InvokeRequired) {
-                WriteToNewsCallback writeToNewsCallback =
-                    new WriteToNewsCallback(WriteHTMLToNews);
-                this.Invoke(writeToNewsCallback, new object[] { guiMessage });
-            } else {
-                newsBodyContent.Append(this.AltItemBeginningHtml);
-                newsBodyContent.Append(guiMessage.GeneratedHTML);
-                newsBodyContent.Append("</div>");
-                newsWebBrowser.DocumentText = newsHeader +
-                    newsBodyContent + newsFooter;
-            }
-        }
-
-        void OnNewsListingDone(List<NewsPost> newsList) {
-            foreach (NewsPost n in newsList) {
-                GuiMessageItem m = new GuiMessageItem(n);
-                WriteHTMLToNews(m);
-            }
-        }
-
-        void OnNewsPostReceived(NewsPost newPost) {
-            GuiMessageItem m = new GuiMessageItem(newPost);
-            WriteHTMLToNews(m);
-        }
-        #endregion
-
-        #region Events & Listeners
-        delegate void WriteToNewsCallback(GuiMessageItem guiMessage);
 
         protected override void OnOnline() {
             model.Server.News.NewsPostedEvent += OnNewsPostReceived;
             model.Server.News.NewsListingDoneEvent += OnNewsListingDone;
 
+            ToggleWindowsFormControl(postNewsButton);
+            ToggleWindowsFormControl(postNewsTextBox);
+            ResetWebBrowser(newsWebBrowser);
         }
         protected override void OnOffline() {
             model.Server.News.NewsPostedEvent -= OnNewsPostReceived;
             model.Server.News.NewsListingDoneEvent += OnNewsListingDone;
+
+            ToggleWindowsFormControl(postNewsButton);
+            ToggleWindowsFormControl(postNewsTextBox);
+        }
+
+        #region Receiving from model
+        void OnNewsListingDone(List<NewsPost> newsList) {
+            foreach (NewsPost n in newsList) {
+                OnNewsPostReceived(n);
+            }
+        }
+
+        void OnNewsPostReceived(NewsPost newPost) {
+            GuiMessageItem m = new GuiMessageItem(newPost);
+            AppendHTMLToWebBrowser(newsWebBrowser, m);
+        }
+        #endregion
+
+        #region Send to controller
+        private void postNewsButton_Click(object sender, EventArgs e) {
+            //TODO: Privileges: Check if we are allowed to post news
+            string text = this.postNewsTextBox.Text.Trim();
+            if (text.Length > 0)
+                model.ConnectionManager.Commands.Post(this.postNewsTextBox.Text);
+
+            postNewsTextBox.Clear();
         }
         #endregion
     }

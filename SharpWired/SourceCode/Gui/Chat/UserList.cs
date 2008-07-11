@@ -153,25 +153,24 @@ namespace SharpWired.Gui.Chat {
                 ListView.SelectedListViewItemCollection users = this.userListView.SelectedItems;
                 if (users.Count > 0) {
                     cm.MenuItems.Add("Information", OnInformationClick);
-                    cm.MenuItems.Add("View Downloads and Uploads");
                     cm.MenuItems.Add("-");
-                    cm.MenuItems.Add("Private Chat");
-                    cm.MenuItems.Add("Private Message");
+                    cm.MenuItems.Add("Private Chat").Enabled = false;
+                    cm.MenuItems.Add("Private Message").Enabled = false;
                     cm.MenuItems.Add("-");
-                    cm.MenuItems.Add("Kick");
-                    cm.MenuItems.Add("Ban");
-                    cm.MenuItems.Add("Ignore");
+                    cm.MenuItems.Add("Kick").Enabled = false;
+                    cm.MenuItems.Add("Ban").Enabled = false;
+                    cm.MenuItems.Add("Ignore").Enabled = false;
                     cm.MenuItems.Add("-");
                 }
-                cm.MenuItems.Add("Select All");
-                cm.MenuItems.Add("Broadcast");
+                cm.MenuItems.Add("Select All").Enabled = false;
+                cm.MenuItems.Add("Broadcast").Enabled = false;
             }
         }
 
         private void OnInformationClick(object sender, EventArgs e) {
             ListView.SelectedListViewItemCollection userItems = this.userListView.SelectedItems;
             foreach (WiredListViewItem li in userItems) {
-                model.ConnectionManager.Commands.Info(li.UserItem.UserId);
+                controller.UserController.GetUserInfo(li.UserItem);
             }
         }
     }

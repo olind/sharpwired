@@ -41,22 +41,42 @@ namespace SharpWired.Gui.Chat {
     /// </summary>
     public partial class Chat : SharpWiredGuiBase {
 
-        private String chatHeader;
-        private String chatFooter;
-        private StringBuilder chatBodyContent = new StringBuilder();
-        private delegate void WriteToChatCallback(GuiMessageItem guiMessage);
         private delegate void ChangeTopicCallback(GuiMessageItem guiMessage);
-        private int altItemCounter = 0;
 
-        private string AltItemBeginningHtml {
-            get {
-                if (altItemCounter % 2 == 0) {
-                    altItemCounter++;
-                    return "<div class=\"standard\">";
-                }
-                altItemCounter++;
-                return "<div class=\"alternative\">";
-            }
+        #region Initialization
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public Chat() {
+            InitializeComponent();
+        }
+
+        public override void Init(SharpWiredModel model, SharpWiredController controller) {
+            base.Init(model, controller);
+        }
+        #endregion
+
+        protected override void OnOnline() {
+            model.Server.PublicChat.ChatMessageReceivedEvent += OnChatMessageArrived;
+            model.Server.PublicChat.ChatTopicChangedEvent += OnChatTopicChanged;
+
+            ToggleWindowsFormControl(chatInputTextBox);
+            ToggleWindowsFormControl(sendChatButton);
+            ToggleWindowsFormControl(topicDisplayLabel);
+            ToggleWindowsFormControl(setByLabel);
+
+            ResetWebBrowser(chatWebBrowser);
+        }
+
+        protected override void OnOffline() {
+            model.Server.Offline -= OnOffline;
+            model.Server.PublicChat.ChatMessageReceivedEvent -= OnChatMessageArrived;
+            model.Server.PublicChat.ChatTopicChangedEvent -= OnChatTopicChanged;
+
+            ToggleWindowsFormControl(chatInputTextBox);
+            ToggleWindowsFormControl(sendChatButton);
+            ToggleWindowsFormControl(topicDisplayLabel);
+            ToggleWindowsFormControl(setByLabel);
         }
 
         /// <summary>
@@ -74,7 +94,7 @@ namespace SharpWired.Gui.Chat {
         /// <param name="chatMessageItem">The chat message item that was received</param>
         public void OnChatMessageArrived(ChatMessageItem chatMessageItem) {
             GuiMessageItem guiMessage = new GuiMessageItem(chatMessageItem);
-            WriteHTMLToChat(guiMessage);
+            AppendHTMLToWebBrowser(chatWebBrowser, guiMessage);
         }
 
         /// <summary>
@@ -86,21 +106,9 @@ namespace SharpWired.Gui.Chat {
         public void OnErrorEvent(string errorDescription, string solutionIdea,
             Bookmark bookmark) {
             GuiMessageItem gmi = new GuiMessageItem(errorDescription, solutionIdea, bookmark);
-            WriteHTMLToChat(gmi);
+            AppendHTMLToWebBrowser(chatWebBrowser, gmi);
         }
-
-        private void WriteHTMLToChat(GuiMessageItem guiMessage) {
-            if (this.InvokeRequired) {
-                WriteToChatCallback writeToChatCallback = new WriteToChatCallback(WriteHTMLToChat);
-                this.Invoke(writeToChatCallback, new object[] { guiMessage });
-            } else {
-                chatBodyContent.Append(this.AltItemBeginningHtml);
-                chatBodyContent.Append(guiMessage.GeneratedHTML);
-                chatBodyContent.Append("</div>");
-                chatWebBrowser.DocumentText = chatHeader + chatBodyContent + chatFooter;
-            }
-        }
-
+        
         private void ChangeTopic(GuiMessageItem guiMessage) {
             if (this.InvokeRequired) {
                 ChangeTopicCallback changeTopicCallback = new ChangeTopicCallback(ChangeTopic);
@@ -117,7 +125,7 @@ namespace SharpWired.Gui.Chat {
 
         #region Send chat messages
         private void sendChatButton_MouseUp(object sender, MouseEventArgs e) {
-            this.controller.ChatController.SendChatMessage(chatInputTextBox.Text);
+            controller.ChatController.SendChatMessage(chatInputTextBox.Text);
             chatInputTextBox.Clear();
         }
 
@@ -149,8 +157,11 @@ namespace SharpWired.Gui.Chat {
         }
 
         private void topicDisplayLabel_MouseUp(object sender, MouseEventArgs e) {
-            topicTextBox.Text = topicDisplayLabel.Text;
-            enableTopicEditing(true);
+            //TODO: Make better check to see if we are online/offline
+            if (this.model.Server != null && this.model.Server.PublicChat != null) {
+                topicTextBox.Text = topicDisplayLabel.Text;
+                enableTopicEditing(true); 
+            }
         }
 
         private void topicDisplayLabel_MouseLeave(object sender, EventArgs e) {
@@ -158,7 +169,8 @@ namespace SharpWired.Gui.Chat {
         }
 
         private void topicDisplayLabel_MouseEnter(object sender, EventArgs e) {
-            topicDisplayLabel.Cursor = Cursors.Hand;
+            if(this.model.Server != null && this.model.Server.PublicChat != null) //TODO: Make better check to see if we are online/offline
+                topicDisplayLabel.Cursor = Cursors.Hand;
         }
 
         private void topicTextBox_Leave(object sender, EventArgs e) {
@@ -176,56 +188,5 @@ namespace SharpWired.Gui.Chat {
             }
         }
         #endregion
-
-        #region Initialization
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public Chat() {
-            InitializeComponent();
-
-            String chatStyleSheet = "<link href=\"" + GuiUtil.CSSFilePath + "\\GUI\\SharpWiredStyleSheet.css\" rel=\"stylesheet\" type=\"text/css\" />";
-            String chatJavaScript = "<script>function pageDown () { if (window.scrollBy) window.scrollBy(0, window.innerHeight ? window.innerHeight : document.body.clientHeight); }</script>";
-
-            chatHeader = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" +
-                "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">" +
-                "<head><title>SharpWired</title>" +
-                    chatJavaScript +
-                    chatStyleSheet +
-                "</head><body onload=\"pageDown(); return false;\">";
-
-            chatFooter = "</body></html>";
-
-            chatWebBrowser.DocumentText = chatHeader + chatFooter;
-        }
-
-        /// <summary>
-        /// Initializes this component
-        /// </summary>
-        /// <param name="chatId">The id for this chat</param>
-        /// <param name="controller"></param>
-        /// <param name="model"></param>
-        public void Init(SharpWiredModel model, SharpWiredController controller) {
-            base.Init(model, controller);
-        }
-        #endregion
-
-        protected override void OnOnline() {
-            model.Server.PublicChat.ChatMessageReceivedEvent += OnChatMessageArrived;
-            model.Server.PublicChat.ChatTopicChangedEvent += OnChatTopicChanged;
-
-            ToggleWindowsFormControl(chatInputTextBox);
-            ToggleWindowsFormControl(sendChatButton);
-            WriteHTMLToChat(new GuiMessageItem());
-        }
-
-        protected override void OnOffline() {
-            model.Server.Offline -= OnOffline;
-            model.Server.PublicChat.ChatMessageReceivedEvent -= OnChatMessageArrived;
-            model.Server.PublicChat.ChatTopicChangedEvent -= OnChatTopicChanged;
-
-            ToggleWindowsFormControl(chatInputTextBox);
-            ToggleWindowsFormControl(sendChatButton);
-        }
     }
 }

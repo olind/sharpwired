@@ -25,6 +25,8 @@
 #endregion
 
 using SharpWired.Model;
+using System.Collections.Generic;
+using SharpWired.Model.Users;
 namespace SharpWired.Controller {
     /// <summary>
     /// This class represents the users connected to the chat. If this chat is the public chat, 
@@ -36,5 +38,22 @@ namespace SharpWired.Controller {
         /// Constructor
         /// </summary>
         public UserController(SharpWiredModel model) : base(model) { }
+
+        /// <summary>
+        /// Get the user information for the given list of users.
+        /// </summary>
+        /// <param name="users"></param>
+        public void GetUserInfo(List<User> users) {
+            foreach (User u in users)
+                GetUserInfo(u);
+        }
+
+        /// <summary>
+        /// Request the user information for the given user.
+        /// </summary>
+        /// <param name="user"></param>
+        public void GetUserInfo(User user) {
+            commands.Info(user.UserId);
+        }
     }
 }

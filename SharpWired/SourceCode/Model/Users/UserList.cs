@@ -31,7 +31,7 @@ using SharpWired.MessageEvents;
 namespace SharpWired.Model.Users
 {
     /// <summary>
-    /// Represents a user
+    /// Represents a user list in a chat.
     /// </summary>
     public class UserList {
 

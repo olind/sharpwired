@@ -103,6 +103,7 @@
             this.topicDisplayLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.topicDisplayLabel.Enabled = false;
             this.topicDisplayLabel.Location = new System.Drawing.Point(49, 7);
             this.topicDisplayLabel.Name = "topicDisplayLabel";
             this.topicDisplayLabel.Size = new System.Drawing.Size(385, 16);
@@ -117,6 +118,7 @@
             this.setByLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.setByLabel.Enabled = false;
             this.setByLabel.Location = new System.Drawing.Point(49, 25);
             this.setByLabel.Name = "setByLabel";
             this.setByLabel.Size = new System.Drawing.Size(385, 16);
