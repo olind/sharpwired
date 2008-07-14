@@ -44,7 +44,7 @@ namespace SharpWired.Model.News {
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="m"></param>
         public News(Messages m) {
             //All three are needed in order to sort the list
             m.NewsPostedEvent += OnNewsPosted;

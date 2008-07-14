@@ -142,20 +142,20 @@
       <SubType>Designer</SubType>
       <DependentUpon>ChatUserContainer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Files\FileDetailsControl.resx">
-      <DependentUpon>FileDetailsControl.cs</DependentUpon>
+    <EmbeddedResource Include="Gui\Files\Details.resx">
+      <DependentUpon>Details.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Files\FilesUserControl.resx">
+    <EmbeddedResource Include="Gui\Files\FilesContainer.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>FilesUserControl.cs</DependentUpon>
+      <DependentUpon>FilesContainer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Files\FileTreeControl.resx">
+    <EmbeddedResource Include="Gui\Files\Tree.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>FileTreeControl.cs</DependentUpon>
+      <DependentUpon>Tree.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Files\BreadCrumbControl.resx">
-      <DependentUpon>BreadCrumbControl.cs</DependentUpon>
+    <EmbeddedResource Include="Gui\Files\BreadCrumb.resx">
+      <DependentUpon>BreadCrumb.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\News\NewsContainer.resx">
@@ -265,33 +265,32 @@
     </Compile>
     <Compile Include="Gui\Chat\WiredListViewItem.cs" />
     <Compile Include="Gui\GuiMessageItem.cs" />
-    <Compile Include="Gui\Files\FileDetailsControl.cs">
+    <Compile Include="Gui\Files\Details.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Gui\Files\FileDetailsControl.Designer.cs">
-      <DependentUpon>FileDetailsControl.cs</DependentUpon>
+    <Compile Include="Gui\Files\Details.Designer.cs">
+      <DependentUpon>Details.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\Files\BreadCrumbControl.cs">
+    <Compile Include="Gui\Files\BreadCrumb.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Gui\Files\BreadCrumbControl.Designer.cs">
-      <DependentUpon>BreadCrumbControl.cs</DependentUpon>
+    <Compile Include="Gui\Files\BreadCrumb.Designer.cs">
+      <DependentUpon>BreadCrumb.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\Files\TransferRequestEventArgs.cs" />
     <Compile Include="Gui\Files\WiredNodeArgs.cs" />
-    <Compile Include="Gui\Files\FilesUserControl.cs">
+    <Compile Include="Gui\Files\FilesContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Gui\Files\FilesUserControl.Designer.cs">
-      <DependentUpon>FilesUserControl.cs</DependentUpon>
+    <Compile Include="Gui\Files\FilesContainer.Designer.cs">
+      <DependentUpon>FilesContainer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\Files\FileTreeControl.cs">
+    <Compile Include="Gui\Files\Tree.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Gui\Files\FileTreeControl.Designer.cs">
-      <DependentUpon>FileTreeControl.cs</DependentUpon>
+    <Compile Include="Gui\Files\Tree.Designer.cs">
+      <DependentUpon>Tree.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\Files\GuiFilesController.cs" />
     <Compile Include="Gui\Files\WiredListNode.cs" />
     <Compile Include="Gui\Files\WiredTreeNode.cs" />
     <Compile Include="Gui\GuiUtil.cs" />

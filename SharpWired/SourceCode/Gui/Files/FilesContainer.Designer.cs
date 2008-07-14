@@ -1,6 +1,6 @@
 namespace SharpWired.Gui.Files
 {
-    partial class FilesUserControl
+    partial class FilesContainer
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,9 +29,9 @@ namespace SharpWired.Gui.Files
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.fileTreeControl = new SharpWired.Gui.Files.FileTreeControl();
-            this.fileDetailsControl = new SharpWired.Gui.Files.FileDetailsControl();
-            this.pathButtonControl = new SharpWired.Gui.Files.BreadCrumbControl();
+            this.tree = new SharpWired.Gui.Files.Tree();
+            this.details = new SharpWired.Gui.Files.Details();
+            this.breadCrumb = new SharpWired.Gui.Files.BreadCrumb();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -47,47 +47,47 @@ namespace SharpWired.Gui.Files
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.fileTreeControl);
+            this.splitContainer1.Panel1.Controls.Add(this.tree);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.fileDetailsControl);
+            this.splitContainer1.Panel2.Controls.Add(this.details);
             this.splitContainer1.Size = new System.Drawing.Size(404, 201);
             this.splitContainer1.SplitterDistance = 126;
             this.splitContainer1.TabIndex = 6;
             // 
-            // fileTreeControl
+            // tree
             // 
-            this.fileTreeControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fileTreeControl.Location = new System.Drawing.Point(0, 0);
-            this.fileTreeControl.Name = "fileTreeControl";
-            this.fileTreeControl.Size = new System.Drawing.Size(126, 201);
-            this.fileTreeControl.TabIndex = 6;
+            this.tree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tree.Location = new System.Drawing.Point(0, 0);
+            this.tree.Name = "tree";
+            this.tree.Size = new System.Drawing.Size(126, 201);
+            this.tree.TabIndex = 6;
             // 
-            // fileDetailsControl
+            // details
             // 
-            this.fileDetailsControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fileDetailsControl.Location = new System.Drawing.Point(0, 0);
-            this.fileDetailsControl.Name = "fileDetailsControl";
-            this.fileDetailsControl.Size = new System.Drawing.Size(274, 201);
-            this.fileDetailsControl.TabIndex = 0;
+            this.details.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.details.Location = new System.Drawing.Point(0, 0);
+            this.details.Name = "details";
+            this.details.Size = new System.Drawing.Size(274, 201);
+            this.details.TabIndex = 0;
             // 
-            // pathButtonControl
+            // breadCrumb
             // 
-            this.pathButtonControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.breadCrumb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.pathButtonControl.Location = new System.Drawing.Point(0, 0);
-            this.pathButtonControl.Name = "pathButtonControl";
-            this.pathButtonControl.Size = new System.Drawing.Size(404, 25);
-            this.pathButtonControl.TabIndex = 7;
+            this.breadCrumb.Location = new System.Drawing.Point(0, 0);
+            this.breadCrumb.Name = "breadCrumb";
+            this.breadCrumb.Size = new System.Drawing.Size(404, 25);
+            this.breadCrumb.TabIndex = 7;
             // 
-            // FilesUserControl
+            // FilesContainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.pathButtonControl);
+            this.Controls.Add(this.breadCrumb);
             this.Controls.Add(this.splitContainer1);
-            this.Name = "FilesUserControl";
+            this.Name = "FilesContainer";
             this.Size = new System.Drawing.Size(410, 238);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -99,8 +99,8 @@ namespace SharpWired.Gui.Files
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private FileDetailsControl fileDetailsControl;
-        private FileTreeControl fileTreeControl;
-        private BreadCrumbControl pathButtonControl;
+        private Details details;
+        private Tree tree;
+        private BreadCrumb breadCrumb;
     }
 }

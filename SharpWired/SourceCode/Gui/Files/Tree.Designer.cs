@@ -1,6 +1,6 @@
 namespace SharpWired.Gui.Files
 {
-    partial class FileDetailsControl
+    partial class Tree
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,34 +28,32 @@ namespace SharpWired.Gui.Files
         /// </summary>
         private void InitializeComponent()
         {
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.rootTreeView = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
-            // listView1
+            // rootTreeView
             // 
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Location = new System.Drawing.Point(0, 0);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(418, 298);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);
-            this.listView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseClick);
-            this.listView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.listView1_KeyUp);
+            this.rootTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rootTreeView.Location = new System.Drawing.Point(0, 0);
+            this.rootTreeView.Name = "rootTreeView";
+            this.rootTreeView.Size = new System.Drawing.Size(336, 333);
+            this.rootTreeView.TabIndex = 6;
+            //this.rootTreeView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.rootTreeView_MouseDoubleClick);
+            this.rootTreeView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rootTreeView_MouseClick);
             // 
-            // FileDetailsControl
+            // FileTreeControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.listView1);
-            this.Name = "FileDetailsControl";
-            this.Size = new System.Drawing.Size(418, 298);
+            this.Controls.Add(this.rootTreeView);
+            this.Name = "FileTreeControl";
+            this.Size = new System.Drawing.Size(336, 333);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.TreeView rootTreeView;
     }
 }

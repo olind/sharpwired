@@ -123,11 +123,6 @@ namespace SharpWired.Gui.Chat {
             userList.ClientLeft -= RemoveUser;
             userListView.Clear();
         }
-
-        public void Init(SharpWiredModel model, SharpWiredController controller) {
-            base.Init(model, controller);
-        }
-
         #endregion
 
         #region Initialization of UserListControl

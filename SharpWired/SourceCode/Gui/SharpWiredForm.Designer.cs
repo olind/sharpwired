@@ -76,7 +76,7 @@ namespace SharpWired.Gui
             this.toolStripStatusLabel_ServerStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.mBookmarkLoadingTimer = new System.Windows.Forms.Timer(this.components);
             this.chatUserContainer = new SharpWired.Gui.Chat.ChatUserContainer();
-            this.filesUserControl1 = new SharpWired.Gui.Files.FilesUserControl();
+            this.filesUserControl1 = new SharpWired.Gui.Files.FilesContainer();
             this.newsContainer = new SharpWired.Gui.News.NewsContainer();
             this.mainMenu.SuspendLayout();
             this.mainIconMenu.SuspendLayout();
@@ -319,7 +319,7 @@ namespace SharpWired.Gui
         private System.Windows.Forms.Timer mBookmarkLoadingTimer;
         private ChatUserContainer chatUserContainer;
         private SharpWired.Gui.News.NewsContainer newsContainer;
-        private SharpWired.Gui.Files.FilesUserControl filesUserControl1;
+        private SharpWired.Gui.Files.FilesContainer filesUserControl1;
     }
 }
 

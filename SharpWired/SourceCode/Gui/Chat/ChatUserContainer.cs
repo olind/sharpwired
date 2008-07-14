@@ -47,7 +47,7 @@ namespace SharpWired.Gui.Chat {
         /// </summary>
         /// <param name="model"></param>
         /// <param name="controller"></param>
-        public void Init(SharpWiredModel model, SharpWiredController controller) {
+        public override void Init(SharpWiredModel model, SharpWiredController controller) {
             base.Init(model, controller);
             chat.Init(model, controller);
             userList.Init(model, controller);

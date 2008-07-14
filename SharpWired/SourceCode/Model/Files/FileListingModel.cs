@@ -46,7 +46,7 @@ namespace SharpWired.Model.Files
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="m"></param>
         public FileListingModel(Messages m) {
             m.FileListingEvent += OnFileListingEvent;
             m.FileListingDoneEvent += OnFileListingDoneEvent;

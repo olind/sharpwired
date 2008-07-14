@@ -1,6 +1,6 @@
 namespace SharpWired.Gui.Files
 {
-    partial class BreadCrumbControl
+    partial class Details
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,29 +28,34 @@ namespace SharpWired.Gui.Files
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.detailsListView = new System.Windows.Forms.ListView();
             this.SuspendLayout();
             // 
-            // flowLayoutPanel1
+            // detailsListView
             // 
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(150, 150);
-            this.flowLayoutPanel1.TabIndex = 0;
+            this.detailsListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.detailsListView.Location = new System.Drawing.Point(0, 0);
+            this.detailsListView.Name = "detailsListView";
+            this.detailsListView.Size = new System.Drawing.Size(418, 298);
+            this.detailsListView.TabIndex = 0;
+            this.detailsListView.UseCompatibleStateImageBehavior = false;
+            this.detailsListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.detailsListView_MouseDoubleClick);
+            this.detailsListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.detailsListView_MouseClick);
+            this.detailsListView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.detailsListView_KeyUp);
             // 
-            // BreadCrumbControl
+            // Details
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.flowLayoutPanel1);
-            this.Name = "BreadCrumbControl";
+            this.Controls.Add(this.detailsListView);
+            this.Name = "Details";
+            this.Size = new System.Drawing.Size(418, 298);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.ListView detailsListView;
     }
 }

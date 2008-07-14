@@ -40,8 +40,6 @@ namespace SharpWired
 {
     class SharpWiredMain
     {
-        private Gui.SharpWiredForm publicChat;
-
         /// <summary>
         /// The main entry point for the application.
         /// </summary>

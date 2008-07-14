@@ -46,7 +46,7 @@ namespace SharpWired.Model.Messaging {
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="m"></param>
         /// <param name="chatId"></param>
         public Chat(Messages m, int chatId) {
             this.chatId = chatId;

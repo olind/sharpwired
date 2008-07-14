@@ -66,6 +66,9 @@ namespace SharpWired.Gui {
         protected virtual void OnOnline() { }
         protected virtual void OnOffline() { }
 
+        //TODO: Move the HTML specifics to a class that extends 
+        //SharpWiredGuiBase. Like the files class FilesGuiBase and 
+        //have Chat + News extend that instead.
         private string AltItemBeginningHtml {
             get {
                 if (altItemCounter % 2 == 0) {

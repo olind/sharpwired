@@ -1,6 +1,6 @@
 namespace SharpWired.Gui.Files
 {
-    partial class FileTreeControl
+    partial class BreadCrumb
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,33 +28,29 @@ namespace SharpWired.Gui.Files
         /// </summary>
         private void InitializeComponent()
         {
-            this.rootTreeView = new System.Windows.Forms.TreeView();
+            this.breadCrumbsFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
-            // rootTreeView
+            // breadCrumbsFlowLayoutPanel
             // 
-            this.rootTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rootTreeView.Location = new System.Drawing.Point(0, 0);
-            this.rootTreeView.Name = "rootTreeView";
-            this.rootTreeView.Size = new System.Drawing.Size(336, 333);
-            this.rootTreeView.TabIndex = 6;
-            this.rootTreeView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.rootTreeView_MouseDoubleClick);
-            this.rootTreeView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rootTreeView_MouseClick);
+            this.breadCrumbsFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.breadCrumbsFlowLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.breadCrumbsFlowLayoutPanel.Name = "breadCrumbsFlowLayoutPanel";
+            this.breadCrumbsFlowLayoutPanel.Size = new System.Drawing.Size(150, 150);
+            this.breadCrumbsFlowLayoutPanel.TabIndex = 0;
             // 
-            // FileTreeControl
+            // BreadCrumb
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.rootTreeView);
-            this.Name = "FileTreeControl";
-            this.Size = new System.Drawing.Size(336, 333);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FileTreeControl_KeyUp);
+            this.Controls.Add(this.breadCrumbsFlowLayoutPanel);
+            this.Name = "BreadCrumb";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TreeView rootTreeView;
+        private System.Windows.Forms.FlowLayoutPanel breadCrumbsFlowLayoutPanel;
     }
 }
