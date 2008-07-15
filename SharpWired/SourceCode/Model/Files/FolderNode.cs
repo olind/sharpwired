@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Text;
 using SharpWired.MessageEvents;
 using System.Collections;
+using System.Diagnostics;
 
 namespace SharpWired.Model.Files
 {
@@ -81,6 +82,8 @@ namespace SharpWired.Model.Files
         {
             if (FolderNodeUpdatedEvent != null)
                 FolderNodeUpdatedEvent(this);
+            else
+                Debug.WriteLine("FolderNode.DoneUpdating wasn't triggered (probably since the listeners hasn't been attached yet....). Node: '" + this.Path + "'. GUI/Files/Details is to slow when subscribing! Replace event notification with direct method call?");
         }
 
         /// <summary>

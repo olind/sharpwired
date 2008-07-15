@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Text;
 using SharpWired.MessageEvents;
 using SharpWired.Connection;
+using System.Diagnostics;
 
 namespace SharpWired.Model.Files
 {
@@ -218,23 +219,32 @@ namespace SharpWired.Model.Files
 
         #region Events & Listeners
         /// <summary>
+        /// Delegate for FileModelUpdatedEvent
+        /// </summary>
+        /// <param name="addedNodes"></param>
+        public delegate void FileModelUpdatedDelegate(List<FileSystemEntry> addedNodes);
+        /// <summary>
+        /// Raised when new files are added to the model
+        /// </summary>
+        public event FileModelUpdatedDelegate FileModelUpdatedEvent;
+
+        /// <summary>
         /// A file listing message was received (Listener (from message layer) for FileListingEvents)
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="messageEventArgs"></param>
-        void OnFileListingEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_410420 messageEventArgs) {
+        /// <param name="m"></param>
+        void OnFileListingEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_410420 m) {
             FileSystemEntry newNode;
-            if (messageEventArgs.FileType == "0") {
-                newNode = new FileNode(messageEventArgs);
-            } else if (messageEventArgs.FileType == "1") {
-                newNode = new FolderNode(messageEventArgs);
-            } else if (messageEventArgs.FileType == "2") {
-                newNode = new FolderNodeUploads(messageEventArgs);
-            } else if (messageEventArgs.FileType == "3") {
-                newNode = new FolderNodeDropBox(messageEventArgs);
-            } else {
+            if (m.FileType == "0") 
+                newNode = new FileNode(m);
+            else if (m.FileType == "1")
+                newNode = new FolderNode(m);
+            else if (m.FileType == "2") 
+                newNode = new FolderNodeUploads(m);
+            else if (m.FileType == "3")
+                newNode = new FolderNodeDropBox(m);
+            else
                 throw new Exception("File or Folder type is not of any recognable type.");
-            }
 
             // Add the node newNode anywhere below our root node in our file tree
             this.Add(newNode, this.rootNode);
@@ -244,32 +254,25 @@ namespace SharpWired.Model.Files
         /// File listing done message was received
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="messageEventArgs"></param>
-        void OnFileListingDoneEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_411 messageEventArgs) {
-            FileSystemEntry searchedNode = GetNode(messageEventArgs.Path, (FileSystemEntry)rootNode);
+        /// <param name="m"></param>
+        void OnFileListingDoneEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_411 m) {
+            FileSystemEntry searchedNode = GetNode(m.Path, (FileSystemEntry)rootNode);
             if (searchedNode != null) {
-                if (searchedNode is FolderNode)
+                if (searchedNode is FolderNode) {
                     (searchedNode as FolderNode).DoneUpdating();
+                }
             } else {
                 // NOTE: Experimental!
                 rootNode.DoneUpdating();
             }
 
-            if (FileModelUpdatedEvent != null && recentlyAddedNodes != null && recentlyAddedNodes.Count > 0) {
+            if (FileModelUpdatedEvent != null 
+                    && recentlyAddedNodes != null 
+                    && recentlyAddedNodes.Count > 0) {
                 FileModelUpdatedEvent(recentlyAddedNodes);
                 recentlyAddedNodes.Clear();
             }
         }
-
-        /// <summary>
-        /// Delegate for FileModelUpdatedEvent
-        /// </summary>
-        /// <param name="addedNodes"></param>
-        public delegate void FileModelUpdatedDelegate(List<FileSystemEntry> addedNodes);
-        /// <summary>
-        /// Raised when new files are added to the model
-        /// </summary>
-        public event FileModelUpdatedDelegate FileModelUpdatedEvent;
         #endregion
     }
 }

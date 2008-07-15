@@ -144,10 +144,10 @@ namespace SharpWired.Gui.Files {
 
         private void OnSelectFolderNodeChange(FileSystemEntry node) {
             if (node is FolderNode) {
-                controller.FileListingController.ReloadFileList((FolderNode)node);
                 if (SelectedFolderNodeChanged != null) {
                     SelectedFolderNodeChanged(null, new WiredNodeArgs(node));
                 }
+                controller.FileListingController.ReloadFileList((FolderNode)node);
             } else if (node is FileNode) {
                 Debug.WriteLine("TODO: Dealing with file nodes are not implemented");
             }

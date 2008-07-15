@@ -30,6 +30,7 @@ using System.Text;
 using SharpWired.Connection;
 using SharpWired.Model.Files;
 using SharpWired.Model;
+using System.Diagnostics;
 
 namespace SharpWired.Controller
 {
@@ -71,10 +72,11 @@ namespace SharpWired.Controller
             FileListingModel flm = this.model.Server.FileListingModel;
             FileSystemEntry reloadNode = flm.GetNode(path, flm.RootNode);
              if(reloadNode != null && reloadNode is FolderNode) {
-                if (((FolderNode)reloadNode).HasChildren())
-                    (reloadNode as FolderNode).DoneUpdating();
-                else
-                    this.model.ConnectionManager.Commands.List(path);
+                 if (((FolderNode)reloadNode).HasChildren()) {
+                     (reloadNode as FolderNode).DoneUpdating();
+                 } else {
+                     this.model.ConnectionManager.Commands.List(path);
+                 }
              } else if (reloadNode == null) {
                  // To load the initial file list
                  this.model.ConnectionManager.Commands.List("/");
