@@ -36,24 +36,16 @@ using System.Diagnostics;
 using System.Drawing;
 
 namespace SharpWired.Gui.Chat {
-
     /// <summary>
     /// Control for chats
     /// </summary>
-    public partial class Chat : SharpWiredGuiBase {
+    public partial class Chat : WebBrowserGuiBase {
 
         private delegate void ChangeTopicCallback(GuiMessageItem guiMessage);
 
         #region Initialization
-        /// <summary>
-        /// Constructor
-        /// </summary>
         public Chat() {
             InitializeComponent();
-        }
-
-        public override void Init(SharpWiredModel model, SharpWiredController controller) {
-            base.Init(model, controller);
         }
         #endregion
 
@@ -108,6 +100,10 @@ namespace SharpWired.Gui.Chat {
             Bookmark bookmark) {
             GuiMessageItem gmi = new GuiMessageItem(errorDescription, solutionIdea, bookmark);
             AppendHTMLToWebBrowser(chatWebBrowser, gmi);
+        }
+
+        public override void Init(SharpWiredModel model, SharpWiredController controller) {
+            base.Init(model, controller);
         }
         
         private void ChangeTopic(GuiMessageItem guiMessage) {

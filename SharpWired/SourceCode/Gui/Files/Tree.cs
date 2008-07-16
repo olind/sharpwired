@@ -42,7 +42,7 @@ namespace SharpWired.Gui.Files {
     /// <summary>
     /// Shows a representation of the File Model, which models the file tree on the server.
     /// </summary>
-    public partial class Tree : SharpWiredGuiBase {
+    public partial class Tree : FilesGuiBase {
 
         #region Constructors
         /// <summary>
@@ -58,7 +58,11 @@ namespace SharpWired.Gui.Files {
         public event SelectFolderNodeChangeDelegate SelectFolderNodeChange;
 
         delegate void PopulateFileTreeCallBack(TreeView treeView, FolderNode superRootNode);
-        delegate void ClearTreeViewCallback(TreeView tree);
+
+        protected override void OnOffline() {
+            base.OnOffline();
+            ClearControl(rootTreeView);
+        }
 
         /// <summary>
         /// Call this method when new nodes are added.
@@ -112,7 +116,7 @@ namespace SharpWired.Gui.Files {
             }
 
             if (rootTreeView.Nodes.Count > 0)
-                rootTreeView.Nodes.Clear();
+                ClearControl(rootTreeView);
 
             // Just to put a name on the root in the filetree. alternatively,
             // the tree can skip the server root node, and have several nodes
@@ -145,19 +149,6 @@ namespace SharpWired.Gui.Files {
                 return node;
             }
             return new WiredTreeNode("The given node was null, but I didn't feel like trowing an exception!");
-        }
-
-        /// <summary>
-        /// Clears the given tree view.
-        /// </summary>
-        /// <param name="tree"></param>
-        private void ClearTreeView(TreeView tree) {
-            if (this.InvokeRequired) {
-                ClearTreeViewCallback clearTreeViewCallback = new ClearTreeViewCallback(ClearTreeView);
-                this.Invoke(clearTreeViewCallback, new object[] { tree });
-            } else {
-                tree.Nodes.Clear();
-            }
         }
         #endregion
     }

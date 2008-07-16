@@ -39,7 +39,11 @@ using System.Diagnostics;
 using SharpWired.Controller;
 
 namespace SharpWired.Gui.News {
-    public partial class NewsContainer : SharpWiredGuiBase {
+    /// <summary>
+    /// The News view
+    /// </summary>
+    public partial class NewsContainer : WebBrowserGuiBase {
+
         delegate void WriteToNewsCallback(GuiMessageItem guiMessage);
 
         public NewsContainer() {

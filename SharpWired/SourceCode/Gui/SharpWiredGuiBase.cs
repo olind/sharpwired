@@ -42,14 +42,7 @@ namespace SharpWired.Gui {
         protected SharpWiredController controller;
         protected SharpWiredModel model;
 
-        private String browserHeader;
-        private String browserFooter;
-        private StringBuilder browserBody = new StringBuilder();
-        private int altItemCounter = 0;
-
         private delegate void ToggleWindowsFormsControlCallback(Control control);
-        private delegate void AppendHTMLToWebBrowserCallback(WebBrowser browser, GuiMessageItem guiMessage);
-        private delegate void ResetWebBrowserCallback(WebBrowser browser);
 
         public virtual void Init(SharpWiredModel model, SharpWiredController controller) {
             this.model = model;
@@ -66,20 +59,6 @@ namespace SharpWired.Gui {
         protected virtual void OnOnline() { }
         protected virtual void OnOffline() { }
 
-        //TODO: Move the HTML specifics to a class that extends 
-        //SharpWiredGuiBase. Like the files class FilesGuiBase and 
-        //have Chat + News extend that instead.
-        private string AltItemBeginningHtml {
-            get {
-                if (altItemCounter % 2 == 0) {
-                    altItemCounter++;
-                    return "<div class=\"standard\">";
-                }
-                altItemCounter++;
-                return "<div class=\"alternative\">";
-            }
-        }
-        
         protected void ToggleWindowsFormControl(Control control) {
             if (this.InvokeRequired) {
                 ToggleWindowsFormsControlCallback callback 
@@ -87,41 +66,6 @@ namespace SharpWired.Gui {
                 this.Invoke(callback, new object[] { control });
             } else {
                 control.Enabled = !control.Enabled;
-            }
-        }
-
-        protected void AppendHTMLToWebBrowser(WebBrowser browser, GuiMessageItem guiMessage) {
-            if (this.InvokeRequired) {
-                AppendHTMLToWebBrowserCallback c = new AppendHTMLToWebBrowserCallback(AppendHTMLToWebBrowser);
-                this.Invoke(c, new object[] { browser, guiMessage });
-            } else {
-                browserBody.Append(this.AltItemBeginningHtml);
-                browserBody.Append(guiMessage.GeneratedHTML);
-                browserBody.Append("</div>");
-
-                browser.DocumentText = browserHeader + browserBody + browserFooter;
-            }
-        }
-
-        protected void ResetWebBrowser(WebBrowser browser) {
-            if (this.InvokeRequired) {
-                ResetWebBrowserCallback c = new ResetWebBrowserCallback(ResetWebBrowser);
-                this.Invoke(c, new object[] { browser });
-            } else {
-                String chatStyleSheet = "<link href=\"" + GuiUtil.CSSFilePath + "\\GUI\\SharpWiredStyleSheet.css\" rel=\"stylesheet\" type=\"text/css\" />";
-                String chatJavaScript = "<script>function pageDown () { if (window.scrollBy) window.scrollBy(0, window.innerHeight ? window.innerHeight : document.body.clientHeight); }</script>";
-
-                browserHeader = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" +
-                    "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">" +
-                    "<head><title>SharpWired</title>" +
-                        chatJavaScript +
-                        chatStyleSheet +
-                    "</head><body onload=\"pageDown(); return false;\">";
-
-                browserFooter = "</body></html>";
-
-                browser.DocumentText = browserHeader + browserFooter;
-                browserBody.Length = 0;
             }
         }
     }

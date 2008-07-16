@@ -40,7 +40,7 @@ namespace SharpWired.Gui.Files {
     /// <summary>
     /// The path to the selected folder represented as browsable buttons
     /// </summary>
-    public partial class BreadCrumb : SharpWiredGuiBase {
+    public partial class BreadCrumb : FilesGuiBase {
 
         #region Constructors
         public BreadCrumb() {

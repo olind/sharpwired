@@ -229,6 +229,12 @@
     </Compile>
     <Compile Include="Controller\ChatController.cs" />
     <Compile Include="Controller\ControllerBase.cs" />
+    <Compile Include="Gui\WebBrowserGuiBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Files\FilesGuiBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Model\Errors\ErrorModel.cs" />
     <Compile Include="Controller\FileListingController.cs" />
     <Compile Include="Controller\GroupController.cs" />

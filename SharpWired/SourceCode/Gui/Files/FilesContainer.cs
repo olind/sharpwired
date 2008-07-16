@@ -44,7 +44,7 @@ namespace SharpWired.Gui.Files {
     /// <summary>
     /// Holds referenses to and inits the other file views
     /// </summary>
-    public partial class FilesContainer : SharpWiredGuiBase {
+    public partial class FilesContainer : FilesGuiBase {
 
         #region Fields
         int cursorSuspendCount = 0;

@@ -41,7 +41,7 @@ namespace SharpWired.Gui.Files {
     /// <summary>
     /// Represents a detail view of the currently selected nodes
     /// </summary>
-    public partial class Details : SharpWiredGuiBase {
+    public partial class Details : FilesGuiBase {
 
         #region Constructors
         /// <summary>
@@ -60,7 +60,7 @@ namespace SharpWired.Gui.Files {
         delegate void NodeListToListViewCallback(List<FileSystemEntry> update);
 
         public void OnSelectedFolderNodeChanged(object sender, WiredNodeArgs selectedNode) {
-            detailsListView.Clear();
+            ClearControl(detailsListView);
             if (selectedNode.Node is FolderNode)
                 ((FolderNode)selectedNode.Node).FolderNodeUpdatedEvent += OnFolderNodeDoneLoading;
         }
