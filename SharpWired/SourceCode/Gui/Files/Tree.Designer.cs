@@ -38,15 +38,14 @@ namespace SharpWired.Gui.Files
             this.rootTreeView.Name = "rootTreeView";
             this.rootTreeView.Size = new System.Drawing.Size(336, 333);
             this.rootTreeView.TabIndex = 6;
-            //this.rootTreeView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.rootTreeView_MouseDoubleClick);
-            this.rootTreeView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.rootTreeView_MouseClick);
+            this.rootTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.rootTreeView_AfterSelect);
             // 
-            // FileTreeControl
+            // Tree
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.rootTreeView);
-            this.Name = "FileTreeControl";
+            this.Name = "Tree";
             this.Size = new System.Drawing.Size(336, 333);
             this.ResumeLayout(false);
 

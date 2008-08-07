@@ -37,12 +37,15 @@ using SharpWired.Gui.Resources.Icons;
 using SharpWired.Model.Files;
 using System.Diagnostics;
 using SharpWired.Controller;
+using System.Collections;
 
 namespace SharpWired.Gui.Files {
     /// <summary>
     /// Shows a representation of the File Model, which models the file tree on the server.
     /// </summary>
     public partial class Tree : FilesGuiBase {
+
+        ArrayList nodeList = new ArrayList();
 
         #region Constructors
         /// <summary>
@@ -57,48 +60,34 @@ namespace SharpWired.Gui.Files {
         public delegate void SelectFolderNodeChangeDelegate(FileSystemEntry node);
         public event SelectFolderNodeChangeDelegate SelectFolderNodeChange;
 
-        delegate void PopulateFileTreeCallBack(TreeView treeView, FolderNode superRootNode);
+        delegate void PopulateFileTreeCallBack(TreeView treeView, List<FileSystemEntry> addedNodes);
 
         protected override void OnOffline() {
             base.OnOffline();
-            ClearControl(rootTreeView);
+            ClearControl(this);
         }
 
         /// <summary>
         /// Call this method when new nodes are added.
         /// </summary>
-        /// <param name="addedNodes"></param>
+        /// <param name="newNodes"></param>
         public void OnNewNodesAdded(List<FileSystemEntry> addedNodes) {
-            PopulateFileTree(this.rootTreeView, model.Server.FileListingModel.RootNode);
-        }
-        
-        /// <summary>
-        /// The mouse was clicked in the TreeView
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void rootTreeView_MouseClick(object sender, MouseEventArgs e) {
-            WiredTreeNode node = (WiredTreeNode)rootTreeView.GetNodeAt(e.Location);
-            if (node != null && SelectFolderNodeChange != null) {
-                SelectFolderNodeChange(node.ModelNode);
-            }
+            PopulateFileTree(this.rootTreeView, addedNodes);
         }
         #endregion
 
         #region Methods
+        public void Clear() {
+            rootTreeView.Nodes.Clear();
+        }
+
         public override void Init(SharpWiredModel model, SharpWiredController controller) {
             base.Init(model, controller);
 
             ImageList rootTreeViewIcons = new ImageList();
             rootTreeViewIcons.ColorDepth = ColorDepth.Depth32Bit;
-            IconHandler iconHandler = new IconHandler();
-            try {
-                rootTreeViewIcons.Images.Add(iconHandler.FolderClosed);
-                rootTreeViewIcons.Images.Add(iconHandler.File);
-            } catch (Exception e) {
-                //TODO: Error handling?
-                Debug.WriteLine("FileUserControl.cs | Failed to add images for rootTreView. Exception: " + e);
-            }
+            IconHandler iconHandler = IconHandler.Instance;
+            rootTreeViewIcons.Images.Add(iconHandler.GetFolderIconFromSystem());
             rootTreeView.ImageList = rootTreeViewIcons;
         }
         
@@ -108,48 +97,47 @@ namespace SharpWired.Gui.Files {
         /// <remarks>Uses callback if necessary.</remarks>
         /// <param name="rootTreeView">The TreeView to populate.</param>
         /// <param name="superRootNode">The root node from the model to populate from.</param>
-        private void PopulateFileTree(TreeView rootTreeView, FolderNode superRootNode) {
+        private void PopulateFileTree(TreeView rootTreeView, List<FileSystemEntry> newNodes) {
             if (InvokeRequired) {
                 PopulateFileTreeCallBack callback = new PopulateFileTreeCallBack(PopulateFileTree);
-                Invoke(callback, new object[] { rootTreeView, superRootNode });
+                Invoke(callback, new object[] { rootTreeView, newNodes });
                 return;
             }
 
-            if (rootTreeView.Nodes.Count > 0)
-                ClearControl(rootTreeView);
 
-            // Just to put a name on the root in the filetree. alternatively,
-            // the tree can skip the server root node, and have several nodes
-            // at "level 0" in the tree.
-            if (string.IsNullOrEmpty(superRootNode.Name))
-                superRootNode.Name = "Server";
-            rootTreeView.Nodes.Add(MakeFileNode(superRootNode));
+            // TODO: Move to model!
+            // Get biggest common denominator for all FileSystemEntry items
+            FileSystemEntry currentPath = GetBiggestCommonDenominator(newNodes);
 
-            // Expand all nodes make the test easy and nice.
-            rootTreeView.ExpandAll();
+            if (currentPath.Path == "/") {
+                foreach (FileSystemEntry node in newNodes)
+                    if (node is FolderNode)
+                        rootTreeView.Nodes.Add(node.Path, node.Name);
+            } else {
+                TreeNode[] foundNodes = rootTreeView.Nodes.Find(currentPath.Path, true);
+                TreeNode currentNode = foundNodes[0];
+
+                foreach (FileSystemEntry node in newNodes)
+                    if (node is FolderNode)
+                        currentNode.Nodes.Add(node.Path, node.Name);
+            }
         }
 
-        /// <summary>
-        /// Takes a FileSystemEntry and build a subtree from that,
-        /// returnung the WiredTreeNode that represent the FSE given.
-        /// </summary>
-        /// <param name="fileSystemEntry">The FSE to build a WiredNode from (a subtree).</param>
-        /// <returns>The WiredNode that represents the given FSE.</returns>
-        private WiredTreeNode MakeFileNode(FileSystemEntry fileSystemEntry) {
-            if (fileSystemEntry != null) {
-                WiredTreeNode node = new WiredTreeNode(fileSystemEntry);
-                node.ImageIndex = node.IconIndex;
-                node.SelectedImageIndex = node.IconIndex;
-                if (fileSystemEntry is FolderNode
-                    && fileSystemEntry.HasChildren()) {
-                    foreach (FolderNode child in fileSystemEntry.FolderNodes) {
-                        node.Nodes.Add(MakeFileNode(child));
-                    }
-                }
-                return node;
-            }
-            return new WiredTreeNode("The given node was null, but I didn't feel like trowing an exception!");
+        private FileSystemEntry GetBiggestCommonDenominator(List<FileSystemEntry> entries) {
+            FileSystemEntry parent = null;
+
+            if (entries.Count > 0)
+                parent = entries[0].Parent;
+
+            return parent;
         }
         #endregion
+
+        private void rootTreeView_AfterSelect(object sender, TreeViewEventArgs e) {
+            TreeNode node = rootTreeView.SelectedNode;
+            if (node != null && SelectFolderNodeChange != null) {
+                SelectFolderNodeChange(model.Server.FileListingModel.GetNode(node.Name));
+            }
+        }
     }
 }

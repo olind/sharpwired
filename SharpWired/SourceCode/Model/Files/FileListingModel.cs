@@ -30,6 +30,7 @@ using System.Text;
 using SharpWired.MessageEvents;
 using SharpWired.Connection;
 using System.Diagnostics;
+using System.Collections;
 
 namespace SharpWired.Model.Files
 {
@@ -221,7 +222,7 @@ namespace SharpWired.Model.Files
         /// <summary>
         /// Delegate for FileModelUpdatedEvent
         /// </summary>
-        /// <param name="addedNodes"></param>
+        /// <param name="newNodes"></param>
         public delegate void FileModelUpdatedDelegate(List<FileSystemEntry> addedNodes);
         /// <summary>
         /// Raised when new files are added to the model

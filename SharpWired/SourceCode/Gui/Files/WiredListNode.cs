@@ -30,28 +30,15 @@ using System.Text;
 using System.Windows.Forms;
 using SharpWired.Model.Files;
 
-namespace SharpWired.Gui.Files
-{
-    class WiredListNode: ListViewItem
-    {
+namespace SharpWired.Gui.Files {
+    class WiredListNode : ListViewItem {
         private FileSystemEntry modelNode;
-        private int iconIndex;
 
         /// <summary>
         /// Gets the model node for this tree node
         /// </summary>
-        public FileSystemEntry ModelNode
-        {
+        public FileSystemEntry ModelNode {
             get { return modelNode; }
-        }
-
-        /// <summary>
-        /// Gets or sets the index for this nodes icon
-        /// </summary>
-        public int IconIndex
-        {
-            get { return iconIndex; }
-            set { iconIndex = value; }
         }
 
         private string size;
@@ -61,37 +48,30 @@ namespace SharpWired.Gui.Files
         /// <summary>
         /// Get the size for this node. If it is a Folder the number of sub-items are listed.
         /// </summary>
-        public string Size
-        {
+        public string Size {
             get { return size; }
         }
 
-        public DateTime Created
-        {
+        public DateTime Created {
             get { return created; }
         }
 
-        public DateTime Modified
-        {
+        public DateTime Modified {
             get { return modified; }
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public WiredListNode(FileSystemEntry modelNode): base(modelNode.Name) {
+        public WiredListNode(FileSystemEntry modelNode)
+            : base(modelNode.Name) {
             this.modelNode = modelNode;
 
-            if (modelNode is FolderNode)
-            {
-                iconIndex = 0;
+            if (modelNode is FolderNode) {
                 size = ((FolderNode)modelNode).Size.ToString();
                 created = ((FolderNode)modelNode).Created;
                 modified = ((FolderNode)modelNode).Modified;
-            }
-            else if (modelNode is FileNode)
-            {
-                iconIndex = 1;
+            } else if (modelNode is FileNode) {
                 size = BytesToOptimalUnit(((FileNode)modelNode).Size);
                 created = ((FileNode)modelNode).Created;
                 modified = ((FileNode)modelNode).Modified;
@@ -99,8 +79,7 @@ namespace SharpWired.Gui.Files
         }
 
         //Reused from http://www.developerfood.com/calculating-bytes-kb-mb-gb/microsoft-public-dotnet-languages-csharp/ef0c1ca3-15b5-4e5a-bba2-4dcdbe97c3fc/article.aspx by Steve Barnett
-        private string BytesToOptimalUnit(long sizeInBytes)
-        {
+        private string BytesToOptimalUnit(long sizeInBytes) {
             string formattedNumber;
 
             if (sizeInBytes > 1073741824)
@@ -116,12 +95,12 @@ namespace SharpWired.Gui.Files
         }
 
         /// <summary>
-		/// A constructor that allows for creation of node with a text, as the
-		/// base class TreeNode does.
-		/// </summary>
-		/// <param name="text">The text for the node.</param>
-		public WiredListNode(string text): base(text)
-		{
+        /// A constructor that allows for creation of node with a text, as the
+        /// base class TreeNode does.
+        /// </summary>
+        /// <param name="text">The text for the node.</param>
+        public WiredListNode(string text)
+            : base(text) {
         }
     }
 }

@@ -42,7 +42,8 @@ namespace SharpWired.Gui.Files
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(3, 34);
+            this.splitContainer1.Location = new System.Drawing.Point(5, 36);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -52,8 +53,8 @@ namespace SharpWired.Gui.Files
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.details);
-            this.splitContainer1.Size = new System.Drawing.Size(404, 201);
-            this.splitContainer1.SplitterDistance = 126;
+            this.splitContainer1.Size = new System.Drawing.Size(400, 197);
+            this.splitContainer1.SplitterDistance = 123;
             this.splitContainer1.TabIndex = 6;
             // 
             // tree
@@ -61,7 +62,7 @@ namespace SharpWired.Gui.Files
             this.tree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tree.Location = new System.Drawing.Point(0, 0);
             this.tree.Name = "tree";
-            this.tree.Size = new System.Drawing.Size(126, 201);
+            this.tree.Size = new System.Drawing.Size(123, 197);
             this.tree.TabIndex = 6;
             // 
             // details
@@ -69,16 +70,17 @@ namespace SharpWired.Gui.Files
             this.details.Dock = System.Windows.Forms.DockStyle.Fill;
             this.details.Location = new System.Drawing.Point(0, 0);
             this.details.Name = "details";
-            this.details.Size = new System.Drawing.Size(274, 201);
+            this.details.Size = new System.Drawing.Size(273, 197);
             this.details.TabIndex = 0;
             // 
             // breadCrumb
             // 
             this.breadCrumb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.breadCrumb.Location = new System.Drawing.Point(0, 0);
+            this.breadCrumb.Location = new System.Drawing.Point(5, 5);
+            this.breadCrumb.Margin = new System.Windows.Forms.Padding(0);
             this.breadCrumb.Name = "breadCrumb";
-            this.breadCrumb.Size = new System.Drawing.Size(404, 25);
+            this.breadCrumb.Size = new System.Drawing.Size(400, 28);
             this.breadCrumb.TabIndex = 7;
             // 
             // FilesContainer
@@ -88,6 +90,7 @@ namespace SharpWired.Gui.Files
             this.Controls.Add(this.breadCrumb);
             this.Controls.Add(this.splitContainer1);
             this.Name = "FilesContainer";
+            this.Padding = new System.Windows.Forms.Padding(5);
             this.Size = new System.Drawing.Size(410, 238);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

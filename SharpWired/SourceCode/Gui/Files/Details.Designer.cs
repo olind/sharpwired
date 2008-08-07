@@ -33,6 +33,7 @@ namespace SharpWired.Gui.Files
             // 
             // detailsListView
             // 
+            this.detailsListView.AllowColumnReorder = true;
             this.detailsListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.detailsListView.Location = new System.Drawing.Point(0, 0);
             this.detailsListView.Name = "detailsListView";

@@ -298,7 +298,6 @@
       <DependentUpon>Tree.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\Files\WiredListNode.cs" />
-    <Compile Include="Gui\Files\WiredTreeNode.cs" />
     <Compile Include="Gui\GuiUtil.cs" />
     <Compile Include="Gui\News\NewsContainer.cs">
       <SubType>UserControl</SubType>

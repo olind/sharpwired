@@ -169,6 +169,8 @@ namespace SharpWired.Gui
             // 
             // mainIconMenu
             // 
+            this.mainIconMenu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.mainIconMenu.ImageScalingSize = new System.Drawing.Size(22, 22);
             this.mainIconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.publicChatToolStripButton,
             this.newsToolStripButton,
@@ -177,7 +179,8 @@ namespace SharpWired.Gui
             this.ExitToolStripButton});
             this.mainIconMenu.Location = new System.Drawing.Point(0, 24);
             this.mainIconMenu.Name = "mainIconMenu";
-            this.mainIconMenu.Size = new System.Drawing.Size(617, 25);
+            this.mainIconMenu.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
+            this.mainIconMenu.Size = new System.Drawing.Size(617, 29);
             this.mainIconMenu.TabIndex = 6;
             this.mainIconMenu.Text = "Icon Menu";
             // 
@@ -186,7 +189,7 @@ namespace SharpWired.Gui
             this.publicChatToolStripButton.Image = global::SharpWired.Properties.Resources.internet_group_chat;
             this.publicChatToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.publicChatToolStripButton.Name = "publicChatToolStripButton";
-            this.publicChatToolStripButton.Size = new System.Drawing.Size(52, 22);
+            this.publicChatToolStripButton.Size = new System.Drawing.Size(58, 26);
             this.publicChatToolStripButton.Text = "Chat";
             this.publicChatToolStripButton.Click += new System.EventHandler(this.publicChatToolStripButton_Click);
             // 
@@ -195,7 +198,7 @@ namespace SharpWired.Gui
             this.newsToolStripButton.Image = global::SharpWired.Properties.Resources.format_justify_left;
             this.newsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newsToolStripButton.Name = "newsToolStripButton";
-            this.newsToolStripButton.Size = new System.Drawing.Size(56, 22);
+            this.newsToolStripButton.Size = new System.Drawing.Size(62, 26);
             this.newsToolStripButton.Text = "News";
             this.newsToolStripButton.Click += new System.EventHandler(this.newsToolStripButton_Click);
             // 
@@ -204,7 +207,7 @@ namespace SharpWired.Gui
             this.filesToolStripButton.Image = global::SharpWired.Properties.Resources.folder;
             this.filesToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.filesToolStripButton.Name = "filesToolStripButton";
-            this.filesToolStripButton.Size = new System.Drawing.Size(50, 22);
+            this.filesToolStripButton.Size = new System.Drawing.Size(56, 26);
             this.filesToolStripButton.Text = "Files";
             this.filesToolStripButton.Click += new System.EventHandler(this.filesToolStripButton_Click);
             // 
@@ -213,7 +216,7 @@ namespace SharpWired.Gui
             this.transfersToolStripButton.Image = global::SharpWired.Properties.Resources.mail_send_receive;
             this.transfersToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.transfersToolStripButton.Name = "transfersToolStripButton";
-            this.transfersToolStripButton.Size = new System.Drawing.Size(75, 22);
+            this.transfersToolStripButton.Size = new System.Drawing.Size(81, 26);
             this.transfersToolStripButton.Text = "Transfers";
             this.transfersToolStripButton.Visible = false;
             this.transfersToolStripButton.Click += new System.EventHandler(this.transfersToolStripButton_Click);
@@ -224,7 +227,7 @@ namespace SharpWired.Gui
             this.ExitToolStripButton.Image = global::SharpWired.Properties.Resources.system_log_out;
             this.ExitToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ExitToolStripButton.Name = "ExitToolStripButton";
-            this.ExitToolStripButton.Size = new System.Drawing.Size(45, 22);
+            this.ExitToolStripButton.Size = new System.Drawing.Size(51, 26);
             this.ExitToolStripButton.Text = "Exit";
             this.ExitToolStripButton.Click += new System.EventHandler(this.ExitToolStripButton_Click);
             // 
@@ -252,6 +255,7 @@ namespace SharpWired.Gui
             // 
             this.chatUserContainer.Location = new System.Drawing.Point(38, 87);
             this.chatUserContainer.Name = "chatUserContainer";
+            this.chatUserContainer.Padding = new System.Windows.Forms.Padding(5);
             this.chatUserContainer.Size = new System.Drawing.Size(288, 176);
             this.chatUserContainer.TabIndex = 8;
             // 
@@ -259,6 +263,7 @@ namespace SharpWired.Gui
             // 
             this.filesUserControl1.Location = new System.Drawing.Point(342, 67);
             this.filesUserControl1.Name = "filesUserControl1";
+            this.filesUserControl1.Padding = new System.Windows.Forms.Padding(5);
             this.filesUserControl1.Size = new System.Drawing.Size(263, 196);
             this.filesUserControl1.TabIndex = 11;
             // 
@@ -266,6 +271,7 @@ namespace SharpWired.Gui
             // 
             this.newsContainer.Location = new System.Drawing.Point(25, 286);
             this.newsContainer.Name = "newsContainer";
+            this.newsContainer.Padding = new System.Windows.Forms.Padding(5);
             this.newsContainer.Size = new System.Drawing.Size(488, 136);
             this.newsContainer.TabIndex = 9;
             this.newsContainer.Visible = false;

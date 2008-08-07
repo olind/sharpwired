@@ -36,12 +36,15 @@ using SharpWired.Gui.Resources.Icons;
 using System.Diagnostics;
 using SharpWired.Model;
 using SharpWired.Controller;
+using System.IO;
 
 namespace SharpWired.Gui.Files {
     /// <summary>
     /// Represents a detail view of the currently selected nodes
     /// </summary>
     public partial class Details : FilesGuiBase {
+
+        private IconHandler iconHandler = IconHandler.Instance;
 
         #region Constructors
         /// <summary>
@@ -106,11 +109,8 @@ namespace SharpWired.Gui.Files {
 
             ImageList fileViewIcons = new ImageList();
             fileViewIcons.ColorDepth = ColorDepth.Depth32Bit;
-            IconHandler iconHandler = new IconHandler();
-
             try {
-                fileViewIcons.Images.Add(iconHandler.FolderClosed);
-                fileViewIcons.Images.Add(iconHandler.File);
+                fileViewIcons.Images.Add("FOLDER", iconHandler.GetFolderIconFromSystem());
             } catch (Exception e) {
                 Debug.WriteLine("FileUserControl.cs | Failed to add images for rootTreView. Exception: " + e); //TODO: Throw exception
             }
@@ -131,7 +131,7 @@ namespace SharpWired.Gui.Files {
             } else {
                 detailsListView.Columns.Clear();
 
-                detailsListView.Sorting = SortOrder.Ascending; //TODO: Sort folders before files
+                //detailsListView.Sorting = SortOrder.Ascending; //TODO: Sort folders before files
                 detailsListView.LabelEdit = true;
                 detailsListView.AllowColumnReorder = true;
 
@@ -141,17 +141,48 @@ namespace SharpWired.Gui.Files {
                 detailsListView.Columns.Add("Modified", 150);
 
                 detailsListView.Items.Clear();
-                foreach (FileSystemEntry child in newNodes) {
-                    WiredListNode wln = new WiredListNode(child);
-                    wln.ImageIndex = wln.IconIndex;
-                    wln.StateImageIndex = wln.IconIndex;
-                    wln.SubItems.Add(wln.Size);
-                    wln.SubItems.Add(wln.Created.ToString());
-                    wln.SubItems.Add(wln.Modified.ToString());
 
-                    this.detailsListView.Items.Add(wln);
+                newNodes.Sort();
+
+                foreach (FileSystemEntry folder in newNodes) {
+                    if (folder is FolderNode) {
+                        AddToListView(folder, "FOLDER");
+                    }
+                }
+
+                foreach (FileSystemEntry child in newNodes) {
+                    if (child is FileNode) {
+                        try {
+                            string imageKey = Path.GetExtension(child.Name);
+
+                            if (imageKey == "")
+                                imageKey = "FILE";
+
+                            if (!detailsListView.SmallImageList.Images.ContainsKey(imageKey))
+                                detailsListView.SmallImageList.Images.Add(
+                                    imageKey,
+                                    iconHandler.GetFileIconFromSystem(child.Name));
+
+                            AddToListView(child, imageKey);
+                        } catch (ArgumentException e) {
+                            // TODO: Do something smarter?
+                            Debug.WriteLine(e.Message + ": " + child.Path);
+                        }
+                    }
                 }
             }
+        }
+   
+
+        private void AddToListView(FileSystemEntry child, string imageKey) {
+            WiredListNode wln = new WiredListNode(child);
+            wln.ImageIndex = detailsListView.SmallImageList.Images.IndexOfKey(imageKey);
+            //wln.StateImageIndex = wln.Type;
+            wln.SubItems.Add(wln.Size);
+            wln.SubItems.Add(wln.Created.ToString());
+            wln.SubItems.Add(wln.Modified.ToString());
+
+            this.detailsListView.Items.Add(wln);
         }
         #endregion
     }

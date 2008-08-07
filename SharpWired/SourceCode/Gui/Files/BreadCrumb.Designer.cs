@@ -33,17 +33,23 @@ namespace SharpWired.Gui.Files
             // 
             // breadCrumbsFlowLayoutPanel
             // 
-            this.breadCrumbsFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.breadCrumbsFlowLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.breadCrumbsFlowLayoutPanel.BackColor = System.Drawing.SystemColors.Control;
             this.breadCrumbsFlowLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.breadCrumbsFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
             this.breadCrumbsFlowLayoutPanel.Name = "breadCrumbsFlowLayoutPanel";
             this.breadCrumbsFlowLayoutPanel.Size = new System.Drawing.Size(150, 150);
             this.breadCrumbsFlowLayoutPanel.TabIndex = 0;
+            this.breadCrumbsFlowLayoutPanel.WrapContents = false;
             // 
             // BreadCrumb
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.breadCrumbsFlowLayoutPanel);
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "BreadCrumb";
             this.ResumeLayout(false);
 

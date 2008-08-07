@@ -9,7 +9,7 @@ namespace SharpWired.Gui.Files {
     /// </summary>
     public class FilesGuiBase : SharpWiredGuiBase {
 
-        delegate void ClearTreeViewCallback(Control c);
+        delegate void ClearControlCallback(Control c);
 
         /// <summary>
         /// Clear the given control view. Thread safe.
@@ -17,11 +17,11 @@ namespace SharpWired.Gui.Files {
         /// <param name="c">The control to clear</param>
         protected void ClearControl(Control c) {
             if (this.InvokeRequired) {
-                ClearTreeViewCallback clearTreeViewCallback = new ClearTreeViewCallback(ClearControl);
-                this.Invoke(clearTreeViewCallback, new object[] { c });
+                ClearControlCallback callback = new ClearControlCallback(ClearControl);
+                this.Invoke(callback, new object[] { c });
             } else {
-                if (c is TreeView)
-                    ((TreeView)c).Nodes.Clear();
+                if (c is Tree)
+                    ((Tree)c).Clear();
                 else if (c is ListView)
                     ((ListView)c).Clear();
             }

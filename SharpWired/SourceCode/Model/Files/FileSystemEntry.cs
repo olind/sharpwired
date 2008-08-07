@@ -35,7 +35,7 @@ namespace SharpWired.Model.Files
     /// <summary>
     /// The base class for files and folders.
     /// </summary>
-    public abstract class FileSystemEntry
+    public abstract class FileSystemEntry : IComparable
     {
         #region Variables
         private MessageEventArgs_410420 messageEventArgs;
@@ -208,5 +208,17 @@ namespace SharpWired.Model.Files
 			return path;	
 		}
 		#endregion
+
+        #region IComparable Members
+
+        public int CompareTo(object obj) {
+            if (obj is FileSystemEntry) {
+                return this.Path.CompareTo(((FileSystemEntry)obj).Path);
+            } else {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
     }
 }

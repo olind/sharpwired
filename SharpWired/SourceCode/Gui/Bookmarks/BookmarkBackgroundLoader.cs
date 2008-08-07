@@ -65,7 +65,7 @@ namespace SharpWired.Gui.Bookmarks
 				ToolStripMenuItem item = new ToolStripMenuItem(bookmark.ToShortString());
 				item.Tag = bookmark;
 				item.Click += new EventHandler(arg.ItemClickMethod);
-				item.Image = IconHandler.Instane[IconList.File];
+				item.Image = IconHandler.Instance[IconList.File];
 				arg.BookmarkItems.Add(item);
 				//arg.MenuItem.DropDownItems.Add(item);
 

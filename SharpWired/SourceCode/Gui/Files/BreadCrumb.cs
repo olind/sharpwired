@@ -27,14 +27,15 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Diagnostics;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using SharpWired.Model.Files;
-using SharpWired.Model;
 using SharpWired.Controller;
-using System.Diagnostics;
+using SharpWired.Model;
+using SharpWired.Model.Files;
+using SharpWired.Gui.Resources.Icons;
 
 namespace SharpWired.Gui.Files {
     /// <summary>
@@ -70,14 +71,19 @@ namespace SharpWired.Gui.Files {
 
             for (int i = 0; i < node.PathArray.Length; i++) {
                 Button b = new Button();
-                if (node.PathArray[i] != "")
+                if (node.PathArray[i] != "") {
                     b.Text = node.PathArray[i];
-                else
-                    b.Text = SharpWired.Utility.PATH_SEPARATOR;
+                } else {
+                    IconHandler iconHandler = IconHandler.Instance;
+                    b.Image = iconHandler.GoHome;
+                }
 
                 b.MouseUp += new MouseEventHandler(button_MouseUp);
                 b.Tag = model.Server.FileListingModel.GetNode(CombineFilePath(node.PathArray, i));
-
+                b.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+                b.AutoSize = true;
+                b.Padding = new Padding(2);
+                b.Margin = new Padding(0, 0, 5, 0);
                 AddButtonsToFlowLayout(b);
             }
         }
