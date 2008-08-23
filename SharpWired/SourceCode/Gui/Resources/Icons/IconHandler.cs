@@ -140,26 +140,18 @@ namespace SharpWired.Gui.Resources.Icons {
         private string iconFilePath;
         private Image userImage;
         private Image goHome;
+        private Image mediaPlaybackPause;
+        private Image mediaPlaybackStart;
+        private Image processStop;
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Get the file path for the CSS-file
-        /// </summary>
-        private string IconFilePath {
-            get { return iconFilePath; }
-        }
-
-        public Image GoHome {
-            get { return goHome; }
-        }
-
-        /// <summary>
-        /// Gets the user image
-        /// </summary>
-        public Image UserImage {
-            get { return userImage; }
-        }
+        private string IconFilePath     { get { return iconFilePath; } }
+        public Image GoHome             { get { return goHome; } }
+        public Image UserImage          { get { return userImage; } }
+        public Image MediaPlaybackPause { get { return mediaPlaybackPause; } }
+        public Image MediaPlaybackStart { get { return mediaPlaybackStart; } }
+        public Image ProcessStop        { get { return processStop; } }
 
         /// <summary>
         /// Get the icon with this name.
@@ -279,8 +271,13 @@ namespace SharpWired.Gui.Resources.Icons {
         /// Reads the most common icons from file.
         /// </summary>
         private void ReadStandardIcons() {
+            //TODO: Use the IconList instead
             userImage = CreateHiQualityIconImage("userImage.png");
             goHome = CreateHiQualityIconImage("go-home.png");
+
+            mediaPlaybackPause = CreateHiQualityIconImage("media-playback-pause.png");
+            mediaPlaybackStart = CreateHiQualityIconImage("media-playback-start.png");
+            processStop = CreateHiQualityIconImage("process-stop.png");
         }
 
         [System.Runtime.InteropServices.DllImport("User32.dll")]

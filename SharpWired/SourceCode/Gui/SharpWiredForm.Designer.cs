@@ -78,6 +78,7 @@ namespace SharpWired.Gui
             this.chatUserContainer = new SharpWired.Gui.Chat.ChatUserContainer();
             this.filesUserControl1 = new SharpWired.Gui.Files.FilesContainer();
             this.newsContainer = new SharpWired.Gui.News.NewsContainer();
+            this.transferList1 = new SharpWired.Gui.Transfers.TransferList();
             this.mainMenu.SuspendLayout();
             this.mainIconMenu.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
@@ -218,7 +219,6 @@ namespace SharpWired.Gui
             this.transfersToolStripButton.Name = "transfersToolStripButton";
             this.transfersToolStripButton.Size = new System.Drawing.Size(81, 26);
             this.transfersToolStripButton.Text = "Transfers";
-            this.transfersToolStripButton.Visible = false;
             this.transfersToolStripButton.Click += new System.EventHandler(this.transfersToolStripButton_Click);
             // 
             // ExitToolStripButton
@@ -276,11 +276,19 @@ namespace SharpWired.Gui
             this.newsContainer.TabIndex = 9;
             this.newsContainer.Visible = false;
             // 
+            // transferList1
+            // 
+            this.transferList1.Location = new System.Drawing.Point(187, 242);
+            this.transferList1.Name = "transferList1";
+            this.transferList1.Size = new System.Drawing.Size(393, 195);
+            this.transferList1.TabIndex = 12;
+            // 
             // SharpWiredForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(617, 496);
+            this.Controls.Add(this.transferList1);
             this.Controls.Add(this.chatUserContainer);
             this.Controls.Add(this.filesUserControl1);
             this.Controls.Add(this.newsContainer);
@@ -326,6 +334,7 @@ namespace SharpWired.Gui
         private ChatUserContainer chatUserContainer;
         private SharpWired.Gui.News.NewsContainer newsContainer;
         private SharpWired.Gui.Files.FilesContainer filesUserControl1;
+        private SharpWired.Gui.Transfers.TransferList transferList1;
     }
 }
 

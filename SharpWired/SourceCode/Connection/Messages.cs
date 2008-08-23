@@ -104,7 +104,7 @@ namespace SharpWired.Connection
         /// 341
         public delegate void ChatTopicEventHandler(MessageEventArgs_341 messageEventArgs);
         /// 400
-        public delegate void TransferReadyEventHandler(object sender, MessageEventArgs_400 messageEventArgs);
+        public delegate void TransferReadyEventHandler(MessageEventArgs_400 messageEventArgs);
         /// 401
         public delegate void TransferQueuedEventHandler(object sender, MessageEventArgs_401 messageEventArgs);
         /// 402
@@ -846,7 +846,7 @@ namespace SharpWired.Connection
                 int offset = int.Parse(w[1]);
                 string hash = w[2];
                 MessageEventArgs_400 m = new MessageEventArgs_400(messageId, messageName, path, offset, hash);
-                TransferReadyEvent(this, m);
+                TransferReadyEvent(m);
             }
         }
 

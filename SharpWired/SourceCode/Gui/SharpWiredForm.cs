@@ -71,16 +71,18 @@ namespace SharpWired.Gui {
 
             chatUserContainer.Init(model, sharpWiredController);
             newsContainer.Init(model, sharpWiredController);
-
             filesUserControl1.Init(model, sharpWiredController);
+            transferList1.Init(model, sharpWiredController);
 
             chatUserContainer.Dock = DockStyle.Fill;
             newsContainer.Dock = DockStyle.Fill;
             filesUserControl1.Dock = DockStyle.Fill;
+            transferList1.Dock = DockStyle.Fill;
 
             newsContainer.Visible = false;
             chatUserContainer.Visible = true;
             filesUserControl1.Visible = false;
+            transferList1.Visible = false;
 
             publicChatToolStripButton.Enabled = false;
 
@@ -280,6 +282,7 @@ namespace SharpWired.Gui {
             newsContainer.Visible = true;
             chatUserContainer.Visible = false;
             filesUserControl1.Visible = false;
+            transferList1.Visible = false;
 
             publicChatToolStripButton.Enabled = true;
             newsToolStripButton.Enabled = false;
@@ -296,6 +299,7 @@ namespace SharpWired.Gui {
             newsContainer.Visible = false;
             chatUserContainer.Visible = true;
             filesUserControl1.Visible = false;
+            transferList1.Visible = false;
 
             publicChatToolStripButton.Enabled = false;
             newsToolStripButton.Enabled = true;
@@ -312,6 +316,7 @@ namespace SharpWired.Gui {
             filesUserControl1.Visible = true;
             chatUserContainer.Visible = false;
             newsContainer.Visible = false;
+            transferList1.Visible = false;
 
             publicChatToolStripButton.Enabled = true;
             newsToolStripButton.Enabled = true;
@@ -325,7 +330,15 @@ namespace SharpWired.Gui {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void transfersToolStripButton_Click(object sender, EventArgs e) {
-            //TODO: Once we have a transfer window
+            filesUserControl1.Visible = false;
+            chatUserContainer.Visible = false;
+            newsContainer.Visible = false;
+            transferList1.Visible = true;
+
+            publicChatToolStripButton.Enabled = true;
+            newsToolStripButton.Enabled = true;
+            filesToolStripButton.Enabled = true;
+            transfersToolStripButton.Enabled = false;
         }
         #endregion
 

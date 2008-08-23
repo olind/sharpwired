@@ -41,7 +41,7 @@ namespace SharpWired.Model
     /// </summary>
     public class Server {
         #region Fields
-        Messages messages;
+        ConnectionManager connectionManager;
         string appVersion;
         int filesCount;
         long fileSize;
@@ -52,6 +52,7 @@ namespace SharpWired.Model
         Chat publicChat;
         SharpWired.Model.News.News news;
         FileListingModel fileListingModel;
+        Transfers.Transfers transfers;
         private int ownUserId;
         public SharpWiredModel model;
         #endregion
@@ -69,7 +70,7 @@ namespace SharpWired.Model
             this.serverName = message.ServerName;
             this.startTime = message.StartTime;
 
-            this.messages = model.ConnectionManager.Messages;
+            this.connectionManager = model.ConnectionManager;
 
             model.LoggedIn += OnLoggedIn;
         }
@@ -158,6 +159,8 @@ namespace SharpWired.Model
         /// </summary>
         public FileListingModel FileListingModel { get { return fileListingModel; } }
 
+        public Transfers.Transfers Transfers { get { return transfers; } }
+
         /// <summary>
         /// Sets the user id for this user.
         /// </summary>
@@ -173,9 +176,10 @@ namespace SharpWired.Model
 
         void OnLoggedIn(Server s) {
             if (s == this) {
-                publicChat = new Chat(messages, 1); // 1 = chat id for public chat
-                news = new News.News(messages); //TODO: Why must we create News with News.News(..)?
-                fileListingModel = new FileListingModel(messages);
+                publicChat = new Chat(connectionManager.Messages, 1); // 1 = chat id for public chat
+                news = new News.News(connectionManager.Messages);
+                fileListingModel = new FileListingModel(connectionManager.Messages);
+                transfers = new Transfers.Transfers(connectionManager.FileTransferHandler);
 
                 if (Online != null)
                     Online();

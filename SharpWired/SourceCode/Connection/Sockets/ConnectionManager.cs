@@ -32,24 +32,22 @@ using SharpWired.Connection.Bookmarks;
 using System.IO;
 using System.Net.Sockets;
 using System.Diagnostics;
+using SharpWired.Connection.Transfers;
 
-namespace SharpWired.Connection
-{
-	/// <summary>
-	/// Manages connections
-	/// </summary>
-    public class ConnectionManager
-    {
-		#region Fields
-		private Messages messages;
-		private Commands commands;
-		private SecureSocket commandSocket;
-        /// <summary>
-        /// For Files-transfers.
-        /// </summary>
-		protected BinarySecureSocket binarySocket;
+namespace SharpWired.Connection {
+    /// <summary>
+    /// Manages connections
+    /// </summary>
+    public class ConnectionManager {
+        #region Fields
+        Messages messages;
+        Commands commands;
+        SecureSocket commandSocket;
+        protected BinarySecureSocket binarySocket;
+        FileTransferHandler fileTransferHandler;
+        Bookmark mCurrentBookmark;
         LagHandler lagHandler;
-		#endregion
+        #endregion
 
         #region Constructor
         /// <summary>
@@ -60,64 +58,61 @@ namespace SharpWired.Connection
             this.messages = new Messages();
             this.commands = new Commands(this.commandSocket);
             this.lagHandler = new LagHandler();
+            this.fileTransferHandler = new FileTransferHandler(this);
         }
         #endregion
 
-		#region Properties
+        #region Properties
 
-		/// <summary>
-		/// Get the class that exposes the message events.
-		/// </summary>
-		public Messages Messages
-		{
-			get { return messages; }
-		}
+        /// <summary>
+        /// Get the class that exposes the message events.
+        /// </summary>
+        public Messages Messages {
+            get { return messages; }
+        }
 
-		/// <summary>
-		/// Get the Commands for an eventual connection. Used to send commands over the connection.
-		/// </summary>
-		public Commands Commands
-		{
-			get { return commands; }
-		}
+        /// <summary>
+        /// Get the Commands for an eventual connection. Used to send commands over the connection.
+        /// </summary>
+        public Commands Commands {
+            get { return commands; }
+        }
 
-		private Bookmark mCurrentBookmark;
-		/// <summary>
-		/// Get the bookmark used to connect.
-		/// </summary>
-		public Bookmark CurrentBookmark
-		{
-			get { return mCurrentBookmark; }
-		}
+        public FileTransferHandler FileTransferHandler { get { return fileTransferHandler; } }
+
+        
+        /// <summary>
+        /// Get the bookmark used to connect.
+        /// </summary>
+        public Bookmark CurrentBookmark {
+            get { return mCurrentBookmark; }
+        }
 
         /// <summary>
         /// Gets the current lag
         /// </summary>
-        public Nullable<TimeSpan> CurrentLag
-        {
+        public Nullable<TimeSpan> CurrentLag {
             get { return lagHandler.CurrentLag; }
         }
 
-		#endregion
+        #endregion
 
         #region Methods
         /// <summary>
-		/// Connect to the Server in the Bookmark using the UserInfo from the
+        /// Connect to the Server in the Bookmark using the UserInfo from the
         /// bookmark as well.
-		/// </summary>
-		/// <param name="bookmark">The info about Server and
+        /// </summary>
+        /// <param name="bookmark">The info about Server and
         /// UserInformation.</param>
-        public void Connect(Bookmark bookmark)
-        {
-            try
-            {
+        public void Connect(Bookmark bookmark) {
+            try {
                 if (bookmark != null) {
                     commandSocket.MessageReceived += messages.MessageReceived;
 
                     commandSocket.Connect(bookmark.Server);
                     commands.Hello(bookmark.Server.MachineName, bookmark.Server.ServerPort, bookmark.Server.ServerName);
                     mCurrentBookmark = bookmark;
-                    
+
                     messages.PingReplyEvent += lagHandler.OnPingReceived;
                     commands.PingSentEvent += lagHandler.OnPingSent;
                 } else {
@@ -125,9 +120,7 @@ namespace SharpWired.Connection
                     Debug.WriteLine("ERROR - ConnectionManager.Connect(): " +
                                       "Trying to connect to a null bookmark.");
                 }
-            }
-            catch (ConnectionException ce)
-            {
+            } catch (ConnectionException ce) {
                 ce.Bookmark = bookmark;
                 throw (ce);
             }
@@ -146,46 +139,35 @@ namespace SharpWired.Connection
             mCurrentBookmark = null;
         }
 
-		/// <summary>
-		/// Increases the port number for the server by one, so that it corresponds
-		/// to the transfer port.
-		/// </summary>
-		/// <remarks>
-		/// 1.3
-		/// -- snip --
-		///
-		/// Wired communication takes place over a TCP/IP connection using TLS
-		/// [1]. The default port is TCP 2000, but other ports can be used. The
-		/// transfer port is the default port incremented by one, or 2001 by
-		/// default.
-		/// </remarks>
-		/// <param name="bookmark">The Bookmark to use as base.</param>
-		/// <returns>A new Bookmark.</returns>
-		private Bookmark MakeTransferBookmark(Bookmark bookmark)
-		{
-			Server server = new Server(bookmark.Server.ServerPort + 1, bookmark.Server.MachineName, bookmark.Server.ServerName);
-			return new Bookmark(server, bookmark.UserInformation);
-		}
-
-		/// <summary>
-		/// Should only give out this once.
-		/// </summary>
-		/// <returns>A BinarySecureSocket</returns>
-		private BinarySecureSocket GetFileTransferSocket()
-		{
-			if (binarySocket == null)
-				binarySocket = new BinarySecureSocket();
-			return binarySocket;
-		}
-
-		internal BinarySecureSocket ConnectFileTransfer(FileStream fileStream, long fileSize, long offset)
-		{
-			Bookmark bookmark = MakeTransferBookmark(CurrentBookmark);
-			BinarySecureSocket binarySocket = GetFileTransferSocket();
-			binarySocket.Connect(bookmark.Server, fileStream, fileSize, offset);
-			return binarySocket;
+        /// <summary>
+        /// Increases the port number for the server by one, so that it corresponds
+        /// to the transfer port.
+        /// </summary>
+        /// <remarks>
+        /// 1.3
+        /// -- snip --
+        ///
+        /// Wired communication takes place over a TCP/IP connection using TLS
+        /// [1]. The default port is TCP 2000, but other ports can be used. The
+        /// transfer port is the default port incremented by one, or 2001 by
+        /// default.
+        /// </remarks>
+        /// <param name="bookmark">The Bookmark to use as base.</param>
+        /// <returns>A new Bookmark.</returns>
+        private Bookmark MakeTransferBookmark(Bookmark bookmark) {
+            Server server = new Server(bookmark.Server.ServerPort + 1, bookmark.Server.MachineName, bookmark.Server.ServerName);
+            return new Bookmark(server, bookmark.UserInformation);
         }
 
+        /// <summary>
+        /// Should only give out this once.
+        /// </summary>
+        /// <returns>A BinarySecureSocket</returns>
+        private BinarySecureSocket GetFileTransferSocket() {
+            if (binarySocket == null)
+                binarySocket = new BinarySecureSocket();
+            return binarySocket;
+        }
         #endregion
-	}
+    }
 }

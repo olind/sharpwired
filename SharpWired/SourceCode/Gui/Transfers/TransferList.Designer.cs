@@ -23,43 +23,42 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.transfer1 = new SharpWired.Gui.Transfers.Transfer();
-            this.transfer2 = new SharpWired.Gui.Transfers.Transfer();
+            this.transferTable = new System.Windows.Forms.TableLayoutPanel();
             this.SuspendLayout();
             // 
-            // transfer1
+            // transferTable
             // 
-            this.transfer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.transfer1.Location = new System.Drawing.Point(3, 3);
-            this.transfer1.Name = "transfer1";
-            this.transfer1.Size = new System.Drawing.Size(464, 63);
-            this.transfer1.TabIndex = 0;
-            // 
-            // transfer2
-            // 
-            this.transfer2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.transfer2.Location = new System.Drawing.Point(3, 72);
-            this.transfer2.Name = "transfer2";
-            this.transfer2.Size = new System.Drawing.Size(464, 63);
-            this.transfer2.TabIndex = 1;
+            this.transferTable.AutoScroll = true;
+            this.transferTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.transferTable.ColumnCount = 1;
+            this.transferTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.transferTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.transferTable.Location = new System.Drawing.Point(5, 5);
+            this.transferTable.Name = "transferTable";
+            this.transferTable.RowCount = 1;
+            this.transferTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.transferTable.Size = new System.Drawing.Size(460, 252);
+            this.transferTable.TabIndex = 0;
             // 
             // TransferList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.transfer2);
-            this.Controls.Add(this.transfer1);
+            this.Controls.Add(this.transferTable);
             this.Name = "TransferList";
+            this.Padding = new System.Windows.Forms.Padding(5);
             this.Size = new System.Drawing.Size(470, 262);
+            this.VisibleChanged += new System.EventHandler(this.TransferList_VisibleChanged);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private Transfer transfer1;
-        private Transfer transfer2;
+        private System.Windows.Forms.TableLayoutPanel transferTable;
+
+
+
+
     }
 }

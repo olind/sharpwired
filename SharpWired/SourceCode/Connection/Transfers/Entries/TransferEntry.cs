@@ -28,66 +28,32 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SharpWired.Connection;
+using System.Diagnostics;
+using System.IO;
+using SharpWired.Connection.Sockets;
+using SharpWired.Model.Files;
 
-namespace SharpWired.Connection.Transfers.Entries
-{
-	/// <summary>
-	/// And entry in the Transfer Queue. Consists of a from location, a to location and a server.
-	/// </summary>
-	public class TransferEntry
-	{
-		#region Constructors
-		/// <summary>
-		/// Create a queue item with this server.
-		/// </summary>
-		/// <param name="server">The Server to transfer from.</param>
-		public TransferEntry(Server server)
-		{
-			mServer = server;
-		}
-		#endregion
+namespace SharpWired.Connection.Transfers.Entries {
+    /// <summary>
+    /// And entry in the Transfer Queue. Consists of a from location, a to location and a server.
+    /// </summary>
+    public class TransferEntry {
+        protected ConnectionManager connectionManager;
+        Int64 offset;
+        string id;
 
+        protected TransferEntry(ConnectionManager connectionManager) {
+            this.connectionManager = connectionManager;
+        }
 
-		#region Properties
-        /// <summary>
-        /// The server side location to get the transfer from.
-        /// </summary>
-		protected string mFromLocation;
-		/// <summary>
-		/// Get/Set the location to get transfer from.
-		/// </summary>
-		public virtual string FromLocation
-		{
-			get { return mFromLocation; }
-			set { mFromLocation = value; }
-		}
+        public Int64 Offset {
+            get { return offset; }
+            set { offset = value; }
+        }
 
-        /// <summary>
-        /// The location to store the transfer
-        /// </summary>
-		protected string mToLocation;
-		/// <summary>
-		/// Get/Set the lovation to store transfer.
-		/// </summary>
-		public virtual string ToLocation
-		{
-			get { return mToLocation; }
-			set { mToLocation = value; }
-		}
-
-        /// <summary>
-        /// The server to transfer from
-        /// </summary>
-		protected Server mServer;
-		/// <summary>
-		/// Get/Set the Server to transfer from.
-		/// </summary>
-		public virtual Server Server
-		{
-			get { return mServer; }
-			set { mServer = value; }
-		}
-		#endregion
-
-	}
+        public string Id {
+            get { return id; }
+            set { id = value; }
+        }
+    }
 }

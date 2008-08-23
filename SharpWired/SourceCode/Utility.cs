@@ -189,5 +189,10 @@ namespace SharpWired
                 return false;
             return true;
         }
+
+        public static string ByteArrayToString(byte[] bytes) {
+            System.Text.UTF8Encoding enc = new System.Text.UTF8Encoding();
+            return enc.GetString(bytes);
+        }
     }
 }

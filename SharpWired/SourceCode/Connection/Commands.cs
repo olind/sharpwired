@@ -263,7 +263,7 @@ namespace SharpWired.Connection
         /// </summary>
         /// <param name="path">The path for the file to request</param>
         /// <param name="offset">The offset for the file</param>
-        public void Get(string path, int offset)
+        public void Get(string path, Int64 offset)
         {
             if (socket != null)
             {

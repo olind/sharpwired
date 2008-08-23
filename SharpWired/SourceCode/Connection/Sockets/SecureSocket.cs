@@ -176,7 +176,6 @@ namespace SharpWired.Connection.Sockets
         public void SendMessage(string message) {
             if (sslStream != null && sslStream.CanWrite)
             {
-
                 if(message.StartsWith("ICON"))
                     Debug.WriteLine("Sending: '" + message.Substring(0, 30) + "...'");
                 else

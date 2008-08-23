@@ -67,6 +67,14 @@ namespace SharpWired.Connection.Bookmarks
             get { return server; }
             set { server = value; }
 		}
+
+        public Server Transfer {
+            get {
+                return new Server(server.ServerPort + 1, 
+                    server.MachineName, server.ServerName);
+            }
+        }
+
 		#endregion
 
 		#region Constructors

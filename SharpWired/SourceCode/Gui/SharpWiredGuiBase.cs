@@ -43,6 +43,7 @@ namespace SharpWired.Gui {
         protected SharpWiredModel model;
 
         private delegate void ToggleWindowsFormsControlCallback(Control control);
+        protected delegate void UpdateDelegate();
 
         public virtual void Init(SharpWiredModel model, SharpWiredController controller) {
             this.model = model;
@@ -67,6 +68,13 @@ namespace SharpWired.Gui {
             } else {
                 control.Enabled = !control.Enabled;
             }
+        }
+
+        protected void UpdateControl(UpdateDelegate update) {
+            if (this.InvokeRequired)
+                this.Invoke(update, new object[] { });
+            else
+                update();
         }
     }
 }

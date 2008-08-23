@@ -40,6 +40,7 @@ namespace SharpWired.Controller
         protected SharpWiredModel model;
         protected SharpWired.Connection.Commands commands;
         protected SharpWired.Connection.Messages messages;
+        protected SharpWired.Connection.Transfers.FileTransferHandler fileTransferHandler;
         #endregion
 
         #region Constructor
@@ -51,6 +52,7 @@ namespace SharpWired.Controller
             this.model = model;
             this.commands = model.ConnectionManager.Commands;
             this.messages = model.ConnectionManager.Messages;
+            this.fileTransferHandler = model.ConnectionManager.FileTransferHandler;
         }
         #endregion
     }

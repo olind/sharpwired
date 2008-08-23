@@ -39,6 +39,7 @@ using SharpWired.Gui.Resources.Icons;
 using SharpWired.Connection.Transfers;
 using SharpWired.Controller;
 using System.Diagnostics;
+using SharpWired.Connection.Transfers.Entries;
 
 namespace SharpWired.Gui.Files {
     /// <summary>
@@ -154,7 +155,9 @@ namespace SharpWired.Gui.Files {
         }
 
         private void OnRequestDownload(FileSystemEntry node) {
-            controller.FileTransferHandler.EnqueEntry(node);
+            TransferEntry entry = controller.FileTransferController.AddDownload(node);
+            if(entry != null) //TODO: null check should not be necessary
+                controller.FileTransferController.StartDownload(entry);
         }
         #endregion
     }
