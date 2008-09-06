@@ -23,31 +23,29 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.transferTable = new System.Windows.Forms.TableLayoutPanel();
+            this.transferScrollPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // transferTable
+            // transferScrollPanel
             // 
-            this.transferTable.AutoScroll = true;
-            this.transferTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.transferTable.ColumnCount = 1;
-            this.transferTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.transferTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.transferTable.Location = new System.Drawing.Point(5, 5);
-            this.transferTable.Name = "transferTable";
-            this.transferTable.RowCount = 1;
-            this.transferTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.transferTable.Size = new System.Drawing.Size(460, 252);
-            this.transferTable.TabIndex = 0;
+            this.transferScrollPanel.AutoScroll = true;
+            this.transferScrollPanel.BackColor = System.Drawing.SystemColors.Window;
+            this.transferScrollPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.transferScrollPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.transferScrollPanel.Location = new System.Drawing.Point(0, 0);
+            this.transferScrollPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.transferScrollPanel.Name = "transferScrollPanel";
+            this.transferScrollPanel.Size = new System.Drawing.Size(641, 418);
+            this.transferScrollPanel.TabIndex = 0;
+            this.transferScrollPanel.Click += new System.EventHandler(this.OnClicked);
             // 
             // TransferList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.transferTable);
+            this.Controls.Add(this.transferScrollPanel);
             this.Name = "TransferList";
-            this.Padding = new System.Windows.Forms.Padding(5);
-            this.Size = new System.Drawing.Size(470, 262);
+            this.Size = new System.Drawing.Size(641, 418);
             this.VisibleChanged += new System.EventHandler(this.TransferList_VisibleChanged);
             this.ResumeLayout(false);
 
@@ -55,7 +53,9 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel transferTable;
+        private System.Windows.Forms.Panel transferScrollPanel;
+
+
 
 
 

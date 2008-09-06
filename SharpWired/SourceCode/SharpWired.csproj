@@ -52,9 +52,12 @@
     <DocumentationFile>SharpWired.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -170,6 +173,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>UserList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Transfers\TransferContainer.resx">
+      <DependentUpon>TransferContainer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Gui\Transfers\TransferItem.resx">
       <DependentUpon>TransferItem.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -238,6 +245,12 @@
     <Compile Include="Controller\ChatController.cs" />
     <Compile Include="Controller\ControllerBase.cs" />
     <Compile Include="Controller\FileTransferController.cs" />
+    <Compile Include="Gui\Transfers\TransferContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Transfers\TransferContainer.Designer.cs">
+      <DependentUpon>TransferContainer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Gui\Transfers\TransferItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -361,6 +374,7 @@
     <Content Include="LICENSE.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\DataSources\SharpWired.Model.Transfers.Transfers.datasource" />
     <None Include="Resources\process-stop.png" />
     <None Include="Resources\media-playback-pause.png" />
     <Content Include="SharpWired_Program_Icon.ico" />

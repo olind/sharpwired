@@ -39,6 +39,7 @@
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(290, 19);
             this.progressBar1.TabIndex = 0;
+            this.progressBar1.Click += new System.EventHandler(this.OnClicked);
             // 
             // fileName
             // 
@@ -50,6 +51,7 @@
             this.fileName.Size = new System.Drawing.Size(60, 13);
             this.fileName.TabIndex = 2;
             this.fileName.Text = "MyFile.zip";
+            this.fileName.Click += new System.EventHandler(this.OnClicked);
             // 
             // info
             // 
@@ -57,9 +59,10 @@
             this.info.AutoSize = true;
             this.info.Location = new System.Drawing.Point(62, 42);
             this.info.Name = "info";
-            this.info.Size = new System.Drawing.Size(256, 13);
+            this.info.Size = new System.Drawing.Size(276, 13);
             this.info.TabIndex = 3;
             this.info.Text = "2 minutes remaining — 283 KiB of 2.83 MiB (38 KiB/s)";
+            this.info.Click += new System.EventHandler(this.OnClicked);
             // 
             // button2
             // 
@@ -88,12 +91,13 @@
             this.pictureBox1.Size = new System.Drawing.Size(54, 55);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.OnClicked);
             // 
             // TransferItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.info);
@@ -102,6 +106,7 @@
             this.Controls.Add(this.progressBar1);
             this.Name = "TransferItem";
             this.Size = new System.Drawing.Size(428, 63);
+            this.Click += new System.EventHandler(this.OnClicked);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

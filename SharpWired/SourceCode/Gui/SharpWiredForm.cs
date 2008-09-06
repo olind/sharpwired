@@ -71,18 +71,18 @@ namespace SharpWired.Gui {
 
             chatUserContainer.Init(model, sharpWiredController);
             newsContainer.Init(model, sharpWiredController);
-            filesUserControl1.Init(model, sharpWiredController);
-            transferList1.Init(model, sharpWiredController);
+            filesContainer.Init(model, sharpWiredController);
+            transferContainer.Init(model, sharpWiredController);
 
             chatUserContainer.Dock = DockStyle.Fill;
             newsContainer.Dock = DockStyle.Fill;
-            filesUserControl1.Dock = DockStyle.Fill;
-            transferList1.Dock = DockStyle.Fill;
+            filesContainer.Dock = DockStyle.Fill;
+            transferContainer.Dock = DockStyle.Fill;
 
             newsContainer.Visible = false;
             chatUserContainer.Visible = true;
-            filesUserControl1.Visible = false;
-            transferList1.Visible = false;
+            filesContainer.Visible = false;
+            transferContainer.Visible = false;
 
             publicChatToolStripButton.Enabled = false;
 
@@ -281,8 +281,8 @@ namespace SharpWired.Gui {
         private void newsToolStripButton_Click(object sender, EventArgs e) {
             newsContainer.Visible = true;
             chatUserContainer.Visible = false;
-            filesUserControl1.Visible = false;
-            transferList1.Visible = false;
+            filesContainer.Visible = false;
+            transferContainer.Visible = false;
 
             publicChatToolStripButton.Enabled = true;
             newsToolStripButton.Enabled = false;
@@ -298,8 +298,8 @@ namespace SharpWired.Gui {
         private void publicChatToolStripButton_Click(object sender, EventArgs e) {
             newsContainer.Visible = false;
             chatUserContainer.Visible = true;
-            filesUserControl1.Visible = false;
-            transferList1.Visible = false;
+            filesContainer.Visible = false;
+            transferContainer.Visible = false;
 
             publicChatToolStripButton.Enabled = false;
             newsToolStripButton.Enabled = true;
@@ -313,10 +313,10 @@ namespace SharpWired.Gui {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void filesToolStripButton_Click(object sender, EventArgs e) {
-            filesUserControl1.Visible = true;
+            filesContainer.Visible = true;
             chatUserContainer.Visible = false;
             newsContainer.Visible = false;
-            transferList1.Visible = false;
+            transferContainer.Visible = false;
 
             publicChatToolStripButton.Enabled = true;
             newsToolStripButton.Enabled = true;
@@ -330,10 +330,10 @@ namespace SharpWired.Gui {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void transfersToolStripButton_Click(object sender, EventArgs e) {
-            filesUserControl1.Visible = false;
+            filesContainer.Visible = false;
             chatUserContainer.Visible = false;
             newsContainer.Visible = false;
-            transferList1.Visible = true;
+            transferContainer.Visible = true;
 
             publicChatToolStripButton.Enabled = true;
             newsToolStripButton.Enabled = true;

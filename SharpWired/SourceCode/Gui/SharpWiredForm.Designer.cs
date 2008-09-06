@@ -76,9 +76,9 @@ namespace SharpWired.Gui
             this.toolStripStatusLabel_ServerStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.mBookmarkLoadingTimer = new System.Windows.Forms.Timer(this.components);
             this.chatUserContainer = new SharpWired.Gui.Chat.ChatUserContainer();
-            this.filesUserControl1 = new SharpWired.Gui.Files.FilesContainer();
+            this.filesContainer = new SharpWired.Gui.Files.FilesContainer();
             this.newsContainer = new SharpWired.Gui.News.NewsContainer();
-            this.transferList1 = new SharpWired.Gui.Transfers.TransferList();
+            this.transferContainer = new SharpWired.Gui.Transfers.TransferContainer();
             this.mainMenu.SuspendLayout();
             this.mainIconMenu.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
@@ -253,44 +253,44 @@ namespace SharpWired.Gui
             // 
             // chatUserContainer
             // 
-            this.chatUserContainer.Location = new System.Drawing.Point(38, 87);
+            this.chatUserContainer.Location = new System.Drawing.Point(12, 56);
             this.chatUserContainer.Name = "chatUserContainer";
             this.chatUserContainer.Padding = new System.Windows.Forms.Padding(5);
             this.chatUserContainer.Size = new System.Drawing.Size(288, 176);
             this.chatUserContainer.TabIndex = 8;
             // 
-            // filesUserControl1
+            // filesContainer
             // 
-            this.filesUserControl1.Location = new System.Drawing.Point(342, 67);
-            this.filesUserControl1.Name = "filesUserControl1";
-            this.filesUserControl1.Padding = new System.Windows.Forms.Padding(5);
-            this.filesUserControl1.Size = new System.Drawing.Size(263, 196);
-            this.filesUserControl1.TabIndex = 11;
+            this.filesContainer.Location = new System.Drawing.Point(306, 56);
+            this.filesContainer.Name = "filesUserControl1";
+            this.filesContainer.Padding = new System.Windows.Forms.Padding(5);
+            this.filesContainer.Size = new System.Drawing.Size(299, 176);
+            this.filesContainer.TabIndex = 11;
             // 
             // newsContainer
             // 
-            this.newsContainer.Location = new System.Drawing.Point(25, 286);
+            this.newsContainer.Location = new System.Drawing.Point(12, 238);
             this.newsContainer.Name = "newsContainer";
             this.newsContainer.Padding = new System.Windows.Forms.Padding(5);
-            this.newsContainer.Size = new System.Drawing.Size(488, 136);
+            this.newsContainer.Size = new System.Drawing.Size(288, 233);
             this.newsContainer.TabIndex = 9;
             this.newsContainer.Visible = false;
             // 
-            // transferList1
+            // transferContainer
             // 
-            this.transferList1.Location = new System.Drawing.Point(187, 242);
-            this.transferList1.Name = "transferList1";
-            this.transferList1.Size = new System.Drawing.Size(393, 195);
-            this.transferList1.TabIndex = 12;
+            this.transferContainer.Location = new System.Drawing.Point(306, 238);
+            this.transferContainer.Name = "transferList1";
+            this.transferContainer.Size = new System.Drawing.Size(299, 233);
+            this.transferContainer.TabIndex = 12;
             // 
             // SharpWiredForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(617, 496);
-            this.Controls.Add(this.transferList1);
+            this.Controls.Add(this.transferContainer);
             this.Controls.Add(this.chatUserContainer);
-            this.Controls.Add(this.filesUserControl1);
+            this.Controls.Add(this.filesContainer);
             this.Controls.Add(this.newsContainer);
             this.Controls.Add(this.mainStatusStrip);
             this.Controls.Add(this.mainIconMenu);
@@ -333,8 +333,8 @@ namespace SharpWired.Gui
         private System.Windows.Forms.Timer mBookmarkLoadingTimer;
         private ChatUserContainer chatUserContainer;
         private SharpWired.Gui.News.NewsContainer newsContainer;
-        private SharpWired.Gui.Files.FilesContainer filesUserControl1;
-        private SharpWired.Gui.Transfers.TransferList transferList1;
+        private SharpWired.Gui.Files.FilesContainer filesContainer;
+        private SharpWired.Gui.Transfers.TransferContainer transferContainer;
     }
 }
 

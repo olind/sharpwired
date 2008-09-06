@@ -12,6 +12,10 @@ using SharpWired.Model.Transfers;
 namespace SharpWired.Gui.Transfers {
     public partial class TransferItem : SharpWiredGuiBase {
         Transfer transfer;
+        public bool Selected { get; set; }
+
+        public delegate void ClickedArgs(TransferItem ti, bool control);
+        public event ClickedArgs Clicked;
 
         public TransferItem() {
             InitializeComponent();
@@ -23,10 +27,21 @@ namespace SharpWired.Gui.Transfers {
             UpdateDelegate update = delegate() {
                 this.fileName.Text = t.ServerFilePath.Name;
                 this.info.Text = "";
-                this.Dock = DockStyle.Fill;
+                this.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             };
 
             UpdateControl(update);
+        }
+
+        private void OnClicked(object sender, EventArgs e) {
+            bool control = false;
+
+            // TODO: Handle shift selecting.
+            if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                control = true;
+                
+            if (Clicked != null)
+                Clicked(this, control);
         }
     }
 }
