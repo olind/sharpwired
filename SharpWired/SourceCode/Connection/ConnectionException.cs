@@ -39,7 +39,7 @@ namespace SharpWired.Connection
         private Bookmark bookmark;
 
         /// <summary>
-        /// Get or set the bookmark that was connected to
+        /// Request or set the bookmark that was connected to
         /// </summary>
         public Bookmark Bookmark
         {

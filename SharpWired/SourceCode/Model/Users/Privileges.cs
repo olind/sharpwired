@@ -65,168 +65,168 @@ namespace SharpWired.Model.Users
         bool changeTopic;
 
         /// <summary>
-        /// Get the user id for this privileges mask (object).
+        /// Request the user id for this privileges mask (object).
         /// </summary>
         public string UserName {
             get { return userName; }
         }
 
         /// <summary>
-        /// Get if this user is allowed to get user information or not?
+        /// Request if this user is allowed to get user information or not?
         /// </summary>
         public bool GetUserInfo {
             get { return getUserInfo; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to send broadcast messages or not?
+        /// Request or set whether this user is allowed to send broadcast messages or not?
         /// </summary>
         public bool Broadcast {
             get { return broadcast; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to post news or not?
+        /// Request or set whether this user is allowed to post news or not?
         /// </summary>
         public bool PostNews {
             get { return postNews; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to clear news or not?
+        /// Request or set whether this user is allowed to clear news or not?
         /// </summary>
         public bool ClearNews {
             get { return clearNews; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to download or not?
+        /// Request or set whether this user is allowed to download or not?
         /// </summary>
         public bool Download {
             get { return download; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to upload or not?
+        /// Request or set whether this user is allowed to upload or not?
         /// </summary>
         public bool Upload {
             get { return upload; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to upload anywhere or not?
+        /// Request or set whether this user is allowed to upload anywhere or not?
         /// </summary>
         public bool UploadAnywhere {
             get { return uploadAnywhere; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to create folders or not?
+        /// Request or set whether this user is allowed to create folders or not?
         /// </summary>
         public bool CreateFolders {
             get { return createFolders; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to alter files or not?
+        /// Request or set whether this user is allowed to alter files or not?
         /// </summary>
         public bool AlterFiles {
             get { return alterFiles; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to delete files or not?
+        /// Request or set whether this user is allowed to delete files or not?
         /// </summary>
         public bool DeleteFiles {
             get { return deleteFiles; }
         }
 
         /// <summary>
-        /// Get or set whether this is user allowed to view dropboxe or not?
+        /// Request or set whether this is user allowed to view dropboxe or not?
         /// </summary>
         public bool ViewDropboxes {
             get { return viewDropboxes; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to create accounts or not?
+        /// Request or set whether this user is allowed to create accounts or not?
         /// </summary>
         public bool CreateAccounts {
             get { return createAccounts; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to edit accounts or not?
+        /// Request or set whether this user is allowed to edit accounts or not?
         /// </summary>
         public bool EditAccounts {
             get { return editAccounts; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to delete accounts or not?
+        /// Request or set whether this user is allowed to delete accounts or not?
         /// </summary>
         public bool DeleteAccounts {
             get { return deleteAccounts; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to elevate privileges or not?
+        /// Request or set whether this user is allowed to elevate privileges or not?
         /// </summary>
         public bool ElevatePrivileges {
             get { return elevatePrivileges; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to kick users or not?
+        /// Request or set whether this user is allowed to kick users or not?
         /// </summary>
         public bool KickUsers {
             get { return kickUsers; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to ban users or not?
+        /// Request or set whether this user is allowed to ban users or not?
         /// </summary>
         public bool BanUsers {
             get { return banUsers; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to be kicked or not.
+        /// Request or set whether this user is allowed to be kicked or not.
         /// </summary>
         public bool CannotBeKicked {
             get { return cannotBeKicked; }
         }
 
         /// <summary>
-        /// Get or set the download speed for this user.
+        /// Request or set the download speed for this user.
         /// </summary>
         public int DownloadSpeed {
             get { return downloadSpeed; }
         }
 
         /// <summary>
-        /// Get or set the upload speed for this user.
+        /// Request or set the upload speed for this user.
         /// </summary>
         public int UploadSpeed {
             get { return UploadSpeed; }
         }
 
         /// <summary>
-        /// Get or set whether the download limit for this user.
+        /// Request or set whether the download limit for this user.
         /// </summary>
         public int DownloadLimit {
             get { return downloadLimit; }
         }
 
         /// <summary>
-        /// Get or set whether the upload limit for this user.
+        /// Request or set whether the upload limit for this user.
         /// </summary>
         public int UploadLimit {
             get { return uploadLimit; }
         }
 
         /// <summary>
-        /// Get or set whether this user is allowed to change chat topic or not?
+        /// Request or set whether this user is allowed to change chat topic or not?
         /// </summary>
         public bool ChangeTopic {
             get { return changeTopic; }
@@ -310,7 +310,7 @@ namespace SharpWired.Model.Users
         }
 
 /*
-TODO: Started out with a User Model cleanup which isn't done yet. Disabled the privileges in the following 3 methods in Messages class. Make the privileges work.
+TODO: Started out with a User Model cleanup which isn'transfer done yet. Disabled the privileges in the following 3 methods in Messages class. Make the privileges work.
 private void OnUserSpecificationEvent(object sender, int messageId, string messageName, string message)
 private void OnGroupSpecificationEvent(object sender, int messageId, string messageName, string message)
 private void OnPrivilegesSpecificationEvent(object sender, int messageId, string messageName, string message)

@@ -38,7 +38,7 @@ namespace SharpWired.MessageEvents
         private int userId;
 
         /// <summary>
-        /// Get the user id for the user that logged in
+        /// Request the user id for the user that logged in
         /// </summary>
         public int UserId {
             get {

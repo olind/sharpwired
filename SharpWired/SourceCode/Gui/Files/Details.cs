@@ -44,7 +44,17 @@ namespace SharpWired.Gui.Files {
     /// </summary>
     public partial class Details : FilesGuiBase {
 
-        private IconHandler iconHandler = IconHandler.Instance;
+        IconHandler iconHandler = IconHandler.Instance;
+        FileMenu ContextMenu { get; set; }
+
+        public List<FileSystemEntry> SelectedItems {
+            get {
+                var n = new List<FileSystemEntry>();
+                foreach (var s in detailsListView.SelectedItems)
+                    n.Add(((WiredListNode)s).ModelNode);
+                return n;
+            }
+        }
 
         #region Constructors
         /// <summary>
@@ -75,12 +85,6 @@ namespace SharpWired.Gui.Files {
         void OnFolderNodeDoneLoading(FolderNode updatedNode) {
             updatedNode.FolderNodeUpdatedEvent -= OnFolderNodeDoneLoading;
             NodeListToListView(updatedNode.Children);
-        }
-
-        private void detailsListView_MouseClick(object sender, MouseEventArgs e) {
-            // We use right click to download for now at least
-            if (e.Button == MouseButtons.Right)
-                RequestDownload(((WiredListNode)detailsListView.GetItemAt(e.X, e.Y)).ModelNode);
         }
 
         private void detailsListView_MouseDoubleClick(object sender, MouseEventArgs e) {
@@ -118,6 +122,7 @@ namespace SharpWired.Gui.Files {
             detailsListView.SmallImageList = fileViewIcons;
             detailsListView.LargeImageList = fileViewIcons;
             detailsListView.View = View.Details;
+            ContextMenu = new FileMenu(controller, this);
         }
 
         /// <summary>
@@ -172,7 +177,7 @@ namespace SharpWired.Gui.Files {
                 }
             }
         }
-   
+
 
         private void AddToListView(FileSystemEntry child, string imageKey) {
             WiredListNode wln = new WiredListNode(child);
@@ -185,5 +190,11 @@ namespace SharpWired.Gui.Files {
             this.detailsListView.Items.Add(wln);
         }
         #endregion
+
+        private void detailsListView_MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Right) {
+                ContextMenu.Show(detailsListView, e.Location);
+            }
+        }
     }
 }

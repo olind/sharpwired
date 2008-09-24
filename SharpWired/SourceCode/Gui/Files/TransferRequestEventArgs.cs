@@ -13,7 +13,7 @@ namespace SharpWired.Gui.Files
 		/// <summary>
 		/// Constructs.
 		/// </summary>
-		/// <param name="fse">The array of path segments</param>
+		/// <param name="fse">The array of destination segments</param>
 		public TransferRequestEventArgs(FileSystemEntry fse)
 		{
 			mFileSystemEntry = fse;
@@ -24,7 +24,7 @@ namespace SharpWired.Gui.Files
 		
 		private FileSystemEntry mFileSystemEntry;
 		/// <summary>
-		/// Get or sets the FileSystemNode representing what to transfer.
+		/// Request or sets the FileSystemNode representing what to transfer.
 		/// </summary>
 		public FileSystemEntry FileSystemEntry
 		{

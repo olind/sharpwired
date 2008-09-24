@@ -43,7 +43,7 @@ namespace SharpWired.Model.Files
         #region Properties
 
         /// <summary>
-        /// Get the file size for this file.
+        /// Request the file size for this file.
         /// If this object is a folder 0 is returned.
         /// </summary>
         public long Size
@@ -73,7 +73,7 @@ namespace SharpWired.Model.Files
         /// <summary>
         /// Construtor
         /// </summary>
-        /// <param name="messageEventArgs"></param>
+        /// <param name="args"></param>
         public FileNode(MessageEventArgs_410420 messageEventArgs)
             : base(messageEventArgs)
         {

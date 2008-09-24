@@ -97,10 +97,10 @@ namespace SharpWired.Gui.Chat
             // 
             this.columnHeader3.Text = "Status";
             // 
-            // UserListControl
+            // UserList
             // 
             this.Controls.Add(this.userListView);
-            this.Name = "UserListControl";
+            this.Name = "UserList";
             this.Size = new System.Drawing.Size(63, 329);
             this.ResumeLayout(false);
 

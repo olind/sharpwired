@@ -126,7 +126,7 @@ namespace SharpWired.Connection
         /// <summary>
         /// Set the comment for a file or folder
         /// </summary>
-        /// <param name="path">The path to the file or folder to set the comment to</param>
+        /// <param name="destination">The destination to the file or folder to set the comment to</param>
         /// <param name="comment">The comment</param>
         public void Comment(string path, string comment)
         {
@@ -184,7 +184,7 @@ namespace SharpWired.Connection
         /// <summary>
         /// Delete a file or folder
         /// </summary>
-        /// <param name="path">The path to the file or folder to delete</param>
+        /// <param name="destination">The destination to the file or folder to delete</param>
         public void Delete(string path)
         {
             if (socket != null)
@@ -251,7 +251,7 @@ namespace SharpWired.Connection
         /// <summary>
         /// Create a new folder
         /// </summary>
-        /// <param name="path">The path for the new folder</param>
+        /// <param name="destination">The destination for the new folder</param>
         public void Folder(string path)
         {
             if (socket != null)
@@ -261,7 +261,7 @@ namespace SharpWired.Connection
         /// <summary>
         /// Request a download of a file
         /// </summary>
-        /// <param name="path">The path for the file to request</param>
+        /// <param name="destination">The destination for the file to request</param>
         /// <param name="offset">The offset for the file</param>
         public void Get(string path, Int64 offset)
         {
@@ -282,7 +282,7 @@ namespace SharpWired.Connection
         }
 
         /// <summary>
-        /// Start a conversation with a server.
+        /// Request a conversation with a server.
         /// </summary>
         /// <param name="serverPort">The port for the server to use for this connection</param>
         /// <param name="machineName">The host running the server application</param>
@@ -364,7 +364,7 @@ namespace SharpWired.Connection
         /// <summary>
         /// List the file content
         /// </summary>
-        /// <param name="path">The path to where file content should be listed</param>
+        /// <param name="destination">The destination to where file content should be listed</param>
         public void List(string path)
         {
             if (socket != null)
@@ -385,8 +385,8 @@ namespace SharpWired.Connection
         /// <summary>
         /// Move a file or folder
         /// </summary>
-        /// <param name="from">The current path to the file or folder</param>
-        /// <param name="to">The new path to the file or folder</param>
+        /// <param name="from">The current destination to the file or folder</param>
+        /// <param name="to">The new destination to the file or folder</param>
         public void Move(string from, string to)
         {
             if (socket != null)
@@ -488,7 +488,7 @@ namespace SharpWired.Connection
         /// <summary>
         /// Request an upload of a file
         /// </summary>
-        /// <param name="path">The path (on the server) to the file to be uploaded</param>
+        /// <param name="destination">The destination (on the server) to the file to be uploaded</param>
         /// <param name="size">The size of the file to be uploaded</param>
         /// <param name="checksum">The checksum</param>
         public void Put(string path, int size, string checksum)
@@ -501,7 +501,7 @@ namespace SharpWired.Connection
         }
 
         /// <summary>
-        /// Get account specification for a user
+        /// Request account specification for a user
         /// </summary>
         /// <param name="name">The name of the user to request information on</param>
         public void ReadUser(string name)
@@ -511,7 +511,7 @@ namespace SharpWired.Connection
         }
 
         /// <summary>
-        /// Get the account specification for a group
+        /// Request the account specification for a group
         /// </summary>
         /// <param name="name">The group to request specification for</param>
         public void ReadGroup(string name)
@@ -552,9 +552,9 @@ namespace SharpWired.Connection
         }
 
         /// <summary>
-        /// Get the file information for a file or folder
+        /// Request the file information for a file or folder
         /// </summary>
-        /// <param name="path">The path to the file or folder</param>
+        /// <param name="destination">The destination to the file or folder</param>
         public void Stat(string path)
         {
             if (socket != null)
@@ -595,7 +595,7 @@ namespace SharpWired.Connection
         /// <summary>
         /// Set the type of a folder
         /// </summary>
-        /// <param name="path">The path to the folder</param>
+        /// <param name="destination">The destination to the folder</param>
         /// <param name="folderType">The new type of the folder</param>
         public void Type(string path, int folderType)
         {
@@ -614,7 +614,7 @@ namespace SharpWired.Connection
         }
 
         /// <summary>
-        /// Get a listing of all user accounts on the server
+        /// Request a listing of all user accounts on the server
         /// </summary>
         public void Users()
         {
@@ -623,7 +623,7 @@ namespace SharpWired.Connection
         }
 
         /// <summary>
-        /// Get the user list for a chat
+        /// Request the user list for a chat
         /// </summary>
         /// <param name="chat">The ID for the chat</param>
         public void Who(int chat)

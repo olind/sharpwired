@@ -38,11 +38,8 @@ namespace SharpWired.Controller {
     /// Controller for chats. Provide functionality for sending messages, setting topics etc.
     /// </summary>
     public class ChatController : ControllerBase {
-        #region Constructor
         public ChatController(SharpWiredModel model) : base(model) { }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// Send a chat message to the server
         /// </summary>
@@ -59,6 +56,5 @@ namespace SharpWired.Controller {
             //TODO: Check permissions before setting topic
             commands.Topic(1, topic); //1 for setting the topic on public chat
         }
-        #endregion
     }
 }

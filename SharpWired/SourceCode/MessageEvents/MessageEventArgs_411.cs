@@ -39,7 +39,7 @@ namespace SharpWired.MessageEvents
         private string path;
 
         /// <summary>
-        /// Get the amount of free disk space
+        /// Request the amount of free disk space
         /// </summary>
         public long Free
         {
@@ -50,7 +50,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the path for were file listing was requested
+        /// Request the destination for were file listing was requested
         /// </summary>
         public string Path
         {
@@ -65,7 +65,7 @@ namespace SharpWired.MessageEvents
         /// </summary>
         /// <param name="messageId">The id for this message</param>
         /// <param name="messageName">The name for this message</param>
-        /// <param name="path">The path for were file listing was requested</param>
+        /// <param name="destination">The destination for were file listing was requested</param>
         /// <param name="free">The amount of free space</param>
         public MessageEventArgs_411(int messageId, string messageName, string path, long free)
             : base(messageId, messageName)

@@ -43,7 +43,7 @@ namespace SharpWired.Controller
 
         #region Properties
         /// <summary>
-        /// Get the private message model
+        /// Request the private message model
         /// </summary>
         public PrivateMessageModel PrivateMessageModel
         {

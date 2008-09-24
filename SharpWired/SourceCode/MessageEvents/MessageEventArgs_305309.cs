@@ -40,7 +40,7 @@ namespace SharpWired.MessageEvents
         private string message;
 
         /// <summary>
-        /// Get the message
+        /// Request the message
         /// </summary>
         public string Message
         {

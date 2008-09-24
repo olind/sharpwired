@@ -4,6 +4,7 @@ using System.Drawing;
 using SharpWired.Controller;
 using SharpWired.Model;
 using SharpWired.Model.Transfers;
+using System.Diagnostics;
 
 namespace SharpWired.Gui.Transfers {
     public partial class TransferList : SharpWiredGuiBase {
@@ -17,11 +18,16 @@ namespace SharpWired.Gui.Transfers {
 
         public override void Init(SharpWiredModel model, SharpWiredController controller) {
             base.Init(model, controller);
+
+            // TODO: Ugly to know about parent! Fix!
+            Parent.VisibleChanged += TransferList_VisibleChanged;
         }
 
         private void TransferList_VisibleChanged(object sender, EventArgs e) {
-            if (this.Visible == true)
-                System.Console.WriteLine("transfer visible");
+            if(Parent.Visible == true) 
+                RefreshStart();
+            else
+                RefreshStop();
         }
 
         protected override void OnOnline() {
@@ -29,6 +35,7 @@ namespace SharpWired.Gui.Transfers {
         }
 
         protected override void OnOffline() {
+            RefreshStop();
             model.Server.Transfers.TransferAdded -= OnTransferAdded;
         }
 
@@ -41,19 +48,20 @@ namespace SharpWired.Gui.Transfers {
             TransferItem ti = new TransferItem();
             ti.Init(t);
 
-            this.Items.Add(ti);
-
-            Repaint();
+            Items.Add(ti);
+            RefreshStart();
         }
 
         void Repaint() {
+            Debug.WriteLine("Repaint!");
             int currentPos = 0;
 
             ModifyItems(
                 delegate(TransferItem current, bool odd) {
                     current.Width = this.transferScrollPanel.Width - 2;
                     current.Top = currentPos * current.Height;
-                    current.Clicked += OnItemClicked;
+                    current.Clicked += OnItemClicked; // TODO: This shouldn't be done on each repaint!
+                    current.Repaint();
 
                     SetItemColor(current, odd);
                     this.transferScrollPanel.Controls.Add(current);
@@ -106,6 +114,20 @@ namespace SharpWired.Gui.Transfers {
                 modify(current, odd);
                 odd = !odd;
             }
+        }
+
+        private void refreshTimer_Tick(object sender, EventArgs e) {
+            Repaint();
+        }
+
+        private void RefreshStart() {
+            if(Visible == true && Items.Count > 0 && !refreshTimer.Enabled)
+                refreshTimer.Start();
+        }
+
+        private void RefreshStop() {
+            if(refreshTimer.Enabled)
+                refreshTimer.Stop();
         }
     }
 }

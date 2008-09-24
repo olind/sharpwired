@@ -45,7 +45,7 @@ namespace SharpWired.Gui.About
 		{
 			get
 			{
-				// Get all Title attributes on this assembly
+				// Request all Title attributes on this assembly
 				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
 				// If there is at least one Title attribute
 				if (attributes.Length > 0)
@@ -73,9 +73,9 @@ namespace SharpWired.Gui.About
 		{
 			get
 			{
-				// Get all Description attributes on this assembly
+				// Request all Description attributes on this assembly
 				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
-				// If there aren't any Description attributes, return an empty string
+				// If there aren'transfer any Description attributes, return an empty string
 				if (attributes.Length == 0)
 					return "";
 				// If there is a Description attribute, return its value
@@ -87,9 +87,9 @@ namespace SharpWired.Gui.About
 		{
 			get
 			{
-				// Get all Product attributes on this assembly
+				// Request all Product attributes on this assembly
 				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-				// If there aren't any Product attributes, return an empty string
+				// If there aren'transfer any Product attributes, return an empty string
 				if (attributes.Length == 0)
 					return "";
 				// If there is a Product attribute, return its value
@@ -101,9 +101,9 @@ namespace SharpWired.Gui.About
 		{
 			get
 			{
-				// Get all Copyright attributes on this assembly
+				// Request all Copyright attributes on this assembly
 				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-				// If there aren't any Copyright attributes, return an empty string
+				// If there aren'transfer any Copyright attributes, return an empty string
 				if (attributes.Length == 0)
 					return "";
 				// If there is a Copyright attribute, return its value
@@ -115,9 +115,9 @@ namespace SharpWired.Gui.About
 		{
 			get
 			{
-				// Get all Company attributes on this assembly
+				// Request all Company attributes on this assembly
 				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
-				// If there aren't any Company attributes, return an empty string
+				// If there aren'transfer any Company attributes, return an empty string
 				if (attributes.Length == 0)
 					return "";
 				// If there is a Company attribute, return its value

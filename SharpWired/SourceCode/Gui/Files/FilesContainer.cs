@@ -85,7 +85,6 @@ namespace SharpWired.Gui.Files {
 
             details.SelectFolderNodeChange += OnSelectFolderNodeChange;
             SelectedFolderNodeChanged += details.OnSelectedFolderNodeChanged;
-            details.RequestDownload += OnRequestDownload;
 
             OnSelectFolderNodeChange(model.Server.FileListingModel.RootNode);
         }
@@ -97,7 +96,6 @@ namespace SharpWired.Gui.Files {
             
             breadCrumb.SelectFolderNodeChange -= OnSelectFolderNodeChange;
             SelectedFolderNodeChanged -= breadCrumb.OnSelectedFolderNodeChanged;
-            details.RequestDownload -= OnRequestDownload;
             
             details.SelectFolderNodeChange -= OnSelectFolderNodeChange;
             SelectedFolderNodeChanged -= details.OnSelectedFolderNodeChanged;
@@ -118,11 +116,11 @@ namespace SharpWired.Gui.Files {
         }
 
         ///<summary>
-        /// Suspends the Control, and sets the Cursor to a waitcursor, if it isn't already.
+        /// Suspends the Control, and sets the Cursor to a waitcursor, if it isn'transfer already.
         ///</summary>
         public void Suspend() {
             // When calling this method, the state is always Suspended.
-            // But we only set the cursor if we aren't already suspended.
+            // But we only set the cursor if we aren'transfer already suspended.
             // So, if counter is 0, we are the first to call this method, so we set the cursor.
             // But, we also need to increase the counter, and therefore add one.
             // Since the '++' comes after the field name, the increse will be done after
@@ -134,7 +132,7 @@ namespace SharpWired.Gui.Files {
         /// <summary>
         /// Unsuspends the cursor.
         /// </summary>
-        /// <returns>True if the cursor isn't suspended.</returns>
+        /// <returns>True if the cursor isn'transfer suspended.</returns>
         public bool UnSuspend() {
             // Decrease the count (the -- is before the field name, so its decreased before the == 0).
             // And if we're done to zero again, we're no longer suspended and we set the cursor back.
@@ -152,12 +150,6 @@ namespace SharpWired.Gui.Files {
             } else if (node is FileNode) {
                 Debug.WriteLine("TODO: Dealing with file nodes are not implemented");
             }
-        }
-
-        private void OnRequestDownload(FileSystemEntry node) {
-            TransferEntry entry = controller.FileTransferController.AddDownload(node);
-            if(entry != null) //TODO: null check should not be necessary
-                controller.FileTransferController.StartDownload(entry);
         }
         #endregion
     }

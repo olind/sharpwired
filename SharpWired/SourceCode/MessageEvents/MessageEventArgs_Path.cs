@@ -39,7 +39,7 @@ namespace SharpWired.MessageEvents
         private string path;
 
         /// <summary>
-        /// Gets the path for this EventArg
+        /// Gets the destination for this EventArg
         /// </summary>
         public string Path
         {
@@ -54,7 +54,7 @@ namespace SharpWired.MessageEvents
         /// </summary>
         /// <param name="messageId"></param>
         /// <param name="messageName"></param>
-        /// <param name="path"></param>
+        /// <param name="destination"></param>
         public MessageEventArgs_Path(int messageId, string messageName, string path)
             : base(messageId, messageName)
         {

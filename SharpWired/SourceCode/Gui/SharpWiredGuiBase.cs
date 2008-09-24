@@ -37,7 +37,7 @@ namespace SharpWired.Gui {
     /// Base class for SharpWired GUI files. Sets references to 
     /// shared resources (e.g. model and controller) when inited.
     /// </summary>
-    public class SharpWiredGuiBase : UserControl { //I wanted to make this class abstract but then can't the visual studio designer handle it...
+    public class SharpWiredGuiBase : UserControl { //I wanted to make this class abstract but then can'transfer the visual studio designer handle it...
 
         protected SharpWiredController controller;
         protected SharpWiredModel model;

@@ -106,7 +106,7 @@ namespace SharpWired.Gui.Files {
 
 
             // TODO: Move to model!
-            // Get biggest common denominator for all FileSystemEntry items
+            // Request biggest common denominator for all FileSystemEntry items
             FileSystemEntry currentPath = GetBiggestCommonDenominator(newNodes);
 
             if (currentPath.Path == "/") {

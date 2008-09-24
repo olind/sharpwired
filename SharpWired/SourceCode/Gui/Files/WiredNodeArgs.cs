@@ -39,7 +39,7 @@ namespace SharpWired.Gui.Files
         private FileSystemEntry node;
 
         /// <summary>
-        /// Get or set the FileSystemEntry associated with this argument
+        /// Request or set the FileSystemEntry associated with this argument
         /// </summary>
         public FileSystemEntry Node
         {

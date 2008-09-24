@@ -33,12 +33,12 @@ namespace SharpWired.MessageEvents
 	/// <summary>
 	/// 7.4.1 400 Transfer Ready
 	/// 
-	///    "400" SP path FS offset FS hash EOT
-	///    path = STRING
+	///    "400" SP destination FS offset FS hash EOT
+	///    destination = STRING
 	///    offset = 1*DIGIT
 	///    hash = STRING
 	/// 
-	///The transfer of "path" is ready to begin. "hash" is a unique
+	///The transfer of "destination" is ready to begin. "hash" is a unique
 	///identifier for this particular transfer.
 	///
 	///See section 4 for more information on files.
@@ -81,7 +81,7 @@ namespace SharpWired.MessageEvents
 		/// </summary>
 		/// <param name="messageId">The ID.</param>
 		/// <param name="messageName">Message Name.</param>
-		/// <param name="path">The path to the file to transfer (?)</param>
+		/// <param name="destination">The destination to the file to transfer (?)</param>
 		/// <param name="offset">The file offset.</param>
 		/// <param name="hash">The unique identifier for the transfer.</param>
         public MessageEventArgs_400(int messageId, string messageName, string path, int offset, string hash)

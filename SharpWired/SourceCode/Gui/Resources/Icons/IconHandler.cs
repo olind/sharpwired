@@ -102,7 +102,7 @@ namespace SharpWired.Gui.Resources.Icons {
         private const int conMAX_PATH = 260;
 
         /// <summary>
-        /// Get the singelton instance.
+        /// Request the singelton instance.
         /// </summary>
         public static IconHandler Instance {
             get { return sInstance; }
@@ -116,8 +116,8 @@ namespace SharpWired.Gui.Resources.Icons {
         public IconHandler() {
             // I think Application.StartupPath is a bit better really. The curetn
             // dir can change independent of where the .exe file is.
-            // use Path.Combine to combine paths. That way we don't have to know
-            // which char to use between the parts of the path.
+            // use Path.Combine to combine paths. That way we don'transfer have to know
+            // which char to use between the parts of the destination.
             iconFilePath = Path.Combine(Application.StartupPath, "GUI");
             iconFilePath = Path.Combine(iconFilePath, "Icons");
 
@@ -125,9 +125,9 @@ namespace SharpWired.Gui.Resources.Icons {
         }
 
         /// <summary>
-        /// Constructs and sets file source path to given path.
+        /// Constructs and sets file source destination to given destination.
         /// </summary>
-        /// <param name="pIconFilePath">The path where the icons reciedes.</param>
+        /// <param name="pIconFilePath">The destination where the icons reciedes.</param>
         public IconHandler(string pIconFilePath) {
             iconFilePath = pIconFilePath;
         }
@@ -154,7 +154,7 @@ namespace SharpWired.Gui.Resources.Icons {
         public Image ProcessStop        { get { return processStop; } }
 
         /// <summary>
-        /// Get the icon with this name.
+        /// Request the icon with this name.
         /// </summary>
         /// <param name="name">The name of the icon (not the filename!)</param>
         /// <returns>The icon or null.</returns>
@@ -163,7 +163,7 @@ namespace SharpWired.Gui.Resources.Icons {
         }
 
         /// <summary>
-        /// Get the icon with the given name, or try to load it from the given
+        /// Request the icon with the given name, or try to load it from the given
         /// filename.
         /// </summary>
         /// <param name="name">The name of the icon.</param>
@@ -174,7 +174,7 @@ namespace SharpWired.Gui.Resources.Icons {
         }
 
         /// <summary>
-        /// Get the icon with the given name, or try to load it from the given
+        /// Request the icon with the given name, or try to load it from the given
         /// filename.
         /// </summary>
         /// <param name="nameAndFilePair">The pair of name and filename.</param>
@@ -187,7 +187,7 @@ namespace SharpWired.Gui.Resources.Icons {
         #region Methods
         #region Loading File and Storing Image
         /// <summary>
-        /// Tries to find icon in the dictionary. If it doesn't exist
+        /// Tries to find icon in the dictionary. If it doesn'transfer exist
         /// or is null, try to load it from the filename.
         /// </summary>
         /// <param name="nameAndFilePairs">The name and filename pair for the icon.</param>
@@ -198,7 +198,7 @@ namespace SharpWired.Gui.Resources.Icons {
 
         /// <summary>
         /// Tries to find the name in the dictionary with icons.
-        /// If the key doesn't exist, tries to find a corresponding filename
+        /// If the key doesn'transfer exist, tries to find a corresponding filename
         /// in IconList.Icons. Otherwise returns null.
         /// </summary>
         /// <param name="name">The name of the icon (not the filename!)</param>
@@ -217,7 +217,7 @@ namespace SharpWired.Gui.Resources.Icons {
         }
 
         /// <summary>
-        /// Tries to find icon in the dictionary. If it doesn't exist
+        /// Tries to find icon in the dictionary. If it doesn'transfer exist
         /// or is null, try to load it from the filename.
         /// </summary>
         /// <param name="name">The name of the icon, not the filename!</param>

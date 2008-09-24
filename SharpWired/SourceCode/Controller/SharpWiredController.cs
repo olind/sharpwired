@@ -14,8 +14,8 @@ namespace SharpWired.Controller {
         private FileTransferController      fileTransferController;
         private GroupController             groupController;
         private PrivateMessageController    privateMessagesController;
-
         private SharpWiredModel             model;
+        private Server                      Server { get; set; }
 
         public FileTransferController FileTransferController { get { return fileTransferController; } }
         public FileListingController FileListingController { get { return fileListingController; } }
@@ -23,12 +23,17 @@ namespace SharpWired.Controller {
         public UserController UserController { get { return userController; } }
         
         public SharpWiredController(SharpWiredModel model) {
-            model.LoggedIn += OnLoggedIn;
             this.model = model;
+            this.model.Connected += OnConnected;
         }
 
-        void OnLoggedIn(Server server) {
-            server.Offline += OnOffline;
+        void OnConnected(Server server) {
+            this.Server = server;
+            this.Server.Online += OnOnline;
+        }
+
+        void OnOnline() {
+            Server.Offline += OnOffline;
 
             chatController                  = new ChatController(model);
             userController                  = new UserController(model);

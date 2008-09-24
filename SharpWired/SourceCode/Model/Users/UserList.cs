@@ -60,7 +60,7 @@ namespace SharpWired.Model.Users
 
         #region Properties
         /// <summary>
-        /// Get a copy of the list with users connected to this model.
+        /// Request a copy of the list with users connected to this model.
         /// NOTE! Since we pass a copy of the list editing the content of 
         /// this list outside this class will have no effect.
         /// </summary>
@@ -171,7 +171,7 @@ namespace SharpWired.Model.Users
         }
 
         /// <summary>
-        /// Adds the user in the given message if it isn't already in the list 
+        /// Adds the user in the given message if it isn'transfer already in the list 
         /// of user for this model. If the user exists it updates the user
         /// information.
         /// Call this method when a User List Message (310) is

@@ -47,7 +47,7 @@ namespace SharpWired.Model.Files
         private long size;
 
         /// <summary>
-        /// Get the size for this folder. This value is returned from the server.
+        /// Request the size for this folder. This value is returned from the server.
         /// </summary>
         public long Size
         {
@@ -174,7 +174,7 @@ namespace SharpWired.Model.Files
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="messageEventArgs">The server message that this node shold represent</param>
+        /// <param name="args">The server message that this node shold represent</param>
         public FolderNode(MessageEventArgs_410420 messageEventArgs)
             : base(messageEventArgs)
         {

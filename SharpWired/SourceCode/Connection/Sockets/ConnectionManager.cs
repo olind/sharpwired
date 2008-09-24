@@ -65,14 +65,14 @@ namespace SharpWired.Connection {
         #region Properties
 
         /// <summary>
-        /// Get the class that exposes the message events.
+        /// Request the class that exposes the message events.
         /// </summary>
         public Messages Messages {
             get { return messages; }
         }
 
         /// <summary>
-        /// Get the Commands for an eventual connection. Used to send commands over the connection.
+        /// Request the Commands for an eventual connection. Used to send commands over the connection.
         /// </summary>
         public Commands Commands {
             get { return commands; }
@@ -82,7 +82,7 @@ namespace SharpWired.Connection {
 
         
         /// <summary>
-        /// Get the bookmark used to connect.
+        /// Request the bookmark used to connect.
         /// </summary>
         public Bookmark CurrentBookmark {
             get { return mCurrentBookmark; }

@@ -40,7 +40,7 @@ namespace SharpWired.Model.PrivateMessages
 
         /// <summary>
         /// Add the sent message to the local messages model.
-        /// NOTE! Doesn't send the message to the server, just holds it for later referencing.
+        /// NOTE! Doesn'transfer send the message to the server, just holds it for later referencing.
         /// </summary>
         /// <param name="newSentMessage"></param>
         public void AddSentPrivateMessage(PrivateMessageItem newSentMessage)

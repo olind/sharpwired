@@ -44,6 +44,6 @@ namespace SharpWired.Connection.Transfers.Entries
         /// <param name="pSourceFileName"></param>
         /// <param name="pDestinationFolder"></param>
 		public UploadEntry(ConnectionManager cm, string pSourceFileName, FolderNode pDestinationFolder)
-			:base(cm) {}
+			:base() {}
 	}
 }

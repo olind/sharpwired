@@ -39,7 +39,7 @@ namespace SharpWired.MessageEvents
         private Privileges privileges; // TODO: This should be of other type
 
         /// <summary>
-        /// Get the privileges
+        /// Request the privileges
         /// </summary>
         public Privileges Privileges
         {

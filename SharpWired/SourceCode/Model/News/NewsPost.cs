@@ -45,7 +45,7 @@ namespace SharpWired.Model.News {
         /// <summary>
         /// Construtcor
         /// </summary>
-        /// <param name="messageEventArgs"></param>
+        /// <param name="args"></param>
         public NewsPost(MessageEventArgs_320322 messageEventArgs) {
             this.nick = messageEventArgs.Nick;
             this.postTime = messageEventArgs.PostTime;
@@ -69,7 +69,7 @@ namespace SharpWired.Model.News {
         }
 
         /// <summary>
-        /// Get the news post body
+        /// Request the news post body
         /// </summary>
         public string Post {
             get { return post; }

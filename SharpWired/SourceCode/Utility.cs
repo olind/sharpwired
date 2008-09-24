@@ -46,7 +46,7 @@ namespace SharpWired
         public static string PATH_SEPARATOR = "/";
 
         /// <summary> 
-        /// Get ASCII EOT  
+        /// Request ASCII EOT  
         ///</summary>
         public static string EOT
         {
@@ -56,7 +56,7 @@ namespace SharpWired
             }
         }
         /// <summary> 
-        /// Get ASCII FS  
+        /// Request ASCII FS  
         ///</summary>
         public static string FS
         {
@@ -66,7 +66,7 @@ namespace SharpWired
             }
         }
         /// <summary> 
-        /// Get ASCII GS  
+        /// Request ASCII GS  
         ///</summary>
         public static string GS
         {
@@ -76,7 +76,7 @@ namespace SharpWired
             }
         }
         /// <summary> 
-        /// Get ASCII RS  
+        /// Request ASCII RS  
         ///</summary>
         public static string RS
         {
@@ -86,7 +86,7 @@ namespace SharpWired
             }
         }
         /// <summary> 
-        /// Get ASCII SP   
+        /// Request ASCII SP   
         ///</summary>
         public static string SP
         {

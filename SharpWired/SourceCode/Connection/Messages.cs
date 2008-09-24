@@ -392,7 +392,7 @@ namespace SharpWired.Connection
         public event GroupListingDoneEventHandler GroupListingDoneEvent;
         #endregion
 
-        #region Tracker specific events (doesn't exist in the protocol specification)
+        #region Tracker specific events (doesn'transfer exist in the protocol specification)
         /// <summary>
         /// Event to be notified when a tracker categories was received
         /// </summary>
@@ -1227,7 +1227,7 @@ namespace SharpWired.Connection
         /// <param name="msg">The message from the server</param>
         private void ParseMessage(string msg)
         {
-            // Get the message identifier and the message data
+            // Request the message identifier and the message data
             int msgId = Convert.ToInt32(msg.Substring(0, 3));
             string argument = msg.Substring(4);
 

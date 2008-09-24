@@ -41,7 +41,7 @@ namespace SharpWired.Model.PrivateMessages
         private DateTime timeStamp;
 
         /// <summary>
-        /// Get the user sending or receiving this message
+        /// Request the user sending or receiving this message
         /// </summary>
         public User UserItem
         {
@@ -49,7 +49,7 @@ namespace SharpWired.Model.PrivateMessages
         }
 
         /// <summary>
-        /// Get the private message
+        /// Request the private message
         /// </summary>
         public string Message
         {
@@ -57,8 +57,8 @@ namespace SharpWired.Model.PrivateMessages
         }
 
         /// <summary>
-        /// Get the timestamp for this message.
-        /// NOTE! Wired protocol doesn't have support for this so it is the
+        /// Request the timestamp for this message.
+        /// NOTE! Wired protocol doesn'transfer have support for this so it is the
         /// time when the message was received or sent.
         /// </summary>
         public DateTime TimeStamp

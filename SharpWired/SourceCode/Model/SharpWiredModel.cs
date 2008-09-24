@@ -39,12 +39,14 @@ namespace SharpWired.Model {
     /// Central class. Holds references to a number of objects and listens to connection layer.
     /// Initializes the other models
     /// </summary>
-    public class SharpWiredModel {
-        #region Fields
+    public sealed class SharpWiredModel {
         private ConnectionManager connectionManager;
         private HeartBeatTimer heartBeatTimer;
         private SharpWired.Model.Server server;
-        #endregion
+        private static readonly SharpWiredModel instance = new SharpWiredModel();
+
+        public static SharpWiredModel Instance { get { return instance; } }
+       
 
         #region Properties
         public ConnectionManager ConnectionManager {
@@ -83,10 +85,6 @@ namespace SharpWired.Model {
         /// We have a connection to the server but are NOT yet logged in.
         /// </summary>
         public event ServerChanged Connected;
-        /// <summary>
-        /// We are now logged in to the server. NOTE! Only use this in Server. All other, listen to OnLine in server!
-        /// </summary>
-        public event ServerChanged LoggedIn;
 
         void OnBanned(MessageEventArgs_Messages message) {
             //TODO: Implement handling for banned
@@ -94,9 +92,7 @@ namespace SharpWired.Model {
         }
 
         void OnConnected(MessageEventArgs_200 message) {
-            connectionManager.Messages.LoginSucceededEvent += OnLoginSucceeded;
-
-            server = new SharpWired.Model.Server(this, message);
+            server = new SharpWired.Model.Server(message);
 
             UserInformation ui = connectionManager.CurrentBookmark.UserInformation;
             SharpWired.Gui.Resources.Icons.IconHandler ih = new SharpWired.Gui.Resources.Icons.IconHandler();
@@ -116,27 +112,10 @@ namespace SharpWired.Model {
 
         void OnDisconnected() { }
 
-        void OnLoginSucceeded(object sender, MessageEventArgs_201 message) {
-            server.OwnUserId = message.UserId;
-
-            Commands c = connectionManager.Commands;
-            c.Who(1); //1 = Public Chat
-            c.Ping(this);
-
-            //Starts the heart beat pings to the server
-            heartBeatTimer = new HeartBeatTimer(connectionManager);
-            heartBeatTimer.StartTimer();
-
-            if (LoggedIn != null)
-                LoggedIn(server);
-        }
-
         /// <summary>
         /// Dissconnect from the server
         /// </summary>
         public void Disconnect() {
-            connectionManager.Messages.LoginSucceededEvent -= OnLoginSucceeded;
-
             if (heartBeatTimer != null)
                 heartBeatTimer.StopTimer();
 

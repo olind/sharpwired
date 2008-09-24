@@ -44,7 +44,7 @@ namespace SharpWired.MessageEvents
         private long filesSize;
 
         /// <summary>
-        /// Get the server app version
+        /// Request the server app version
         /// </summary>
         public string AppVersion
         {
@@ -55,7 +55,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the server protocol version
+        /// Request the server protocol version
         /// </summary>
         public string ProtocolVersion
         {
@@ -66,7 +66,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the server name
+        /// Request the server name
         /// </summary>
         public string ServerName
         {
@@ -77,7 +77,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the server description
+        /// Request the server description
         /// </summary>
         public string ServerDescription
         {
@@ -88,7 +88,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the start time for this server
+        /// Request the start time for this server
         /// </summary>
         public DateTime StartTime
         {
@@ -99,7 +99,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the number of files
+        /// Request the number of files
         /// </summary>
         public int FilesCount
         {
@@ -110,7 +110,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the size of the files
+        /// Request the size of the files
         /// </summary>
         public long FilesSize
         {

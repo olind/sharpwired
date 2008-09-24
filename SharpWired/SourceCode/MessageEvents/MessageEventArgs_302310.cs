@@ -61,7 +61,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get if this client is admin
+        /// Request if this client is admin
         /// </summary>
         public bool Admin
         {
@@ -72,7 +72,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the icon for this client
+        /// Request the icon for this client
         /// </summary>
         public int Icon
         {
@@ -83,7 +83,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the nick for this client
+        /// Request the nick for this client
         /// </summary>
         public string Nick
         {
@@ -94,7 +94,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the login for this client
+        /// Request the login for this client
         /// </summary>
         public string Login
         {
@@ -105,7 +105,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the ip for this client
+        /// Request the ip for this client
         /// </summary>
         public IPAddress Ip
         {
@@ -116,7 +116,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the host for this client
+        /// Request the host for this client
         /// </summary>
         public string Host
         {
@@ -127,7 +127,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the status for this client
+        /// Request the status for this client
         /// </summary>
         public string Status
         {
@@ -138,7 +138,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the image for this client
+        /// Request the image for this client
         /// </summary>
         public Bitmap Image
         {

@@ -73,7 +73,7 @@ namespace SharpWired
         }
 
         /// <summary>
-        /// Get the operative system info string
+        /// Request the operative system info string
         /// </summary>
         public static string Os
         {

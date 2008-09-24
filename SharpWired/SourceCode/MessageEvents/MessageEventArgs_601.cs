@@ -39,7 +39,7 @@ namespace SharpWired.MessageEvents
         private string name;
 
         /// <summary>
-        /// Get the name for this user or group
+        /// Request the name for this user or group
         /// </summary>
         public string Name
         {

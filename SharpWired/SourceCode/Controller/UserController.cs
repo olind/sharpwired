@@ -40,7 +40,7 @@ namespace SharpWired.Controller {
         public UserController(SharpWiredModel model) : base(model) { }
 
         /// <summary>
-        /// Get the user information for the given list of users.
+        /// Request the user information for the given list of users.
         /// </summary>
         /// <param name="users"></param>
         public void GetUserInfo(List<User> users) {

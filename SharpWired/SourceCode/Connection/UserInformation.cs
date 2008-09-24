@@ -64,7 +64,7 @@ namespace SharpWired.Connection
         private string password = "";
 
 		/// <summary>
-		/// Get/Set the NickName.
+		/// Request/Set the NickName.
 		/// </summary>
         public string Nick
         {
@@ -74,7 +74,7 @@ namespace SharpWired.Connection
 
         
 		/// <summary>
-		/// Get/Set the UserName.
+		/// Request/Set the UserName.
 		/// </summary>
         public string UserName
         {
@@ -84,7 +84,7 @@ namespace SharpWired.Connection
 
         
 		/// <summary>
-		/// Get/Set the password. The password is hashed!
+		/// Request/Set the password. The password is hashed!
 		/// </summary>
         public string Password
         {
@@ -95,7 +95,7 @@ namespace SharpWired.Connection
 
 		#region Overrides
 		/// <summary>
-		/// Compares the user name and nick using '=='. The password isn't compared.
+		/// Compares the user name and nick using '=='. The password isn'transfer compared.
 		/// </summary>
 		/// <param name="obj">The object to compare to.</param>
 		/// <returns>T/F.</returns>

@@ -39,7 +39,7 @@ namespace SharpWired.MessageEvents
         private Bitmap image;
 
         /// <summary>
-        /// Get the new server banner
+        /// Request the new server banner
         /// </summary>
         public Bitmap Image {
             get {

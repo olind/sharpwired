@@ -45,7 +45,7 @@ namespace SharpWired.MessageEvents
         private DateTime modified;
 
         /// <summary>
-        /// Get the file type for this event
+        /// Request the file type for this event
         /// </summary>
         public string FileType
         {
@@ -94,7 +94,7 @@ namespace SharpWired.MessageEvents
         /// </summary>
         /// <param name="messageId"></param>
         /// <param name="messageName"></param>
-        /// <param name="path"></param>
+        /// <param name="destination"></param>
         /// <param name="fileType">TODO: This should be of other type</param>
         /// <param name="size"></param>
         /// <param name="created"></param>

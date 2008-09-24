@@ -39,7 +39,7 @@ using SharpWired.Gui.Resources.Icons;
 
 namespace SharpWired.Gui.Files {
     /// <summary>
-    /// The path to the selected folder represented as browsable buttons
+    /// The destination to the selected folder represented as browsable buttons
     /// </summary>
     public partial class BreadCrumb : FilesGuiBase {
 
@@ -107,10 +107,10 @@ namespace SharpWired.Gui.Files {
         }
         
         /// <summary>
-        /// Combines the entries in the given pathArray to a valid server path uptil the given dept
+        /// Combines the entries in the given pathArray to a valid server destination uptil the given dept
         /// </summary>
-        /// <param name="pathArray">Array with entries representing a path</param>
-        /// <param name="dept">The dept to where we want the returned string path to be limited</param>
+        /// <param name="pathArray">Array with entries representing a destination</param>
+        /// <param name="dept">The dept to where we want the returned string destination to be limited</param>
         /// <returns></returns>
         private string CombineFilePath(String[] pathArray, int dept) {
             StringBuilder sb = new StringBuilder();

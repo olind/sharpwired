@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using SharpWired.Model;
 using SharpWired.Controller;
 using SharpWired.Model.Transfers;
+using System.Diagnostics;
 
 namespace SharpWired.Gui.Transfers {
     public partial class TransferItem : SharpWiredGuiBase {
@@ -25,7 +26,7 @@ namespace SharpWired.Gui.Transfers {
             this.transfer = t;
 
             UpdateDelegate update = delegate() {
-                this.fileName.Text = t.ServerFilePath.Name;
+                this.fileName.Text = t.Source.Name;
                 this.info.Text = "";
                 this.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             };
@@ -42,6 +43,14 @@ namespace SharpWired.Gui.Transfers {
                 
             if (Clicked != null)
                 Clicked(this, control);
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e) {
+            controller.FileTransferController.RemoveDownload(transfer);
+        }
+
+        internal void Repaint() {
+            progressBar.Value = (int)(transfer.Progress * 1000.0);
         }
     }
 }

@@ -50,7 +50,7 @@ namespace SharpWired.Model.Files
         #region Properties
 		private FileSystemEntry mParent;
 		/// <summary>
-		/// Get/Set the Parent FileSystemEntry to this.
+		/// Request/Set the Parent FileSystemEntry to this.
 		/// </summary>
 		public FileSystemEntry Parent
 		{
@@ -59,7 +59,7 @@ namespace SharpWired.Model.Files
 		}
 		
         /// <summary>
-        /// Get the time when this file or folder was created.
+        /// Request the time when this file or folder was created.
         /// </summary>
         public DateTime Created
         {
@@ -67,7 +67,7 @@ namespace SharpWired.Model.Files
         }
 
         /// <summary>
-        /// Get the time when this file or folder was modyfied.
+        /// Request the time when this file or folder was modyfied.
         /// </summary>
         public DateTime Modified
         {
@@ -75,7 +75,7 @@ namespace SharpWired.Model.Files
         }
 
         /// <summary>
-        /// Get the complete file path for this file or folder.
+        /// Request the complete file destination for this file or folder.
         /// For example: "/folder1/folder2" or "/folder1/folder2/file1" 
         /// </summary>
         public string Path
@@ -84,7 +84,7 @@ namespace SharpWired.Model.Files
         }
 
         /// <summary>
-        /// Get the path to the folder where this file or folder is located.
+        /// Request the destination to the folder where this file or folder is located.
         /// For example: If file1 is located in the folder "/folder1/folder2" this property will return "/folder1/folder2".
         /// If folder 2 is located in the folder "/folder1" this property will return "/folder1".
         /// </summary>
@@ -94,7 +94,7 @@ namespace SharpWired.Model.Files
         }
 
         /// <summary>
-        /// Get or set the name of this file or folder
+        /// Request or set the name of this file or folder
         /// </summary>
         public string Name
         {
@@ -103,7 +103,7 @@ namespace SharpWired.Model.Files
         }
 
         /// <summary>
-        /// Returns the path of this file or folder in an array where each entry represent one folder.
+        /// Returns the destination of this file or folder in an array where each entry represent one folder.
         /// The first entry [0] is the the root node (/)
         /// </summary>
         public string[] PathArray
@@ -160,9 +160,9 @@ namespace SharpWired.Model.Files
 
         #region Methods
         /// <summary>
-		/// Splits the path to an array.
+		/// Splits the destination to an array.
 		/// </summary>
-		/// <param name="path">The path like "folder/hejsan/file.fil".</param>
+		/// <param name="destination">The destination like "folder/hejsan/file.fil".</param>
 		/// <returns>Something like { "folder", "hejsan", "file.fil" }.</returns>
 		public static string[] SplitPath(string path)
 		{
@@ -171,14 +171,14 @@ namespace SharpWired.Model.Files
 		}
 
 		/// <summary>
-		/// Builds the path to the parent node.
+		/// Builds the destination to the parent node.
 		/// </summary>
-		/// <param name="pathArray">The parts of this path.</param>
-		/// <returns>The path to parnet node.</returns>
+		/// <param name="pathArray">The parts of this destination.</param>
+		/// <returns>The destination to parnet node.</returns>
 		private string BuildParentPath(string[] pathArray)
 		{
 			StringBuilder buildPath = new StringBuilder(20);
-			// Build the parent path string
+			// Build the parent destination string
 			for (int i = 0; i < pathArray.Length - 1; i++)
 			{
 				if (i == 0)

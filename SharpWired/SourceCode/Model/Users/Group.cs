@@ -39,7 +39,7 @@ namespace SharpWired.Model.Users
         private string name;
 
         /// <summary>
-        /// Get or set the privileges for this group
+        /// Request or set the privileges for this group
         /// </summary>
         public Privileges Privileges
         {

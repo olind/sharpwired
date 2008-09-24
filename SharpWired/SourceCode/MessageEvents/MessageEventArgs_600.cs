@@ -40,7 +40,7 @@ namespace SharpWired.MessageEvents
         private string group;
 
         /// <summary>
-        /// Get the hashed password
+        /// Request the hashed password
         /// </summary>
         public string Password
         {
@@ -51,7 +51,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the group(s) for this user
+        /// Request the group(s) for this user
         /// </summary>
         public string Group
         {

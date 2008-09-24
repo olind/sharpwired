@@ -51,7 +51,7 @@ namespace SharpWired.Connection.Bookmarks
         }
 
 		/// <summary>
-		/// Get/Set the login to the server.
+		/// Request/Set the login to the server.
 		/// </summary>
         public UserInformation UserInformation
         {
@@ -60,7 +60,7 @@ namespace SharpWired.Connection.Bookmarks
         }
 
 		/// <summary>
-		/// Get/Set the Server info.
+		/// Request/Set the Server info.
 		/// </summary>
         public Server Server
         {

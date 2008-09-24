@@ -29,106 +29,77 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpWired.Connection
-{
-	/// <summary>
-	/// Represents a Server with adress and port.
-	/// </summary>
+namespace SharpWired.Connection {
+    /// <summary>
+    /// Represents a Server with adress and port.
+    /// </summary>
     [Serializable]
-    public class Server
-	{
-		#region Properties
-        // Setting default values to be able to save an empty bookmark.
-		private int serverPort = 2000;
-        private string machineName = "";
-        private string serverName = "";
+    public class Server {
+        /// <summary>
+        /// Request/Set the Port.
+        /// </summary>
+        public int ServerPort { get; set; }
 
-		/// <summary>
-		/// Get/Set the Port.
-		/// </summary>
-        public int ServerPort
-        {
-            get { return serverPort; }
-            set { serverPort = value; }
-        }
+        /// <summary>
+        /// Request/Set the server machine name.
+        /// </summary>
+        public string MachineName { get; set; }
 
-		/// <summary>
-		/// Get/Set the server machine name.
-		/// </summary>
-		public string MachineName
-        {
-            get { return machineName; }
-            set { machineName = value; }
-        }
+        /// <summary>
+        /// Request/Set the server name; domain or IP.
+        /// </summary>
+        public string ServerName { get; set; }
 
-		/// <summary>
-		/// Get/Set the server name; domain or IP.
-		/// </summary>
-        public string ServerName
-        {
-            get { return serverName; }
-            set { serverName = value; }
-        }
-		#endregion
-
-
-		#region Constructors
-		/// <summary>
+        /// <summary>
         /// Constructs.
         /// </summary>
         /// <param name="serverPort">The port to use.</param>
         /// <param name="machineName">The servers computer name.</param>
         /// <param name="serverName">The domain name or IP adress.</param>
-        public Server(int serverPort, string machineName, string serverName)
-        {
+        public Server(int serverPort, string machineName, string serverName) {
             ServerPort = serverPort;
             MachineName = machineName;
             ServerName = serverName;
         }
 
-		/// <summary>
-		/// Parameterless constructor for de-serialization.
-		/// </summary>
-		public Server()
-		{
-		}
-		#endregion
+        /// <summary>
+        /// Parameterless constructor for de-serialization.
+        /// </summary>
+        public Server() {
+            ServerPort = 2000;
+            MachineName = "";
+            ServerName = "";
+        }
 
+        /// <summary>
+        /// Compares the server name, the machine name and the port using '=='.
+        /// </summary>
+        /// <param name="obj">The object to compare with.</param>
+        /// <returns>T/F.</returns>
+        public override bool Equals(object obj) {
+            Server s = obj as Server;
+            if(s == null)
+                return false;
 
-		#region Overrides
-		/// <summary>
-		/// Compares the server name, the machine name and the port using '=='.
-		/// </summary>
-		/// <param name="obj">The object to compare with.</param>
-		/// <returns>T/F.</returns>
-		public override bool Equals(object obj)
-		{
-			Server s = obj as Server;
-			if (s == null)
-				return false;
+            return s.MachineName == this.MachineName
+                && s.ServerName == this.ServerName
+                && s.ServerPort == this.ServerPort;
+        }
 
-			return s.machineName == this.machineName
-				&& s.serverName == this.serverName
-				&& s.serverPort == this.serverPort;
-		}
+        /// <summary>
+        /// Returns a string representing this Server.
+        /// </summary>
+        /// <returns>([MachineName])[ServerName]:[Port]</returns>
+        public override string ToString() {
+            return "(" + MachineName + ")" + ServerName + ":" + ServerPort;
+        }
 
-		/// <summary>
-		/// Returns a string representing this Server.
-		/// </summary>
-		/// <returns>([MachineName])[ServerName]:[Port]</returns>
-		public override string ToString()
-		{
-			return "(" + machineName + ")" + serverName + ":" + serverPort;
-		}
-
-		/// <summary>
-		/// Return base.GetHashCode().
-		/// </summary>
-		/// <returns>A hash code.</returns>
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
-		}
-		#endregion
-	}
+        /// <summary>
+        /// Return base.GetHashCode().
+        /// </summary>
+        /// <returns>A hash code.</returns>
+        public override int GetHashCode() {
+            return base.GetHashCode();
+        }
+    }
 }

@@ -56,7 +56,7 @@ namespace SharpWired.Connection.Bookmarks
 
 		private static List<Bookmark> bookmarks;
 		/// <summary>
-		/// Get/Set the list of Bookmarks.
+		/// Request/Set the list of Bookmarks.
 		/// </summary>
 		public static List<Bookmark> Bookmarks
 		{
@@ -90,7 +90,7 @@ namespace SharpWired.Connection.Bookmarks
 		#endregion
 
 
-		#region Get bookmarks
+		#region Request bookmarks
 
 		private static object BookmarkLock = new object();
 
@@ -180,7 +180,7 @@ namespace SharpWired.Connection.Bookmarks
 		/// Removes a bookmark.
 		/// </summary>
 		/// <param name="bookmark"></param>
-		/// <returns>Null if the bookmark wasn't in the list, otherwise the bookmark that is removed.</returns>
+		/// <returns>Null if the bookmark wasn'transfer in the list, otherwise the bookmark that is removed.</returns>
 		/// <remarks>Opens the file, loads the list, removes the bookmark, saves the file.</remarks>
 		public static Bookmark RemoveBookmark(Bookmark bookmark)
 		{
@@ -280,7 +280,7 @@ namespace SharpWired.Connection.Bookmarks
 		/// <returns></returns>
 		private static bool SaveBookmarks(List<Bookmark> bookmarks, FileInfo file)
 		{
-			// Lock object so we can't edit it while saving.
+			// Lock object so we can'transfer edit it while saving.
 			// NOTE: Here a lock object should probably be used, and also used in
 			// load method and some other places as well.
 			lock (typeof(BookmarkManager))

@@ -43,7 +43,7 @@ namespace SharpWired.Gui.Resources.Icons
         private static Pair<string, string> sUserImage = new Pair<string, string>("UserImage", "userImage.png");
 
 		/// <summary>
-		/// Get the file icon name and filename pair
+		/// Request the file icon name and filename pair
 		/// </summary>
 		public static Pair<string, string> File
 		{
@@ -52,7 +52,7 @@ namespace SharpWired.Gui.Resources.Icons
 		}
 
 		/// <summary>
-		/// Get the folder closed icon and filename pair
+		/// Request the folder closed icon and filename pair
 		/// </summary>
 		public static Pair<string, string> FolderClosed
 		{
@@ -61,7 +61,7 @@ namespace SharpWired.Gui.Resources.Icons
 		}
 
         /// <summary>
-        /// Get the user image icon and filename pair
+        /// Request the user image icon and filename pair
         /// </summary>
         public static Pair<string, string> UserImage
         {

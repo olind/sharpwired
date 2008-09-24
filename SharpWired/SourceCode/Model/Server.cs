@@ -34,14 +34,12 @@ using SharpWired.Model.News;
 using SharpWired.Connection;
 using System.Diagnostics;
 
-namespace SharpWired.Model
-{
+namespace SharpWired.Model {
     /// <summary>
     /// Represents the connected server
     /// </summary>
-    public class Server {
+    public class Server : ModelBase {
         #region Fields
-        ConnectionManager connectionManager;
         string appVersion;
         int filesCount;
         long fileSize;
@@ -54,14 +52,14 @@ namespace SharpWired.Model
         FileListingModel fileListingModel;
         Transfers.Transfers transfers;
         private int ownUserId;
-        public SharpWiredModel model;
+        private HeartBeatTimer HeartBeat { get; set; }
         #endregion
 
         #region Constructor
         /// <summary>
         /// Constructor - Empty
         /// </summary>
-        public Server(SharpWiredModel model, MessageEventArgs_200 message) {
+        public Server(MessageEventArgs_200 message) {
             this.appVersion = message.AppVersion;
             this.filesCount = message.FilesCount;
             this.fileSize = message.FilesSize;
@@ -70,85 +68,76 @@ namespace SharpWired.Model
             this.serverName = message.ServerName;
             this.startTime = message.StartTime;
 
-            this.connectionManager = model.ConnectionManager;
-
-            model.LoggedIn += OnLoggedIn;
+            ConnectionManager.Messages.LoginSucceededEvent += OnLoginSucceeded;
         }
         #endregion
 
         #region Properties
         /// <summary>
-        /// Get or set the server app version
+        /// Request or set the server app version
         /// </summary>
-        public string AppVersion
-        {
+        public string AppVersion {
             get { return appVersion; }
             set { appVersion = value; }
         }
 
         /// <summary>
-        /// Get or set the servers file count
+        /// Request or set the servers file count
         /// </summary>
-        public int FilesCount
-        {
+        public int FilesCount {
             get { return filesCount; }
             set { filesCount = value; }
         }
 
         /// <summary>
-        /// Get or set the file size on the server
+        /// Request or set the file size on the server
         /// </summary>
-        public long FileSize
-        {
+        public long FileSize {
             get { return fileSize; }
             set { fileSize = value; }
         }
 
         /// <summary>
-        /// Get or set the server protocol version
+        /// Request or set the server protocol version
         /// </summary>
-        public string ProtocolVersion
-        {
+        public string ProtocolVersion {
             get { return protocolVersion; }
             set { protocolVersion = value; }
         }
 
         /// <summary>
-        /// Get or set the server description
+        /// Request or set the server description
         /// </summary>
-        public string ServerDescription
-        {
+        public string ServerDescription {
             get { return serverDescription; }
             set { serverDescription = value; }
         }
 
         /// <summary>
-        /// Get or set the server name
+        /// Request or set the server name
         /// </summary>
-        public string ServerName
-        {
+        public string ServerName {
             get { return serverName; }
             set { serverName = value; }
         }
 
         /// <summary>
-        /// Get or set the server start time
+        /// Request or set the server start time
         /// </summary>
-        public DateTime StartTime
-        {
+        public DateTime StartTime {
             get { return startTime; }
             set { startTime = value; }
         }
 
         /// <summary>
-        /// Get the public chat for this server
+        /// Request the public chat for this server
         /// </summary>
         public Chat PublicChat {
             get { return publicChat; }
         }
 
         /// <summary>
-        /// Get the news for this server
+        /// Request the news for this server
         /// </summary>
         public SharpWired.Model.News.News News {
             get { return news; }
@@ -170,34 +159,40 @@ namespace SharpWired.Model
 
         #region Events & Listeners
         public delegate void ServerStatus();
-    
+
         public event ServerStatus Online;
         public event ServerStatus Offline;
-
-        void OnLoggedIn(Server s) {
-            if (s == this) {
-                publicChat = new Chat(connectionManager.Messages, 1); // 1 = chat id for public chat
-                news = new News.News(connectionManager.Messages);
-                fileListingModel = new FileListingModel(connectionManager.Messages);
-                transfers = new Transfers.Transfers(connectionManager.FileTransferHandler);
-
-                if (Online != null)
-                    Online();
-            } else {
-                Debug.WriteLine("Event triggered to wrong server (this: '" + this.GetHashCode() + "' s: '" + s.GetHashCode() + "'). TODO: Fix!");
-            }
-        }
-
         #endregion
 
         #region Methods
         public void GoOffline() {
-            if (Offline != null)
+            if(Offline != null)
                 Offline();
 
             publicChat = null;
             news = null;
             fileListingModel = null;
+        }
+
+        void OnLoginSucceeded(object sender, MessageEventArgs_201 message) {
+            ConnectionManager.Messages.LoginSucceededEvent -= OnLoginSucceeded;
+
+            OwnUserId = message.UserId;
+
+            ConnectionManager.Commands.Who(1); //1 = Public Chat
+            ConnectionManager.Commands.Ping(this);
+
+            //Starts the heart beat pings to the server
+            HeartBeat = new HeartBeatTimer(ConnectionManager);
+            HeartBeat.StartTimer();
+
+            publicChat = new Chat(ConnectionManager.Messages, 1); // 1 = chat id for public chat
+            news = new News.News(ConnectionManager.Messages);
+            fileListingModel = new FileListingModel(ConnectionManager.Messages);
+            transfers = new Transfers.Transfers(ConnectionManager);
+
+            if(Online != null)
+                Online();
         }
         #endregion
     }

@@ -55,9 +55,9 @@ namespace SharpWired.Gui.Bookmarks
 		}
 		#endregion
 
-		#region Get Bookmark
+		#region Request Bookmark
 		/// <summary>
-		/// Get a Bookmark created from the info entered into the control at present.
+		/// Request a Bookmark created from the info entered into the control at present.
 		/// </summary>
 		/// <returns>A Bookmark.</returns>
 		public Bookmark GetBookmark()
@@ -68,7 +68,7 @@ namespace SharpWired.Gui.Bookmarks
 		}
 
 		/// <summary>
-		/// Get the user info. Password should be hashed!
+		/// Request the user info. Password should be hashed!
 		/// </summary>
 		/// <returns>The user information object for this user.</returns>
 		private UserInformation GetUser()

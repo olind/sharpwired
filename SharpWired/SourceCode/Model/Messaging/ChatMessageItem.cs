@@ -44,7 +44,7 @@ namespace SharpWired.Model.Messaging
         private User fromUser;
 
         /// <summary>
-        /// Get the timestamp for this message. 
+        /// Request the timestamp for this message. 
         /// NOTE! Timestamps are not available from protocol and this 
         /// date is therefore created when the message arrive to the client
         /// and not when the message was sent from the server.
@@ -61,7 +61,7 @@ namespace SharpWired.Model.Messaging
         }
 
         /// <summary>
-        /// Get the chat message for this chat object
+        /// Request the chat message for this chat object
         /// </summary>
         public String ChatMessage {
             get { return messageEventArgs.Message; }
@@ -77,7 +77,7 @@ namespace SharpWired.Model.Messaging
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="messageEventArgs">The event args for this chat object</param>
+        /// <param name="args">The event args for this chat object</param>
         /// <param name="fromUser">The user that sent this message</param>
         /// <param name="isActionChatMessage">Is this message an action chat message or not</param>
         public ChatMessageItem(MessageEventArgs_300301 messageEventArgs, 

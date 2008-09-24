@@ -57,28 +57,28 @@ namespace SharpWired.Gui {
         private Bookmark bookmark;
 
         /// <summary>
-        /// Get the timestamp for this message
+        /// Request the timestamp for this message
         /// </summary>
         public DateTime TimeStamp {
             get { return timeStamp; }
         }
 
         /// <summary>
-        /// Get the nick for this message
+        /// Request the nick for this message
         /// </summary>
         public string Nick {
             get { return nickName; }
         }
 
         /// <summary>
-        /// Get the message string for this message
+        /// Request the message string for this message
         /// </summary>
         public string Message {
             get { return message; }
         }
 
         /// <summary>
-        /// Get the HTML for this object.
+        /// Request the HTML for this object.
         /// NOTE! All fields are HTML encoded
         /// </summary>
         public string GeneratedHTML {

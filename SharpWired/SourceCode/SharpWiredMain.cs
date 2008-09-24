@@ -49,9 +49,8 @@ namespace SharpWired
         }
 
         public SharpWiredMain() {
-            SharpWiredModel model = new SharpWiredModel();
-            SharpWiredController sharpWiredController = new SharpWiredController(model);
-            SharpWiredGui sharpWiredGui = new SharpWiredGui(model, sharpWiredController);
+            SharpWiredController sharpWiredController = new SharpWiredController(SharpWiredModel.Instance);
+            SharpWiredGui sharpWiredGui = new SharpWiredGui(SharpWiredModel.Instance, sharpWiredController);
         }
     }
 }

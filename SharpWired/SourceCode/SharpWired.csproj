@@ -55,6 +55,9 @@
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualBasic.PowerPacks, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Design" />
@@ -242,9 +245,13 @@
     <Compile Include="Connection\Transfers\TranserWorker.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Connection\Transfers\TransferException.cs" />
     <Compile Include="Controller\ChatController.cs" />
     <Compile Include="Controller\ControllerBase.cs" />
     <Compile Include="Controller\FileTransferController.cs" />
+    <Compile Include="Gui\Files\FileMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Gui\Transfers\TransferContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -345,6 +352,7 @@
     <Compile Include="Gui\SharpWiredGuiBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Model\ModelBase.cs" />
     <Compile Include="Model\SharpWiredModel.cs" />
     <Compile Include="Model\Files\FileListingModel.cs" />
     <Compile Include="Model\Files\FileNode.cs" />

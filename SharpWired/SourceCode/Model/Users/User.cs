@@ -69,154 +69,154 @@ namespace SharpWired.Model.Users
         #region Properties: User details
 
         /// <summary>
-        /// Get or set if this user is admin
+        /// Request or set if this user is admin
         /// </summary>
         public bool Admin {
             get { return admin; }
         }
 
         /// <summary>
-        /// Get or set the cipher bits
+        /// Request or set the cipher bits
         /// </summary>
         public int CipherBits {
             get { return cipherBits; }
         }
 
         /// <summary>
-        /// Get or set the cipher name
+        /// Request or set the cipher name
         /// </summary>
         public string CipherName {
             get { return cipherName; }
         }
 
         /// <summary>
-        /// Get or set the client version
+        /// Request or set the client version
         /// </summary>
         public string ClientVersion {
             get { return clientVersion; }
         }
 
         /// <summary>
-        /// Get or set the downloads
+        /// Request or set the downloads
         /// </summary>
         public string Downloads {
             get { return Downloads; }
         }
 
         /// <summary>
-        /// Get or set the host for this user
+        /// Request or set the host for this user
         /// </summary>
         public string Host {
             get { return host; }
         }
 
         /// <summary>
-        /// Get or set the icon for this user
+        /// Request or set the icon for this user
         /// </summary>
         public int Icon  {
             get { return icon; }
         }
 
         /// <summary>
-        /// Get or set the idle status for this user
+        /// Request or set the idle status for this user
         /// </summary>
         public bool Idle {
             get { return idle; }
         }
 
         /// <summary>
-        /// Get or set the idle time
+        /// Request or set the idle time
         /// </summary>
         public DateTime IdleTime {
             get { return idleTime; }
         }
 
         /// <summary>
-        /// Get or set the image for this user
+        /// Request or set the image for this user
         /// </summary> 
         public Bitmap Image {
             get { return image; }
         }
 
         /// <summary>
-        /// Get or set ip for this user
+        /// Request or set ip for this user
         /// </summary>
         public IPAddress Ip {
             get { return ip; }
         }
 
         /// <summary>
-        /// Get or set the login for this user
+        /// Request or set the login for this user
         /// </summary>
         public string Login {
             get { return login; }
         }
 
         /// <summary>
-        /// Get or set the login time
+        /// Request or set the login time
         /// </summary>
         public DateTime LoginTime {
             get { return loginTime; }
         }
 
         /// <summary>
-        /// Get or set the nick for this user
+        /// Request or set the nick for this user
         /// </summary> 
         public string Nick {
             get { return nick; }
         }
 
         /// <summary>
-        /// Get or set the path
+        /// Request or set the destination
         /// </summary>
         public string Path {
             get { return path; }
         }
 
         /// <summary>
-        /// Get or set the size
+        /// Request or set the size
         /// </summary>
         public int Size {
             get { return size; }
         }
 
         /// <summary>
-        /// Get or set the speed
+        /// Request or set the speed
         /// </summary>
         public int Speed {
             get { return speed; }
         }
 
         /// <summary>
-        /// Get or set the status for this user
+        /// Request or set the status for this user
         /// </summary> 
         public string Status {
             get { return status; }
         }
 
         /// <summary>
-        /// Get or set the current transfer
+        /// Request or set the current transfer
         /// </summary>
         public string Transfer {
             get { return transfer; }
         }
 
         /// <summary>
-        /// Get or set the ammount of transferred data
+        /// Request or set the ammount of transferred data
         /// </summary>
         public int Transferred {
             get { return transferred; }
         }
 
         /// <summary>
-        /// Get or set the uploads
+        /// Request or set the uploads
         /// </summary>
         public string Uploads {
             get { return uploads; }
         }
 
         /// <summary>
-        /// Get or set the user id for this user
+        /// Request or set the user id for this user
         /// </summary>
         public int UserId {
             get { return userId; }
@@ -229,7 +229,7 @@ namespace SharpWired.Model.Users
         //      The group privileges overrides the user privileges.
 
         /// <summary>
-        /// Get or set the privileges for this user
+        /// Request or set the privileges for this user
         /// </summary>
         public Privileges UserPrivileges {
             get { return privileges; }
@@ -237,7 +237,7 @@ namespace SharpWired.Model.Users
         }
 
         /// <summary>
-        /// Get or set the group for this user
+        /// Request or set the group for this user
         /// </summary> 
         public Group Group {
             get { return group; }

@@ -42,7 +42,7 @@ namespace SharpWired.MessageEvents
         private string status;
 
         /// <summary>
-        /// Get if this user is idle
+        /// Request if this user is idle
         /// </summary>
         public bool Idle {
             get
@@ -52,7 +52,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get if this user is admin
+        /// Request if this user is admin
         /// </summary>
         public bool Admin
         {
@@ -63,7 +63,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the icon for this user
+        /// Request the icon for this user
         /// </summary>
         public int Icon
         {
@@ -74,7 +74,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the nick for this user
+        /// Request the nick for this user
         /// </summary>
         public string Nick
         {
@@ -85,7 +85,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the status for this user
+        /// Request the status for this user
         /// </summary>
         public string Status
         {

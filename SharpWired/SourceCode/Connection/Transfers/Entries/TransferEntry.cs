@@ -37,23 +37,5 @@ namespace SharpWired.Connection.Transfers.Entries {
     /// <summary>
     /// And entry in the Transfer Queue. Consists of a from location, a to location and a server.
     /// </summary>
-    public class TransferEntry {
-        protected ConnectionManager connectionManager;
-        Int64 offset;
-        string id;
-
-        protected TransferEntry(ConnectionManager connectionManager) {
-            this.connectionManager = connectionManager;
-        }
-
-        public Int64 Offset {
-            get { return offset; }
-            set { offset = value; }
-        }
-
-        public string Id {
-            get { return id; }
-            set { id = value; }
-        }
-    }
+    public class TransferEntry { }
 }

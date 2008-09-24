@@ -67,9 +67,9 @@ namespace SharpWired.Model.Files
 
 		#region Methods: Search Node
         /// <summary>
-        /// Gets the node at the given path.
+        /// Gets the node at the given destination.
         /// </summary>
-        /// <param name="requestedNodePath">The path from were to get the node</param>
+        /// <param name="requestedNodePath">The destination from were to get the node</param>
         /// <returns></returns>
         public FileSystemEntry GetNode(string requestedNodePath)
         {
@@ -79,9 +79,9 @@ namespace SharpWired.Model.Files
 		/// <summary>
         /// Gets the node at the given nodePath
         /// </summary>
-		/// <param name="requestedNodePath">The path. Must be not be null or empty.</param>
+		/// <param name="requestedNodePath">The destination. Must be not be null or empty.</param>
 		/// <param name="traversingNode">The node from where search should be started</param>
-        /// <returns>If the node exists in the model; the node at whe given path nodePath otherwise null</returns>
+        /// <returns>If the node exists in the model; the node at whe given destination nodePath otherwise null</returns>
         public FileSystemEntry GetNode(string requestedNodePath, FileSystemEntry traversingNode) {
 			if (string.IsNullOrEmpty(requestedNodePath))
 				return null;
@@ -91,17 +91,17 @@ namespace SharpWired.Model.Files
                 return traversingNode;
             }
 
-			// 1 is because all path arrays start with ""._______________________________1__
+			// 1 is because all destination arrays start with ""._______________________________1__
 			return GetNode(FileSystemEntry.SplitPath(requestedNodePath), traversingNode, 1);
         }
 
 		/// <summary>
-		/// Searches from the given FileSystemEntry as starting point, for another FSE with the given path.
-		/// At each step in the tree, looking for a FSE with the FSE.PathArray[level] equal to path[level].
+		/// Searches from the given FileSystemEntry as starting point, for another FSE with the given destination.
+		/// At each step in the tree, looking for a FSE with the FSE.PathArray[level] equal to destination[level].
 		/// </summary>
-		/// <param name="path">The searches path.</param>
+		/// <param name="destination">The searches destination.</param>
 		/// <param name="startFromHere">We need a node from the model so that we can iterate the file tree somehow.</param>
-		/// <param name="level">The level to look at in the path. Typically starts out with 0. </param>
+		/// <param name="level">The level to look at in the destination. Typically starts out with 0. </param>
 		/// <returns>FSE if found, null else.</returns>
 		private FileSystemEntry GetNode(string[] path, FileSystemEntry startFromHere, int level)
 		{
@@ -117,14 +117,14 @@ namespace SharpWired.Model.Files
 
 			if (startFromHere is FileNode)
 			{
-				// If at the end of the path.
+				// If at the end of the destination.
 				if (path.Length - 1 == level)
 				{
 					string searched = path[level];
 					string compareTo = startFromHere.PathArray[level];
 					if(searched == compareTo)
 					{
-						// NOTE: do full comparasion of path?!
+						// NOTE: do full comparasion of destination?!
 						return startFromHere;
 					}
 					else
@@ -143,7 +143,7 @@ namespace SharpWired.Model.Files
 					// NOTE: descide what comparation is good!
 					if (searchedPart == entryPart)
 					{
-						// If at the end of the path.
+						// If at the end of the destination.
 						if(path.Length -1 == level)
 						{
 							return entry;

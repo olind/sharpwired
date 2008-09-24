@@ -31,7 +31,7 @@ using System.Windows.Forms;
 using SharpWired.Model.Files;
 
 namespace SharpWired.Gui.Files {
-    class WiredListNode : ListViewItem {
+    public class WiredListNode : ListViewItem {
         private FileSystemEntry modelNode;
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace SharpWired.Gui.Files {
         private DateTime created;
 
         /// <summary>
-        /// Get the size for this node. If it is a Folder the number of sub-items are listed.
+        /// Request the size for this node. If it is a Folder the number of sub-items are listed.
         /// </summary>
         public string Size {
             get { return size; }

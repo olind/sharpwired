@@ -7,36 +7,33 @@ using System.Diagnostics;
 using System.IO;
 using SharpWired.Connection.Sockets;
 using System.Windows.Forms;
+using SharpWired.Connection.Bookmarks;
 
 namespace SharpWired.Connection.Transfers.Entries {
     /// <summary>
     /// A entry in the download queue.
     /// </summary>
     public class DownloadEntry : TransferEntry {
+        private BinarySecureSocket Socket { get; set; }
 
-        protected FileSystemEntry source;
-        protected string destination;
-        BinarySecureSocket socket;
+        public DownloadEntry(Server transferServer, FileNode source,
+                             string destination, string hash, Int64 offset) {
+            Debug.WriteLine("Transfer is ready! File '" + source.Name + "', with ID '" + hash + "'.");
 
-        public DownloadEntry(ConnectionManager connectionManager, 
-                FileNode source, string destination) : base(connectionManager) {
-            this.destination = destination;
-            this.source = source;
-        }
+            FileStream fileStream = new FileStream(destination, FileMode.Append);
 
-        public virtual FileSystemEntry Source {
-            get { return source; }
-            set { source = value; }
-        }
-        public virtual string Destination {
-            get { return destination; }
-            set { destination = value; }
+            this.Socket = new BinarySecureSocket();
+            this.Socket.DataReceivedDoneEvent += OnDataReceivedDone;
+            this.Socket.Connect(transferServer,
+                fileStream, source.Size, offset);
+
+            this.Socket.SendMessage("TRANSFER" + Utility.SP + hash);
         }
 
         public Int64 BytesReceived {
             get {
-                if (socket != null)
-                    return socket.BytesTransferred;
+                if (Socket != null)
+                    return Socket.BytesTransferred;
                 else
                     return -1;
             }
@@ -45,21 +42,9 @@ namespace SharpWired.Connection.Transfers.Entries {
         public delegate void CompletedDelegate();
         public event CompletedDelegate Completed;
 
-        public void Start() {
-            Debug.WriteLine("Transfer is ready! File '" + Source + "', with ID '" + Id + "'.");
-
-            FileStream fileStream = new FileStream(Destination, FileMode.Append);
-            socket = new BinarySecureSocket();
-            socket.DataReceivedDoneEvent += OnDataReceivedDone;
-            socket.Connect(connectionManager.CurrentBookmark.Transfer, 
-                fileStream, ((FileNode)Source).Size, Offset);
-
-            socket.SendMessage("TRANSFER" + Utility.SP + Id);
-        }
-
         void OnDataReceivedDone() {
-            if (socket != null)
-                socket.DataReceivedDoneEvent -= OnDataReceivedDone;
+            if (Socket != null)
+                Socket.DataReceivedDoneEvent -= OnDataReceivedDone;
             if (Completed != null)
                 Completed();
         }

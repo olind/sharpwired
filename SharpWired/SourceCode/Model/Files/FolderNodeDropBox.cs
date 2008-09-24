@@ -39,7 +39,7 @@ namespace SharpWired.Model.Files
         /// <summary>
         /// Folder node representing DropBoxes in the Wired protocol
         /// </summary>
-        /// <param name="messageEventArgs"></param>
+        /// <param name="args"></param>
         public FolderNodeDropBox(MessageEventArgs_410420 messageEventArgs)
             : base(messageEventArgs)
         {

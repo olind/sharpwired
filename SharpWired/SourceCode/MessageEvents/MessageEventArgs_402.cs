@@ -39,7 +39,7 @@ namespace SharpWired.MessageEvents
         private string comment;
 
         /// <summary>
-        /// Get the checksum for this file
+        /// Request the checksum for this file
         /// </summary>
         public string Checksum
         {
@@ -50,7 +50,7 @@ namespace SharpWired.MessageEvents
         }
 
         /// <summary>
-        /// Get the comment for this file
+        /// Request the comment for this file
         /// </summary>
         public string Comment
         {
@@ -64,7 +64,7 @@ namespace SharpWired.MessageEvents
         /// </summary>
         /// <param name="messageId">The id for this message</param>
         /// <param name="messageName">The name for this message</param>
-        /// <param name="path">The path for the file</param>
+        /// <param name="destination">The destination for the file</param>
         /// <param name="fileType">The type for the file</param>
         /// <param name="size">The size for the file</param>
         /// <param name="created">The date when this file was created</param>

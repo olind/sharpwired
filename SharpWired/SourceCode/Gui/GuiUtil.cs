@@ -9,10 +9,10 @@ namespace SharpWired.Gui {
     public static class GuiUtil {
         
         /// <summary>
-        /// Get or set the file path for the CSS-file
+        /// Request or set the file destination for the CSS-file
         /// </summary>
         public static string CSSFilePath {
-            //TODO: The path to the CSS-file should be set in some other way
+            //TODO: The destination to the CSS-file should be set in some other way
             get { return System.Environment.CurrentDirectory; }
         }
     }

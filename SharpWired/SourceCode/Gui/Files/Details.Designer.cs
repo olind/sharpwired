@@ -41,7 +41,7 @@ namespace SharpWired.Gui.Files
             this.detailsListView.TabIndex = 0;
             this.detailsListView.UseCompatibleStateImageBehavior = false;
             this.detailsListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.detailsListView_MouseDoubleClick);
-            this.detailsListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.detailsListView_MouseClick);
+            this.detailsListView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.detailsListView_MouseUp);
             this.detailsListView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.detailsListView_KeyUp);
             // 
             // Details

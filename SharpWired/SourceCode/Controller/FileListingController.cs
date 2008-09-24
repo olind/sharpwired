@@ -63,11 +63,11 @@ namespace SharpWired.Controller
         }
 
         /// <summary>
-        /// Requests a reload of the filelisting on this server on the given path.
-        /// If this node doesn't have any childrens we assume it hasn't been loaded from server and 
+        /// Requests a reload of the filelisting on this server on the given destination.
+        /// If this node doesn'transfer have any childrens we assume it hasn'transfer been loaded from server and 
         /// requests a reload. NOTE! If the node is not found in the tree we do a reload from the server root.
         /// </summary>
-        /// <param name="path">The path node where reloading should be requested.</param>
+        /// <param name="destination">The destination node where reloading should be requested.</param>
         private void ReloadFileList(string path) {
             FileListingModel flm = this.model.Server.FileListingModel;
             FileSystemEntry reloadNode = flm.GetNode(path, flm.RootNode);
