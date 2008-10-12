@@ -52,6 +52,8 @@ namespace SharpWired.Connection.Sockets {
         /// </summary>
         SslStream sslStream;
 
+        DateTime TimeOfLastNotify { get; set; }
+
         /// <summary>
         /// The default size of the buffer to use
         /// </summary>
@@ -144,6 +146,8 @@ namespace SharpWired.Connection.Sockets {
             stateObj.transferBuffer = readBuffer;
             stateObj.transferOffset = offset;
 
+            TimeOfLastNotify = DateTime.Now; 
+
             sslStream.BeginRead(readBuffer, 0, readBuffer.Length, new AsyncCallback(ReadCallback), stateObj);
         }
 
@@ -190,6 +194,8 @@ namespace SharpWired.Connection.Sockets {
             client.Close();
         }
 
+        public event IntervalDelegate Interval;
+        public delegate void IntervalDelegate();
 
         /// <summary>
         /// The read callback acts as the asynchronous message receive loop.
@@ -197,6 +203,13 @@ namespace SharpWired.Connection.Sockets {
         /// </summary>
         /// <param name="result">The result that the socket received</param>
         private void ReadCallback(IAsyncResult result) {
+            var now = DateTime.Now;            
+            if (now > TimeOfLastNotify.AddSeconds(1)) {
+                TimeOfLastNotify = now;
+                if(Interval != null)
+                    Interval();
+            }
+
             FileTransferStateObject trans = (FileTransferStateObject)result.AsyncState;
             int bytesRead = trans.sslStream.EndRead(result);
 

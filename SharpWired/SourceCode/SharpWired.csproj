@@ -53,7 +53,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Microsoft.VisualBasic.PowerPacks, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -365,6 +364,7 @@
     <Compile Include="Model\PrivateMessages\PrivateMessageItem.cs" />
     <Compile Include="Model\PrivateMessages\PrivateMessageModel.cs" />
     <Compile Include="Model\Server.cs" />
+    <Compile Include="Model\SWByte.cs" />
     <Compile Include="Model\Transfers\Transfer.cs" />
     <Compile Include="Model\Transfers\Transfers.cs" />
     <Compile Include="SharpWiredClientInfo.cs" />
@@ -372,16 +372,11 @@
     <None Include="Icons\Tango22px\system-log-out.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WiredControls\WiredControls.csproj">
-      <Project>{FEC0BECC-B654-4DEE-9919-74F52ECDDC92}</Project>
-      <Name>WiredControls</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Connection\Transfers\FileTransfers.txt" />
     <Content Include="LICENSE.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="app.config" />
     <None Include="Properties\DataSources\SharpWired.Model.Transfers.Transfers.datasource" />
     <None Include="Resources\process-stop.png" />
     <None Include="Resources\media-playback-pause.png" />
@@ -408,6 +403,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WiredControls\WiredControls.csproj">
+      <Project>{FEC0BECC-B654-4DEE-9919-74F52ECDDC92}</Project>
+      <Name>WiredControls</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

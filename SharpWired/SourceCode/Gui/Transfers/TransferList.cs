@@ -53,7 +53,6 @@ namespace SharpWired.Gui.Transfers {
         }
 
         void Repaint() {
-            Debug.WriteLine("Repaint!");
             int currentPos = 0;
 
             ModifyItems(

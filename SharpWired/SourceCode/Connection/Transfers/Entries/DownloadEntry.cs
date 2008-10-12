@@ -14,7 +14,7 @@ namespace SharpWired.Connection.Transfers.Entries {
     /// A entry in the download queue.
     /// </summary>
     public class DownloadEntry : TransferEntry {
-        private BinarySecureSocket Socket { get; set; }
+        public BinarySecureSocket Socket { get; set; } //Public until we have migrated all this code to the model Transfer class
 
         public DownloadEntry(Server transferServer, FileNode source,
                              string destination, string hash, Int64 offset) {
@@ -28,15 +28,6 @@ namespace SharpWired.Connection.Transfers.Entries {
                 fileStream, source.Size, offset);
 
             this.Socket.SendMessage("TRANSFER" + Utility.SP + hash);
-        }
-
-        public Int64 BytesReceived {
-            get {
-                if (Socket != null)
-                    return Socket.BytesTransferred;
-                else
-                    return -1;
-            }
         }
 
         public delegate void CompletedDelegate();

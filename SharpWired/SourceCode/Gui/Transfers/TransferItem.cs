@@ -51,6 +51,17 @@ namespace SharpWired.Gui.Transfers {
 
         internal void Repaint() {
             progressBar.Value = (int)(transfer.Progress * 1000.0);
+
+            string timeLeft;
+            var estimateTimeLeft = transfer.EstimatedTimeLeft;
+            if (estimateTimeLeft == null)
+                timeLeft = "∞";
+            else
+                timeLeft = estimateTimeLeft.ToString();
+
+            info.Text = timeLeft + " seconds remaining — " +
+                     transfer.Received.ToString() + " of " + transfer.Size.ToString() +
+                     " (" + transfer.Speed.ToString() + "/s" + ")";
         }
     }
 }

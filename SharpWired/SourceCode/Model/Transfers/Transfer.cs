@@ -13,51 +13,79 @@ namespace SharpWired.Model.Transfers {
 
     public class Transfer : ModelBase {
         private DownloadEntry DownloadEntry { get; set; }
-        private Int64 Offset { get; set; }
+        private SWByte Offset { get; set; }
         private Commands Commands { get; set; }
+        private SWByte LastBytesReceived { get; set; }
 
         public string Destination { get; set; }
         public FileSystemEntry Source { get; set; }
         public Status Status { get; set; }
-        public TimeSpan EstimatedTimeLeft {
-            get { return new TimeSpan(); }
+
+        /// <summary>
+        /// Gets the time left in seconds
+        /// </summary>
+        public TimeSpan? EstimatedTimeLeft {
+            get {
+                if (Speed.B <= 0)
+                    return null;
+                return TimeSpan.FromSeconds((Size.B - Received.B) / Speed.B); 
+            }
         }
         public double Progress {
             get {
-                if(DownloadEntry.BytesReceived == 0)
+                if(Received.B == 0)
                     return 0;
                 
-                return (double)DownloadEntry.BytesReceived / (double)Size;;
+                return (double)Received.B / (double)Size.B;
             }
         }
-        public Int64 Size {
-            get { return ((FileNode)Source).Size; }
+        public SWByte Size {
+            get { return new SWByte(((FileNode)Source).Size); }
         }
-        public Int64 Speed {
-            get { return -1; }
+        public SWByte Received {
+            get {
+                if (DownloadEntry.Socket != null)
+                    return new SWByte(DownloadEntry.Socket.BytesTransferred);
+                else
+                    return new SWByte();
+            }
         }
+
+        /// <summary>
+        /// Gets the speed in bytes / second
+        /// </summary>
+        public SWByte Speed { get; private set; }
 
         public Transfer(Commands commands, FileSystemEntry node, string destination, Int64 offset) {
             this.Source = node;
             this.Destination = destination;
             this.Status = Status.Idle;
             this.Commands = commands;
+            this.Offset = new SWByte(0);
+            this.Speed = new SWByte(0);
         }
 
         public void Request() {
             Status = Status.Pending;
-            Commands.Get(Source.Path, Offset);
+            Commands.Get(Source.Path, Offset.B);
         }
 
-        private void OnCompleted() {
-            
-        }
+        private void OnCompleted() { }
 
         internal void Start(string hash) {
             Status = Status.Active;
+            LastBytesReceived = new SWByte();
+
             DownloadEntry =
                 new DownloadEntry(ConnectionManager.CurrentBookmark.Transfer,
-                                  (FileNode)Source, Destination, hash, Offset);
+                                  (FileNode)Source, Destination, hash, Offset.B);
+
+            DownloadEntry.Socket.Interval += OnInterval;
+        }
+
+        private void OnInterval(){
+            Speed.B = Received.B - LastBytesReceived.B;
+            LastBytesReceived = Received;
         }
     }
 }
