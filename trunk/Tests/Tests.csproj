@@ -71,7 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SourceCode\SharpWired.csproj">
+    <ProjectReference Include="..\SharpWired\SharpWired.csproj">
       <Project>{85C03311-3C25-4EB5-97BA-FDC6F3C63005}</Project>
       <Name>SharpWired</Name>
     </ProjectReference>
