@@ -364,7 +364,6 @@
     <Compile Include="Model\PrivateMessages\PrivateMessageItem.cs" />
     <Compile Include="Model\PrivateMessages\PrivateMessageModel.cs" />
     <Compile Include="Model\Server.cs" />
-    <Compile Include="Model\SWByte.cs" />
     <Compile Include="Model\Transfers\Transfer.cs" />
     <Compile Include="Model\Transfers\Transfers.cs" />
     <Compile Include="SharpWiredClientInfo.cs" />

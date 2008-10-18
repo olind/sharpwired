@@ -58,7 +58,6 @@
   <ItemGroup>
     <Compile Include="Connection\ServerTest.cs" />
     <Compile Include="Gui\GuiUtilTest.cs" />
-    <Compile Include="Model\SWByteTest.cs" />
     <Compile Include="UtilityTest.cs" />
   </ItemGroup>
   <ItemGroup>
