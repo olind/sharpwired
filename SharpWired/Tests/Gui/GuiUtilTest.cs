@@ -49,7 +49,6 @@ namespace SharpWired.Tests.Gui {
             Assert.That(GuiUtil.FormatByte((1024 * 1024) - 513), new EqualConstraint("1023 KiB"));
             Assert.That(GuiUtil.FormatByte(1024 * 1024), new EqualConstraint("1 MiB"));
             Assert.That(GuiUtil.FormatByte(1024 * 1024 + 65536), new EqualConstraint("1.1 MiB"));
-            //Assert.That(GuiUtil.FormatByte((1024 * 1024 * 1024)), new EqualConstraint("1023.9 MiB"));
             Assert.That(GuiUtil.FormatByte(1024 * 1024 * 1024), new EqualConstraint("1 GiB"));
             Assert.That(GuiUtil.FormatByte(1024 * 1024 * 1024 + 67108864), new EqualConstraint("1.1 GiB"));
         }
