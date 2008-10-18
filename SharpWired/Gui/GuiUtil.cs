@@ -27,7 +27,7 @@ namespace SharpWired.Gui {
 
             switch (format) {
                 case "h":
-                    return FormatByte(bytes, HumanReadableFormat(bytes));
+                    return FormatByte(bytes, HumanReadableByteFormat(bytes));
                 case "GiB":
                     return String.Format(nfi, "{0:0.#} GiB", (double)bytes / (double)(1024 * 1024 * 1024));
                 case "MiB":
@@ -41,7 +41,7 @@ namespace SharpWired.Gui {
                 "' according to format '" + format + "'");
         }
 
-        private static string HumanReadableFormat(long bytes) {
+        private static string HumanReadableByteFormat(long bytes) {
             if (bytes >= 1024 * 1024 * 1024)
                 return "GiB";
             else if (bytes >= 1024 * 1024)
@@ -50,6 +50,17 @@ namespace SharpWired.Gui {
                 return "KiB";
 
             return "B";
+        }
+
+        public static string FormatTimeSpan(TimeSpan time) {
+            if (time.Days > 0)
+                return time.Days + " days";
+            else if (time.Hours > 0)
+                return time.Hours + " hours";
+            else if (time.Minutes > 0)
+                return time.Minutes + " minutes";
+            else
+                return time.Seconds + " seconds";
         }
     }
 }
