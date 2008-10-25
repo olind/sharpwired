@@ -112,7 +112,7 @@ namespace SharpWired.Gui.Chat {
         }
 
         protected override void OnOnline() {
-            this.userList = model.Server.PublicChat.Users;
+            this.userList = Model.Server.PublicChat.Users;
 
             userList.ClientJoined += AddUser;
             userList.ClientLeft += RemoveUser;
@@ -165,7 +165,7 @@ namespace SharpWired.Gui.Chat {
         private void OnInformationClick(object sender, EventArgs e) {
             ListView.SelectedListViewItemCollection userItems = this.userListView.SelectedItems;
             foreach (WiredListViewItem li in userItems) {
-                controller.UserController.GetUserInfo(li.UserItem);
+                Controller.UserController.GetUserInfo(li.UserItem);
             }
         }
     }

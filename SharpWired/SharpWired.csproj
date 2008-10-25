@@ -367,6 +367,7 @@
     <Compile Include="Model\Transfers\Transfer.cs" />
     <Compile Include="Model\Transfers\Transfers.cs" />
     <Compile Include="SharpWiredClientInfo.cs" />
+    <Compile Include="SingletonException.cs" />
     <Compile Include="Utils\Pair.cs" />
     <None Include="Icons\Tango22px\system-log-out.png" />
   </ItemGroup>

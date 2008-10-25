@@ -46,7 +46,7 @@ namespace SharpWired.Model.Transfers {
         }
         public long Received {
             get {
-                if (DownloadEntry.Socket != null)
+                if (DownloadEntry != null && DownloadEntry.Socket != null)
                     return DownloadEntry.Socket.BytesTransferred;
                 else
                     return new long();
@@ -97,6 +97,12 @@ namespace SharpWired.Model.Transfers {
                 SpeedHistory.Dequeue();
 
             SpeedHistory.Enqueue(speed);
+        }
+
+        public void Pause() {
+            Status = Status.Idle;
+            DownloadEntry.Stop();
+            DownloadEntry = null;
         }
     }
 }

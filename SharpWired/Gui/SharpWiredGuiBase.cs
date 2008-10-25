@@ -39,17 +39,18 @@ namespace SharpWired.Gui {
     /// </summary>
     public class SharpWiredGuiBase : UserControl { //I wanted to make this class abstract but then can'transfer the visual studio designer handle it...
 
-        protected SharpWiredController controller;
-        protected SharpWiredModel model;
+        protected SharpWiredController Controller {
+            get { return SharpWiredController.Instance; }
+        }
+        protected SharpWiredModel Model {
+            get { return SharpWiredModel.Instance; }
+        }
 
         private delegate void ToggleWindowsFormsControlCallback(Control control);
         protected delegate void UpdateDelegate();
 
-        public virtual void Init(SharpWiredModel model, SharpWiredController controller) {
-            this.model = model;
-            this.controller = controller;
-
-            model.Connected += OnConnected;
+        public virtual void Init() {
+            Model.Connected += OnConnected;
         }
 
         private void OnConnected(Server s) {

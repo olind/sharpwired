@@ -60,7 +60,7 @@
             this.info.AutoSize = true;
             this.info.Location = new System.Drawing.Point(62, 42);
             this.info.Name = "info";
-            this.info.Size = new System.Drawing.Size(276, 13);
+            this.info.Size = new System.Drawing.Size(256, 13);
             this.info.TabIndex = 3;
             this.info.Text = "2 minutes remaining — 283 KiB of 2.83 MiB (38 KiB/s)";
             this.info.Click += new System.EventHandler(this.OnClicked);
@@ -72,8 +72,8 @@
             this.pauseButton.Name = "pauseButton";
             this.pauseButton.Size = new System.Drawing.Size(29, 27);
             this.pauseButton.TabIndex = 5;
-            this.pauseButton.Text = "ll";
             this.pauseButton.UseVisualStyleBackColor = true;
+            this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
             // 
             // deleteButton
             // 
@@ -82,7 +82,6 @@
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(29, 27);
             this.deleteButton.TabIndex = 4;
-            this.deleteButton.Text = "X";
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 

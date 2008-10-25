@@ -39,5 +39,9 @@ namespace SharpWired.Connection.Transfers.Entries {
             if (Completed != null)
                 Completed();
         }
+
+        public void Stop() {
+            Socket.Disconnect();
+        }
     }
 }

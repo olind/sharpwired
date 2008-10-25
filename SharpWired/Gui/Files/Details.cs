@@ -108,8 +108,8 @@ namespace SharpWired.Gui.Files {
         #endregion
 
         #region Methods
-        public override void Init(SharpWiredModel model, SharpWiredController controller) {
-            base.Init(model, controller);
+        public override void Init() {
+            base.Init();
 
             ImageList fileViewIcons = new ImageList();
             fileViewIcons.ColorDepth = ColorDepth.Depth32Bit;
@@ -122,7 +122,7 @@ namespace SharpWired.Gui.Files {
             detailsListView.SmallImageList = fileViewIcons;
             detailsListView.LargeImageList = fileViewIcons;
             detailsListView.View = View.Details;
-            ContextMenu = new FileMenu(controller, this);
+            ContextMenu = new FileMenu(Controller, this);
         }
 
         /// <summary>

@@ -14,8 +14,8 @@ namespace SharpWired.Gui.Transfers {
             InitializeComponent();
         }
 
-        public void Init(SharpWiredModel model, SharpWiredController controller) {
-            this.transferList1.Init(model, controller);
+        public void Init() {
+            this.transferList1.Init();
         }
     }
 }

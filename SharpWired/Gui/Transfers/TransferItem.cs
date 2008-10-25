@@ -9,14 +9,18 @@ using SharpWired.Model;
 using SharpWired.Controller;
 using SharpWired.Model.Transfers;
 using System.Diagnostics;
+using SharpWired.Gui.Resources.Icons;
 
 namespace SharpWired.Gui.Transfers {
     public partial class TransferItem : SharpWiredGuiBase {
         Transfer transfer;
         public bool Selected { get; set; }
-
+        public Status Status { get { return transfer.Status; } }
+        
         public delegate void ClickedArgs(TransferItem ti, bool control);
         public event ClickedArgs Clicked;
+
+        bool frozen = true; //Stops repainting a paused/idle transfer
 
         public TransferItem() {
             InitializeComponent();
@@ -24,6 +28,10 @@ namespace SharpWired.Gui.Transfers {
 
         public void Init(Transfer t) {
             this.transfer = t;
+
+            IconHandler icons = IconHandler.Instance;
+            this.pauseButton.Image = icons.MediaPlaybackPause;
+            this.deleteButton.Image = icons.ProcessStop;
 
             UpdateDelegate update = delegate() {
                 this.fileName.Text = t.Source.Name;
@@ -45,23 +53,45 @@ namespace SharpWired.Gui.Transfers {
                 Clicked(this, control);
         }
 
+        private void pauseButton_Click(object sender, EventArgs e) {
+            if (transfer.Status == Status.Idle) {
+                //TODO
+            } else {
+                Controller.FileTransferController.PauseDownload(transfer);
+            }
+        }
+
         private void deleteButton_Click(object sender, EventArgs e) {
-            controller.FileTransferController.RemoveDownload(transfer);
+            pauseButton_Click(sender, e);
+            Controller.FileTransferController.RemoveDownload(transfer);
         }
 
         internal void Repaint() {
-            progressBar.Value = (int)(transfer.Progress * 1000.0);
+            if (transfer.Status == Status.Idle) {
+                if (!frozen) {
+                    pauseButton.Image = IconHandler.Instance.MediaPlaybackStart;
+                    this.pauseButton.Enabled = false;
 
-            string timeLeft;
-            TimeSpan? estimateTimeLeft = transfer.EstimatedTimeLeft;
-            if (estimateTimeLeft == null)
-                timeLeft = "∞";
-            else
-                timeLeft = GuiUtil.FormatTimeSpan((TimeSpan)estimateTimeLeft);
+                    info.Text = "Paused — " + GuiUtil.FormatByte(transfer.Received)
+                        + " of " + GuiUtil.FormatByte(transfer.Size);
+                    frozen = true;
+                }
+            } else {                
+                progressBar.Value = (int)(transfer.Progress * 1000.0);
 
-            info.Text = timeLeft + " remaining — " +
-                     GuiUtil.FormatByte(transfer.Received) + " of " + GuiUtil.FormatByte(transfer.Size) +
-                     " (" + GuiUtil.FormatByte(transfer.Speed) + "/s" + ")";
+                string timeLeft;
+                TimeSpan? estimateTimeLeft = transfer.EstimatedTimeLeft;
+                if (estimateTimeLeft == null)
+                    timeLeft = "∞";
+                else
+                    timeLeft = GuiUtil.FormatTimeSpan((TimeSpan)estimateTimeLeft);
+
+                info.Text = timeLeft + " remaining — " +
+                         GuiUtil.FormatByte(transfer.Received) + " of " + GuiUtil.FormatByte(transfer.Size) +
+                         " (" + GuiUtil.FormatByte(transfer.Speed) + "/s" + ")";
+
+                frozen = false;
+            }
         }
     }
 }

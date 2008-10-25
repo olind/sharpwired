@@ -79,7 +79,7 @@ namespace SharpWired.Gui.Files {
                 }
 
                 b.MouseUp += new MouseEventHandler(button_MouseUp);
-                b.Tag = model.Server.FileListingModel.GetNode(CombineFilePath(node.PathArray, i));
+                b.Tag = Model.Server.FileListingModel.GetNode(CombineFilePath(node.PathArray, i));
                 b.AutoSizeMode = AutoSizeMode.GrowAndShrink;
                 b.AutoSize = true;
                 b.Padding = new Padding(2);
