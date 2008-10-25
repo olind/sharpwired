@@ -69,10 +69,10 @@ namespace SharpWired.Gui {
 
             InitializeComponent();
 
-            chatUserContainer.Init(model, sharpWiredController);
-            newsContainer.Init(model, sharpWiredController);
-            filesContainer.Init(model, sharpWiredController);
-            transferContainer.Init(model, sharpWiredController);
+            chatUserContainer.Init();
+            newsContainer.Init();
+            filesContainer.Init();
+            transferContainer.Init();
 
             chatUserContainer.Dock = DockStyle.Fill;
             newsContainer.Dock = DockStyle.Fill;

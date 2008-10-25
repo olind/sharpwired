@@ -81,8 +81,8 @@ namespace SharpWired.Gui.Files {
             rootTreeView.Nodes.Clear();
         }
 
-        public override void Init(SharpWiredModel model, SharpWiredController controller) {
-            base.Init(model, controller);
+        public override void Init() {
+            base.Init();
 
             ImageList rootTreeViewIcons = new ImageList();
             rootTreeViewIcons.ColorDepth = ColorDepth.Depth32Bit;
@@ -136,7 +136,7 @@ namespace SharpWired.Gui.Files {
         private void rootTreeView_AfterSelect(object sender, TreeViewEventArgs e) {
             TreeNode node = rootTreeView.SelectedNode;
             if (node != null && SelectFolderNodeChange != null) {
-                SelectFolderNodeChange(model.Server.FileListingModel.GetNode(node.Name));
+                SelectFolderNodeChange(Model.Server.FileListingModel.GetNode(node.Name));
             }
         }
     }

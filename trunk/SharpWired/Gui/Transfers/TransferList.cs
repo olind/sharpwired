@@ -16,8 +16,8 @@ namespace SharpWired.Gui.Transfers {
             this.Items = new List<TransferItem>();
         }
 
-        public override void Init(SharpWiredModel model, SharpWiredController controller) {
-            base.Init(model, controller);
+        public override void Init() {
+            base.Init();
 
             // TODO: Ugly to know about parent! Fix!
             Parent.VisibleChanged += TransferList_VisibleChanged;
@@ -31,12 +31,12 @@ namespace SharpWired.Gui.Transfers {
         }
 
         protected override void OnOnline() {
-            model.Server.Transfers.TransferAdded += OnTransferAdded;
+            Model.Server.Transfers.TransferAdded += OnTransferAdded;
         }
 
         protected override void OnOffline() {
             RefreshStop();
-            model.Server.Transfers.TransferAdded -= OnTransferAdded;
+            Model.Server.Transfers.TransferAdded -= OnTransferAdded;
         }
 
         void OnTransferAdded(Transfer t) {

@@ -50,21 +50,21 @@ namespace SharpWired.Gui.News {
             InitializeComponent();
         }
 
-        public override void Init(SharpWiredModel model, SharpWiredController controller) {
-            base.Init(model, controller);
+        public override void Init() {
+            base.Init();
         }
 
         protected override void OnOnline() {
-            model.Server.News.NewsPostedEvent += OnNewsPostReceived;
-            model.Server.News.NewsListingDoneEvent += OnNewsListingDone;
+            Model.Server.News.NewsPostedEvent += OnNewsPostReceived;
+            Model.Server.News.NewsListingDoneEvent += OnNewsListingDone;
 
             ToggleWindowsFormControl(postNewsButton);
             ToggleWindowsFormControl(postNewsTextBox);
             ResetWebBrowser(newsWebBrowser);
         }
         protected override void OnOffline() {
-            model.Server.News.NewsPostedEvent -= OnNewsPostReceived;
-            model.Server.News.NewsListingDoneEvent += OnNewsListingDone;
+            Model.Server.News.NewsPostedEvent -= OnNewsPostReceived;
+            Model.Server.News.NewsListingDoneEvent += OnNewsListingDone;
 
             ToggleWindowsFormControl(postNewsButton);
             ToggleWindowsFormControl(postNewsTextBox);
@@ -88,7 +88,7 @@ namespace SharpWired.Gui.News {
             //TODO: Privileges: Check if we are allowed to post news
             string text = this.postNewsTextBox.Text.Trim();
             if (text.Length > 0)
-                model.ConnectionManager.Commands.Post(this.postNewsTextBox.Text);
+                Model.ConnectionManager.Commands.Post(this.postNewsTextBox.Text);
 
             postNewsTextBox.Clear();
         }

@@ -76,7 +76,7 @@ namespace SharpWired.Gui.Files {
         public event EventHandler<WiredNodeArgs> SelectedFolderNodeChanged;
 
         protected override void OnOnline() {
-            model.Server.FileListingModel.FileModelUpdatedEvent += tree.OnNewNodesAdded;
+            Model.Server.FileListingModel.FileModelUpdatedEvent += tree.OnNewNodesAdded;
             tree.SelectFolderNodeChange += OnSelectFolderNodeChange;
             //SelectedFolderNodeChanged += tree.OnSelectedFolderNodeChanged; //TODO: tree should mark selected node as well
 
@@ -86,11 +86,11 @@ namespace SharpWired.Gui.Files {
             details.SelectFolderNodeChange += OnSelectFolderNodeChange;
             SelectedFolderNodeChanged += details.OnSelectedFolderNodeChanged;
 
-            OnSelectFolderNodeChange(model.Server.FileListingModel.RootNode);
+            OnSelectFolderNodeChange(Model.Server.FileListingModel.RootNode);
         }
 
         protected override void OnOffline() {
-            model.Server.FileListingModel.FileModelUpdatedEvent -= tree.OnNewNodesAdded;
+            Model.Server.FileListingModel.FileModelUpdatedEvent -= tree.OnNewNodesAdded;
             tree.SelectFolderNodeChange -= OnSelectFolderNodeChange;
             //SelectedFolderNodeChanged -= tree.OnSelectedFolderNodeChanged; //TODO: tree should mark selected node as well
             
@@ -108,11 +108,11 @@ namespace SharpWired.Gui.Files {
         /// </summary>
         /// <param name="model"></param>
         /// <param name="controller"></param>
-        public override void Init(SharpWiredModel model, SharpWiredController controller) {
-            base.Init(model, controller);
-            tree.Init(model, controller);
-            breadCrumb.Init(model, controller);
-            details.Init(model, controller);
+        public override void Init() {
+            base.Init();
+            tree.Init();
+            breadCrumb.Init();
+            details.Init();
         }
 
         ///<summary>
@@ -146,7 +146,7 @@ namespace SharpWired.Gui.Files {
                 if (SelectedFolderNodeChanged != null) {
                     SelectedFolderNodeChanged(null, new WiredNodeArgs(node));
                 }
-                controller.FileListingController.ReloadFileList((FolderNode)node);
+                Controller.FileListingController.ReloadFileList((FolderNode)node);
             } else if (node is FileNode) {
                 Debug.WriteLine("TODO: Dealing with file nodes are not implemented");
             }

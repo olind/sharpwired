@@ -50,8 +50,8 @@ namespace SharpWired.Gui.Chat {
         #endregion
 
         protected override void OnOnline() {
-            model.Server.PublicChat.ChatMessageReceivedEvent += OnChatMessageArrived;
-            model.Server.PublicChat.ChatTopicChangedEvent += OnChatTopicChanged;
+            Model.Server.PublicChat.ChatMessageReceivedEvent += OnChatMessageArrived;
+            Model.Server.PublicChat.ChatTopicChangedEvent += OnChatTopicChanged;
 
             ToggleWindowsFormControl(chatInputTextBox);
             ToggleWindowsFormControl(sendChatButton);
@@ -62,9 +62,9 @@ namespace SharpWired.Gui.Chat {
         }
 
         protected override void OnOffline() {
-            model.Server.Offline -= OnOffline;
-            model.Server.PublicChat.ChatMessageReceivedEvent -= OnChatMessageArrived;
-            model.Server.PublicChat.ChatTopicChangedEvent -= OnChatTopicChanged;
+            Model.Server.Offline -= OnOffline;
+            Model.Server.PublicChat.ChatMessageReceivedEvent -= OnChatMessageArrived;
+            Model.Server.PublicChat.ChatTopicChangedEvent -= OnChatTopicChanged;
 
             ToggleWindowsFormControl(chatInputTextBox);
             ToggleWindowsFormControl(sendChatButton);
@@ -102,8 +102,8 @@ namespace SharpWired.Gui.Chat {
             AppendHTMLToWebBrowser(chatWebBrowser, gmi);
         }
 
-        public override void Init(SharpWiredModel model, SharpWiredController controller) {
-            base.Init(model, controller);
+        public override void Init() {
+            base.Init();
         }
         
         private void ChangeTopic(GuiMessageItem guiMessage) {
@@ -122,13 +122,13 @@ namespace SharpWired.Gui.Chat {
 
         #region Send chat messages
         private void sendChatButton_MouseUp(object sender, MouseEventArgs e) {
-            controller.ChatController.SendChatMessage(chatInputTextBox.Text);
+            Controller.ChatController.SendChatMessage(chatInputTextBox.Text);
             chatInputTextBox.Clear();
         }
 
         private void chatInputTextBox_KeyUp(object sender, KeyEventArgs e) {
             if (!e.Shift && e.KeyCode == Keys.Enter) {
-                controller.ChatController.SendChatMessage(chatInputTextBox.Text);
+                Controller.ChatController.SendChatMessage(chatInputTextBox.Text);
                 chatInputTextBox.Clear();
             }
             if (e.KeyCode == Keys.Escape) {
@@ -144,7 +144,7 @@ namespace SharpWired.Gui.Chat {
             if (e.KeyCode == Keys.Enter) {
                 enableTopicEditing(false);
 
-                controller.ChatController.ChangeTopic(topicTextBox.Text);
+                Controller.ChatController.ChangeTopic(topicTextBox.Text);
 
                 topicDisplayLabel.Text = "Updating topic on server.";
                 setByLabel.Text = "";
@@ -155,7 +155,7 @@ namespace SharpWired.Gui.Chat {
 
         private void topicDisplayLabel_MouseUp(object sender, MouseEventArgs e) {
             //TODO: Make better check to see if we are online/offline
-            if (this.model.Server != null && this.model.Server.PublicChat != null) {
+            if (this.Model.Server != null && this.Model.Server.PublicChat != null) {
                 topicTextBox.Text = topicDisplayLabel.Text;
                 enableTopicEditing(true); 
             }
@@ -166,7 +166,7 @@ namespace SharpWired.Gui.Chat {
         }
 
         private void topicDisplayLabel_MouseEnter(object sender, EventArgs e) {
-            if(this.model.Server != null && this.model.Server.PublicChat != null) //TODO: Make better check to see if we are online/offline
+            if(this.Model.Server != null && this.Model.Server.PublicChat != null) //TODO: Make better check to see if we are online/offline
                 topicDisplayLabel.Cursor = Cursors.Hand;
         }
 

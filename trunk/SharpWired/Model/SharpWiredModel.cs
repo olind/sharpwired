@@ -43,9 +43,17 @@ namespace SharpWired.Model {
         private ConnectionManager connectionManager;
         private HeartBeatTimer heartBeatTimer;
         private SharpWired.Model.Server server;
-        private static readonly SharpWiredModel instance = new SharpWiredModel();
+        private static SharpWiredModel instance;
 
-        public static SharpWiredModel Instance { get { return instance; } }
+        public static SharpWiredModel Instance {
+            get { return instance; }
+            set {
+                if (instance == null)
+                    instance = value;
+                else
+                    throw new SingletonException("Singleton already created");
+            }
+        }
        
 
         #region Properties

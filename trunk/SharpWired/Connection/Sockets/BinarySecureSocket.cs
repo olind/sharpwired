@@ -146,7 +146,7 @@ namespace SharpWired.Connection.Sockets {
             stateObj.transferBuffer = readBuffer;
             stateObj.transferOffset = offset;
 
-            TimeOfLastNotify = DateTime.Now; 
+            TimeOfLastNotify = DateTime.Now;
 
             sslStream.BeginRead(readBuffer, 0, readBuffer.Length, new AsyncCallback(ReadCallback), stateObj);
         }
@@ -190,8 +190,14 @@ namespace SharpWired.Connection.Sockets {
         /// Disconnect this connection
         /// </summary>
         public void Disconnect() {
-            // Close the client connection.
-            client.Close();
+            // try { sslStream.Close(); } catch { } finally { sslStream = null; }
+            //try { client.Close(); } catch { } finally { client = null; }
+            //trans.target.Close();
+
+            if (client != null)
+                client.Close();
+            if (sslStream != null)
+                sslStream.Close();
         }
 
         public event IntervalDelegate Interval;
@@ -203,40 +209,42 @@ namespace SharpWired.Connection.Sockets {
         /// </summary>
         /// <param name="result">The result that the socket received</param>
         private void ReadCallback(IAsyncResult result) {
-            var now = DateTime.Now;            
-            if (now > TimeOfLastNotify.AddSeconds(1)) {
-                TimeOfLastNotify = now;
-                if(Interval != null)
-                    Interval();
-            }
+            if (client.Connected) {
+                var now = DateTime.Now;
+                if (now > TimeOfLastNotify.AddSeconds(1)) {
+                    TimeOfLastNotify = now;
+                    if (Interval != null)
+                        Interval();
+                }
 
-            FileTransferStateObject trans = (FileTransferStateObject)result.AsyncState;
-            int bytesRead = trans.sslStream.EndRead(result);
+                FileTransferStateObject trans = (FileTransferStateObject)result.AsyncState;
+                int bytesRead = trans.sslStream.EndRead(result);
 
-            if (bytesRead > 0) // Check if there is any data
+                if (bytesRead > 0) // Check if there is any data
 			{
-                trans.transferOffset += bytesRead;
-                bytesTransferred += bytesRead;
+                    trans.transferOffset += bytesRead;
+                    bytesTransferred += bytesRead;
 
-                // Synchronosly write data to file...
-                // Make sure that when filestream is created it is created so
-                // that data written to it appends to the file...
-                trans.target.Write(trans.transferBuffer, 0, bytesRead);
+                    // Synchronosly write data to file...
+                    // Make sure that when filestream is created it is created so
+                    // that data written to it appends to the file...
+                    trans.target.Write(trans.transferBuffer, 0, bytesRead);
 
-                // Transfer might not be complete
-                trans.transferBuffer = new byte[BUFFER_SIZE];
-                IAsyncResult r = trans.sslStream.BeginRead(trans.transferBuffer, 0, BUFFER_SIZE,
-                    new AsyncCallback(this.ReadCallback), trans);
-            } else {
-                // All data has been received close ssl connection
-                //trans.sslStream.Shutdown();
-                trans.sslStream.Close();
+                    // Transfer might not be complete
+                    trans.transferBuffer = new byte[BUFFER_SIZE];
+                    IAsyncResult r = trans.sslStream.BeginRead(trans.transferBuffer, 0, BUFFER_SIZE,
+                        new AsyncCallback(this.ReadCallback), trans);
+                } else {
+                    // All data has been received close ssl connection
+                    //trans.sslStream.Shutdown();
+                    trans.sslStream.Close();
 
-                // Close fileStream
-                trans.target.Close();
+                    // Close fileStream
+                    trans.target.Close();
 
-                if (DataReceivedDoneEvent != null)
-                    DataReceivedDoneEvent();
+                    if (DataReceivedDoneEvent != null)
+                        DataReceivedDoneEvent();
+                }
             }
         }
 

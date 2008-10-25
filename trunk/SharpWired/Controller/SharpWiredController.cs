@@ -16,6 +16,17 @@ namespace SharpWired.Controller {
         private PrivateMessageController    privateMessagesController;
         private SharpWiredModel             model;
         private Server                      Server { get; set; }
+        private static SharpWiredController instance;
+
+        public static SharpWiredController Instance {
+            get { return instance; } 
+            set { 
+                if(instance == null)
+                    instance = value;
+                else
+                    throw new SingletonException("Singleton already created");
+            } 
+        }
 
         public FileTransferController FileTransferController { get { return fileTransferController; } }
         public FileListingController FileListingController { get { return fileListingController; } }

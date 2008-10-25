@@ -44,12 +44,10 @@ namespace SharpWired.Model.Transfers {
         }
 
         public void Pause(Transfer transfer) {
-            throw new NotImplementedException();
+            transfer.Pause();
         }
 
-        public void Remove(Transfer transfer) {
-            throw new NotImplementedException();
-        }
+        public void Remove(Transfer transfer) { }
 
         private void OnTransferReady(MessageEventArgs_400 args) {
             Transfer transfer = transfers.Find(t => t.Source.Path == args.Path);
