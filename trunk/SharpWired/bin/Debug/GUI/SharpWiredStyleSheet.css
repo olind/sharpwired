@@ -27,222 +27,106 @@
  * have some smarter functionallity for this. Include it as a project file maybe?
  */
 
-/**
- * General settings
- */
-html, body {
-	color: Black;
-	font-family: 'Lucida Grande', Helvetica, Verdana, Arial, Sans-Serif;
-	font-size: small;
+/** CSS RESET ******************/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
 	margin: 0;
 	padding: 0;
-	background: #FFF;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
 }
 
-.alternative {
-	background-color: #EAEAEA;
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
 }
 
-.standard {
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
 }
 
-/**
- * Topics
- */
- 
-.topicEntry {
-	border-bottom: 1px solid #92CC78;
-	padding: 2px 6px;
-	background-color: #B5FF93;
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
-.topicEntry .time {
-	font-size: x-small;
-	float: right;
-}
-
-.topicEntry .userName {
-	font: bold;
-	font-size: x-small;
-}
-
-.topicEntry .message {
-	
-}
-
-/**
- * Chats
- */
- 
-/* Standard chat messages */
-.chatEntry {
-	border-bottom: 1px solid #ccc;
-	padding: 2px 6px;
-}
-
-.chatEntry .time {
-	font-size: x-small;
-	float: right;
-}
-
-.chatEntry .userName {
-	font: bold;
-	font-size: x-small;
-}
-
-.chatEntry .message {
-}
-
-/* Action chat messages */
-
-.actionChatEntry {
-	border-bottom: 1px solid #ccc;
-	padding: 2px 6px;
-}
-
-.actionChatEntry .time {
-	font-size: x-small;
-	float: right;
-}
-
-.actionChatEntry .userName {
-	font: bold;
-	font-size: x-small;
-}
-
-.actionChatEntry .message {
-	color: red;
-}
-
-/**
- * News
- */
- 
-/* Standard news messages */
-.newsEntry {
-	border-bottom: 1px solid #ccc;
-	padding: 2px 6px;
-}
-
-.newsEntry .time {
-	font-size: x-small;
-	float: right;
-}
-
-.newsEntry .nickName {
-	font: bold;
-	font-size: x-small;
-}
-
-.newsEntry .message {
-}
-
-/**
- * Error messages
- */
- 
-/* Standard error messages */
-.errorEntry {
-	border-bottom: 1px solid #ccc;
-	background-color: #ffacac;
-	padding: 2px 6px;
-}
-
-.errorEntry .time {
-	font-size: x-small;
-	float: right;
-}
-
-.errorEntry .message {
-}
-
-/**
- * Warning messages
- */
- 
-/* Standard warning messages */
-.warningEntry {
-	border-bottom: 1px solid #ccc;
-	background-color: #fff7ac;
-	padding: 2px 6px;
-}
-
-.warningEntry .time {
-	font-size: x-small;
-	float: right;
-}
-
-.warningEntry .message {
-}
-
-/**
- * Info messages
- */
- 
-/* Standard info messages */
-.infoEntry {
-	border-bottom: 1px solid #ccc;
-	background-color: #a7e1f1;
-	padding: 2px 6px;
-}
-
-.infoEntry .time {
-	font-size: x-small;
-	float: right;
-}
-
-.infoEntry .message {
-}
+/** END OF CSS RESET ******************/
 
 
-/**
- * Private messages
- */
-
-.privateMessageEntry {
-	border-bottom: 1px solid #ccc;
-	background-color: #bfffac;
-	padding: 2px 6px;
-	
-	background-repeat: no-repeat;
-	padding-left: 20px;
-}
-
-.privateMessageEntry .time {
-	font-size: x-small;
-	float: right;
-}
-
-.privateMessageEntry .userName {
-	font: bold;
-	font-size: x-small;
-}
-
-.privateMessageEntry .message {
-}
-
-.privateMessageEntry_received {
-	background-image: url(Backgrounds/bg-private-message-received.gif);
-}
-
-.privateMessageEntry_sent {
-	background-image: url(Backgrounds/bg-private-message-sent.gif);
-}
- 
-/**
- * Overrides
- *
- * Adjustment for IE5, the fonts will now be in the same size
- * Check out: http://www.simplebits.com/publications/bulletproof/
- */
+/** CHAT ******************/
 
 body {
-	font-size: x-small; /* IE5 Win */
-  	voice-family: "\"}\""; 
-  	voice-family: inherit;
-  	font-size: small;
+	font-size: small;
+	font-family: "Trebuchet MS", sans-serif;
+	color: #555753;
+	padding-bottom: 0.5em;
 }
 
-html>body { /* be nice to Opera */
-	font-size: small;
+div {
+	padding: 0.4em 0.5em;
+	border: 1px solid #eeeeec;
+	margin: 0.5em;
+	border-right: 2px solid #d3d7cf;
+	border-bottom: 2px solid #d3d7cf;
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAABTSURBVFiF7ZLBCcAwDMTckP1n7qcjBKIKCfy3OM1IeL77PXskIuv2A6fQLKIRKS0aGpHSoqERKS0aGpHSoqERKS0aGpHSoqERKS0aGpHSoqEReQFA9AB0TvlLtwAAAABJRU5ErkJggg==) repeat-x bottom left;
 }
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.2em;
+}
+
+/*.alt  {
+	background-color: #eeeeec;
+}*/
+
+.time {
+	color: #4e9a06;
+	float: right;
+}
+
+.user {
+	color: #3465a4;
+	font-weight: bold;
+}
+
+.me .user {
+	color: #cc0000;
+	font-weight: normal;
+}
+
+.me { 
+	color: #939590;
+}
+
+/** END OF CHAT ******************/

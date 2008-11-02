@@ -179,7 +179,6 @@ namespace SharpWired.Connection.Sockets
                 else
                     Debug.WriteLine("Sending: '" + message + "'");
 
-                message = message.Replace("\r\n", "\\r\\n");
                 byte[] messsage = Encoding.UTF8.GetBytes(message + Utility.EOT);
                 sslStream.Write(messsage);
                 sslStream.Flush();

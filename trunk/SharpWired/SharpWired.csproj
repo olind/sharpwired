@@ -310,7 +310,9 @@
       <DependentUpon>Chat.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\Chat\WiredListViewItem.cs" />
-    <Compile Include="Gui\GuiMessageItem.cs" />
+    <Compile Include="Gui\GuiMessageItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Gui\Files\Details.cs">
       <SubType>UserControl</SubType>
     </Compile>
