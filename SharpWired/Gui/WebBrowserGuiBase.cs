@@ -33,10 +33,7 @@ namespace SharpWired.Gui {
                 AppendHTMLToWebBrowserCallback c = new AppendHTMLToWebBrowserCallback(AppendHTMLToWebBrowser);
                 this.Invoke(c, new object[] { browser, guiMessage });
             } else {
-                browserBody.Append(this.AltItemBeginningHtml);
-                browserBody.Append(guiMessage.GeneratedHTML);
-                browserBody.Append("</div>");
-
+                browserBody.Append(guiMessage.HTML);
                 browser.DocumentText = browserHeader + browserBody + browserFooter;
             }
         }
@@ -54,7 +51,7 @@ namespace SharpWired.Gui {
                     "<head><title>SharpWired</title>" +
                         chatJavaScript +
                         chatStyleSheet +
-                    "</head><body onload=\"pageDown(); return false;\">";
+                    "</head><body onload=\"pageDown(); return false;\">\n";
 
                 browserFooter = "</body></html>";
 

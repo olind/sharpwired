@@ -40,7 +40,7 @@ namespace SharpWired.Gui {
     /// An object that takes ChatEvents or TopicsEvents and provides
     /// common get methods for printing to GUI
     /// </summary>
-    public class GuiMessageItem {
+    public class GuiMessageItem : SharpWiredGuiBase {
 
         // General
         private DateTime timeStamp;
@@ -81,38 +81,26 @@ namespace SharpWired.Gui {
         /// Request the HTML for this object.
         /// NOTE! All fields are HTML encoded
         /// </summary>
-        public string GeneratedHTML {
+        public string HTML {
             get {
                 if (isEmptyMessage)
                     return "";
 
-                StringBuilder html = new StringBuilder();
-                html.Append("<div class=\"" + messageType + "\">");
-                html.Append("<div class=\"time\">" + timeStamp + "</div>");
+                string divClass = "";
+                if (Nick == Model.Server.User.Nick)
+                    divClass = " class=\"me\"";
 
-                if (!isErrorMessage) {
-                    if (nickName != null)
-                        nickName = HttpUtility.HtmlEncode(nickName);
-                    if (message != null)
-                        message = HttpUtility.HtmlEncode(message);
-
-                    message = message.Replace("\\r\\n", "<br />");
-
-                    html.Append("<div class=\"userName\">" + nickName + "</div>");
-                    html.Append("<div class=\"message\">" + message + "</div>");
-                } else if (isErrorMessage) {
-                    if (errorDescription != null)
-                        errorDescription = HttpUtility.HtmlEncode(errorDescription);
-                    if (solutionIdea != null)
-                        solutionIdea = HttpUtility.HtmlEncode(solutionIdea);
-
-                    html.Append("<div class=\"errorDescription\"><em>Problem: </em>" + errorDescription + "</div>");
-                    html.Append("<div class=\"solutionIdea\"><em>Resolution: </em>" + solutionIdea + "</div>");
-                    html.Append("<div class=\"serverInformation\"><em>Server: </em>" + bookmark.Server.ServerName + "</div>");
-                }
-
-                html.Append("</div>");
-                return html.ToString();
+                return
+@"<div" + divClass + @">
+	<span class=""time"">" + TimeStamp.ToShortTimeString() + @"</span>
+	<span class=""user"">" + Nick + @"</span>
+	<span class=""text"">
+		<p>
+			" + Message.Replace("\n","<br/>\n") + @"
+		</p>
+	</span>
+</div>
+";
             }
         }
 

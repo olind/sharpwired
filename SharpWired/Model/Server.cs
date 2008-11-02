@@ -33,6 +33,7 @@ using SharpWired.Model.Files;
 using SharpWired.Model.News;
 using SharpWired.Connection;
 using System.Diagnostics;
+using SharpWired.Model.Users;
 
 namespace SharpWired.Model {
     /// <summary>
@@ -51,7 +52,6 @@ namespace SharpWired.Model {
         SharpWired.Model.News.News news;
         FileListingModel fileListingModel;
         Transfers.Transfers transfers;
-        private int ownUserId;
         private HeartBeatTimer HeartBeat { get; set; }
         #endregion
 
@@ -153,8 +153,11 @@ namespace SharpWired.Model {
         /// <summary>
         /// Sets the user id for this user.
         /// </summary>
-        public int OwnUserId { set { ownUserId = value; } }
+        public int OwnUserId { get; set; }
 
+        public User User {
+            get { return PublicChat.Users.GetUser(OwnUserId); }
+        }
         #endregion
 
         #region Events & Listeners
