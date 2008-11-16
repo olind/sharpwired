@@ -13,7 +13,7 @@ using SharpWired.Gui.Resources.Icons;
 
 namespace SharpWired.Gui.Transfers {
     public partial class TransferItem : SharpWiredGuiBase {
-        Transfer transfer;
+        ITransfer transfer;
         public bool Selected { get; set; }
         public Status Status { get { return transfer.Status; } }
         
@@ -26,7 +26,7 @@ namespace SharpWired.Gui.Transfers {
             InitializeComponent();
         }
 
-        public void Init(Transfer t) {
+        public void Init(ITransfer t) {
             this.transfer = t;
 
             IconHandler icons = IconHandler.Instance;

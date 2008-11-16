@@ -192,7 +192,7 @@ namespace SharpWired.Model {
             publicChat = new Chat(ConnectionManager.Messages, 1); // 1 = chat id for public chat
             news = new News.News(ConnectionManager.Messages);
             fileListingModel = new FileListingModel(ConnectionManager.Messages);
-            transfers = new Transfers.Transfers(ConnectionManager);
+            transfers = new Transfers.Transfers();
 
             if(Online != null)
                 Online();

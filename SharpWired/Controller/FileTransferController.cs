@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using SharpWired.Model.Files;
 using SharpWired.Model;
-using SharpWired.Connection.Transfers;
-using SharpWired.Connection.Transfers.Entries;
 using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -32,7 +30,7 @@ namespace SharpWired.Controller {
             }
         }
 
-        public Transfer AddDownload(FileSystemEntry node) {
+        public ITransfer AddDownload(FileSystemEntry node) {
             string target = Path.Combine(defaultDownloadFolder, node.Name);
 
             if(node is FileNode)
@@ -42,15 +40,15 @@ namespace SharpWired.Controller {
             return null;
         }
 
-        public void StartDownload(Transfer transfer) {
-            TransferList.Request(transfer);
+        public void StartDownload(ITransfer transfer) {
+            transfer.Start();
         }
 
-        public void PauseDownload(Transfer transfer) {
-            TransferList.Pause(transfer);
+        public void PauseDownload(ITransfer transfer) {
+            transfer.Pause();
         }
 
-        public void RemoveDownload(Transfer transfer) {
+        public void RemoveDownload(ITransfer transfer) {
             if(transfer.Status == SharpWired.Model.Transfers.Status.Idle)
                 TransferList.Remove(transfer);
         }
