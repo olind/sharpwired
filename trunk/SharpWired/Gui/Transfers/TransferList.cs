@@ -39,11 +39,11 @@ namespace SharpWired.Gui.Transfers {
             Model.Server.Transfers.TransferAdded -= OnTransferAdded;
         }
 
-        void OnTransferAdded(Transfer t) {
+        void OnTransferAdded(ITransfer t) {
             AddTransferItem(t);
         }
 
-        void AddTransferItem(Transfer t) {
+        void AddTransferItem(ITransfer t) {
 
             TransferItem ti = new TransferItem();
             ti.Init(t);

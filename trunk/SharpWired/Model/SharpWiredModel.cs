@@ -26,7 +26,6 @@
 
 using SharpWired.Connection;
 using SharpWired.Connection.Bookmarks;
-using SharpWired.Connection.Transfers;
 using SharpWired.Controller;
 using SharpWired.MessageEvents;
 using System.Collections;

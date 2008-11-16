@@ -36,10 +36,8 @@ using SharpWired.Model.Files;
 using System.Collections;
 using SharpWired.Gui.Resources;
 using SharpWired.Gui.Resources.Icons;
-using SharpWired.Connection.Transfers;
 using SharpWired.Controller;
 using System.Diagnostics;
-using SharpWired.Connection.Transfers.Entries;
 
 namespace SharpWired.Gui.Files {
     /// <summary>

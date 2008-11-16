@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SharpWired.Connection.Transfers;
 using SharpWired.Model;
 
 namespace SharpWired.Controller {

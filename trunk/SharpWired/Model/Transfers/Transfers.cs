@@ -1,36 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SharpWired.Connection.Transfers.Entries;
-using SharpWired.Connection.Transfers;
 using SharpWired.Model.Files;
 using SharpWired.Connection;
 using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.Transfers {
-    public class Transfers {
-        private List<Transfer> transfers = new List<Transfer>();
-        private Commands Commands { get; set; } // TODO: Move to ModelBase!
-        private Messages Messages { get; set; } // TODO: Move to ModelBase!
+    public class Transfers : ModelBase {
+        private List<ITransfer> transfers = new List<ITransfer>();
 
-        public List<Transfer> AllTransfers { get { return transfers; } }
-        public delegate void TransferDelegate(Transfer t);
+        public List<ITransfer> AllTransfers { get { return transfers; } }
+        public delegate void TransferDelegate(ITransfer t);
         public event TransferDelegate TransferAdded;
         public event TransferDelegate TransferRemoved;
 
-        public Transfers(ConnectionManager connectionManager) {
-            this.Commands = connectionManager.Commands;
-            this.Messages = connectionManager.Messages;
-
-            this.Messages.TransferReadyEvent += OnTransferReady;
-        }
-
-        public Transfer Add(FileSystemEntry node, string target) {
+        public ITransfer Add(FileSystemEntry node, string target) {
             return Add(node, target, 0);
         }
 
-        public Transfer Add(FileSystemEntry node, string target, Int64 offset) {
-            Transfer transfer = new Transfer(Commands, node, target, offset);
+        public ITransfer Add(FileSystemEntry node, string target, Int64 offset) {
+            ITransfer transfer = new FileTransfer(node, target, offset);
             transfers.Add(transfer);
 
             if(TransferAdded != null)
@@ -39,20 +28,6 @@ namespace SharpWired.Model.Transfers {
             return transfer;
         }
 
-        public void Request(Transfer transfer) {
-            transfer.Request();
-        }
-
-        public void Pause(Transfer transfer) {
-            transfer.Pause();
-        }
-
-        public void Remove(Transfer transfer) { }
-
-        private void OnTransferReady(MessageEventArgs_400 args) {
-            Transfer transfer = transfers.Find(t => t.Source.Path == args.Path);
-            if(transfer != null)
-                transfer.Start(args.Hash);
-        }
+        public void Remove(ITransfer transfer) { throw new NotImplementedException(); }
     }
 }

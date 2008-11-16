@@ -2,22 +2,24 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using SharpWired.Connection.Transfers.Entries;
 using System.Windows.Forms;
 using SharpWired.Model.Files;
 using SharpWired.Connection;
 using System.Diagnostics;
+using SharpWired.MessageEvents;
+using System.IO;
+using SharpWired.Connection.Sockets;
 
 namespace SharpWired.Model.Transfers {
 
     public enum Status { Pending, Idle, Active }
 
-    public class Transfer : ModelBase {
-        private DownloadEntry DownloadEntry { get; set; }
+    public class FileTransfer : ModelBase, ITransfer {
         private long Offset { get; set; }
         private Commands Commands { get; set; }
         private long LastBytesReceived { get; set; }
         private const int SPEED_HISTORY_LENGTH = 10;
+        private BinarySecureSocket Socket { get; set; }
 
         public string Destination { get; set; }
         public FileSystemEntry Source { get; set; }
@@ -46,8 +48,8 @@ namespace SharpWired.Model.Transfers {
         }
         public long Received {
             get {
-                if (DownloadEntry != null && DownloadEntry.Socket != null)
-                    return DownloadEntry.Socket.BytesTransferred;
+                if (Socket != null)
+                    return Socket.BytesTransferred;
                 else
                     return new long();
             }
@@ -58,32 +60,30 @@ namespace SharpWired.Model.Transfers {
         public long Speed { get; private set; }
         private Queue<long> SpeedHistory { get; set; }
 
-        public Transfer(Commands commands, FileSystemEntry node, string destination, Int64 offset) {
+        public FileTransfer(FileSystemEntry node, string destination, Int64 offset) {
             this.Source = node;
             this.Destination = destination;
             this.Status = Status.Idle;
-            this.Commands = commands;
             this.Offset = 0;
             this.Speed = 0;
             this.SpeedHistory = new Queue<long>(SPEED_HISTORY_LENGTH);
         }
 
-        public void Request() {
+        public void Start() {
+            //TODO: File exists on disk? Resume?
+            ConnectionManager.Messages.TransferReadyEvent += OnTransferReady;
             Status = Status.Pending;
-            Commands.Get(Source.Path, Offset);
+            ConnectionManager.Commands.Get(Source.Path, Offset);
         }
 
-        private void OnCompleted() { }
+        private void OnTransferReady(MessageEventArgs_400 args) {
+            if (Source.Path == args.Path) {
+                ConnectionManager.Messages.TransferReadyEvent -= OnTransferReady;
+                Status = Status.Active;
+                LastBytesReceived = 0;
 
-        internal void Start(string hash) {
-            Status = Status.Active;
-            LastBytesReceived = new long();
-
-            DownloadEntry =
-                new DownloadEntry(ConnectionManager.CurrentBookmark.Transfer,
-                                  (FileNode)Source, Destination, hash, Offset);
-
-            DownloadEntry.Socket.Interval += OnInterval;
+                CreateSocket(args.Hash);
+            }
         }
 
         private void OnInterval(){
@@ -101,8 +101,33 @@ namespace SharpWired.Model.Transfers {
 
         public void Pause() {
             Status = Status.Idle;
-            DownloadEntry.Stop();
-            DownloadEntry = null;
+            Socket.Disconnect();
+            Socket = null;
+        }
+
+        public void Cancel() { throw new NotImplementedException(); }
+
+        private void CreateSocket(string hash) {
+            Debug.WriteLine("Transfer is ready! File '" + Source.Name + "', with ID '" + hash + "'.");
+
+            // TODO: File exists?
+            FileStream fileStream = new FileStream(Destination, FileMode.Create);
+
+            this.Socket = new BinarySecureSocket();
+            this.Socket.DataReceivedDoneEvent += OnDataReceivedDone;
+            this.Socket.Connect(Model.ConnectionManager.CurrentBookmark.Transfer,
+                fileStream, ((FileNode)Source).Size, Offset);
+
+            this.Socket.SendMessage("TRANSFER" + Utility.SP + hash);
+
+            Socket.Interval += OnInterval;
+        }
+
+        void OnDataReceivedDone() {
+            if (Socket != null) {
+                Socket.DataReceivedDoneEvent -= OnDataReceivedDone;
+                Socket.Interval -= OnInterval;
+            }
         }
     }
 }

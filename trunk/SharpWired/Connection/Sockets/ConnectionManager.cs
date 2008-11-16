@@ -32,7 +32,6 @@ using SharpWired.Connection.Bookmarks;
 using System.IO;
 using System.Net.Sockets;
 using System.Diagnostics;
-using SharpWired.Connection.Transfers;
 
 namespace SharpWired.Connection {
     /// <summary>
@@ -44,7 +43,6 @@ namespace SharpWired.Connection {
         Commands commands;
         SecureSocket commandSocket;
         protected BinarySecureSocket binarySocket;
-        FileTransferHandler fileTransferHandler;
         Bookmark mCurrentBookmark;
         LagHandler lagHandler;
         #endregion
@@ -58,7 +56,6 @@ namespace SharpWired.Connection {
             this.messages = new Messages();
             this.commands = new Commands(this.commandSocket);
             this.lagHandler = new LagHandler();
-            this.fileTransferHandler = new FileTransferHandler(this);
         }
         #endregion
 
@@ -77,9 +74,6 @@ namespace SharpWired.Connection {
         public Commands Commands {
             get { return commands; }
         }
-
-        public FileTransferHandler FileTransferHandler { get { return fileTransferHandler; } }
-
         
         /// <summary>
         /// Request the bookmark used to connect.

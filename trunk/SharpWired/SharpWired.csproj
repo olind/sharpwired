@@ -226,25 +226,6 @@
     <Compile Include="Connection\Sockets\BinarySecureSocket.cs" />
     <Compile Include="Connection\Sockets\DataRecievedEventArgs.cs" />
     <Compile Include="Connection\Sockets\ValidationException.cs" />
-    <Compile Include="Connection\Transfers\Entries\DownloadEntry.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Connection\Transfers\Entries\TransferEntry.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Connection\Transfers\Entries\TransferStatusItem.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Connection\Transfers\Entries\UploadEntry.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Connection\Transfers\FileTransferHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Connection\Transfers\TranserWorker.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Connection\Transfers\TransferException.cs" />
     <Compile Include="Controller\ChatController.cs" />
     <Compile Include="Controller\ControllerBase.cs" />
     <Compile Include="Controller\FileTransferController.cs" />
@@ -366,7 +347,8 @@
     <Compile Include="Model\PrivateMessages\PrivateMessageItem.cs" />
     <Compile Include="Model\PrivateMessages\PrivateMessageModel.cs" />
     <Compile Include="Model\Server.cs" />
-    <Compile Include="Model\Transfers\Transfer.cs" />
+    <Compile Include="Model\Transfers\FileTransfer.cs" />
+    <Compile Include="Model\Transfers\ITransfer.cs" />
     <Compile Include="Model\Transfers\Transfers.cs" />
     <Compile Include="SharpWiredClientInfo.cs" />
     <Compile Include="SingletonException.cs" />
@@ -374,7 +356,6 @@
     <None Include="Icons\Tango22px\system-log-out.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Connection\Transfers\FileTransfers.txt" />
     <Content Include="LICENSE.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

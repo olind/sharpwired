@@ -4,7 +4,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using SharpWired.Controller;
-using SharpWired.Connection.Transfers.Entries;
 using SharpWired.Model.Files;
 using SharpWired.Model.Transfers;
 
@@ -56,7 +55,7 @@ namespace SharpWired.Gui.Files {
             if(node is FolderNode) {
                 throw new NotImplementedException();
             } else {
-                Transfer entry = Controller.FileTransferController.AddDownload(node);
+                ITransfer entry = Controller.FileTransferController.AddDownload(node);
                 Controller.FileTransferController.StartDownload(entry);
             }
         }
