@@ -36,20 +36,16 @@ using SharpWired.Connection.Sockets;
 using SharpWired.Model.Users;
 using System.Diagnostics;
 
-namespace SharpWired.Connection
-{
+namespace SharpWired.Connection {
     /// <summary>
-    /// Handles all the messages in the Wired 1.1 protocol and error messages from the network.
-    /// See http://www.zankasoftware.com/wired/ for more information regarding the Wired protocol.
+    /// Handles all the messages in the Wired 1.1 protocol. See http://www.zankasoftware.com/wired/ for more information.
     ///
     /// Authors:	Ola Lindberg (d02ola@ituniv.se)
-    ///				Peter Thorin (it3thpe@ituniv.se)
     ///				Adam Lindberg (eproxus@gmail.com)
     /// 
     /// NOTE: This class has derived from the Socio Project. See http://socio.sf.net/
     /// </summary>
-    public class Messages
-    {
+    public class Messages {
         //
         // All server messages follows
         //
@@ -110,9 +106,9 @@ namespace SharpWired.Connection
         /// 402
         public delegate void FileInformationEventHandler(object sender, MessageEventArgs_402 messageEventArgs);
         /// 410
-        public delegate void FileListingEventHandler(object sender, MessageEventArgs_410420 messageEventArgs);
+        public delegate void FileListingEventHandler(MessageEventArgs_410420 messageEventArgs);
         /// 411
-        public delegate void FileListingDoneEventHandler(object sender, MessageEventArgs_411 messageEventArgs);
+        public delegate void FileListingDoneEventHandler(MessageEventArgs_411 messageEventArgs);
         /// 420
         public delegate void SearchListingEventHandler(object sender, MessageEventArgs_410420 messageEventArgs);
         /// 421
@@ -417,10 +413,8 @@ namespace SharpWired.Connection
         ///
 
         // 200
-        private void OnServerInformationEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (ServerInformationEvent != null)
-            {
+        private void OnServerInformationEvent(object sender, int messageId, string messageName, string message) {
+            if (ServerInformationEvent != null) {
                 // Parse the server information event
                 string[] words = SplitMessage(message);
 
@@ -441,10 +435,8 @@ namespace SharpWired.Connection
         }
 
         // 201
-        private void OnLoginSucceededEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (LoginSucceededEvent != null)
-            {
+        private void OnLoginSucceededEvent(object sender, int messageId, string messageName, string message) {
+            if (LoginSucceededEvent != null) {
                 int userId = Int16.Parse(message);
                 MessageEventArgs_201 m = new MessageEventArgs_201(messageId, messageName, userId);
                 LoginSucceededEvent(this, m);
@@ -452,20 +444,16 @@ namespace SharpWired.Connection
         }
 
         // 202
-        private void OnPingReplyEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (PingReplyEvent != null)
-            {
+        private void OnPingReplyEvent(object sender, int messageId, string messageName, string message) {
+            if (PingReplyEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 PingReplyEvent(this, m);
             }
         }
 
         // 203
-        private void OnServerBannerEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (ServerBannerEvent != null)
-            {
+        private void OnServerBannerEvent(object sender, int messageId, string messageName, string message) {
+            if (ServerBannerEvent != null) {
                 Bitmap serverBanner = new Bitmap(SharpWired.Utility.Base64StringToBitmap(message));
                 MessageEventArgs_203 m = new MessageEventArgs_203(messageId, messageName, serverBanner);
                 ServerBannerEvent(m);
@@ -473,10 +461,8 @@ namespace SharpWired.Connection
         }
 
         // 300
-        private void OnChatEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (ChatEvent != null)
-            {
+        private void OnChatEvent(object sender, int messageId, string messageName, string message) {
+            if (ChatEvent != null) {
                 string[] words = SplitMessage(message);
                 int chatId = int.Parse(words[0]);
                 int fromUserId = int.Parse(words[1]);
@@ -488,10 +474,8 @@ namespace SharpWired.Connection
         }
 
         // 301
-        private void OnActionChatEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (ActionChatEvent != null)
-            {
+        private void OnActionChatEvent(object sender, int messageId, string messageName, string message) {
+            if (ActionChatEvent != null) {
                 string[] words = SplitMessage(message);
                 int chatId = int.Parse(words[0]);
                 int fromUserId = int.Parse(words[1]);
@@ -504,10 +488,8 @@ namespace SharpWired.Connection
         }
 
         // 302 
-        private void OnClientJoinEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (ClientJoinEvent != null)
-            {
+        private void OnClientJoinEvent(object sender, int messageId, string messageName, string message) {
+            if (ClientJoinEvent != null) {
 
                 string[] words = SplitMessage(message);
 
@@ -530,10 +512,8 @@ namespace SharpWired.Connection
         }
 
         // 303
-        private void OnClientLeaveEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (ClientLeaveEvent != null)
-            {
+        private void OnClientLeaveEvent(object sender, int messageId, string messageName, string message) {
+            if (ClientLeaveEvent != null) {
                 string[] words = SplitMessage(message);
                 int chatId = int.Parse(words[0]);
                 int userId = int.Parse(words[1]);
@@ -545,10 +525,8 @@ namespace SharpWired.Connection
         }
 
         // 304
-        private void OnStatusChangeEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (StatusChangeEvent != null)
-            {
+        private void OnStatusChangeEvent(object sender, int messageId, string messageName, string message) {
+            if (StatusChangeEvent != null) {
                 string[] words = SplitMessage(message);
 
                 // If we thing we want to set the variable to -1 instead 
@@ -571,10 +549,8 @@ namespace SharpWired.Connection
         }
 
         // 305
-        private void OnPrivateMessageEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (PrivateMessageEvent != null)
-            {
+        private void OnPrivateMessageEvent(object sender, int messageId, string messageName, string message) {
+            if (PrivateMessageEvent != null) {
                 string[] words = SplitMessage(message);
 
                 int userId = int.Parse(words[0]);
@@ -587,10 +563,8 @@ namespace SharpWired.Connection
         }
 
         // 306
-        private void OnClientKickedEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (ClientKickedEvent != null)
-            {
+        private void OnClientKickedEvent(object sender, int messageId, string messageName, string message) {
+            if (ClientKickedEvent != null) {
                 string[] words = SplitMessage(message);
 
                 int victimId = int.Parse(words[0]);
@@ -604,10 +578,8 @@ namespace SharpWired.Connection
         }
 
         // 307
-        private void OnClientBannedEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (ClientBannedEvent != null)
-            {
+        private void OnClientBannedEvent(object sender, int messageId, string messageName, string message) {
+            if (ClientBannedEvent != null) {
                 string[] words = SplitMessage(message);
 
                 int victimId = int.Parse(words[0]);
@@ -621,10 +593,8 @@ namespace SharpWired.Connection
         }
 
         // 308
-        private void OnClientInformationEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (ClientInformationEvent != null)
-            {
+        private void OnClientInformationEvent(object sender, int messageId, string messageName, string message) {
+            if (ClientInformationEvent != null) {
                 string[] w;
                 string nick, login, host, clientVersion, cipherName, downloads,
                     uploads, status, transfer, path;
@@ -634,38 +604,38 @@ namespace SharpWired.Connection
                 DateTime loginTime, idleTime;
                 Bitmap image;
 
-                w                 = SplitMessage(message);
-                userId            = int.Parse(w[0]);
-                idle              = Utility.ConvertIntToBool(int.Parse(w[1]));
-                admin             = Utility.ConvertIntToBool(int.Parse(w[2]));
-                icon              = int.Parse(w[3]);
-                nick              = w[4];
-                login             = w[5];
-                ip                = IPAddress.Parse(w[6]);
-                host              = w[7];
-                clientVersion     = w[8];
-                cipherName        = w[9];
-                cipherBits        = int.Parse(w[10]);
-                loginTime         = DateTime.Parse(w[11]);
-                idleTime          = DateTime.Parse(w[12]);
-                downloads         = w[13];
-                uploads           = w[14];
-                status            = w[15];
-                image             = SharpWired.Utility.Base64StringToBitmap(w[16]);
+                w = SplitMessage(message);
+                userId = int.Parse(w[0]);
+                idle = Utility.ConvertIntToBool(int.Parse(w[1]));
+                admin = Utility.ConvertIntToBool(int.Parse(w[2]));
+                icon = int.Parse(w[3]);
+                nick = w[4];
+                login = w[5];
+                ip = IPAddress.Parse(w[6]);
+                host = w[7];
+                clientVersion = w[8];
+                cipherName = w[9];
+                cipherBits = int.Parse(w[10]);
+                loginTime = DateTime.Parse(w[11]);
+                idleTime = DateTime.Parse(w[12]);
+                downloads = w[13];
+                uploads = w[14];
+                status = w[15];
+                image = SharpWired.Utility.Base64StringToBitmap(w[16]);
                 try {
                     // This try is needed because of a possbile bug in
                     // WiredServer which omitts the last five fields.
-                    transfer      = w[17];
-                    path          = w[18];
-                    transferred   = int.Parse(w[19]);
-                    size          = int.Parse(w[20]);
-                    speed         = int.Parse(w[21]);
+                    transfer = w[17];
+                    path = w[18];
+                    transferred = int.Parse(w[19]);
+                    size = int.Parse(w[20]);
+                    speed = int.Parse(w[21]);
                 } catch (IndexOutOfRangeException e) {
-                    transfer      = "";
-                    path          = "";
-                    transferred   = -1;
-                    size          = -1;
-                    speed         = -1;
+                    transfer = "";
+                    path = "";
+                    transferred = -1;
+                    size = -1;
+                    speed = -1;
                     Debug.WriteLine("Messages.cs: Failed to set client information string. Setting default values. Exception: " + e);
                 }
                 MessageEventArgs_308 m = new MessageEventArgs_308(messageId, messageName, userId, image, idle, admin, icon, nick, login, status, ip, host, clientVersion, cipherName, cipherBits, loginTime, idleTime, downloads, uploads, transfer, path, transferred, size, speed);
@@ -675,10 +645,8 @@ namespace SharpWired.Connection
         }
 
         // 309
-        private void OnBroadcastMessageEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (BroadcastMessageEvent != null)
-            {
+        private void OnBroadcastMessageEvent(object sender, int messageId, string messageName, string message) {
+            if (BroadcastMessageEvent != null) {
                 string[] w = SplitMessage(message);
                 int userId = int.Parse(w[1]);
                 string parsedMessage = w[2];
@@ -690,10 +658,8 @@ namespace SharpWired.Connection
         }
 
         // 310
-        private void OnUserListEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (UserListEvent != null)
-            {
+        private void OnUserListEvent(object sender, int messageId, string messageName, string message) {
+            if (UserListEvent != null) {
                 string[] s = SplitMessage(message);
                 int chatId = Convert.ToInt16(s[0]);
                 int userId = Convert.ToInt16(s[1]);
@@ -714,10 +680,8 @@ namespace SharpWired.Connection
         }
 
         // 311
-        private void OnUserListDoneEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (UserListDoneEvent != null)
-            {
+        private void OnUserListDoneEvent(object sender, int messageId, string messageName, string message) {
+            if (UserListDoneEvent != null) {
                 int chatId = Convert.ToInt16(message);
                 MessageEventArgs_311330 m = new MessageEventArgs_311330(messageId, messageName, chatId);
                 UserListDoneEvent(this, m);
@@ -725,10 +689,8 @@ namespace SharpWired.Connection
         }
 
         // 320
-        private void OnNewsEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (NewsEvent != null)
-            {
+        private void OnNewsEvent(object sender, int messageId, string messageName, string message) {
+            if (NewsEvent != null) {
                 string[] w = SplitMessage(message);
                 string nick = w[0];
                 DateTime postTime = DateTime.Parse(w[1]);
@@ -741,20 +703,16 @@ namespace SharpWired.Connection
         }
 
         // 321
-        private void OnNewsDoneEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (NewsDoneEvent != null)
-            {
+        private void OnNewsDoneEvent(object sender, int messageId, string messageName, string message) {
+            if (NewsDoneEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 NewsDoneEvent(m);
             }
         }
 
         // 322
-        private void OnNewsPostedEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (NewsPostedEvent != null)
-            {
+        private void OnNewsPostedEvent(object sender, int messageId, string messageName, string message) {
+            if (NewsPostedEvent != null) {
                 string[] w = SplitMessage(message);
                 string nick = w[0];
                 DateTime postTime = DateTime.Parse(w[1]);
@@ -767,10 +725,8 @@ namespace SharpWired.Connection
         }
 
         // 330
-        private void OnPrivateChatCreatedEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (PrivateChatCreatedEvent != null)
-            {
+        private void OnPrivateChatCreatedEvent(object sender, int messageId, string messageName, string message) {
+            if (PrivateChatCreatedEvent != null) {
                 int chatId = int.Parse(message);
                 MessageEventArgs_311330 m = new MessageEventArgs_311330(messageId, messageName, chatId);
                 PrivateChatCreatedEvent(this, m);
@@ -778,10 +734,8 @@ namespace SharpWired.Connection
         }
 
         // 331
-        private void OnPrivateChatInvitationEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (PrivateChatInvitationEvent != null)
-            {
+        private void OnPrivateChatInvitationEvent(object sender, int messageId, string messageName, string message) {
+            if (PrivateChatInvitationEvent != null) {
                 string[] w = SplitMessage(message);
                 int chatId = int.Parse(w[0]);
                 int userId = int.Parse(w[1]);
@@ -791,10 +745,8 @@ namespace SharpWired.Connection
         }
 
         // 332
-        private void OnPrivateChatDeclinedEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (PrivateChatDeclinedEvent != null)
-            {
+        private void OnPrivateChatDeclinedEvent(object sender, int messageId, string messageName, string message) {
+            if (PrivateChatDeclinedEvent != null) {
 
                 string[] w = SplitMessage(message);
                 int chatId = int.Parse(w[0]);
@@ -805,10 +757,8 @@ namespace SharpWired.Connection
         }
 
         // 340
-        private void OnClientImageChangedEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (ClientImageChangedEvent != null)
-            {
+        private void OnClientImageChangedEvent(object sender, int messageId, string messageName, string message) {
+            if (ClientImageChangedEvent != null) {
                 string[] w = SplitMessage(message);
                 int userId = int.Parse(w[0]);
                 Bitmap image = SharpWired.Utility.Base64StringToBitmap(w[1]);
@@ -818,10 +768,8 @@ namespace SharpWired.Connection
         }
 
         // 341
-        private void OnChatTopicEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (ChatTopicEvent != null)
-            {
+        private void OnChatTopicEvent(object sender, int messageId, string messageName, string message) {
+            if (ChatTopicEvent != null) {
                 string[] words = SplitMessage(message);
                 int chatId = Convert.ToInt16(words[0]);
                 string nick = words[1];
@@ -837,10 +785,8 @@ namespace SharpWired.Connection
         }
 
         // 400
-        private void OnTransferReadyEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (TransferReadyEvent != null)
-            {
+        private void OnTransferReadyEvent(object sender, int messageId, string messageName, string message) {
+            if (TransferReadyEvent != null) {
                 string[] w = SplitMessage(message);
                 string path = w[0];
                 int offset = int.Parse(w[1]);
@@ -851,10 +797,8 @@ namespace SharpWired.Connection
         }
 
         // 401
-        private void OnTransferQueuedEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (TransferQueuedEvent != null)
-            {
+        private void OnTransferQueuedEvent(object sender, int messageId, string messageName, string message) {
+            if (TransferQueuedEvent != null) {
                 string[] w = SplitMessage(message);
                 string path = w[0];
                 int position = int.Parse(w[1]);
@@ -864,13 +808,11 @@ namespace SharpWired.Connection
         }
 
         // 402
-        private void OnFileInformationEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (FileInformationEvent != null)
-            {
+        private void OnFileInformationEvent(object sender, int messageId, string messageName, string message) {
+            if (FileInformationEvent != null) {
                 string[] w = SplitMessage(message);
                 string path = w[0];
-                string fileType = w[1];
+                FileType fileType = StringToFileType(w[1]);
                 int size = int.Parse(w[2]);
                 DateTime created = DateTime.Parse(w[3]);
                 DateTime modified = DateTime.Parse(w[4]);
@@ -881,220 +823,192 @@ namespace SharpWired.Connection
             }
         }
 
+        private MessageEventArgs_410420 ParseListingMessage(int messageId, string messageName, string message) {
+            string[] w = SplitMessage(message);
+            string path = w[0];
+            FileType fileType = StringToFileType(w[1]);
+            long size = long.Parse(w[2]);
+            DateTime created = DateTime.Parse(w[3]);
+            DateTime modified = DateTime.Parse(w[4]);
+            MessageEventArgs_410420 m = new MessageEventArgs_410420(messageId, messageName, path, fileType, size, created, modified);
+            return m;
+        }
+
+        private static FileType StringToFileType(string fileTypeString) {
+            FileType fileType;
+            if (fileTypeString == "0")
+                fileType = FileType.FILE;
+            else if (fileTypeString == "1")
+                fileType = FileType.FOLDER;
+            else if (fileTypeString == "2")
+                fileType = FileType.UPLOADS;
+            else if (fileTypeString == "3")
+                fileType = FileType.DROPBOX;
+            else
+                throw new FormatException("File or Folder type is not of any recognable type.");
+            return fileType;
+        }
+
         // 410
-        private void OnFileListingEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (FileListingEvent != null)
-            {
-                string[] w = SplitMessage(message);
-                string path = w[0];
-                string fileType = w[1];
-                long size = long.Parse(w[2]);
-                DateTime created = DateTime.Parse(w[3]);
-                DateTime modified = DateTime.Parse(w[4]);
-                MessageEventArgs_410420 m = new MessageEventArgs_410420(messageId, messageName, path, fileType, size, created, modified);
-                FileListingEvent(this, m);
+        private void OnFileListingEvent(object sender, int messageId, string messageName, string message) {
+            if (FileListingEvent != null) {
+                MessageEventArgs_410420 m = ParseListingMessage(messageId, messageName, message);
+                FileListingEvent(m);
             }
         }
 
         // 411
-        private void OnFileListingDoneEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (FileListingDoneEvent != null)
-            {
+        private void OnFileListingDoneEvent(int messageId, string messageName, string message) {
+            if (FileListingDoneEvent != null) {
                 string[] w = SplitMessage(message);
                 string path = w[0];
                 long free = long.Parse(w[1]);
                 MessageEventArgs_411 m = new MessageEventArgs_411(messageId, messageName, path, free);
-                FileListingDoneEvent(this, m);
+                FileListingDoneEvent(m);
             }
         }
 
         // 420
-        private void OnSearchListingEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (SearchListingEvent != null)
-            {
-                string[] w = SplitMessage(message);
-                string path = w[0];
-                string fileType = w[1];
-                int size = int.Parse(w[2]);
-                DateTime created = DateTime.Parse(w[3]);
-                DateTime modified = DateTime.Parse(w[4]);
-
-                MessageEventArgs_410420 m = new MessageEventArgs_410420(messageId, messageName, path, fileType, size, created, modified);
-
+        private void OnSearchListingEvent(object sender, int messageId, string messageName, string message) {
+            if (SearchListingEvent != null) {
+                MessageEventArgs_410420 m = ParseListingMessage(messageId, messageName, message);
                 SearchListingEvent(this, m);
             }
         }
 
         // 421
-        private void OnSearchListingDoneEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (SearchListingDoneEvent != null)
-            {
+        private void OnSearchListingDoneEvent(object sender, int messageId, string messageName, string message) {
+            if (SearchListingDoneEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, messageName);
                 SearchListingDoneEvent(this, m);
             }
         }
 
         // 500
-        private void OnCommandFailedEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (CommandFailedEvent != null)
-            {
+        private void OnCommandFailedEvent(object sender, int messageId, string messageName, string message) {
+            if (CommandFailedEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 CommandFailedEvent(this, m);
             }
         }
 
         // 501
-        private void OnCommandNotRecognizedEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (CommandNotRecognizedEvent != null)
-            {
+        private void OnCommandNotRecognizedEvent(object sender, int messageId, string messageName, string message) {
+            if (CommandNotRecognizedEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 CommandNotRecognizedEvent(this, m);
             }
         }
 
         // 502
-        private void OnCommandNotImplementedEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (CommandNotImplementedEvent != null)
-            {
+        private void OnCommandNotImplementedEvent(object sender, int messageId, string messageName, string message) {
+            if (CommandNotImplementedEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 CommandNotImplementedEvent(this, m);
             }
         }
 
         // 503
-        private void OnSyntaxErrorEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (SyntaxErrorEvent != null)
-            {
+        private void OnSyntaxErrorEvent(object sender, int messageId, string messageName, string message) {
+            if (SyntaxErrorEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 SyntaxErrorEvent(this, m);
             }
         }
 
         // 510
-        private void OnLoginFailedEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (LoginFailedEvent != null)
-            {
+        private void OnLoginFailedEvent(object sender, int messageId, string messageName, string message) {
+            if (LoginFailedEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 LoginFailedEvent(this, m);
             }
         }
 
         // 511
-        private void OnBannedEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (BannedEvent != null)
-            {
+        private void OnBannedEvent(object sender, int messageId, string messageName, string message) {
+            if (BannedEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 BannedEvent(m);
             }
         }
 
         // 512
-        private void OnClientNotFoundEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (ClientNotFoundEvent != null)
-            {
+        private void OnClientNotFoundEvent(object sender, int messageId, string messageName, string message) {
+            if (ClientNotFoundEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 ClientNotFoundEvent(this, m);
             }
         }
 
         // 513
-        private void OnAccountNotFoundEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (AccountNotFoundEvent != null)
-            {
+        private void OnAccountNotFoundEvent(object sender, int messageId, string messageName, string message) {
+            if (AccountNotFoundEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 AccountNotFoundEvent(this, m);
             }
         }
 
         // 514
-        private void OnAccountExistsEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (AccountExistsEvent != null)
-            {
+        private void OnAccountExistsEvent(object sender, int messageId, string messageName, string message) {
+            if (AccountExistsEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 AccountExistsEvent(this, m);
             }
         }
 
         // 515
-        private void OnCannotBeDisconnectedEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (CannotBeDisconnectedEvent != null)
-            {
+        private void OnCannotBeDisconnectedEvent(object sender, int messageId, string messageName, string message) {
+            if (CannotBeDisconnectedEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 CannotBeDisconnectedEvent(this, m);
             }
         }
 
         // 516
-        private void OnPermissionDeniedEvent(object sender, int messageId, string messageName, string message)
-        {
+        private void OnPermissionDeniedEvent(object sender, int messageId, string messageName, string message) {
             Debug.WriteLine("Permission denied. ID: " + messageId + " : message: " + message);
 
-            if (PermissionDeniedEvent != null)
-            {
+            if (PermissionDeniedEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 PermissionDeniedEvent(this, m);
             }
         }
 
         // 520
-        private void OnFileOrDirectoryNotFoundEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (FileOrDirectoryNotFoundEvent != null)
-            {
+        private void OnFileOrDirectoryNotFoundEvent(object sender, int messageId, string messageName, string message) {
+            if (FileOrDirectoryNotFoundEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 FileOrDirectoryNotFoundEvent(this, m);
             }
         }
 
         // 521
-        private void OnFileOrDirectoryExistsEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (FileOrDirectoryExistsEvent != null)
-            {
+        private void OnFileOrDirectoryExistsEvent(object sender, int messageId, string messageName, string message) {
+            if (FileOrDirectoryExistsEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 FileOrDirectoryExistsEvent(this, m);
             }
         }
 
         // 522
-        private void OnChecksumMismatchEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (ChecksumMismatchEvent != null)
-            {
+        private void OnChecksumMismatchEvent(object sender, int messageId, string messageName, string message) {
+            if (ChecksumMismatchEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 ChecksumMismatchEvent(this, m);
             }
         }
 
         // 523
-        private void OnQueueLimitExceededEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (QueueLimitExceededEvent != null)
-            {
+        private void OnQueueLimitExceededEvent(object sender, int messageId, string messageName, string message) {
+            if (QueueLimitExceededEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 QueueLimitExceededEvent(this, m);
             }
         }
 
         // 600
-        private void OnUserSpecificationEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (UserSpecificationEvent != null)
-            {
+        private void OnUserSpecificationEvent(object sender, int messageId, string messageName, string message) {
+            if (UserSpecificationEvent != null) {
                 string[] w = SplitMessage(message);
                 string name = w[0];
                 string password = w[1];
@@ -1110,10 +1024,8 @@ namespace SharpWired.Connection
         }
 
         // 601
-        private void OnGroupSpecificationEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (GroupSpecificationEvent != null)
-            {
+        private void OnGroupSpecificationEvent(object sender, int messageId, string messageName, string message) {
+            if (GroupSpecificationEvent != null) {
                 string[] w = SplitMessage(message);
                 string name = w[0];
                 Privileges p = null;
@@ -1126,10 +1038,8 @@ namespace SharpWired.Connection
         }
 
         // 602
-        private void OnPrivilegesSpecificationEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (PrivilegesSpecificationEvent != null)
-            {
+        private void OnPrivilegesSpecificationEvent(object sender, int messageId, string messageName, string message) {
+            if (PrivilegesSpecificationEvent != null) {
                 Privileges p = null;
                 //Privileges p = new Privileges("", message); // CheckThis
                 MessageEventArgs_602 m = new MessageEventArgs_602(messageId, messageName, p);
@@ -1138,86 +1048,70 @@ namespace SharpWired.Connection
         }
 
         // 610
-        private void OnUserListingEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (UserListingEvent != null)
-            {
+        private void OnUserListingEvent(object sender, int messageId, string messageName, string message) {
+            if (UserListingEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 UserListingEvent(this, m);
             }
         }
 
         // 611
-        private void OnUserListingDoneEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (UserListingDoneEvent != null)
-            {
+        private void OnUserListingDoneEvent(object sender, int messageId, string messageName, string message) {
+            if (UserListingDoneEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 UserListingDoneEvent(this, m);
             }
         }
 
         // 620
-        private void OnGroupListingEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (GroupListingEvent != null)
-            {
+        private void OnGroupListingEvent(object sender, int messageId, string messageName, string message) {
+            if (GroupListingEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 GroupListingEvent(this, m);
             }
         }
 
         // 621
-        private void OnGroupListingDoneEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (GroupListingDoneEvent != null)
-            {
+        private void OnGroupListingDoneEvent(object sender, int messageId, string messageName, string message) {
+            if (GroupListingDoneEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 GroupListingDoneEvent(this, m);
             }
         }
 
         // 7xx
-        private void OnTrackerCategoryListingEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (TrackerCategoryListingEvent != null)
-            {
+        private void OnTrackerCategoryListingEvent(object sender, int messageId, string messageName, string message) {
+            if (TrackerCategoryListingEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 TrackerCategoryListingEvent(this, m);
             }
         }
 
         // 7xx
-        private void OnTrackerCategoryListingDoneEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (TrackerCategoryListingDoneEvent != null)
-            {
+        private void OnTrackerCategoryListingDoneEvent(object sender, int messageId, string messageName, string message) {
+            if (TrackerCategoryListingDoneEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 TrackerCategoryListingDoneEvent(this, m);
             }
         }
 
         // 7xx
-        private void OnTrackerServerListingEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (TrackerServerListingEvent != null)
-            {
+        private void OnTrackerServerListingEvent(object sender, int messageId, string messageName, string message) {
+            if (TrackerServerListingEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 TrackerServerListingEvent(this, m);
             }
         }
 
         // 7xx
-        private void OnTrackerServerListingDoneEvent(object sender, int messageId, string messageName, string message)
-        {
-            if (TrackerServerListingDoneEvent != null)
-            {
+        private void OnTrackerServerListingDoneEvent(object sender, int messageId, string messageName, string message) {
+            if (TrackerServerListingDoneEvent != null) {
                 MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
                 TrackerServerListingDoneEvent(this, m);
             }
         }
 
-#endregion
+        #endregion
 
         #region Message Parser
 
@@ -1225,8 +1119,7 @@ namespace SharpWired.Connection
         /// Parses the messages
         /// </summary>
         /// <param name="msg">The message from the server</param>
-        private void ParseMessage(string msg)
-        {
+        private void ParseMessage(string msg) {
             // Request the message identifier and the message data
             int msgId = Convert.ToInt32(msg.Substring(0, 3));
             string argument = msg.Substring(4);
@@ -1238,15 +1131,14 @@ namespace SharpWired.Connection
                     length = argument.Length;
                     end = "'";
                 }
-                Debug.WriteLine("Received " + msgId + ": '" 
+                Debug.WriteLine("Received " + msgId + ": '"
                                 + argument.Substring(0, length) + end);
-            } else if (msgId != 320 && msgId != 321 
+            } else if (msgId != 320 && msgId != 321
                             && msgId != 410 && msgId != 411)
-                Debug.WriteLine("Received " + msgId + ": '" 
+                Debug.WriteLine("Received " + msgId + ": '"
                                 + argument + "'");
 
-            switch (msgId)
-            {
+            switch (msgId) {
                 case 200:
                     OnServerInformationEvent(this, msgId, "Server Information", argument);
                     break;
@@ -1332,7 +1224,7 @@ namespace SharpWired.Connection
                     OnFileListingEvent(this, msgId, "File Listing", argument);
                     break;
                 case 411:
-                    OnFileListingDoneEvent(this, msgId, "File Listing Done", argument);
+                    OnFileListingDoneEvent(msgId, "File Listing Done", argument);
                     break;
                 case 420:
                     OnSearchListingEvent(this, msgId, "Search Listing", argument);
@@ -1431,17 +1323,13 @@ namespace SharpWired.Connection
         /// Handles incoming messages
         /// </summary>
         /// <param name="message"></param>
-        public void MessageReceived(string message)
-        {
-			try
-			{
-				ParseMessage(message);
-			}
-			catch (FormatException formatExp)
-			{
-				Debug.WriteLine("Error trying to parse the message "
-				+ "recieved on socket!\nReason\n" + formatExp.ToString());
-			}
+        public void MessageReceived(string message) {
+            try {
+                ParseMessage(message);
+            } catch (FormatException formatExp) {
+                Debug.WriteLine("Error trying to parse the message "
+                + "recieved on socket!\nReason\n" + formatExp.ToString());
+            }
         }
 
         /// <summary>
@@ -1449,8 +1337,7 @@ namespace SharpWired.Connection
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        private string[] SplitMessage(string message)
-        {
+        private string[] SplitMessage(string message) {
             // Parse the server information event
             char[] delimiterChars = { Convert.ToChar(Utility.FS) };
             return message.Split(delimiterChars, StringSplitOptions.None);

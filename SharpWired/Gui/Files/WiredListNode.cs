@@ -32,12 +32,12 @@ using SharpWired.Model.Files;
 
 namespace SharpWired.Gui.Files {
     public class WiredListNode : ListViewItem {
-        private FileSystemEntry modelNode;
+        private INode modelNode;
 
         /// <summary>
         /// Gets the model node for this tree node
         /// </summary>
-        public FileSystemEntry ModelNode {
+        public INode ModelNode {
             get { return modelNode; }
         }
 
@@ -63,18 +63,18 @@ namespace SharpWired.Gui.Files {
         /// <summary>
         /// Constructor
         /// </summary>
-        public WiredListNode(FileSystemEntry modelNode)
+        public WiredListNode(INode modelNode)
             : base(modelNode.Name) {
             this.modelNode = modelNode;
 
-            if (modelNode is FolderNode) {
-                size = ((FolderNode)modelNode).Size.ToString();
-                created = ((FolderNode)modelNode).Created;
-                modified = ((FolderNode)modelNode).Modified;
-            } else if (modelNode is FileNode) {
-                size = BytesToOptimalUnit(((FileNode)modelNode).Size);
-                created = ((FileNode)modelNode).Created;
-                modified = ((FileNode)modelNode).Modified;
+            if (modelNode is Folder) {
+                size = ((Folder)modelNode).Count.ToString();
+                created = ((Folder)modelNode).Created;
+                modified = ((Folder)modelNode).Modified;
+            } else if (modelNode is File) {
+                size = BytesToOptimalUnit(((File)modelNode).Size);
+                created = ((File)modelNode).Created;
+                modified = ((File)modelNode).Modified;
             }
         }
 

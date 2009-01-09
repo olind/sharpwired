@@ -14,7 +14,7 @@ namespace SharpWired.Gui.Files
 		/// Constructs.
 		/// </summary>
 		/// <param name="fse">The array of destination segments</param>
-		public TransferRequestEventArgs(FileSystemEntry fse)
+		public TransferRequestEventArgs(INode fse)
 		{
 			mFileSystemEntry = fse;
 		}
@@ -22,11 +22,11 @@ namespace SharpWired.Gui.Files
 
 		#region properties
 		
-		private FileSystemEntry mFileSystemEntry;
+		private INode mFileSystemEntry;
 		/// <summary>
 		/// Request or sets the FileSystemNode representing what to transfer.
 		/// </summary>
-		public FileSystemEntry FileSystemEntry
+		public INode FileSystemEntry
 		{
 			get { return mFileSystemEntry; }
 			set { mFileSystemEntry = value; }

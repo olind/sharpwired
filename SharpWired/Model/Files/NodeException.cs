@@ -1,12 +1,12 @@
-#region Information and licence agreements
+﻿#region Information and licence agreements
 /*
- * FileListingController.cs 
- * Created by Ola Lindberg, 2007-01-28
+ * NodeException.cs 
+ * Created by Ola Lindberg & Adam Lindberg, 2009-01-06
  * 
  * SharpWired - a Wired client.
  * See: http://www.zankasoftware.com/wired/ for more infromation about Wired
  * 
- * Copyright (C) Ola Lindberg (http://olalindberg.com)
+ * Copyright (C) SharpWired team
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,28 +25,8 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpWired.Connection;
-using SharpWired.Model.Files;
-using SharpWired.Model;
-using System.Diagnostics;
-
-namespace SharpWired.Controller
-{
-    /// <summary>
-    /// Handles the local model for all file interactions
-    /// </summary>
-    public class FileListingController : ControllerBase {
-
-        public FileListingController(SharpWiredModel model) : base(model) {}
-
-        public void ReloadFileList() {
-            ReloadFileList(model.Server.FileRoot);
-        }
-
-        public void ReloadFileList(Folder node) {
-            node.Reload();
-        }
+namespace SharpWired.Model.Files {
+    public class NodeException : Exception {
+        public NodeException(string message):base(message){}
     }
 }

@@ -147,8 +147,8 @@
       <SubType>Designer</SubType>
       <DependentUpon>ChatUserContainer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Files\Details.resx">
-      <DependentUpon>Details.cs</DependentUpon>
+    <EmbeddedResource Include="Gui\Files\FolderListing.resx">
+      <DependentUpon>FolderListing.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Files\FilesContainer.resx">
@@ -253,9 +253,6 @@
     <Compile Include="Gui\WebBrowserGuiBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Gui\Files\FilesGuiBase.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Model\Errors\ErrorModel.cs" />
     <Compile Include="Controller\FileListingController.cs" />
     <Compile Include="Controller\GroupController.cs" />
@@ -294,11 +291,11 @@
     <Compile Include="Gui\GuiMessageItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Gui\Files\Details.cs">
+    <Compile Include="Gui\Files\FolderListing.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Gui\Files\Details.Designer.cs">
-      <DependentUpon>Details.cs</DependentUpon>
+    <Compile Include="Gui\Files\FolderListing.Designer.cs">
+      <DependentUpon>FolderListing.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\Files\BreadCrumb.cs">
       <SubType>UserControl</SubType>
@@ -334,20 +331,24 @@
     <Compile Include="Gui\SharpWiredGuiBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Model\Files\File.cs" />
+    <Compile Include="Model\Files\IFile.cs" />
+    <Compile Include="Model\Files\IFolder.cs" />
+    <Compile Include="Model\Files\INode.cs" />
+    <Compile Include="Model\Files\NodeChildren.cs" />
+    <Compile Include="Model\Files\NodeException.cs" />
     <Compile Include="Model\ModelBase.cs" />
     <Compile Include="Model\SharpWiredModel.cs" />
-    <Compile Include="Model\Files\FileListingModel.cs" />
-    <Compile Include="Model\Files\FileNode.cs" />
-    <Compile Include="Model\Files\FileSystemEntry.cs" />
-    <Compile Include="Model\Files\FolderNode.cs" />
-    <Compile Include="Model\Files\FolderNodeDropBox.cs" />
-    <Compile Include="Model\Files\FolderNodeUploads.cs" />
+    <Compile Include="Model\Files\FileTree.cs" />
+    <Compile Include="Model\Files\ANode.cs" />
+    <Compile Include="Model\Files\Folder.cs" />
     <Compile Include="Model\News\News.cs" />
     <Compile Include="Model\News\NewsPost.cs" />
     <Compile Include="Model\PrivateMessages\PrivateMessageItem.cs" />
     <Compile Include="Model\PrivateMessages\PrivateMessageModel.cs" />
     <Compile Include="Model\Server.cs" />
     <Compile Include="Model\Transfers\FileTransfer.cs" />
+    <Compile Include="Model\Transfers\FolderTransfer.cs" />
     <Compile Include="Model\Transfers\ITransfer.cs" />
     <Compile Include="Model\Transfers\Transfers.cs" />
     <Compile Include="SharpWiredClientInfo.cs" />

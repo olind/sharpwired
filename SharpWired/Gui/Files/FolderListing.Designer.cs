@@ -1,6 +1,6 @@
 namespace SharpWired.Gui.Files
 {
-    partial class Details
+    partial class FolderListing
     {
         /// <summary> 
         /// Required designer variable.

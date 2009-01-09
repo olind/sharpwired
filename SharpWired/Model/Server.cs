@@ -50,7 +50,6 @@ namespace SharpWired.Model {
         DateTime startTime;
         Chat publicChat;
         SharpWired.Model.News.News news;
-        FileListingModel fileListingModel;
         Transfers.Transfers transfers;
         private HeartBeatTimer HeartBeat { get; set; }
         #endregion
@@ -146,7 +145,7 @@ namespace SharpWired.Model {
         /// <summary>
         /// Gets the file listing model
         /// </summary>
-        public FileListingModel FileListingModel { get { return fileListingModel; } }
+        public FileTree FileRoot { get; private set; }
 
         public Transfers.Transfers Transfers { get { return transfers; } }
 
@@ -174,7 +173,7 @@ namespace SharpWired.Model {
 
             publicChat = null;
             news = null;
-            fileListingModel = null;
+            FileRoot = null;
         }
 
         void OnLoginSucceeded(object sender, MessageEventArgs_201 message) {
@@ -191,7 +190,10 @@ namespace SharpWired.Model {
 
             publicChat = new Chat(ConnectionManager.Messages, 1); // 1 = chat id for public chat
             news = new News.News(ConnectionManager.Messages);
-            fileListingModel = new FileListingModel(ConnectionManager.Messages);
+            
+            FileRoot = new FileTree();
+            FileRoot.Reload();
+
             transfers = new Transfers.Transfers();
 
             if(Online != null)

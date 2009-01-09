@@ -28,8 +28,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
+    public enum FileType : short {
+        FILE = 0,
+        FOLDER = 1,
+        UPLOADS = 2,
+        DROPBOX = 3
+    }
+
     /// <summary>
     /// MessageEventArgs for:
     /// * File Listing
@@ -37,76 +43,37 @@ namespace SharpWired.MessageEvents
     /// This event is sent for each file. The *ListingDone events shows 
     /// when all requested files are sent from the server.
     /// </summary>
-    public class MessageEventArgs_410420 : MessageEventArgs_Path
-    {
-        private string fileType; // TODO: This should be of other type
-        private long size;
-        private DateTime created;
-        private DateTime modified;
+    public class MessageEventArgs_410420 : MessageEventArgs_Path {
 
         /// <summary>
         /// Request the file type for this event
         /// </summary>
-        public string FileType
-        {
-            get
-            {
-                return fileType;
-            }
-        }
+        public FileType FileType { get; private set; }
 
         /// <summary>
         /// The size for this file. 
         /// If this file is a folder this represents the number of items in this folder.
         /// </summary>
-        public long Size
-        {
-            get
-            {
-                return size;
-            }
-        }
+        public long Size { get; private set; }
 
         /// <summary>
         /// The date when this file was created
         /// </summary>
-        public DateTime Created
-        {
-            get
-            {
-                return created;
-            }
-        }
+        public DateTime Created { get; private set; }
 
         /// <summary>
         /// The date when this file was modified
         /// </summary>
-        public DateTime Modified
-        {
-            get
-            {
-                return modified;
-            }
-        }
+        public DateTime Modified { get; private set; }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="messageId"></param>
-        /// <param name="messageName"></param>
-        /// <param name="destination"></param>
-        /// <param name="fileType">TODO: This should be of other type</param>
-        /// <param name="size"></param>
-        /// <param name="created"></param>
-        /// <param name="modified"></param>
-        public MessageEventArgs_410420(int messageId, string messageName, string path, 
-            string fileType, long size, DateTime created, DateTime modified)
-            : base(messageId, messageName, path)
-        {
-            this.fileType = fileType;
-            this.size = size;
-            this.created = created;
-            this.modified = modified;
+        public MessageEventArgs_410420(int messageId, string messageName, string path,
+            FileType fileType, long size, DateTime created, DateTime modified)
+            : base(messageId, messageName, path) {
+
+            FileType = fileType;
+            Size = size;
+            Created = created;
+            Modified = modified;
         }
     }
 }

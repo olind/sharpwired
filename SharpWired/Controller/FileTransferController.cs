@@ -13,10 +13,10 @@ namespace SharpWired.Controller {
     public class FileTransferController : ControllerBase {
 
         string defaultDownloadFolder;
-        Transfers TransferList { get; set; }
+        Transfers Transfers { get; set; }
 
         public FileTransferController(SharpWiredModel model) : base(model) {
-            TransferList = model.Server.Transfers;
+            Transfers = model.Server.Transfers;
 
             defaultDownloadFolder = Path.Combine(Application.StartupPath, "Downloads");
 
@@ -30,14 +30,10 @@ namespace SharpWired.Controller {
             }
         }
 
-        public ITransfer AddDownload(FileSystemEntry node) {
+        public ITransfer AddDownload(INode node) {
+            //TODO: File exists? Resume?
             string target = Path.Combine(defaultDownloadFolder, node.Name);
-
-            if(node is FileNode)
-                return TransferList.Add((FileNode)node, target);
-
-            System.Console.WriteLine("Sorry, but we can only download files right now, and not folders.");
-            return null;
+            return Transfers.Add(node, target);
         }
 
         public void StartDownload(ITransfer transfer) {
@@ -50,7 +46,7 @@ namespace SharpWired.Controller {
 
         public void RemoveDownload(ITransfer transfer) {
             if(transfer.Status == SharpWired.Model.Transfers.Status.Idle)
-                TransferList.Remove(transfer);
+                Transfers.Remove(transfer);
         }
     }
 }

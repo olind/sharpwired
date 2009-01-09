@@ -36,12 +36,12 @@ namespace SharpWired.Gui.Files
     /// </summary>
     public class WiredNodeArgs: EventArgs
     {
-        private FileSystemEntry node;
+        private INode node;
 
         /// <summary>
         /// Request or set the FileSystemEntry associated with this argument
         /// </summary>
-        public FileSystemEntry Node
+        public INode Node
         {
             get { return node; }
             set { node = value; }
@@ -51,7 +51,7 @@ namespace SharpWired.Gui.Files
         /// Constructor
         /// </summary>
         /// <param name="node">The assosiated FileSystemEntry</param>
-        public WiredNodeArgs(FileSystemEntry node)
+        public WiredNodeArgs(INode node)
         {
             this.Node = node;
         }
