@@ -43,42 +43,42 @@ namespace SharpWired.Gui.Files {
     /// <summary>
     /// Shows a representation of the File Model, which models the file tree on the server.
     /// </summary>
-    public partial class Tree : FilesGuiBase {
+    public partial class Tree : SharpWiredGuiBase {
 
         ArrayList nodeList = new ArrayList();
 
-        #region Constructors
+        delegate void Callback();
+
         /// <summary>
         /// Creates and inits components.
         /// </summary>
         public Tree() {
             InitializeComponent();
         }
-        #endregion
 
-        #region Events & Listeners
-        public delegate void SelectFolderNodeChangeDelegate(FileSystemEntry node);
-        public event SelectFolderNodeChangeDelegate SelectFolderNodeChange;
+        public delegate void SelectFolderNodeChangeDelegate(INode node);
+        public event SelectFolderNodeChangeDelegate SelectedFolderChanged;
 
-        delegate void PopulateFileTreeCallBack(TreeView treeView, List<FileSystemEntry> addedNodes);
+        protected override void OnOnline() {
+            if (this.InvokeRequired) {
+                this.Invoke(new Callback(OnOnline));
+            } else {
+                base.OnOnline();
+                rootTreeView.Nodes.Add(new WiredTreeNode(Model.Server.FileRoot));
+            }
+        }
 
         protected override void OnOffline() {
             base.OnOffline();
-            ClearControl(this);
+            Clear();
         }
 
-        /// <summary>
-        /// Call this method when new nodes are added.
-        /// </summary>
-        /// <param name="newNodes"></param>
-        public void OnNewNodesAdded(List<FileSystemEntry> addedNodes) {
-            PopulateFileTree(this.rootTreeView, addedNodes);
-        }
-        #endregion
-
-        #region Methods
         public void Clear() {
-            rootTreeView.Nodes.Clear();
+            if (this.InvokeRequired) {
+                this.Invoke(new Callback(Clear));
+            } else {
+                rootTreeView.Nodes.Clear();
+            }
         }
 
         public override void Init() {
@@ -90,53 +90,49 @@ namespace SharpWired.Gui.Files {
             rootTreeViewIcons.Images.Add(iconHandler.GetFolderIconFromSystem());
             rootTreeView.ImageList = rootTreeViewIcons;
         }
-        
-        /// <summary>
-        /// Populates the filetree from the given super root.
-        /// </summary>
-        /// <remarks>Uses callback if necessary.</remarks>
-        /// <param name="rootTreeView">The TreeView to populate.</param>
-        /// <param name="superRootNode">The root node from the model to populate from.</param>
-        private void PopulateFileTree(TreeView rootTreeView, List<FileSystemEntry> newNodes) {
-            if (InvokeRequired) {
-                PopulateFileTreeCallBack callback = new PopulateFileTreeCallBack(PopulateFileTree);
-                Invoke(callback, new object[] { rootTreeView, newNodes });
-                return;
-            }
-
-
-            // TODO: Move to model!
-            // Request biggest common denominator for all FileSystemEntry items
-            FileSystemEntry currentPath = GetBiggestCommonDenominator(newNodes);
-
-            if (currentPath.Path == "/") {
-                foreach (FileSystemEntry node in newNodes)
-                    if (node is FolderNode)
-                        rootTreeView.Nodes.Add(node.Path, node.Name);
-            } else {
-                TreeNode[] foundNodes = rootTreeView.Nodes.Find(currentPath.Path, true);
-                TreeNode currentNode = foundNodes[0];
-
-                foreach (FileSystemEntry node in newNodes)
-                    if (node is FolderNode)
-                        currentNode.Nodes.Add(node.Path, node.Name);
-            }
-        }
-
-        private FileSystemEntry GetBiggestCommonDenominator(List<FileSystemEntry> entries) {
-            FileSystemEntry parent = null;
-
-            if (entries.Count > 0)
-                parent = entries[0].Parent;
-
-            return parent;
-        }
-        #endregion
 
         private void rootTreeView_AfterSelect(object sender, TreeViewEventArgs e) {
-            TreeNode node = rootTreeView.SelectedNode;
-            if (node != null && SelectFolderNodeChange != null) {
-                SelectFolderNodeChange(Model.Server.FileListingModel.GetNode(node.Name));
+            WiredTreeNode node = (WiredTreeNode)rootTreeView.SelectedNode;
+            if (node != null && SelectedFolderChanged != null) {
+                SelectedFolderChanged(node.ModelNode);
+            }
+        }
+    }
+
+    public class WiredTreeNode : TreeNode {
+        protected delegate void Func();
+
+        public INode ModelNode { get; set; }
+
+        public WiredTreeNode(INode modelNode) {
+            ModelNode = modelNode;
+            Text = modelNode.Name;
+            PopulateFolder();
+            modelNode.Updated += OnUpdated;
+        }
+
+        public void OnUpdated(INode modelNode) {
+            PopulateFolder();
+        }
+
+        private void PopulateFolder() {
+            if (ModelNode is Folder) {
+
+                Func del = delegate {
+                    Folder folder = ModelNode as Folder;
+                    this.Nodes.Clear();
+
+                    foreach (INode child in folder.Children)
+                        if (child is Folder)
+                            this.Nodes.Add(new WiredTreeNode(child));
+                };
+
+                //The TreeView is null when the current node has not been added to a TreeView
+                if (this.TreeView != null) {
+                    this.TreeView.Invoke(del); //Thread safe required when the node is added to a TreeView
+                } else {
+                    del(); //When the node is not added to a TreeView we don't need to be thread safe
+                }
             }
         }
     }

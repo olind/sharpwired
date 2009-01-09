@@ -14,17 +14,25 @@ namespace SharpWired.Model.Transfers {
         public event TransferDelegate TransferAdded;
         public event TransferDelegate TransferRemoved;
 
-        public ITransfer Add(FileSystemEntry node, string target) {
+        public ITransfer Add(INode node, string target) {
             return Add(node, target, 0);
         }
 
-        public ITransfer Add(FileSystemEntry node, string target, Int64 offset) {
-            ITransfer transfer = new FileTransfer(node, target, offset);
-            transfers.Add(transfer);
+        public ITransfer Add(INode node, string target, Int64 offset) {
+            ITransfer transfer = null;
 
-            if(TransferAdded != null)
-                TransferAdded(transfer);
+            if (node is INode) {
+                transfer = new FileTransfer((INode)node, target, offset);
+            } else if (node is Folder) {
+                transfer = new FolderTransfer((Folder)node, target);
+            }
 
+            if (transfer != null) {
+                transfers.Add(transfer);
+
+                if (TransferAdded != null)
+                    TransferAdded(transfer);
+            }
             return transfer;
         }
 

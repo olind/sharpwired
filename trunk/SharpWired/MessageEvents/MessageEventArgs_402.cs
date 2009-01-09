@@ -72,7 +72,7 @@ namespace SharpWired.MessageEvents
         /// <param name="checksum">The checksum for this file</param>
         /// <param name="comment">The comment for this file</param>
         public MessageEventArgs_402(int messageId, string messageName, string path,
-            string fileType, int size, DateTime created, DateTime modified, string checksum, string comment)
+            FileType fileType, int size, DateTime created, DateTime modified, string checksum, string comment)
             : base(messageId, messageName, path, fileType, size, created, modified)
         {
             this.checksum = checksum;

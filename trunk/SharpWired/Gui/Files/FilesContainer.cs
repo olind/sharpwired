@@ -43,64 +43,36 @@ namespace SharpWired.Gui.Files {
     /// <summary>
     /// Holds referenses to and inits the other file views
     /// </summary>
-    public partial class FilesContainer : FilesGuiBase {
+    public partial class FilesContainer : SharpWiredGuiBase {
+        public delegate void FolderChangedDelegate(Folder folder);
+        public event FolderChangedDelegate SelectedFolderChanged;
 
-        #region Fields
-        int cursorSuspendCount = 0;
-        #endregion
-
-        #region Constructors
-        /// <summary>
-        /// Constructor - Empty
-        /// </summary>
         public FilesContainer() {
             InitializeComponent();
         }
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// Gets true if the cursor is suspended. False otherwise.
-        /// </summary>
-        public bool Suspended {
-            get { return cursorSuspendCount > 0; }
-        }
-        #endregion
-
-        #region Events & Listeners
-        /// <summary>
-        /// Raised when the selected folder node has changed
-        /// </summary>
-        public event EventHandler<WiredNodeArgs> SelectedFolderNodeChanged;
 
         protected override void OnOnline() {
-            Model.Server.FileListingModel.FileModelUpdatedEvent += tree.OnNewNodesAdded;
-            tree.SelectFolderNodeChange += OnSelectFolderNodeChange;
-            //SelectedFolderNodeChanged += tree.OnSelectedFolderNodeChanged; //TODO: tree should mark selected node as well
+            tree.SelectedFolderChanged += OnSelectedFolderChanged;
 
-            breadCrumb.SelectFolderNodeChange += OnSelectFolderNodeChange;
-            SelectedFolderNodeChanged += breadCrumb.OnSelectedFolderNodeChanged;
+            breadCrumb.SelectedFolderChanged += OnSelectedFolderChanged;
+            SelectedFolderChanged += breadCrumb.OnSelectedFolderNodeChanged;
 
-            details.SelectFolderNodeChange += OnSelectFolderNodeChange;
-            SelectedFolderNodeChanged += details.OnSelectedFolderNodeChanged;
+            details.SelectedFolderChanged += OnSelectedFolderChanged;
+            SelectedFolderChanged += details.OnSelectedFolderNodeChanged;
 
-            OnSelectFolderNodeChange(Model.Server.FileListingModel.RootNode);
+            OnSelectedFolderChanged(Model.Server.FileRoot);
         }
 
         protected override void OnOffline() {
-            Model.Server.FileListingModel.FileModelUpdatedEvent -= tree.OnNewNodesAdded;
-            tree.SelectFolderNodeChange -= OnSelectFolderNodeChange;
-            //SelectedFolderNodeChanged -= tree.OnSelectedFolderNodeChanged; //TODO: tree should mark selected node as well
+            tree.SelectedFolderChanged -= OnSelectedFolderChanged;
             
-            breadCrumb.SelectFolderNodeChange -= OnSelectFolderNodeChange;
-            SelectedFolderNodeChanged -= breadCrumb.OnSelectedFolderNodeChanged;
+            breadCrumb.SelectedFolderChanged -= OnSelectedFolderChanged;
+            SelectedFolderChanged -= breadCrumb.OnSelectedFolderNodeChanged;
             
-            details.SelectFolderNodeChange -= OnSelectFolderNodeChange;
-            SelectedFolderNodeChanged -= details.OnSelectedFolderNodeChanged;
+            details.SelectedFolderChanged -= OnSelectedFolderChanged;
+            SelectedFolderChanged -= details.OnSelectedFolderNodeChanged;
         }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// Inits this class and it's subclasses
         /// </summary>
@@ -113,42 +85,15 @@ namespace SharpWired.Gui.Files {
             details.Init();
         }
 
-        ///<summary>
-        /// Suspends the Control, and sets the Cursor to a waitcursor, if it isn'transfer already.
-        ///</summary>
-        public void Suspend() {
-            // When calling this method, the state is always Suspended.
-            // But we only set the cursor if we aren'transfer already suspended.
-            // So, if counter is 0, we are the first to call this method, so we set the cursor.
-            // But, we also need to increase the counter, and therefore add one.
-            // Since the '++' comes after the field name, the increse will be done after
-            // the logical check for == 0.
-            if (cursorSuspendCount++ == 0)
-                Cursor = Cursors.WaitCursor;
-        }
+        private void OnSelectedFolderChanged(INode node) {
+            if (node is Folder) {
+                Folder folder = node as Folder;
 
-        /// <summary>
-        /// Unsuspends the cursor.
-        /// </summary>
-        /// <returns>True if the cursor isn'transfer suspended.</returns>
-        public bool UnSuspend() {
-            // Decrease the count (the -- is before the field name, so its decreased before the == 0).
-            // And if we're done to zero again, we're no longer suspended and we set the cursor back.
-            if (--cursorSuspendCount == 0)
-                Cursor = Cursors.Default;
-            return cursorSuspendCount == 0;
-        }
-
-        private void OnSelectFolderNodeChange(FileSystemEntry node) {
-            if (node is FolderNode) {
-                if (SelectedFolderNodeChanged != null) {
-                    SelectedFolderNodeChanged(null, new WiredNodeArgs(node));
-                }
-                Controller.FileListingController.ReloadFileList((FolderNode)node);
-            } else if (node is FileNode) {
-                Debug.WriteLine("TODO: Dealing with file nodes are not implemented");
+                if (SelectedFolderChanged != null)
+                    SelectedFolderChanged(folder);
+                
+                Controller.FileListingController.ReloadFileList(folder);
             }
         }
-        #endregion
     }
 }

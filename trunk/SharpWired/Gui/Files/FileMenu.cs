@@ -26,7 +26,7 @@ namespace SharpWired.Gui.Files {
         }
 
         public void Show(Control control, Point location) {
-            Details details = Parent as Details;
+            FolderListing details = Parent as FolderListing;
 
             if(details != null) {
                 if(details.SelectedItems.Count > 0)
@@ -43,7 +43,7 @@ namespace SharpWired.Gui.Files {
         }
 
         private void OnDownload(Object sender, EventArgs e) {
-            Details details = Parent as Details;
+            FolderListing details = Parent as FolderListing;
 
             if(details != null) {
                 foreach (var n in details.SelectedItems)
@@ -51,13 +51,9 @@ namespace SharpWired.Gui.Files {
             }
         }
 
-        private void Download(FileSystemEntry node) {
-            if(node is FolderNode) {
-                throw new NotImplementedException();
-            } else {
-                ITransfer entry = Controller.FileTransferController.AddDownload(node);
-                Controller.FileTransferController.StartDownload(entry);
-            }
+        private void Download(INode node) {
+            ITransfer entry = Controller.FileTransferController.AddDownload(node);
+            Controller.FileTransferController.StartDownload(entry);
         }
     }
 }

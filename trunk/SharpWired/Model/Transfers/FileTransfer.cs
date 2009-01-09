@@ -21,9 +21,9 @@ namespace SharpWired.Model.Transfers {
         private const int SPEED_HISTORY_LENGTH = 10;
         private BinarySecureSocket Socket { get; set; }
 
-        public string Destination { get; set; }
-        public FileSystemEntry Source { get; set; }
-        public Status Status { get; set; }
+        public string Destination { get; private set; }
+        public INode Source { get; private set; }
+        public Status Status { get; private set; }
 
         /// <summary>
         /// Gets the time left in seconds
@@ -44,7 +44,7 @@ namespace SharpWired.Model.Transfers {
             }
         }
         public long Size {
-            get { return ((FileNode)Source).Size; }
+            get { return ((SharpWired.Model.Files.File)Source).Size; }
         }
         public long Received {
             get {
@@ -60,7 +60,7 @@ namespace SharpWired.Model.Transfers {
         public long Speed { get; private set; }
         private Queue<long> SpeedHistory { get; set; }
 
-        public FileTransfer(FileSystemEntry node, string destination, Int64 offset) {
+        public FileTransfer(INode node, string destination, Int64 offset) {
             this.Source = node;
             this.Destination = destination;
             this.Status = Status.Idle;
@@ -110,13 +110,13 @@ namespace SharpWired.Model.Transfers {
         private void CreateSocket(string hash) {
             Debug.WriteLine("Transfer is ready! File '" + Source.Name + "', with ID '" + hash + "'.");
 
-            // TODO: File exists?
+            // TODO: FileMode.CreateNew should be used when resume works
             FileStream fileStream = new FileStream(Destination, FileMode.Create);
 
             this.Socket = new BinarySecureSocket();
             this.Socket.DataReceivedDoneEvent += OnDataReceivedDone;
             this.Socket.Connect(Model.ConnectionManager.CurrentBookmark.Transfer,
-                fileStream, ((FileNode)Source).Size, Offset);
+                fileStream, ((SharpWired.Model.Files.File)Source).Size, Offset);
 
             this.Socket.SendMessage("TRANSFER" + Utility.SP + hash);
 

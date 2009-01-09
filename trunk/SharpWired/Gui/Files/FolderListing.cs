@@ -42,14 +42,17 @@ namespace SharpWired.Gui.Files {
     /// <summary>
     /// Represents a detail view of the currently selected nodes
     /// </summary>
-    public partial class Details : FilesGuiBase {
+    public partial class FolderListing : SharpWiredGuiBase {
 
         IconHandler iconHandler = IconHandler.Instance;
         FileMenu ContextMenu { get; set; }
+        Folder CurrentFolder { get; set; }
 
-        public List<FileSystemEntry> SelectedItems {
+        delegate void ClearCallback();
+
+        public List<INode> SelectedItems {
             get {
-                var n = new List<FileSystemEntry>();
+                var n = new List<INode>();
                 foreach (var s in detailsListView.SelectedItems)
                     n.Add(((WiredListNode)s).ModelNode);
                 return n;
@@ -60,48 +63,45 @@ namespace SharpWired.Gui.Files {
         /// <summary>
         /// Constructor
         /// </summary>
-        public Details() {
+        public FolderListing() {
             InitializeComponent();
         }
         #endregion
 
         #region Events & Listeners
-        public delegate void NodeDelegate(FileSystemEntry node);
-        public event NodeDelegate SelectFolderNodeChange;
+        public delegate void NodeDelegate(INode node);
+        public event NodeDelegate SelectedFolderChanged;
         public event NodeDelegate RequestDownload;
 
-        delegate void NodeListToListViewCallback(List<FileSystemEntry> update);
+        delegate void NodeListDelegate(List<INode> nodes);
 
-        public void OnSelectedFolderNodeChanged(object sender, WiredNodeArgs selectedNode) {
-            ClearControl(detailsListView);
-            if (selectedNode.Node is FolderNode)
-                ((FolderNode)selectedNode.Node).FolderNodeUpdatedEvent += OnFolderNodeDoneLoading;
+        public void OnSelectedFolderNodeChanged(Folder folder) {
+            if (CurrentFolder != null)
+                CurrentFolder.Updated -= OnFolderUpdated;
+
+            CurrentFolder = folder;
+            CurrentFolder.Updated += OnFolderUpdated;
         }
 
-        /// <summary>
-        /// Display the given nodes in the details view.
-        /// </summary>
-        /// <param name="updatedNode"></param>
-        void OnFolderNodeDoneLoading(FolderNode updatedNode) {
-            updatedNode.FolderNodeUpdatedEvent -= OnFolderNodeDoneLoading;
-            NodeListToListView(updatedNode.Children);
+        void OnFolderUpdated(INode node) {
+            UpdateListView(((Folder)node).Children);
         }
 
         private void detailsListView_MouseDoubleClick(object sender, MouseEventArgs e) {
             WiredListNode node = (WiredListNode)detailsListView.GetItemAt(e.X, e.Y);
             if (node != null
-                && node.ModelNode is FolderNode
-                && SelectFolderNodeChange != null) {
-                SelectFolderNodeChange(node.ModelNode);
+                && node.ModelNode is Folder
+                && SelectedFolderChanged != null) {
+                SelectedFolderChanged(node.ModelNode);
             }
         }
 
         private void detailsListView_KeyUp(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter) {
                 if (detailsListView.SelectedItems.Count == 1) {
-                    FileSystemEntry n = ((WiredListNode)detailsListView.SelectedItems[0]).ModelNode;
-                    if (n != null && SelectFolderNodeChange != null)
-                        SelectFolderNodeChange(n);
+                    INode n = ((WiredListNode)detailsListView.SelectedItems[0]).ModelNode;
+                    if (n != null && SelectedFolderChanged != null)
+                        SelectedFolderChanged(n);
                 }
             }
         }
@@ -129,10 +129,9 @@ namespace SharpWired.Gui.Files {
         /// Replace the items in this listview with the given list
         /// </summary>
         /// <param name="newNodes"></param>
-        private void NodeListToListView(List<FileSystemEntry> newNodes) {
+        private void UpdateListView(List<INode> newNodes) {
             if (this.InvokeRequired) {
-                NodeListToListViewCallback callback = new NodeListToListViewCallback(NodeListToListView);
-                this.Invoke(callback, new object[] { newNodes });
+                this.Invoke(new NodeListDelegate(UpdateListView), new object[] { newNodes });
             } else {
                 detailsListView.Columns.Clear();
 
@@ -149,14 +148,14 @@ namespace SharpWired.Gui.Files {
 
                 newNodes.Sort();
 
-                foreach (FileSystemEntry folder in newNodes) {
-                    if (folder is FolderNode) {
+                foreach (INode folder in newNodes) {
+                    if (folder is Folder) {
                         AddToListView(folder, "FOLDER");
                     }
                 }
 
-                foreach (FileSystemEntry child in newNodes) {
-                    if (child is FileNode) {
+                foreach (INode child in newNodes) {
+                    if (child is INode) {
                         try {
                             string imageKey = Path.GetExtension(child.Name);
 
@@ -179,7 +178,7 @@ namespace SharpWired.Gui.Files {
         }
 
 
-        private void AddToListView(FileSystemEntry child, string imageKey) {
+        private void AddToListView(INode child, string imageKey) {
             WiredListNode wln = new WiredListNode(child);
             wln.ImageIndex = detailsListView.SmallImageList.Images.IndexOfKey(imageKey);
             //wln.StateImageIndex = wln.Type;
@@ -194,6 +193,15 @@ namespace SharpWired.Gui.Files {
         private void detailsListView_MouseUp(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Right) {
                 ContextMenu.Show(detailsListView, e.Location);
+            }
+        }
+
+        private void Clear() {
+            if (this.InvokeRequired) {
+                ClearCallback callback = new ClearCallback(Clear);
+                this.Invoke(callback);
+            } else {
+                detailsListView.Clear();
             }
         }
     }

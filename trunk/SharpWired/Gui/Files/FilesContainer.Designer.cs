@@ -30,7 +30,7 @@ namespace SharpWired.Gui.Files
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tree = new SharpWired.Gui.Files.Tree();
-            this.details = new SharpWired.Gui.Files.Details();
+            this.details = new SharpWired.Gui.Files.FolderListing();
             this.breadCrumb = new SharpWired.Gui.Files.BreadCrumb();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -102,7 +102,7 @@ namespace SharpWired.Gui.Files
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private Details details;
+        private FolderListing details;
         private Tree tree;
         private BreadCrumb breadCrumb;
     }

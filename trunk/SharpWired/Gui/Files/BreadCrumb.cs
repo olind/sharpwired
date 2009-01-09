@@ -41,7 +41,7 @@ namespace SharpWired.Gui.Files {
     /// <summary>
     /// The destination to the selected folder represented as browsable buttons
     /// </summary>
-    public partial class BreadCrumb : FilesGuiBase {
+    public partial class BreadCrumb : SharpWiredGuiBase {
 
         #region Constructors
         public BreadCrumb() {
@@ -52,34 +52,37 @@ namespace SharpWired.Gui.Files {
         delegate void AddButtonsToFlowLayoutCallback(Button b);
         delegate void ClearFlowLayoutCallback();
 
-        public delegate void SelectFolderNodeChangeDelegate(FileSystemEntry node);
-        public event SelectFolderNodeChangeDelegate SelectFolderNodeChange;
+        public delegate void SelectFolderNodeChangeDelegate(INode node);
+        public event SelectFolderNodeChangeDelegate SelectedFolderChanged;
         
-        public void OnSelectedFolderNodeChanged(object sender, WiredNodeArgs node) { 
-            PopulatePathButtons(node.Node);
+        public void OnSelectedFolderNodeChanged(Folder folder) { 
+            PopulatePathButtons(folder);
         }
 
         private void button_MouseUp(object sender, MouseEventArgs e) {
-            if (SelectFolderNodeChange != null) {
-                FileSystemEntry n = (FileSystemEntry)((Button)sender).Tag;
-                SelectFolderNodeChange(n);
+            if (SelectedFolderChanged != null) {
+                INode n = (INode)((Button)sender).Tag;
+                SelectedFolderChanged(n);
             }
         }
 
-        private void PopulatePathButtons(FileSystemEntry node) {
+        private void PopulatePathButtons(Folder node) {
             ClearFlowLayout();
 
-            for (int i = 0; i < node.PathArray.Length; i++) {
+            string[] pathArray = node.Path.Split('/');
+
+            for (int i = 0; i < pathArray.Length; i++) {
                 Button b = new Button();
-                if (node.PathArray[i] != "") {
-                    b.Text = node.PathArray[i];
+                if (pathArray[i] != "") {
+                    b.Text = pathArray[i];
                 } else {
                     IconHandler iconHandler = IconHandler.Instance;
                     b.Image = iconHandler.GoHome;
                 }
 
                 b.MouseUp += new MouseEventHandler(button_MouseUp);
-                b.Tag = Model.Server.FileListingModel.GetNode(CombineFilePath(node.PathArray, i));
+                //b.Tag = Model.Server.FileListingModel.GetNode(CombineFilePath(pathArray, i));
+                //todo: file
                 b.AutoSizeMode = AutoSizeMode.GrowAndShrink;
                 b.AutoSize = true;
                 b.Padding = new Padding(2);

@@ -33,13 +33,13 @@ namespace SharpWired.Gui.Transfers {
             this.pauseButton.Image = icons.MediaPlaybackPause;
             this.deleteButton.Image = icons.ProcessStop;
 
-            UpdateDelegate update = delegate() {
+            Func update = delegate() {
                 this.fileName.Text = t.Source.Name;
                 this.info.Text = "";
                 this.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             };
 
-            UpdateControl(update);
+            Invoke(update);
         }
 
         private void OnClicked(object sender, EventArgs e) {
