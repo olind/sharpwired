@@ -103,9 +103,13 @@ namespace SharpWired.Model.Files {
                 else if (message.FileType == FileType.FOLDER)
                     newNode = new Folder(message.Path, message.Created, message.Modified, message.Size);
                 else if (message.FileType == FileType.UPLOADS)
+                    //FIXME: Why does this never get called?
                     throw new NotImplementedException();
-                else if (message.FileType == FileType.DROPBOX)
-                    throw new NotImplementedException();
+                else if (message.FileType == FileType.DROPBOX) {
+                    //FIXME: Create DropBox
+                    newNode = new Folder(message.Path, message.Created, message.Modified, message.Size);
+                    Debug.WriteLine("MODEL:Folder -> AddChildren. Adding DropBox as Folder.");
+                }
                 Children.Add(newNode);
             }
 
