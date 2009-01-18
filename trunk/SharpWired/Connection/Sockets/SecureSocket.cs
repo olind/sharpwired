@@ -175,9 +175,9 @@ namespace SharpWired.Connection.Sockets
             if (sslStream != null && sslStream.CanWrite)
             {
                 if(message.StartsWith("ICON"))
-                    Debug.WriteLine("Sending: '" + message.Substring(0, 30) + "...'");
+                    Debug.WriteLine("CONNECTION:SecureSocket -> Sending: '" + message.Substring(0, 30) + "...'");
                 else
-                    Debug.WriteLine("Sending: '" + message + "'");
+                    Debug.WriteLine("CONNECTION:SecureSocket -> Sending: '" + message + "'");
 
                 byte[] messsage = Encoding.UTF8.GetBytes(message + Utility.EOT);
                 sslStream.Write(messsage);

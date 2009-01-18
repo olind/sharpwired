@@ -44,33 +44,20 @@ namespace SharpWired.Gui.Files {
     /// Holds referenses to and inits the other file views
     /// </summary>
     public partial class FilesContainer : SharpWiredGuiBase {
-        public delegate void FolderChangedDelegate(Folder folder);
-        public event FolderChangedDelegate SelectedFolderChanged;
-
         public FilesContainer() {
             InitializeComponent();
         }
 
         protected override void OnOnline() {
-            tree.SelectedFolderChanged += OnSelectedFolderChanged;
-
-            breadCrumb.SelectedFolderChanged += OnSelectedFolderChanged;
-            SelectedFolderChanged += breadCrumb.OnSelectedFolderNodeChanged;
-
-            details.SelectedFolderChanged += OnSelectedFolderChanged;
-            SelectedFolderChanged += details.OnSelectedFolderNodeChanged;
-
-            OnSelectedFolderChanged(Model.Server.FileRoot);
+            tree.NodeSelected       += OnNodeSelected;
+            breadCrumb.NodeSelected += OnNodeSelected;
+            folderListing.NodeSelected    += OnNodeSelected;
         }
 
         protected override void OnOffline() {
-            tree.SelectedFolderChanged -= OnSelectedFolderChanged;
-            
-            breadCrumb.SelectedFolderChanged -= OnSelectedFolderChanged;
-            SelectedFolderChanged -= breadCrumb.OnSelectedFolderNodeChanged;
-            
-            details.SelectedFolderChanged -= OnSelectedFolderChanged;
-            SelectedFolderChanged -= details.OnSelectedFolderNodeChanged;
+            tree.NodeSelected       -= OnNodeSelected;
+            breadCrumb.NodeSelected -= OnNodeSelected;
+            folderListing.NodeSelected    -= OnNodeSelected;
         }
 
         /// <summary>
@@ -82,16 +69,19 @@ namespace SharpWired.Gui.Files {
             base.Init();
             tree.Init();
             breadCrumb.Init();
-            details.Init();
+            folderListing.Init();
         }
 
-        private void OnSelectedFolderChanged(INode node) {
+        private void OnNodeSelected(INode node) {
             if (node is Folder) {
                 Folder folder = node as Folder;
 
-                if (SelectedFolderChanged != null)
-                    SelectedFolderChanged(folder);
+                // Listen to model happens in these:
+                tree.SetCurrentNode(node);
+                folderListing.SetCurrentNode(node);
+                breadCrumb.SetCurrentNode(node);
                 
+                // Model update happens here:
                 Controller.FileListingController.ReloadFileList(folder);
             }
         }

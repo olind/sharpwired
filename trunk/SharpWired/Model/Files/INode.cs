@@ -19,6 +19,7 @@ namespace SharpWired.Model.Files {
 
         string Name { get; }
         string Path { get; }
+        string FullPath { get; }
         DateTime Created { get; }
         DateTime Modified { get; }
 

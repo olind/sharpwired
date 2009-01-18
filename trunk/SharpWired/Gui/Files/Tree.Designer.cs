@@ -38,7 +38,7 @@ namespace SharpWired.Gui.Files
             this.rootTreeView.Name = "rootTreeView";
             this.rootTreeView.Size = new System.Drawing.Size(336, 333);
             this.rootTreeView.TabIndex = 6;
-            this.rootTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.rootTreeView_AfterSelect);
+            this.rootTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnAfterSelect);
             // 
             // Tree
             // 

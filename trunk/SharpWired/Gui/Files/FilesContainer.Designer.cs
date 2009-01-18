@@ -30,7 +30,7 @@ namespace SharpWired.Gui.Files
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tree = new SharpWired.Gui.Files.Tree();
-            this.details = new SharpWired.Gui.Files.FolderListing();
+            this.folderListing = new SharpWired.Gui.Files.FolderListing();
             this.breadCrumb = new SharpWired.Gui.Files.BreadCrumb();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -52,7 +52,7 @@ namespace SharpWired.Gui.Files
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.details);
+            this.splitContainer1.Panel2.Controls.Add(this.folderListing);
             this.splitContainer1.Size = new System.Drawing.Size(400, 197);
             this.splitContainer1.SplitterDistance = 123;
             this.splitContainer1.TabIndex = 6;
@@ -65,13 +65,13 @@ namespace SharpWired.Gui.Files
             this.tree.Size = new System.Drawing.Size(123, 197);
             this.tree.TabIndex = 6;
             // 
-            // details
+            // folderListing
             // 
-            this.details.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.details.Location = new System.Drawing.Point(0, 0);
-            this.details.Name = "details";
-            this.details.Size = new System.Drawing.Size(273, 197);
-            this.details.TabIndex = 0;
+            this.folderListing.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.folderListing.Location = new System.Drawing.Point(0, 0);
+            this.folderListing.Name = "details";
+            this.folderListing.Size = new System.Drawing.Size(273, 197);
+            this.folderListing.TabIndex = 0;
             // 
             // breadCrumb
             // 
@@ -102,7 +102,7 @@ namespace SharpWired.Gui.Files
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private FolderListing details;
+        private FolderListing folderListing;
         private Tree tree;
         private BreadCrumb breadCrumb;
     }
