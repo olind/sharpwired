@@ -48,13 +48,24 @@ namespace SharpWired.Model.Files {
 
         public string Name { get; private set; }
         public string Path { get; private set; }
+
+        public string FullPath {
+            get {
+                // FIXME: Use real path joining!
+                if(Path == "/" && Name == "/")
+                    return Path;
+                else
+                    return Path + Name;    
+            }
+        }
+
         public DateTime Created { get; private set; }
         public DateTime Modified { get; private set; }
 
         public abstract event UpdatedDelegate Updated;
 
         public ANode(string path, DateTime created, DateTime modified) {
-            Debug.WriteLine("Adding node: " + path);
+            Debug.WriteLine("MODEL:ANode -> Adding node: " + path);
 
             if (path == "/")
                 Name = "/";

@@ -39,75 +39,33 @@ using SharpWired.Controller;
 using System.IO;
 
 namespace SharpWired.Gui.Files {
-    /// <summary>
-    /// Represents a detail view of the currently selected nodes
-    /// </summary>
-    public partial class FolderListing : SharpWiredGuiBase {
+    public partial class FolderListing : SharpWiredGuiBase, IFilesView {
 
         IconHandler iconHandler = IconHandler.Instance;
         FileMenu ContextMenu { get; set; }
         Folder CurrentFolder { get; set; }
 
-        delegate void ClearCallback();
-
         public List<INode> SelectedItems {
             get {
                 var n = new List<INode>();
-                foreach (var s in detailsListView.SelectedItems)
+                foreach(var s in detailsListView.SelectedItems)
                     n.Add(((WiredListNode)s).ModelNode);
                 return n;
             }
         }
 
-        #region Constructors
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        delegate void ClearCallback();
+        delegate void NodeListDelegate(List<INode> nodes);
+
+        // TODO: Use the FolderSelectedDelaget instead? Same signature...
+        public delegate void NodeDelegate(INode node);
+        public event NodeDelegate RequestDownload;
+        public event NodeSelectedDelegate NodeSelected;
+
         public FolderListing() {
             InitializeComponent();
         }
-        #endregion
 
-        #region Events & Listeners
-        public delegate void NodeDelegate(INode node);
-        public event NodeDelegate SelectedFolderChanged;
-        public event NodeDelegate RequestDownload;
-
-        delegate void NodeListDelegate(List<INode> nodes);
-
-        public void OnSelectedFolderNodeChanged(Folder folder) {
-            if (CurrentFolder != null)
-                CurrentFolder.Updated -= OnFolderUpdated;
-
-            CurrentFolder = folder;
-            CurrentFolder.Updated += OnFolderUpdated;
-        }
-
-        void OnFolderUpdated(INode node) {
-            UpdateListView(((Folder)node).Children);
-        }
-
-        private void detailsListView_MouseDoubleClick(object sender, MouseEventArgs e) {
-            WiredListNode node = (WiredListNode)detailsListView.GetItemAt(e.X, e.Y);
-            if (node != null
-                && node.ModelNode is Folder
-                && SelectedFolderChanged != null) {
-                SelectedFolderChanged(node.ModelNode);
-            }
-        }
-
-        private void detailsListView_KeyUp(object sender, KeyEventArgs e) {
-            if (e.KeyCode == Keys.Enter) {
-                if (detailsListView.SelectedItems.Count == 1) {
-                    INode n = ((WiredListNode)detailsListView.SelectedItems[0]).ModelNode;
-                    if (n != null && SelectedFolderChanged != null)
-                        SelectedFolderChanged(n);
-                }
-            }
-        }
-        #endregion
-
-        #region Methods
         public override void Init() {
             base.Init();
 
@@ -125,11 +83,19 @@ namespace SharpWired.Gui.Files {
             ContextMenu = new FileMenu(Controller, this);
         }
 
-        /// <summary>
-        /// Replace the items in this listview with the given list
-        /// </summary>
-        /// <param name="newNodes"></param>
-        private void UpdateListView(List<INode> newNodes) {
+        public void SetCurrentNode(INode node) {
+            if(node is Folder) {
+                Folder folder = node as Folder;
+
+                if(CurrentFolder != null)
+                    CurrentFolder.Updated -= OnFolderUpdated;
+
+                CurrentFolder = folder;
+                CurrentFolder.Updated += OnFolderUpdated;
+            }
+        }
+
+        void UpdateListView(List<INode> newNodes) {
             if (this.InvokeRequired) {
                 this.Invoke(new NodeListDelegate(UpdateListView), new object[] { newNodes });
             } else {
@@ -178,7 +144,7 @@ namespace SharpWired.Gui.Files {
         }
 
 
-        private void AddToListView(INode child, string imageKey) {
+        void AddToListView(INode child, string imageKey) {
             WiredListNode wln = new WiredListNode(child);
             wln.ImageIndex = detailsListView.SmallImageList.Images.IndexOfKey(imageKey);
             //wln.StateImageIndex = wln.Type;
@@ -188,20 +154,40 @@ namespace SharpWired.Gui.Files {
 
             this.detailsListView.Items.Add(wln);
         }
-        #endregion
 
-        private void detailsListView_MouseUp(object sender, MouseEventArgs e) {
-            if (e.Button == MouseButtons.Right) {
-                ContextMenu.Show(detailsListView, e.Location);
-            }
-        }
-
-        private void Clear() {
+        void Clear() {
             if (this.InvokeRequired) {
                 ClearCallback callback = new ClearCallback(Clear);
                 this.Invoke(callback);
             } else {
                 detailsListView.Clear();
+            }
+        }
+
+        void OnFolderUpdated(INode node) {
+            UpdateListView(((Folder)node).Children);
+        }
+
+        void OnMouseDoubleClick(object sender, MouseEventArgs e) {
+            WiredListNode node = (WiredListNode)detailsListView.GetItemAt(e.X, e.Y);
+            if(node != null && node.ModelNode is Folder && NodeSelected != null) {
+                NodeSelected(node.ModelNode);
+            }
+        }
+
+        void OnKeyUp(object sender, KeyEventArgs e) {
+            if(e.KeyCode == Keys.Enter) {
+                if(detailsListView.SelectedItems.Count == 1) {
+                    INode n = ((WiredListNode)detailsListView.SelectedItems[0]).ModelNode;
+                    if(n != null && NodeSelected != null)
+                        NodeSelected(n);
+                }
+            }
+        }
+
+        void OnMouseUp(object sender, MouseEventArgs e) {
+            if(e.Button == MouseButtons.Right) {
+                ContextMenu.Show(detailsListView, e.Location);
             }
         }
     }

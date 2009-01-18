@@ -66,7 +66,7 @@ namespace SharpWired.Model.Users
         private Group group;
         #endregion
 
-        #region Properties: User details
+        #region Properties: User folderListing
 
         /// <summary>
         /// Request or set if this user is admin

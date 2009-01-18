@@ -53,8 +53,7 @@ namespace SharpWired.Model.Files {
         public override event UpdatedDelegate Updated;
 
         public override void Reload() {
-
-            ConnectionManager.Commands.List(Path);
+            ConnectionManager.Commands.List(FullPath);
         }
 
         public void Reload(int depth) {
@@ -71,6 +70,7 @@ namespace SharpWired.Model.Files {
                 return false;
             else if (p.Length == 1 && Name == p[1])
                 return true;
+            // FIXME: -2 is not possible in C#! :-D
             else if (p.Length > 1 && Name == p[-2])
                 return true;
 
@@ -78,14 +78,20 @@ namespace SharpWired.Model.Files {
         }
 
         public virtual INode Get(string path) {
+            if(this.FullPath == path)
+                    return this;
+
             foreach (INode child in Children) {
-                if (child.Path + child.Name == path) {
+                if (child.FullPath == path)
                     return child;
-                } else if (child is Folder) {
-                    return ((Folder)child).Get(path);
+                else if(child is Folder) {
+                    INode found = ((Folder)child).Get(path);
+                    if(found != null)
+                        return found;
                 }
             }
-            throw new NodeException("The node was not found");
+
+            return null;
         }
 
         public void AddChildren(List<SharpWired.MessageEvents.MessageEventArgs_410420> list) {

@@ -38,50 +38,45 @@ using SharpWired.Model.Files;
 using SharpWired.Gui.Resources.Icons;
 
 namespace SharpWired.Gui.Files {
-    /// <summary>
-    /// The destination to the selected folder represented as browsable buttons
-    /// </summary>
-    public partial class BreadCrumb : SharpWiredGuiBase {
-
-        #region Constructors
-        public BreadCrumb() {
-            InitializeComponent();
-        }
-        #endregion
+    public partial class BreadCrumb : SharpWiredGuiBase, IFilesView {
 
         delegate void AddButtonsToFlowLayoutCallback(Button b);
         delegate void ClearFlowLayoutCallback();
 
-        public delegate void SelectFolderNodeChangeDelegate(INode node);
-        public event SelectFolderNodeChangeDelegate SelectedFolderChanged;
-        
-        public void OnSelectedFolderNodeChanged(Folder folder) { 
-            PopulatePathButtons(folder);
+        public event NodeSelectedDelegate NodeSelected;
+
+        public BreadCrumb() {
+            InitializeComponent();
         }
 
-        private void button_MouseUp(object sender, MouseEventArgs e) {
-            if (SelectedFolderChanged != null) {
-                INode n = (INode)((Button)sender).Tag;
-                SelectedFolderChanged(n);
-            }
+        public void SetCurrentNode(INode node) {
+            if (node is Folder)
+                PopulatePathButtons(node as Folder);
         }
 
-        private void PopulatePathButtons(Folder node) {
+        void PopulatePathButtons(Folder node) {
             ClearFlowLayout();
+            
+            List<string> path;
 
-            string[] pathArray = node.Path.Split('/');
+            if(node.FullPath == "/") {
+                path = new List<string>();
+                path.Add("");
+            } else {
+                path = new List<string>(node.FullPath.Split('/'));
+            }
 
-            for (int i = 0; i < pathArray.Length; i++) {
+            foreach (string folder in path) {
                 Button b = new Button();
-                if (pathArray[i] != "") {
-                    b.Text = pathArray[i];
+                if (folder != "") {
+                    b.Text = folder;
                 } else {
                     IconHandler iconHandler = IconHandler.Instance;
                     b.Image = iconHandler.GoHome;
                 }
 
-                b.MouseUp += new MouseEventHandler(button_MouseUp);
-                //b.Tag = Model.Server.FileListingModel.GetNode(CombineFilePath(pathArray, i));
+                b.MouseUp += new MouseEventHandler(OnMouseUp);
+                //b.Tag = Model.Server.FileListingModel.GetNode(CombineFilePath(path, i));
                 //todo: file
                 b.AutoSizeMode = AutoSizeMode.GrowAndShrink;
                 b.AutoSize = true;
@@ -91,7 +86,7 @@ namespace SharpWired.Gui.Files {
             }
         }
 
-        private void AddButtonsToFlowLayout(Button b) {
+        void AddButtonsToFlowLayout(Button b) {
             if (this.InvokeRequired) {
                 AddButtonsToFlowLayoutCallback callback = new AddButtonsToFlowLayoutCallback(AddButtonsToFlowLayout);
                 this.Invoke(callback, new object[] { b });
@@ -100,7 +95,7 @@ namespace SharpWired.Gui.Files {
             }
         }
 
-        private void ClearFlowLayout() {
+        void ClearFlowLayout() {
             if (this.InvokeRequired) {
                 ClearFlowLayoutCallback callback = new ClearFlowLayoutCallback(ClearFlowLayout);
                 this.Invoke(callback, new object[] { });
@@ -109,13 +104,7 @@ namespace SharpWired.Gui.Files {
             }
         }
         
-        /// <summary>
-        /// Combines the entries in the given pathArray to a valid server destination uptil the given dept
-        /// </summary>
-        /// <param name="pathArray">Array with entries representing a destination</param>
-        /// <param name="dept">The dept to where we want the returned string destination to be limited</param>
-        /// <returns></returns>
-        private string CombineFilePath(String[] pathArray, int dept) {
+        string CombineFilePath(String[] pathArray, int dept) {
             StringBuilder sb = new StringBuilder();
             if (dept > 0 && pathArray.Length > 0) {
                 for (int i = 0; i <= dept; i++) {
@@ -126,6 +115,13 @@ namespace SharpWired.Gui.Files {
                 return sb.ToString();
             } else {
                 return SharpWired.Utility.PATH_SEPARATOR;
+            }
+        }
+
+        void OnMouseUp(object sender, MouseEventArgs e) {
+            if(NodeSelected != null) {
+                INode n = (INode)((Button)sender).Tag;
+                NodeSelected(n);
             }
         }
     }

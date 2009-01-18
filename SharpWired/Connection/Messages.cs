@@ -1124,18 +1124,18 @@ namespace SharpWired.Connection {
             int msgId = Convert.ToInt32(msg.Substring(0, 3));
             string argument = msg.Substring(4);
 
-            if (msgId == 310 || msgId == 340) {
+            if (msgId == 310 || msgId == 340 || msgId == 410) {
                 int length = 120;
                 string end = "...'";
                 if (argument.Length < 120) {
                     length = argument.Length;
                     end = "'";
                 }
-                Debug.WriteLine("Received " + msgId + ": '"
+                Debug.WriteLine("CONNECTION:Messages -> Received: " + msgId + ": '"
                                 + argument.Substring(0, length) + end);
             } else if (msgId != 320 && msgId != 321
                             && msgId != 410 && msgId != 411)
-                Debug.WriteLine("Received " + msgId + ": '"
+                Debug.WriteLine("CONNECTION:Messages -> Received: " + msgId + ": '"
                                 + argument + "'");
 
             switch (msgId) {

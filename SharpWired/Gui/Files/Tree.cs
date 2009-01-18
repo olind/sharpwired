@@ -43,42 +43,16 @@ namespace SharpWired.Gui.Files {
     /// <summary>
     /// Shows a representation of the File Model, which models the file tree on the server.
     /// </summary>
-    public partial class Tree : SharpWiredGuiBase {
+    public partial class Tree : SharpWiredGuiBase, IFilesView {
 
         ArrayList nodeList = new ArrayList();
 
         delegate void Callback();
 
-        /// <summary>
-        /// Creates and inits components.
-        /// </summary>
+        public event NodeSelectedDelegate NodeSelected;
+
         public Tree() {
             InitializeComponent();
-        }
-
-        public delegate void SelectFolderNodeChangeDelegate(INode node);
-        public event SelectFolderNodeChangeDelegate SelectedFolderChanged;
-
-        protected override void OnOnline() {
-            if (this.InvokeRequired) {
-                this.Invoke(new Callback(OnOnline));
-            } else {
-                base.OnOnline();
-                rootTreeView.Nodes.Add(new WiredTreeNode(Model.Server.FileRoot));
-            }
-        }
-
-        protected override void OnOffline() {
-            base.OnOffline();
-            Clear();
-        }
-
-        public void Clear() {
-            if (this.InvokeRequired) {
-                this.Invoke(new Callback(Clear));
-            } else {
-                rootTreeView.Nodes.Clear();
-            }
         }
 
         public override void Init() {
@@ -91,10 +65,42 @@ namespace SharpWired.Gui.Files {
             rootTreeView.ImageList = rootTreeViewIcons;
         }
 
-        private void rootTreeView_AfterSelect(object sender, TreeViewEventArgs e) {
+        public void SetCurrentNode(INode node) {
+            if(node is Folder) {
+                TreeNodeCollection nodes = rootTreeView.Nodes;
+                TreeNode[] found = nodes.Find(node.FullPath, true);
+
+                rootTreeView.SelectedNode = found[0];
+            }
+        }
+
+        void Clear() {
+            if(this.InvokeRequired) {
+                this.Invoke(new Callback(Clear));
+            } else {
+                rootTreeView.Nodes.Clear();
+            }
+        }
+
+        protected override void OnOnline() {
+            if(this.InvokeRequired) {
+                this.Invoke(new Callback(OnOnline));
+            } else {
+                base.OnOnline();
+                rootTreeView.Nodes.Add(new WiredTreeNode(Model.Server.FileRoot));
+            }
+        }
+
+        protected override void OnOffline() {
+            // TODO: Use thread safe invoke?
+            base.OnOffline();
+            Clear();
+        }
+
+        private void OnAfterSelect(object sender, TreeViewEventArgs e) {
             WiredTreeNode node = (WiredTreeNode)rootTreeView.SelectedNode;
-            if (node != null && SelectedFolderChanged != null) {
-                SelectedFolderChanged(node.ModelNode);
+            if(node != null && NodeSelected != null) {
+                NodeSelected(node.ModelNode);
             }
         }
     }
@@ -107,6 +113,7 @@ namespace SharpWired.Gui.Files {
         public WiredTreeNode(INode modelNode) {
             ModelNode = modelNode;
             Text = modelNode.Name;
+            Name = modelNode.FullPath; // Used only for searching the tree.
             PopulateFolder();
             modelNode.Updated += OnUpdated;
         }
@@ -117,9 +124,11 @@ namespace SharpWired.Gui.Files {
 
         private void PopulateFolder() {
             if (ModelNode is Folder) {
-
                 Func del = delegate {
                     Folder folder = ModelNode as Folder;
+
+                    Debug.WriteLine("GUI:Tree -> Redrawing: " + folder.FullPath);
+
                     this.Nodes.Clear();
 
                     foreach (INode child in folder.Children)
