@@ -233,6 +233,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Gui\Files\IFilesView.cs" />
+    <Compile Include="Gui\Files\WiredTreeNode.cs" />
     <Compile Include="Gui\Transfers\TransferContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
