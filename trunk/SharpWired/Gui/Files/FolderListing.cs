@@ -113,13 +113,13 @@ namespace SharpWired.Gui.Files {
                 newNodes.Sort();
 
                 foreach (var folder in newNodes) {
-                    if (folder is Folder) {
+                    if (folder is IFolder) {
                         AddToListView(folder, "FOLDER");
                     }
                 }
 
                 foreach (var child in newNodes) {
-                    if (child is INode) {
+                    if (child is IFile) {
                         try {
                             var imageKey = Path.GetExtension(child.Name);
 
