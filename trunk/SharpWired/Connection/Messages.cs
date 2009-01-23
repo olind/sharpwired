@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * Messages.cs 
  * Created by Ola Lindberg, 2006-06-29
@@ -22,19 +23,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpWired;
-using SharpWired.Connection;
-using System.Net;
-using System.Drawing;
-using SharpWired.MessageEvents;
-using SharpWired.Connection.Sockets;
-using SharpWired.Model.Users;
 using System.Diagnostics;
+using System.Drawing;
+using System.Net;
+using SharpWired.MessageEvents;
+using SharpWired.Model.Users;
 
 namespace SharpWired.Connection {
     /// <summary>
@@ -51,384 +48,500 @@ namespace SharpWired.Connection {
         //
 
         #region Delegates
+
         /// 200
         public delegate void ServerInformationEventHandler(MessageEventArgs_200 messageEventArgs);
+
         /// 201
         public delegate void LoginSucceededEventHandler(object sender, MessageEventArgs_201 messageEventArgs);
+
         /// 202
         public delegate void PingReplyEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 203
         public delegate void ServerBannerEventHandler(MessageEventArgs_203 messageEventArgs);
+
         /// 300
         public delegate void ChatEventHandler(object sender, MessageEventArgs_300301 messageEventArgs);
+
         /// 301
         public delegate void ActionChatEventHandler(object sender, MessageEventArgs_300301 messageEventArgs);
+
         /// 302
         public delegate void ClientJoinEventHandler(MessageEventArgs_302310 messageEventArgs);
+
         /// 303
         public delegate void ClientLeaveEventHandler(MessageEventArgs_303331332 messageEventArgs);
+
         /// 304
         public delegate void StatusChangeEventHandler(MessageEventArgs_304 messageEventArgs);
+
         /// 305
         public delegate void PrivateMessageEventHandler(object sender, MessageEventArgs_305309 messageEventArgs);
+
         /// 306
         public delegate void ClientKickedEventHandler(MessageEventArgs_306307 messageEventArgs);
+
         /// 307
         public delegate void ClientBannedEventHandler(MessageEventArgs_306307 messageEventArgs);
+
         /// 308
         public delegate void ClientInformationEventHandler(MessageEventArgs_308 messageEventArgs);
+
         /// 309
         public delegate void BroadcastMessageEventHandler(object sender, MessageEventArgs_305309 messageEventArgs);
+
         /// 310
         public delegate void UserListEventHandler(MessageEventArgs_302310 messageEventArgs);
+
         /// 311
         public delegate void UserListDoneEventHandler(object sender, MessageEventArgs_311330 messageEventArgs);
+
         /// 320
         public delegate void NewsEventHandler(MessageEventArgs_320322 messageEventArgs);
+
         /// 321
         public delegate void NewsDoneEventHandler(MessageEventArgs_Messages messageEventArgs);
+
         /// 322
         public delegate void NewsPostedEventHandler(MessageEventArgs_320322 messageEventArgs);
+
         /// 330
         public delegate void PrivateChatCreatedEventHandler(object sender, MessageEventArgs_311330 messageEventArgs);
+
         /// 331e
         public delegate void PrivateChatInvitationEventHandler(object sender, MessageEventArgs_303331332 messageEventArgs);
+
         /// 332
         public delegate void PrivateChatDeclinedEventHandler(object sender, MessageEventArgs_303331332 messageEventArgs);
+
         /// 340
         public delegate void ClientImageChangedEventHandler(MessageEventArgs_340 messageEventArgs);
+
         /// 341
         public delegate void ChatTopicEventHandler(MessageEventArgs_341 messageEventArgs);
+
         /// 400
         public delegate void TransferReadyEventHandler(MessageEventArgs_400 messageEventArgs);
+
         /// 401
         public delegate void TransferQueuedEventHandler(object sender, MessageEventArgs_401 messageEventArgs);
+
         /// 402
         public delegate void FileInformationEventHandler(object sender, MessageEventArgs_402 messageEventArgs);
+
         /// 410
         public delegate void FileListingEventHandler(MessageEventArgs_410420 messageEventArgs);
+
         /// 411
         public delegate void FileListingDoneEventHandler(MessageEventArgs_411 messageEventArgs);
+
         /// 420
         public delegate void SearchListingEventHandler(object sender, MessageEventArgs_410420 messageEventArgs);
+
         /// 421
         public delegate void SearchListingDoneEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 500
         public delegate void CommandFailedEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 501
         public delegate void CommandNotRecognizedEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 502
         public delegate void CommandNotImplementedEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 503
         public delegate void SyntaxErrorEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 510
         public delegate void LoginFailedEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 511
         public delegate void BannedEventHandler(MessageEventArgs_Messages messageEventArgs);
+
         /// 512
         public delegate void ClientNotFoundEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 513
         public delegate void AccountNotFoundEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 514
         public delegate void AccountExistsEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 515
         public delegate void CannotBeDisconnectedEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 516
         public delegate void PermissionDeniedEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 520
         public delegate void FileOrDirectoryNotFoundEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 521
         public delegate void FileOrDirectoryExistsEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 522
         public delegate void ChecksumMismatchEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 523
         public delegate void QueueLimitExceededEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 600
         public delegate void UserSpecificationEventHandler(object sender, MessageEventArgs_600 messageEventArgs);
+
         /// 601
         public delegate void GroupSpecificationEventHandler(object sender, MessageEventArgs_601 messageEventArgs);
+
         /// 602
         public delegate void PrivilegesSpecificationEventHandler(MessageEventArgs_602 messageEventArgs);
+
         /// 610
         public delegate void UserListingEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 611
         public delegate void UserListingDoneEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 620
         public delegate void GroupListingEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 621
         public delegate void GroupListingDoneEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
 
         /// Tracker specific events
         /// 710 TrackerCategoryListingEvent	
         public delegate void TrackerCategoryListingEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 711 TrackerCategoryListingDoneEvent
         public delegate void TrackerCategoryListingDoneEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 720 TrackerServerListingEvent
         public delegate void TrackerServerListingEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         /// 721 TrackerServerListingDoneEvent
         public delegate void TrackerServerListingDoneEventHandler(object sender, MessageEventArgs_Messages messageEventArgs);
+
         #endregion
 
         #region Events
+
         /// <summary>
         /// Basic information about the server
         /// </summary>
         public event ServerInformationEventHandler ServerInformationEvent;
+
         /// <summary>
         /// Login succeded
         /// </summary>
         public event LoginSucceededEventHandler LoginSucceededEvent;
+
         /// <summary>
         /// Event to be notified when a response to a ping occured
         /// </summary>
         public event PingReplyEventHandler PingReplyEvent;
+
         /// <summary>
         /// Event to be notified when a server banner has changed
         /// </summary>
         public event ServerBannerEventHandler ServerBannerEvent;
+
         /// <summary>
         /// Event to be notified when a chat message is received
         /// </summary>
         public event ChatEventHandler ChatEvent;
+
         /// <summary>
         /// Event to be notified when an action chat message is received
         /// </summary>
         public event ActionChatEventHandler ActionChatEvent;
+
         /// <summary>
         /// Event to be notified when a client has joined
         /// </summary>
         public event ClientJoinEventHandler ClientJoinEvent;
+
         /// <summary>
         /// Event to be notified when a client has left
         /// </summary>
         public event ClientLeaveEventHandler ClientLeaveEvent;
+
         /// <summary>
         /// Event to be notified when a status has changed
         /// </summary>
         public event StatusChangeEventHandler StatusChangeEvent;
+
         /// <summary>
         /// Event to be notified when a private message is received
         /// </summary>
         public event PrivateMessageEventHandler PrivateMessageEvent;
+
         /// <summary>
         /// Event to be notified when a client has been kicked
         /// </summary>
         public event ClientKickedEventHandler ClientKickedEvent;
+
         /// <summary>
         /// Event to be notified when a client has been banned
         /// </summary>
         public event ClientBannedEventHandler ClientBannedEvent;
+
         /// <summary>
         /// Event to be notified when a client information has been received 
         /// </summary>
         public event ClientInformationEventHandler ClientInformationEvent;
+
         /// <summary>
         /// Event to be notified when a broadcast message has been received
         /// </summary>
         public event BroadcastMessageEventHandler BroadcastMessageEvent;
+
         /// <summary>
         /// Event to be notified when a user list message has been received
         /// </summary>
         public event UserListEventHandler UserListEvent;
+
         /// <summary>
         /// Event to be notified when a user list done event has been received
         /// </summary>
         public event UserListDoneEventHandler UserListDoneEvent;
+
         /// <summary>
         /// Event to be notified when a news post event has been received
         /// </summary>
         public event NewsEventHandler NewsEvent;
+
         /// <summary>
         /// Event to be notified when a news post done has been received. In response to comman NEWS.
         /// </summary>
         public event NewsDoneEventHandler NewsDoneEvent;
+
         /// <summary>
         /// Event to be notified when a new newspost has been posted (asyncron message).
         /// </summary>
         public event NewsPostedEventHandler NewsPostedEvent;
+
         /// <summary>
         /// Event to be notified when a private chat has been created on the server (Wired id 330)
         /// </summary>
         public event PrivateChatCreatedEventHandler PrivateChatCreatedEvent;
+
         /// <summary>
         /// Event to be notified when a user has been invited to a private chat
         /// </summary>
         public event PrivateChatInvitationEventHandler PrivateChatInvitationEvent;
+
         /// <summary>
         /// Event to be notified when a user has declined a private chat
         /// </summary>
         public event PrivateChatDeclinedEventHandler PrivateChatDeclinedEvent;
+
         /// <summary>
         /// Event to be notified when the image has changed for a user
         /// </summary>
         public event ClientImageChangedEventHandler ClientImageChangedEvent;
+
         /// <summary>
         /// Event to be notified when a chat topic has been changed
         /// </summary>
         public event ChatTopicEventHandler ChatTopicEvent;
+
         /// <summary>
         /// Event to be notified when a transfer is ready for transmission
         /// </summary>
         public event TransferReadyEventHandler TransferReadyEvent;
+
         /// <summary>
         /// Event to be notified when a transfer has been queued 
         /// </summary>
         public event TransferQueuedEventHandler TransferQueuedEvent;
+
         /// <summary>
         /// Event to be notified when a file information event is received
         /// </summary>
         public event FileInformationEventHandler FileInformationEvent;
+
         /// <summary>
         /// Event to be notified when file listing has been received
         /// </summary>
         public event FileListingEventHandler FileListingEvent;
+
         /// <summary>
         /// Event to be notified when a file listing done event is received
         /// </summary>
         public event FileListingDoneEventHandler FileListingDoneEvent;
+
         /// <summary>
         /// Event to be notified when a search listing event has been received
         /// </summary>
         public event SearchListingEventHandler SearchListingEvent;
+
         /// <summary>
         /// Event to be notified when a search listing has been completed
         /// </summary>
         public event SearchListingDoneEventHandler SearchListingDoneEvent;
+
         /// <summary>
         /// Event to be notified when a command failed
         /// </summary>
         public event CommandFailedEventHandler CommandFailedEvent;
+
         /// <summary>
         /// Event to be notified when a command is not reqognized
         /// </summary>
         public event CommandNotRecognizedEventHandler CommandNotRecognizedEvent;
+
         /// <summary>
         /// Event to be notified when a command is not implemented
         /// </summary>
         public event CommandNotImplementedEventHandler CommandNotImplementedEvent;
+
         /// <summary>
         /// Event to be notified when a syntax error event was received
         /// </summary>
         public event SyntaxErrorEventHandler SyntaxErrorEvent;
+
         /// <summary>
         /// Event to be notified when logging in failed
         /// </summary>
         public event LoginFailedEventHandler LoginFailedEvent;
+
         /// <summary>
         /// Event to be notified when the login could not be done since the client was banned
         /// </summary>
         public event BannedEventHandler BannedEvent;
+
         /// <summary>
         /// Event to be notified when the server could not find the client
         /// </summary>
         public event ClientNotFoundEventHandler ClientNotFoundEvent;
+
         /// <summary>
         /// Event to be notified when the server could not find the given account
         /// </summary>
         public event AccountNotFoundEventHandler AccountNotFoundEvent;
+
         /// <summary>
         /// Event to be notified when the given account already exists on the server
         /// </summary>
         public event AccountExistsEventHandler AccountExistsEvent;
+
         /// <summary>
         /// Event to be notified when a user tried to dissconnect a user that cannot be disconnected
         /// </summary>
         public event CannotBeDisconnectedEventHandler CannotBeDisconnectedEvent;
+
         /// <summary>
         /// Event to be notified when a command could not be completed due to permission problems
         /// </summary>
         public event PermissionDeniedEventHandler PermissionDeniedEvent;
+
         /// <summary>
         /// Event to be notified when the file or directore reffered to could not be found
         /// </summary>
         public event FileOrDirectoryNotFoundEventHandler FileOrDirectoryNotFoundEvent;
+
         /// <summary>
         /// Event to be notified when the file or directory reffered to could not be found
         /// </summary>
         public event FileOrDirectoryExistsEventHandler FileOrDirectoryExistsEvent;
+
         /// <summary>
         /// Event to be notified when the two checksums do not match
         /// </summary>
         public event ChecksumMismatchEventHandler ChecksumMismatchEvent;
+
         /// <summary>
         /// Event to be notified when the queue limit was exceeded
         /// </summary>
         public event QueueLimitExceededEventHandler QueueLimitExceededEvent;
+
         /// <summary>
         /// Event to be notified when specifications for a user was received
         /// </summary>
         public event UserSpecificationEventHandler UserSpecificationEvent;
+
         /// <summary>
         /// Event to be notified when specifications for a group was received
         /// </summary>
         public event GroupSpecificationEventHandler GroupSpecificationEvent;
+
         /// <summary>
         /// Event to be notified when specification for this user was received
         /// </summary>
         public event PrivilegesSpecificationEventHandler PrivilegesSpecificationEvent;
+
         /// <summary>
         /// Event to be notified when a user account in the user accounts listing was received. 
         /// NOTE! This is for the administration of the server. Not the same as UserListEvent.
         /// </summary>
         public event UserListingEventHandler UserListingEvent;
+
         /// <summary>
         /// Event to be notified when all user accounts on the server was received.
         /// NOTE! This is for the administration of the server. Not the same as UserListDoneEvent.
         /// </summary>
         public event UserListingDoneEventHandler UserListingDoneEvent;
+
         /// <summary>
         /// Event to be notified when a group listing was received.
         /// NOTE! This is for the administration of the server.
         /// </summary>
         public event GroupListingEventHandler GroupListingEvent;
+
         /// <summary>
         /// Event to be notified when group listing was completed.
         /// NOTE! This is for the administration of the server.
         /// </summary>
         public event GroupListingDoneEventHandler GroupListingDoneEvent;
+
         #endregion
 
         #region Tracker specific events (doesn'transfer exist in the protocol specification)
+
         /// <summary>
         /// Event to be notified when a tracker categories was received
         /// </summary>
         public event TrackerCategoryListingEventHandler TrackerCategoryListingEvent;
+
         /// <summary>
         /// Event to be notified when all tracker categories has been received
         /// </summary>
         public event TrackerCategoryListingDoneEventHandler TrackerCategoryListingDoneEvent;
+
         /// <summary>
         /// Event to be notified when a tracker listing was received
         /// </summary>
         public event TrackerServerListingEventHandler TrackerServerListingEvent;
+
         /// <summary>
         /// Event to be notified when tracker listing is completed
         /// </summary>
         public event TrackerServerListingDoneEventHandler TrackerServerListingDoneEvent;
+
         #endregion
 
         #region Event Creators
+
         /// 
         /// Here follows the Raisers of events
         ///
-
         // 200
         private void OnServerInformationEvent(object sender, int messageId, string messageName, string message) {
             if (ServerInformationEvent != null) {
                 // Parse the server information event
-                string[] words = SplitMessage(message);
+                var words = SplitMessage(message);
 
-                string appVersion = words[0];
-                string protocolVersion = words[1].ToString();
-                string serverName = words[2];
-                string serverDescription = words[3];
+                var appVersion = words[0];
+                var protocolVersion = words[1];
+                var serverName = words[2];
+                var serverDescription = words[3];
                 DateTime startTime;
                 DateTime.TryParse(words[4], out startTime);
 
                 int filesCount = Convert.ToInt16(words[5]);
-                long filesSize = long.Parse(words[6]);
+                var filesSize = long.Parse(words[6]);
 
-                MessageEventArgs_200 m = new MessageEventArgs_200(messageId, messageName, appVersion, protocolVersion, serverName, serverDescription, startTime, filesCount, filesSize);
+                var m = new MessageEventArgs_200(messageId, messageName, appVersion, protocolVersion, serverName, serverDescription, startTime, filesCount, filesSize);
 
                 ServerInformationEvent(m);
             }
@@ -438,7 +551,7 @@ namespace SharpWired.Connection {
         private void OnLoginSucceededEvent(object sender, int messageId, string messageName, string message) {
             if (LoginSucceededEvent != null) {
                 int userId = Int16.Parse(message);
-                MessageEventArgs_201 m = new MessageEventArgs_201(messageId, messageName, userId);
+                var m = new MessageEventArgs_201(messageId, messageName, userId);
                 LoginSucceededEvent(this, m);
             }
         }
@@ -446,7 +559,7 @@ namespace SharpWired.Connection {
         // 202
         private void OnPingReplyEvent(object sender, int messageId, string messageName, string message) {
             if (PingReplyEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 PingReplyEvent(this, m);
             }
         }
@@ -454,8 +567,8 @@ namespace SharpWired.Connection {
         // 203
         private void OnServerBannerEvent(object sender, int messageId, string messageName, string message) {
             if (ServerBannerEvent != null) {
-                Bitmap serverBanner = new Bitmap(SharpWired.Utility.Base64StringToBitmap(message));
-                MessageEventArgs_203 m = new MessageEventArgs_203(messageId, messageName, serverBanner);
+                var serverBanner = new Bitmap(Utility.Base64StringToBitmap(message));
+                var m = new MessageEventArgs_203(messageId, messageName, serverBanner);
                 ServerBannerEvent(m);
             }
         }
@@ -463,12 +576,12 @@ namespace SharpWired.Connection {
         // 300
         private void OnChatEvent(object sender, int messageId, string messageName, string message) {
             if (ChatEvent != null) {
-                string[] words = SplitMessage(message);
-                int chatId = int.Parse(words[0]);
-                int fromUserId = int.Parse(words[1]);
-                string parsedMessage = words[2];
+                var words = SplitMessage(message);
+                var chatId = int.Parse(words[0]);
+                var fromUserId = int.Parse(words[1]);
+                var parsedMessage = words[2];
 
-                MessageEventArgs_300301 m = new MessageEventArgs_300301(messageId, messageName, chatId, fromUserId, parsedMessage);
+                var m = new MessageEventArgs_300301(messageId, messageName, chatId, fromUserId, parsedMessage);
                 ChatEvent(this, m);
             }
         }
@@ -476,12 +589,12 @@ namespace SharpWired.Connection {
         // 301
         private void OnActionChatEvent(object sender, int messageId, string messageName, string message) {
             if (ActionChatEvent != null) {
-                string[] words = SplitMessage(message);
-                int chatId = int.Parse(words[0]);
-                int fromUserId = int.Parse(words[1]);
-                string parsedMessage = words[2];
+                var words = SplitMessage(message);
+                var chatId = int.Parse(words[0]);
+                var fromUserId = int.Parse(words[1]);
+                var parsedMessage = words[2];
 
-                MessageEventArgs_300301 m = new MessageEventArgs_300301(messageId, messageName, chatId, fromUserId, parsedMessage);
+                var m = new MessageEventArgs_300301(messageId, messageName, chatId, fromUserId, parsedMessage);
 
                 ActionChatEvent(this, m);
             }
@@ -490,22 +603,21 @@ namespace SharpWired.Connection {
         // 302 
         private void OnClientJoinEvent(object sender, int messageId, string messageName, string message) {
             if (ClientJoinEvent != null) {
+                var words = SplitMessage(message);
 
-                string[] words = SplitMessage(message);
+                var chatId = int.Parse(words[0]);
+                var userId = int.Parse(words[1]);
+                var idle = Utility.ConvertIntToBool(int.Parse(words[2]));
+                var admin = Utility.ConvertIntToBool(int.Parse(words[3]));
+                var icon = int.Parse(words[4]);
+                var nick = words[5];
+                var login = words[6];
+                var ip = IPAddress.Parse(words[7]);
+                var host = words[8];
+                var status = words[9];
+                var image = Utility.Base64StringToBitmap(words[10]);
 
-                int chatId = int.Parse(words[0]);
-                int userId = int.Parse(words[1]);
-                bool idle = Utility.ConvertIntToBool(int.Parse(words[2]));
-                bool admin = Utility.ConvertIntToBool(int.Parse(words[3]));
-                int icon = int.Parse(words[4]);
-                string nick = words[5];
-                string login = words[6];
-                IPAddress ip = IPAddress.Parse(words[7]);
-                string host = words[8];
-                string status = words[9];
-                Bitmap image = SharpWired.Utility.Base64StringToBitmap(words[10]);
-
-                MessageEventArgs_302310 m = new MessageEventArgs_302310(messageId, messageName, chatId, userId, idle, admin, icon, nick, login, ip, host, status, image);
+                var m = new MessageEventArgs_302310(messageId, messageName, chatId, userId, idle, admin, icon, nick, login, ip, host, status, image);
 
                 ClientJoinEvent(m);
             }
@@ -514,11 +626,11 @@ namespace SharpWired.Connection {
         // 303
         private void OnClientLeaveEvent(object sender, int messageId, string messageName, string message) {
             if (ClientLeaveEvent != null) {
-                string[] words = SplitMessage(message);
-                int chatId = int.Parse(words[0]);
-                int userId = int.Parse(words[1]);
+                var words = SplitMessage(message);
+                var chatId = int.Parse(words[0]);
+                var userId = int.Parse(words[1]);
 
-                MessageEventArgs_303331332 m = new MessageEventArgs_303331332(messageId, messageName, chatId, userId);
+                var m = new MessageEventArgs_303331332(messageId, messageName, chatId, userId);
 
                 ClientLeaveEvent(m);
             }
@@ -527,7 +639,7 @@ namespace SharpWired.Connection {
         // 304
         private void OnStatusChangeEvent(object sender, int messageId, string messageName, string message) {
             if (StatusChangeEvent != null) {
-                string[] words = SplitMessage(message);
+                var words = SplitMessage(message);
 
                 // If we thing we want to set the variable to -1 instead 
                 // of catching exception when something fails we can do it like this.
@@ -535,14 +647,14 @@ namespace SharpWired.Connection {
                 // if(!(int.TryParse(words[0], out userId)))
                 //     userId = -1;
 
-                int userId = int.Parse(words[0]);
-                bool idle = Utility.ConvertIntToBool(int.Parse(words[1]));
-                bool admin = Utility.ConvertIntToBool(int.Parse(words[2]));
-                int icon = int.Parse(words[3]);
-                string nick = words[4];
-                string status = words[5];
+                var userId = int.Parse(words[0]);
+                var idle = Utility.ConvertIntToBool(int.Parse(words[1]));
+                var admin = Utility.ConvertIntToBool(int.Parse(words[2]));
+                var icon = int.Parse(words[3]);
+                var nick = words[4];
+                var status = words[5];
 
-                MessageEventArgs_304 m = new MessageEventArgs_304(messageId, messageName, userId, idle, admin, icon, nick, status);
+                var m = new MessageEventArgs_304(messageId, messageName, userId, idle, admin, icon, nick, status);
 
                 StatusChangeEvent(m);
             }
@@ -551,12 +663,12 @@ namespace SharpWired.Connection {
         // 305
         private void OnPrivateMessageEvent(object sender, int messageId, string messageName, string message) {
             if (PrivateMessageEvent != null) {
-                string[] words = SplitMessage(message);
+                var words = SplitMessage(message);
 
-                int userId = int.Parse(words[0]);
-                string parsedMessage = words[1];
+                var userId = int.Parse(words[0]);
+                var parsedMessage = words[1];
 
-                MessageEventArgs_305309 m = new MessageEventArgs_305309(messageId, messageName, userId, parsedMessage);
+                var m = new MessageEventArgs_305309(messageId, messageName, userId, parsedMessage);
 
                 PrivateMessageEvent(this, m);
             }
@@ -565,13 +677,13 @@ namespace SharpWired.Connection {
         // 306
         private void OnClientKickedEvent(object sender, int messageId, string messageName, string message) {
             if (ClientKickedEvent != null) {
-                string[] words = SplitMessage(message);
+                var words = SplitMessage(message);
 
-                int victimId = int.Parse(words[0]);
-                int killerId = int.Parse(words[1]);
-                string parsedMessage = words[2];
+                var victimId = int.Parse(words[0]);
+                var killerId = int.Parse(words[1]);
+                var parsedMessage = words[2];
 
-                MessageEventArgs_306307 m = new MessageEventArgs_306307(messageId, messageName, parsedMessage, victimId, killerId);
+                var m = new MessageEventArgs_306307(messageId, messageName, parsedMessage, victimId, killerId);
 
                 ClientKickedEvent(m);
             }
@@ -580,13 +692,13 @@ namespace SharpWired.Connection {
         // 307
         private void OnClientBannedEvent(object sender, int messageId, string messageName, string message) {
             if (ClientBannedEvent != null) {
-                string[] words = SplitMessage(message);
+                var words = SplitMessage(message);
 
-                int victimId = int.Parse(words[0]);
-                int killerId = int.Parse(words[1]);
-                string parsedMessage = words[3];
+                var victimId = int.Parse(words[0]);
+                var killerId = int.Parse(words[1]);
+                var parsedMessage = words[3];
 
-                MessageEventArgs_306307 m = new MessageEventArgs_306307(messageId, messageName, parsedMessage, victimId, killerId);
+                var m = new MessageEventArgs_306307(messageId, messageName, parsedMessage, victimId, killerId);
 
                 ClientBannedEvent(m);
             }
@@ -597,7 +709,7 @@ namespace SharpWired.Connection {
             if (ClientInformationEvent != null) {
                 string[] w;
                 string nick, login, host, clientVersion, cipherName, downloads,
-                    uploads, status, transfer, path;
+                       uploads, status, transfer, path;
                 int userId, icon, cipherBits, transferred, size, speed;
                 bool idle, admin;
                 IPAddress ip;
@@ -621,7 +733,7 @@ namespace SharpWired.Connection {
                 downloads = w[13];
                 uploads = w[14];
                 status = w[15];
-                image = SharpWired.Utility.Base64StringToBitmap(w[16]);
+                image = Utility.Base64StringToBitmap(w[16]);
                 try {
                     // This try is needed because of a possbile bug in
                     // WiredServer which omitts the last five fields.
@@ -638,7 +750,7 @@ namespace SharpWired.Connection {
                     speed = -1;
                     Debug.WriteLine("Messages.cs: Failed to set client information string. Setting default values. Exception: " + e);
                 }
-                MessageEventArgs_308 m = new MessageEventArgs_308(messageId, messageName, userId, image, idle, admin, icon, nick, login, status, ip, host, clientVersion, cipherName, cipherBits, loginTime, idleTime, downloads, uploads, transfer, path, transferred, size, speed);
+                var m = new MessageEventArgs_308(messageId, messageName, userId, image, idle, admin, icon, nick, login, status, ip, host, clientVersion, cipherName, cipherBits, loginTime, idleTime, downloads, uploads, transfer, path, transferred, size, speed);
 
                 ClientInformationEvent(m);
             }
@@ -647,11 +759,11 @@ namespace SharpWired.Connection {
         // 309
         private void OnBroadcastMessageEvent(object sender, int messageId, string messageName, string message) {
             if (BroadcastMessageEvent != null) {
-                string[] w = SplitMessage(message);
-                int userId = int.Parse(w[1]);
-                string parsedMessage = w[2];
+                var w = SplitMessage(message);
+                var userId = int.Parse(w[1]);
+                var parsedMessage = w[2];
 
-                MessageEventArgs_305309 m = new MessageEventArgs_305309(messageId, messageName, userId, parsedMessage);
+                var m = new MessageEventArgs_305309(messageId, messageName, userId, parsedMessage);
 
                 BroadcastMessageEvent(this, m);
             }
@@ -660,20 +772,20 @@ namespace SharpWired.Connection {
         // 310
         private void OnUserListEvent(object sender, int messageId, string messageName, string message) {
             if (UserListEvent != null) {
-                string[] s = SplitMessage(message);
+                var s = SplitMessage(message);
                 int chatId = Convert.ToInt16(s[0]);
                 int userId = Convert.ToInt16(s[1]);
-                bool idle = Convert.ToBoolean(Convert.ToInt16(s[2]));
-                bool admin = Convert.ToBoolean(Convert.ToInt16(s[3]));
+                var idle = Convert.ToBoolean(Convert.ToInt16(s[2]));
+                var admin = Convert.ToBoolean(Convert.ToInt16(s[3]));
                 int icon = Convert.ToInt16(s[4]);
-                string nick = s[5];
-                string login = s[6];
-                IPAddress ip = IPAddress.Parse(s[7]);
-                string host = s[8];
-                string status = s[9];
-                Bitmap image = SharpWired.Utility.Base64StringToBitmap(s[10]);
+                var nick = s[5];
+                var login = s[6];
+                var ip = IPAddress.Parse(s[7]);
+                var host = s[8];
+                var status = s[9];
+                var image = Utility.Base64StringToBitmap(s[10]);
 
-                MessageEventArgs_302310 m = new MessageEventArgs_302310(messageId, messageName, chatId, userId, idle, admin, icon, nick, login, ip, host, status, image);
+                var m = new MessageEventArgs_302310(messageId, messageName, chatId, userId, idle, admin, icon, nick, login, ip, host, status, image);
 
                 UserListEvent(m);
             }
@@ -683,7 +795,7 @@ namespace SharpWired.Connection {
         private void OnUserListDoneEvent(object sender, int messageId, string messageName, string message) {
             if (UserListDoneEvent != null) {
                 int chatId = Convert.ToInt16(message);
-                MessageEventArgs_311330 m = new MessageEventArgs_311330(messageId, messageName, chatId);
+                var m = new MessageEventArgs_311330(messageId, messageName, chatId);
                 UserListDoneEvent(this, m);
             }
         }
@@ -691,12 +803,12 @@ namespace SharpWired.Connection {
         // 320
         private void OnNewsEvent(object sender, int messageId, string messageName, string message) {
             if (NewsEvent != null) {
-                string[] w = SplitMessage(message);
-                string nick = w[0];
-                DateTime postTime = DateTime.Parse(w[1]);
-                string post = w[2];
+                var w = SplitMessage(message);
+                var nick = w[0];
+                var postTime = DateTime.Parse(w[1]);
+                var post = w[2];
 
-                MessageEventArgs_320322 m = new MessageEventArgs_320322(messageId, messageName, nick, postTime, post);
+                var m = new MessageEventArgs_320322(messageId, messageName, nick, postTime, post);
 
                 NewsEvent(m);
             }
@@ -705,7 +817,7 @@ namespace SharpWired.Connection {
         // 321
         private void OnNewsDoneEvent(object sender, int messageId, string messageName, string message) {
             if (NewsDoneEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 NewsDoneEvent(m);
             }
         }
@@ -713,12 +825,12 @@ namespace SharpWired.Connection {
         // 322
         private void OnNewsPostedEvent(object sender, int messageId, string messageName, string message) {
             if (NewsPostedEvent != null) {
-                string[] w = SplitMessage(message);
-                string nick = w[0];
-                DateTime postTime = DateTime.Parse(w[1]);
-                string post = w[2];
+                var w = SplitMessage(message);
+                var nick = w[0];
+                var postTime = DateTime.Parse(w[1]);
+                var post = w[2];
 
-                MessageEventArgs_320322 m = new MessageEventArgs_320322(messageId, messageName, nick, postTime, post);
+                var m = new MessageEventArgs_320322(messageId, messageName, nick, postTime, post);
 
                 NewsPostedEvent(m);
             }
@@ -727,8 +839,8 @@ namespace SharpWired.Connection {
         // 330
         private void OnPrivateChatCreatedEvent(object sender, int messageId, string messageName, string message) {
             if (PrivateChatCreatedEvent != null) {
-                int chatId = int.Parse(message);
-                MessageEventArgs_311330 m = new MessageEventArgs_311330(messageId, messageName, chatId);
+                var chatId = int.Parse(message);
+                var m = new MessageEventArgs_311330(messageId, messageName, chatId);
                 PrivateChatCreatedEvent(this, m);
             }
         }
@@ -736,10 +848,10 @@ namespace SharpWired.Connection {
         // 331
         private void OnPrivateChatInvitationEvent(object sender, int messageId, string messageName, string message) {
             if (PrivateChatInvitationEvent != null) {
-                string[] w = SplitMessage(message);
-                int chatId = int.Parse(w[0]);
-                int userId = int.Parse(w[1]);
-                MessageEventArgs_303331332 m = new MessageEventArgs_303331332(messageId, messageName, chatId, userId);
+                var w = SplitMessage(message);
+                var chatId = int.Parse(w[0]);
+                var userId = int.Parse(w[1]);
+                var m = new MessageEventArgs_303331332(messageId, messageName, chatId, userId);
                 PrivateChatInvitationEvent(this, m);
             }
         }
@@ -747,11 +859,10 @@ namespace SharpWired.Connection {
         // 332
         private void OnPrivateChatDeclinedEvent(object sender, int messageId, string messageName, string message) {
             if (PrivateChatDeclinedEvent != null) {
-
-                string[] w = SplitMessage(message);
-                int chatId = int.Parse(w[0]);
-                int userId = int.Parse(w[1]);
-                MessageEventArgs_303331332 m = new MessageEventArgs_303331332(messageId, messageName, chatId, userId);
+                var w = SplitMessage(message);
+                var chatId = int.Parse(w[0]);
+                var userId = int.Parse(w[1]);
+                var m = new MessageEventArgs_303331332(messageId, messageName, chatId, userId);
                 PrivateChatDeclinedEvent(this, m);
             }
         }
@@ -759,10 +870,10 @@ namespace SharpWired.Connection {
         // 340
         private void OnClientImageChangedEvent(object sender, int messageId, string messageName, string message) {
             if (ClientImageChangedEvent != null) {
-                string[] w = SplitMessage(message);
-                int userId = int.Parse(w[0]);
-                Bitmap image = SharpWired.Utility.Base64StringToBitmap(w[1]);
-                MessageEventArgs_340 m = new MessageEventArgs_340(messageId, messageName, userId, image);
+                var w = SplitMessage(message);
+                var userId = int.Parse(w[0]);
+                var image = Utility.Base64StringToBitmap(w[1]);
+                var m = new MessageEventArgs_340(messageId, messageName, userId, image);
                 ClientImageChangedEvent(m);
             }
         }
@@ -770,15 +881,15 @@ namespace SharpWired.Connection {
         // 341
         private void OnChatTopicEvent(object sender, int messageId, string messageName, string message) {
             if (ChatTopicEvent != null) {
-                string[] words = SplitMessage(message);
+                var words = SplitMessage(message);
                 int chatId = Convert.ToInt16(words[0]);
-                string nick = words[1];
-                string login = words[2];
-                IPAddress ip = IPAddress.Parse(words[3]);
-                DateTime time = DateTime.Parse(words[4]);
-                string topic = words[5];
+                var nick = words[1];
+                var login = words[2];
+                var ip = IPAddress.Parse(words[3]);
+                var time = DateTime.Parse(words[4]);
+                var topic = words[5];
 
-                MessageEventArgs_341 m = new MessageEventArgs_341(messageId, messageName, chatId, nick, login, ip, time, topic);
+                var m = new MessageEventArgs_341(messageId, messageName, chatId, nick, login, ip, time, topic);
 
                 ChatTopicEvent(m);
             }
@@ -787,11 +898,11 @@ namespace SharpWired.Connection {
         // 400
         private void OnTransferReadyEvent(object sender, int messageId, string messageName, string message) {
             if (TransferReadyEvent != null) {
-                string[] w = SplitMessage(message);
-                string path = w[0];
-                int offset = int.Parse(w[1]);
-                string hash = w[2];
-                MessageEventArgs_400 m = new MessageEventArgs_400(messageId, messageName, path, offset, hash);
+                var w = SplitMessage(message);
+                var path = w[0];
+                var offset = int.Parse(w[1]);
+                var hash = w[2];
+                var m = new MessageEventArgs_400(messageId, messageName, path, offset, hash);
                 TransferReadyEvent(m);
             }
         }
@@ -799,10 +910,10 @@ namespace SharpWired.Connection {
         // 401
         private void OnTransferQueuedEvent(object sender, int messageId, string messageName, string message) {
             if (TransferQueuedEvent != null) {
-                string[] w = SplitMessage(message);
-                string path = w[0];
-                int position = int.Parse(w[1]);
-                MessageEventArgs_401 m = new MessageEventArgs_401(messageId, messageName, path, position);
+                var w = SplitMessage(message);
+                var path = w[0];
+                var position = int.Parse(w[1]);
+                var m = new MessageEventArgs_401(messageId, messageName, path, position);
                 TransferQueuedEvent(this, m);
             }
         }
@@ -810,49 +921,50 @@ namespace SharpWired.Connection {
         // 402
         private void OnFileInformationEvent(object sender, int messageId, string messageName, string message) {
             if (FileInformationEvent != null) {
-                string[] w = SplitMessage(message);
-                string path = w[0];
-                FileType fileType = StringToFileType(w[1]);
-                int size = int.Parse(w[2]);
-                DateTime created = DateTime.Parse(w[3]);
-                DateTime modified = DateTime.Parse(w[4]);
-                string checksum = w[5];
-                string comment = w[6];
-                MessageEventArgs_402 m = new MessageEventArgs_402(messageId, messageName, path, fileType, size, created, modified, checksum, comment);
+                var w = SplitMessage(message);
+                var path = w[0];
+                var fileType = StringToFileType(w[1]);
+                var size = int.Parse(w[2]);
+                var created = DateTime.Parse(w[3]);
+                var modified = DateTime.Parse(w[4]);
+                var checksum = w[5];
+                var comment = w[6];
+                var m = new MessageEventArgs_402(messageId, messageName, path, fileType, size, created, modified, checksum, comment);
                 FileInformationEvent(this, m);
             }
         }
 
         private MessageEventArgs_410420 ParseListingMessage(int messageId, string messageName, string message) {
-            string[] w = SplitMessage(message);
-            string path = w[0];
-            FileType fileType = StringToFileType(w[1]);
-            long size = long.Parse(w[2]);
-            DateTime created = DateTime.Parse(w[3]);
-            DateTime modified = DateTime.Parse(w[4]);
-            MessageEventArgs_410420 m = new MessageEventArgs_410420(messageId, messageName, path, fileType, size, created, modified);
+            var w = SplitMessage(message);
+            var path = w[0];
+            var fileType = StringToFileType(w[1]);
+            var size = long.Parse(w[2]);
+            var created = DateTime.Parse(w[3]);
+            var modified = DateTime.Parse(w[4]);
+            var m = new MessageEventArgs_410420(messageId, messageName, path, fileType, size, created, modified);
             return m;
         }
 
         private static FileType StringToFileType(string fileTypeString) {
             FileType fileType;
-            if (fileTypeString == "0")
+            if (fileTypeString == "0") {
                 fileType = FileType.FILE;
-            else if (fileTypeString == "1")
+            } else if (fileTypeString == "1") {
                 fileType = FileType.FOLDER;
-            else if (fileTypeString == "2")
+            } else if (fileTypeString == "2") {
                 fileType = FileType.UPLOADS;
-            else if (fileTypeString == "3")
+            } else if (fileTypeString == "3") {
                 fileType = FileType.DROPBOX;
-            else
+            } else {
                 throw new FormatException("File or Folder type is not of any recognable type.");
+            }
             return fileType;
         }
 
         // 410
         private void OnFileListingEvent(object sender, int messageId, string messageName, string message) {
             if (FileListingEvent != null) {
-                MessageEventArgs_410420 m = ParseListingMessage(messageId, messageName, message);
+                var m = ParseListingMessage(messageId, messageName, message);
                 FileListingEvent(m);
             }
         }
@@ -860,10 +972,10 @@ namespace SharpWired.Connection {
         // 411
         private void OnFileListingDoneEvent(int messageId, string messageName, string message) {
             if (FileListingDoneEvent != null) {
-                string[] w = SplitMessage(message);
-                string path = w[0];
-                long free = long.Parse(w[1]);
-                MessageEventArgs_411 m = new MessageEventArgs_411(messageId, messageName, path, free);
+                var w = SplitMessage(message);
+                var path = w[0];
+                var free = long.Parse(w[1]);
+                var m = new MessageEventArgs_411(messageId, messageName, path, free);
                 FileListingDoneEvent(m);
             }
         }
@@ -871,7 +983,7 @@ namespace SharpWired.Connection {
         // 420
         private void OnSearchListingEvent(object sender, int messageId, string messageName, string message) {
             if (SearchListingEvent != null) {
-                MessageEventArgs_410420 m = ParseListingMessage(messageId, messageName, message);
+                var m = ParseListingMessage(messageId, messageName, message);
                 SearchListingEvent(this, m);
             }
         }
@@ -879,7 +991,7 @@ namespace SharpWired.Connection {
         // 421
         private void OnSearchListingDoneEvent(object sender, int messageId, string messageName, string message) {
             if (SearchListingDoneEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, messageName);
+                var m = new MessageEventArgs_Messages(messageId, messageName, messageName);
                 SearchListingDoneEvent(this, m);
             }
         }
@@ -887,7 +999,7 @@ namespace SharpWired.Connection {
         // 500
         private void OnCommandFailedEvent(object sender, int messageId, string messageName, string message) {
             if (CommandFailedEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 CommandFailedEvent(this, m);
             }
         }
@@ -895,7 +1007,7 @@ namespace SharpWired.Connection {
         // 501
         private void OnCommandNotRecognizedEvent(object sender, int messageId, string messageName, string message) {
             if (CommandNotRecognizedEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 CommandNotRecognizedEvent(this, m);
             }
         }
@@ -903,7 +1015,7 @@ namespace SharpWired.Connection {
         // 502
         private void OnCommandNotImplementedEvent(object sender, int messageId, string messageName, string message) {
             if (CommandNotImplementedEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 CommandNotImplementedEvent(this, m);
             }
         }
@@ -911,7 +1023,7 @@ namespace SharpWired.Connection {
         // 503
         private void OnSyntaxErrorEvent(object sender, int messageId, string messageName, string message) {
             if (SyntaxErrorEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 SyntaxErrorEvent(this, m);
             }
         }
@@ -919,7 +1031,7 @@ namespace SharpWired.Connection {
         // 510
         private void OnLoginFailedEvent(object sender, int messageId, string messageName, string message) {
             if (LoginFailedEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 LoginFailedEvent(this, m);
             }
         }
@@ -927,7 +1039,7 @@ namespace SharpWired.Connection {
         // 511
         private void OnBannedEvent(object sender, int messageId, string messageName, string message) {
             if (BannedEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 BannedEvent(m);
             }
         }
@@ -935,7 +1047,7 @@ namespace SharpWired.Connection {
         // 512
         private void OnClientNotFoundEvent(object sender, int messageId, string messageName, string message) {
             if (ClientNotFoundEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 ClientNotFoundEvent(this, m);
             }
         }
@@ -943,7 +1055,7 @@ namespace SharpWired.Connection {
         // 513
         private void OnAccountNotFoundEvent(object sender, int messageId, string messageName, string message) {
             if (AccountNotFoundEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 AccountNotFoundEvent(this, m);
             }
         }
@@ -951,7 +1063,7 @@ namespace SharpWired.Connection {
         // 514
         private void OnAccountExistsEvent(object sender, int messageId, string messageName, string message) {
             if (AccountExistsEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 AccountExistsEvent(this, m);
             }
         }
@@ -959,7 +1071,7 @@ namespace SharpWired.Connection {
         // 515
         private void OnCannotBeDisconnectedEvent(object sender, int messageId, string messageName, string message) {
             if (CannotBeDisconnectedEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 CannotBeDisconnectedEvent(this, m);
             }
         }
@@ -969,7 +1081,7 @@ namespace SharpWired.Connection {
             Debug.WriteLine("Permission denied. ID: " + messageId + " : message: " + message);
 
             if (PermissionDeniedEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 PermissionDeniedEvent(this, m);
             }
         }
@@ -977,7 +1089,7 @@ namespace SharpWired.Connection {
         // 520
         private void OnFileOrDirectoryNotFoundEvent(object sender, int messageId, string messageName, string message) {
             if (FileOrDirectoryNotFoundEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 FileOrDirectoryNotFoundEvent(this, m);
             }
         }
@@ -985,7 +1097,7 @@ namespace SharpWired.Connection {
         // 521
         private void OnFileOrDirectoryExistsEvent(object sender, int messageId, string messageName, string message) {
             if (FileOrDirectoryExistsEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 FileOrDirectoryExistsEvent(this, m);
             }
         }
@@ -993,7 +1105,7 @@ namespace SharpWired.Connection {
         // 522
         private void OnChecksumMismatchEvent(object sender, int messageId, string messageName, string message) {
             if (ChecksumMismatchEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 ChecksumMismatchEvent(this, m);
             }
         }
@@ -1001,7 +1113,7 @@ namespace SharpWired.Connection {
         // 523
         private void OnQueueLimitExceededEvent(object sender, int messageId, string messageName, string message) {
             if (QueueLimitExceededEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 QueueLimitExceededEvent(this, m);
             }
         }
@@ -1009,15 +1121,15 @@ namespace SharpWired.Connection {
         // 600
         private void OnUserSpecificationEvent(object sender, int messageId, string messageName, string message) {
             if (UserSpecificationEvent != null) {
-                string[] w = SplitMessage(message);
-                string name = w[0];
-                string password = w[1];
-                string user = w[2];
-                string privileges = w[3];
+                var w = SplitMessage(message);
+                var name = w[0];
+                var password = w[1];
+                var user = w[2];
+                var privileges = w[3];
                 Privileges p = null;
                 //Privileges p = new Privileges(name, w[3]);
 
-                MessageEventArgs_600 m = new MessageEventArgs_600(messageId, messageName, p, name, password, user);
+                var m = new MessageEventArgs_600(messageId, messageName, p, name, password, user);
 
                 UserSpecificationEvent(this, m);
             }
@@ -1026,12 +1138,12 @@ namespace SharpWired.Connection {
         // 601
         private void OnGroupSpecificationEvent(object sender, int messageId, string messageName, string message) {
             if (GroupSpecificationEvent != null) {
-                string[] w = SplitMessage(message);
-                string name = w[0];
+                var w = SplitMessage(message);
+                var name = w[0];
                 Privileges p = null;
                 //Privileges p = new Privileges (name, w[1]);
 
-                MessageEventArgs_601 m = new MessageEventArgs_601(messageId, messageName, p, name);
+                var m = new MessageEventArgs_601(messageId, messageName, p, name);
 
                 GroupSpecificationEvent(this, m);
             }
@@ -1042,7 +1154,7 @@ namespace SharpWired.Connection {
             if (PrivilegesSpecificationEvent != null) {
                 Privileges p = null;
                 //Privileges p = new Privileges("", message); // CheckThis
-                MessageEventArgs_602 m = new MessageEventArgs_602(messageId, messageName, p);
+                var m = new MessageEventArgs_602(messageId, messageName, p);
                 PrivilegesSpecificationEvent(m);
             }
         }
@@ -1050,7 +1162,7 @@ namespace SharpWired.Connection {
         // 610
         private void OnUserListingEvent(object sender, int messageId, string messageName, string message) {
             if (UserListingEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 UserListingEvent(this, m);
             }
         }
@@ -1058,7 +1170,7 @@ namespace SharpWired.Connection {
         // 611
         private void OnUserListingDoneEvent(object sender, int messageId, string messageName, string message) {
             if (UserListingDoneEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 UserListingDoneEvent(this, m);
             }
         }
@@ -1066,7 +1178,7 @@ namespace SharpWired.Connection {
         // 620
         private void OnGroupListingEvent(object sender, int messageId, string messageName, string message) {
             if (GroupListingEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 GroupListingEvent(this, m);
             }
         }
@@ -1074,7 +1186,7 @@ namespace SharpWired.Connection {
         // 621
         private void OnGroupListingDoneEvent(object sender, int messageId, string messageName, string message) {
             if (GroupListingDoneEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 GroupListingDoneEvent(this, m);
             }
         }
@@ -1082,7 +1194,7 @@ namespace SharpWired.Connection {
         // 7xx
         private void OnTrackerCategoryListingEvent(object sender, int messageId, string messageName, string message) {
             if (TrackerCategoryListingEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 TrackerCategoryListingEvent(this, m);
             }
         }
@@ -1090,7 +1202,7 @@ namespace SharpWired.Connection {
         // 7xx
         private void OnTrackerCategoryListingDoneEvent(object sender, int messageId, string messageName, string message) {
             if (TrackerCategoryListingDoneEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 TrackerCategoryListingDoneEvent(this, m);
             }
         }
@@ -1098,7 +1210,7 @@ namespace SharpWired.Connection {
         // 7xx
         private void OnTrackerServerListingEvent(object sender, int messageId, string messageName, string message) {
             if (TrackerServerListingEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 TrackerServerListingEvent(this, m);
             }
         }
@@ -1106,7 +1218,7 @@ namespace SharpWired.Connection {
         // 7xx
         private void OnTrackerServerListingDoneEvent(object sender, int messageId, string messageName, string message) {
             if (TrackerServerListingDoneEvent != null) {
-                MessageEventArgs_Messages m = new MessageEventArgs_Messages(messageId, messageName, message);
+                var m = new MessageEventArgs_Messages(messageId, messageName, message);
                 TrackerServerListingDoneEvent(this, m);
             }
         }
@@ -1121,12 +1233,12 @@ namespace SharpWired.Connection {
         /// <param name="msg">The message from the server</param>
         private void ParseMessage(string msg) {
             // Request the message identifier and the message data
-            int msgId = Convert.ToInt32(msg.Substring(0, 3));
-            string argument = msg.Substring(4);
+            var msgId = Convert.ToInt32(msg.Substring(0, 3));
+            var argument = msg.Substring(4);
 
             if (msgId == 310 || msgId == 340 || msgId == 410) {
-                int length = 120;
-                string end = "...'";
+                var length = 120;
+                var end = "...'";
                 if (argument.Length < 120) {
                     length = argument.Length;
                     end = "'";
@@ -1134,9 +1246,10 @@ namespace SharpWired.Connection {
                 Debug.WriteLine("CONNECTION:Messages -> Received: " + msgId + ": '"
                                 + argument.Substring(0, length) + end);
             } else if (msgId != 320 && msgId != 321
-                            && msgId != 410 && msgId != 411)
+                       && msgId != 410 && msgId != 411) {
                 Debug.WriteLine("CONNECTION:Messages -> Received: " + msgId + ": '"
                                 + argument + "'");
+            }
 
             switch (msgId) {
                 case 200:
@@ -1319,6 +1432,7 @@ namespace SharpWired.Connection {
         #endregion
 
         #region Other Methods
+
         /// <summary>
         /// Handles incoming messages
         /// </summary>
@@ -1328,7 +1442,7 @@ namespace SharpWired.Connection {
                 ParseMessage(message);
             } catch (FormatException formatExp) {
                 Debug.WriteLine("Error trying to parse the message "
-                + "recieved on socket!\nReason\n" + formatExp.ToString());
+                                + "recieved on socket!\nReason\n" + formatExp);
             }
         }
 
@@ -1339,9 +1453,10 @@ namespace SharpWired.Connection {
         /// <returns></returns>
         private string[] SplitMessage(string message) {
             // Parse the server information event
-            char[] delimiterChars = { Convert.ToChar(Utility.FS) };
+            char[] delimiterChars = {Convert.ToChar(Utility.FS)};
             return message.Split(delimiterChars, StringSplitOptions.None);
         }
+
         #endregion
     }
 }

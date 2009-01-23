@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_302310.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,131 +23,73 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net;
 using System.Drawing;
+using System.Net;
 
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// MessageEventArgs for:
     /// * Client Join
     /// * User List
     /// </summary>
-    public class MessageEventArgs_302310 : MessageEventArgs_303331332
-    {
-        private bool idle;
-        private bool admin;
-        private int icon;
-        private string nick;
-        private string login;
-        private IPAddress ip;
-        private string host;
-        private string status;
-        private Bitmap image;
+    public class MessageEventArgs_302310 : MessageEventArgs_303331332 {
+        private readonly bool idle;
+        private readonly bool admin;
+        private readonly int icon;
+        private readonly string nick;
+        private readonly string login;
+        private readonly IPAddress ip;
+        private readonly string host;
+        private readonly string status;
+        private readonly Bitmap image;
 
         /// <summary>
         /// Gets if this client is idle
         /// </summary>
-        public bool Idle
-        {
-            get
-            {
-                return idle;
-            }
-        }
+        public bool Idle { get { return idle; } }
 
         /// <summary>
         /// Request if this client is admin
         /// </summary>
-        public bool Admin
-        {
-            get
-            {
-                return admin;
-            }
-        }
+        public bool Admin { get { return admin; } }
 
         /// <summary>
         /// Request the icon for this client
         /// </summary>
-        public int Icon
-        {
-            get
-            {
-                return icon;
-            }
-        }
+        public int Icon { get { return icon; } }
 
         /// <summary>
         /// Request the nick for this client
         /// </summary>
-        public string Nick
-        {
-            get
-            {
-                return nick;
-            }
-        }
+        public string Nick { get { return nick; } }
 
         /// <summary>
         /// Request the login for this client
         /// </summary>
-        public string Login
-        {
-            get
-            {
-                return login;
-            }
-        }
+        public string Login { get { return login; } }
 
         /// <summary>
         /// Request the ip for this client
         /// </summary>
-        public IPAddress Ip
-        {
-            get
-            {
-                return ip;
-            }
-        }
+        public IPAddress Ip { get { return ip; } }
 
         /// <summary>
         /// Request the host for this client
         /// </summary>
-        public string Host
-        {
-            get
-            {
-                return host;
-            }
-        }
+        public string Host { get { return host; } }
 
         /// <summary>
         /// Request the status for this client
         /// </summary>
-        public string Status
-        {
-            get
-            {
-                return status;
-            }
-        }
+        public string Status { get { return status; } }
 
         /// <summary>
         /// Request the image for this client
         /// </summary>
-        public Bitmap Image
-        {
-            get
-            {
-                return image;
-            }
-        }
+        public Bitmap Image { get { return image; } }
 
         /// <summary>
         /// Constructor
@@ -165,9 +108,8 @@ namespace SharpWired.MessageEvents
         /// <param name="status">The status for this user</param>
         /// <param name="image">The image for this user</param>
         public MessageEventArgs_302310(int messageId, string messageName, int chatId, int userId,
-            bool idle, bool admin, int icon, string nick, string login, IPAddress ip, string host, string status, Bitmap image)
-            : base(messageId, messageName, chatId, userId)
-        {
+                                       bool idle, bool admin, int icon, string nick, string login, IPAddress ip, string host, string status, Bitmap image)
+            : base(messageId, messageName, chatId, userId) {
             this.idle = idle;
             this.admin = admin;
             this.icon = icon;

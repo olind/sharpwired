@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using SharpWired.Controller;
-using SharpWired.Model;
 using SharpWired.Model.Transfers;
-using System.Diagnostics;
 
 namespace SharpWired.Gui.Transfers {
     public partial class TransferList : SharpWiredGuiBase {
-        List<TransferItem> Items { get; set; }
-        delegate void ItemModifier(TransferItem ti, bool odd);
+        private List<TransferItem> Items { get; set; }
+
+        private delegate void ItemModifier(TransferItem ti, bool odd);
 
         public TransferList() {
             InitializeComponent();
-            this.Items = new List<TransferItem>();
+            Items = new List<TransferItem>();
         }
 
         public override void Init() {
@@ -24,10 +22,11 @@ namespace SharpWired.Gui.Transfers {
         }
 
         private void TransferList_VisibleChanged(object sender, EventArgs e) {
-            if(Parent.Visible == true) 
+            if (Parent.Visible) {
                 RefreshStart();
-            else
+            } else {
                 RefreshStop();
+            }
         }
 
         protected override void OnOnline() {
@@ -39,77 +38,80 @@ namespace SharpWired.Gui.Transfers {
             Model.Server.Transfers.TransferAdded -= OnTransferAdded;
         }
 
-        void OnTransferAdded(ITransfer t) {
+        private void OnTransferAdded(ITransfer t) {
             AddTransferItem(t);
         }
 
-        void AddTransferItem(ITransfer t) {
-
-            TransferItem ti = new TransferItem();
+        private void AddTransferItem(ITransfer t) {
+            var ti = new TransferItem();
             ti.Init(t);
 
             Items.Add(ti);
             RefreshStart();
         }
 
-        void Repaint() {
-            int currentPos = 0;
+        private void Repaint() {
+            var currentPos = 0;
 
             ModifyItems(
-                delegate(TransferItem current, bool odd) {
-                    current.Width = this.transferScrollPanel.Width - 2;
-                    current.Top = currentPos * current.Height;
-                    current.Clicked += OnItemClicked; // TODO: This shouldn't be done on each repaint!
-                    current.Repaint();
+                delegate(TransferItem current, bool odd)
+                    {
+                        current.Width = transferScrollPanel.Width - 2;
+                        current.Top = currentPos*current.Height;
+                        current.Clicked += OnItemClicked; // TODO: This shouldn't be done on each repaint!
+                        current.Repaint();
 
-                    SetItemColor(current, odd);
-                    this.transferScrollPanel.Controls.Add(current);
+                        SetItemColor(current, odd);
+                        transferScrollPanel.Controls.Add(current);
 
-                    currentPos += 1;
-                    odd = !odd;
-                }
-            );
+                        currentPos += 1;
+                        odd = !odd;
+                    }
+                );
         }
 
-        void OnClicked(object sender, EventArgs e) {
+        private void OnClicked(object sender, EventArgs e) {
             ModifyItems(
-                delegate(TransferItem current, bool odd) {
-                    current.Selected = false;
-                    SetItemColor(current, odd);
-                }
-            );
-        }
-
-
-        void OnItemClicked(TransferItem ti, bool control) {
-            ModifyItems(
-                delegate(TransferItem current, bool odd) {
-                    bool clicked = ti == current;
-
-                    if (clicked && control)
-                        current.Selected = !current.Selected;
-                    else if (clicked)
-                        current.Selected = true;
-                    else if (!control)
+                delegate(TransferItem current, bool odd)
+                    {
                         current.Selected = false;
-
-                    SetItemColor(current, odd);
-                }
-            );
+                        SetItemColor(current, odd);
+                    }
+                );
         }
 
-        void SetItemColor(TransferItem ti, bool odd) {
-            if (ti.Selected)
+        private void OnItemClicked(TransferItem ti, bool control) {
+            ModifyItems(
+                delegate(TransferItem current, bool odd)
+                    {
+                        var clicked = ti == current;
+
+                        if (clicked && control) {
+                            current.Selected = !current.Selected;
+                        } else if (clicked) {
+                            current.Selected = true;
+                        } else if (!control) {
+                            current.Selected = false;
+                        }
+
+                        SetItemColor(current, odd);
+                    }
+                );
+        }
+
+        private void SetItemColor(TransferItem ti, bool odd) {
+            if (ti.Selected) {
                 ti.BackColor = SystemColors.MenuHighlight;
-            else if (odd)
+            } else if (odd) {
                 ti.BackColor = SystemColors.Window;
-            else
+            } else {
                 ti.BackColor = SystemColors.Control;
+            }
         }
 
-        void ModifyItems(ItemModifier modify) {
-            bool odd = true;
-            foreach (TransferItem current in Items) {
+        private void ModifyItems(ItemModifier modify) {
+            var odd = true;
+            foreach (var current in Items) {
                 modify(current, odd);
                 odd = !odd;
             }
@@ -120,13 +122,15 @@ namespace SharpWired.Gui.Transfers {
         }
 
         private void RefreshStart() {
-            if(Visible == true && Items.Count > 0 && !refreshTimer.Enabled)
+            if (Visible && Items.Count > 0 && !refreshTimer.Enabled) {
                 refreshTimer.Start();
+            }
         }
 
         private void RefreshStop() {
-            if(refreshTimer.Enabled)
+            if (refreshTimer.Enabled) {
                 refreshTimer.Stop();
+            }
         }
     }
 }

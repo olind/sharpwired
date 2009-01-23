@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace SharpWired.Model.Files {
     public class NodeChildren : List<INode> {
-        INode Parent { get; set; }
+        private INode Parent { get; set; }
 
         public NodeChildren(INode parent) {
             Parent = parent;

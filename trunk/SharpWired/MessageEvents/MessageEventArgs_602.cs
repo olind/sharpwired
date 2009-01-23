@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_602.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,32 +23,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SharpWired.Model.Users;
 
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// MessageEventArgs for Privileges Specification (602)
     /// </summary>
-    public class MessageEventArgs_602 : MessageEventArgs
-    {
-        private Privileges privileges; // TODO: This should be of other type
+    public class MessageEventArgs_602 : MessageEventArgs {
+        private readonly Privileges privileges; // TODO: This should be of other type
 
         /// <summary>
         /// Request the privileges
         /// </summary>
-        public Privileges Privileges
-        {
-            get
-            {
-                return privileges;
-            }
-        }
+        public Privileges Privileges { get { return privileges; } }
 
         /// <summary>
         /// Constructor
@@ -56,8 +47,7 @@ namespace SharpWired.MessageEvents
         /// <param name="messageName">The name for this message</param>
         /// <param name="privileges">The privileges for this message</param>
         public MessageEventArgs_602(int messageId, string messageName, Privileges privileges)
-            : base(messageId, messageName)
-        {
+            : base(messageId, messageName) {
             this.privileges = privileges;
         }
     }

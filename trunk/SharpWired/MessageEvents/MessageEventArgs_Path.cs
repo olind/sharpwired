@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_Path.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,32 +23,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// The base MessageEventArgs that all other MessageEventArgs should inherit.
     /// </summary>
-    public class MessageEventArgs_Path : MessageEventArgs
-    {
-
-        private string path;
+    public class MessageEventArgs_Path : MessageEventArgs {
+        private readonly string path;
 
         /// <summary>
         /// Gets the destination for this EventArg
         /// </summary>
-        public string Path
-        {
-            get
-            {
-                return path;
-            }
-        }
+        public string Path { get { return path; } }
 
         /// <summary>
         /// Constructor
@@ -56,8 +45,7 @@ namespace SharpWired.MessageEvents
         /// <param name="messageName"></param>
         /// <param name="destination"></param>
         public MessageEventArgs_Path(int messageId, string messageName, string path)
-            : base(messageId, messageName)
-        {
+            : base(messageId, messageName) {
             this.path = path;
         }
     }

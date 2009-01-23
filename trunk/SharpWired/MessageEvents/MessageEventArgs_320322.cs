@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_320322.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,57 +23,36 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// MessageEventArgs for Wired messages:
     ///  * 320 News
     ///  * 322 News posted
     /// </summary>
-    public class MessageEventArgs_320322 : MessageEventArgs
-    {
-        private string nick;
-        private DateTime postTime;
-        private string post;
+    public class MessageEventArgs_320322 : MessageEventArgs {
+        private readonly string nick;
+        private readonly DateTime postTime;
+        private readonly string post;
 
         /// <summary>
         /// Gets the nick for the user that posted this news 
         /// </summary>
-        public string Nick
-        {
-            get
-            {
-                return nick;
-            }
-        }
+        public string Nick { get { return nick; } }
 
         /// <summary>
         /// Gets the time when this post was done
         /// </summary>
-        public DateTime PostTime
-        {
-            get
-            {
-                return postTime;
-            }
-        }
+        public DateTime PostTime { get { return postTime; } }
 
         /// <summary>
         /// Gets the news post
         /// </summary>
-        public string Post
-        {
-            get
-            {
-                return post;
-            }
-        }
+        public string Post { get { return post; } }
 
         /// <summary>
         /// Constructor
@@ -83,8 +63,7 @@ namespace SharpWired.MessageEvents
         /// <param name="postTime">The time when this message was posted</param>
         /// <param name="post">The news post</param>
         public MessageEventArgs_320322(int messageId, string messageName, string nick, DateTime postTime, string post)
-            : base(messageId, messageName)
-        {
+            : base(messageId, messageName) {
             this.nick = nick;
             this.postTime = postTime;
             this.post = post;

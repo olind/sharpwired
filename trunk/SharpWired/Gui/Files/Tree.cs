@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * FileTreeControls.cs
  * Created by Ola Lindberg and Peter Holmdahl, 2007-09-29
@@ -22,32 +23,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
+using System.Collections;
 using System.Windows.Forms;
-using SharpWired.Gui.Files;
-using SharpWired.Model;
 using SharpWired.Gui.Resources.Icons;
 using SharpWired.Model.Files;
-using System.Diagnostics;
-using SharpWired.Controller;
-using System.Collections;
 
 namespace SharpWired.Gui.Files {
     /// <summary>
     /// Shows a representation of the File Model, which models the file tree on the server.
     /// </summary>
     public partial class Tree : SharpWiredGuiBase, IFilesView {
+        private ArrayList nodeList = new ArrayList();
 
-        ArrayList nodeList = new ArrayList();
-
-        delegate void Callback();
+        private delegate void Callback();
 
         public event NodeSelectedDelegate NodeSelected;
 
@@ -58,33 +49,33 @@ namespace SharpWired.Gui.Files {
         public override void Init() {
             base.Init();
 
-            ImageList rootTreeViewIcons = new ImageList();
+            var rootTreeViewIcons = new ImageList();
             rootTreeViewIcons.ColorDepth = ColorDepth.Depth32Bit;
-            IconHandler iconHandler = IconHandler.Instance;
+            var iconHandler = IconHandler.Instance;
             rootTreeViewIcons.Images.Add(iconHandler.GetFolderIconFromSystem());
             rootTreeView.ImageList = rootTreeViewIcons;
         }
 
         public void SetCurrentNode(INode node) {
-            if(node is Folder) {
-                TreeNodeCollection nodes = rootTreeView.Nodes;
-                TreeNode[] found = nodes.Find(node.FullPath, true);
+            if (node is Folder) {
+                var nodes = rootTreeView.Nodes;
+                var found = nodes.Find(node.FullPath, true);
 
                 rootTreeView.SelectedNode = found[0];
             }
         }
 
-        void Clear() {
-            if(this.InvokeRequired) {
-                this.Invoke(new Callback(Clear));
+        private void Clear() {
+            if (InvokeRequired) {
+                Invoke(new Callback(Clear));
             } else {
                 rootTreeView.Nodes.Clear();
             }
         }
 
         protected override void OnOnline() {
-            if(this.InvokeRequired) {
-                this.Invoke(new Callback(OnOnline));
+            if (InvokeRequired) {
+                Invoke(new Callback(OnOnline));
             } else {
                 base.OnOnline();
                 rootTreeView.Nodes.Add(new WiredTreeNode(Model.Server.FileRoot));
@@ -98,8 +89,8 @@ namespace SharpWired.Gui.Files {
         }
 
         private void OnAfterSelect(object sender, TreeViewEventArgs e) {
-            WiredTreeNode node = (WiredTreeNode)rootTreeView.SelectedNode;
-            if(node != null && NodeSelected != null) {
+            var node = (WiredTreeNode) rootTreeView.SelectedNode;
+            if (node != null && NodeSelected != null) {
                 NodeSelected(node.ModelNode);
             }
         }

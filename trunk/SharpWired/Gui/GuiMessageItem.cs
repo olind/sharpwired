@@ -1,4 +1,5 @@
 ﻿#region Information and licence agreements
+
 /*
  * StandardHTMLMessage.cs
  * Created by Ola Lindberg, 2008-03-05
@@ -22,18 +23,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Text;
-using SharpWired.Model.Messaging;
-using SharpWired.Model.Users;
 using SharpWired.Connection.Bookmarks;
-using SharpWired.Model.PrivateMessages;
-using System.Web;
-using SharpWired.Model.News;
 using SharpWired.MessageEvents;
+using SharpWired.Model.Messaging;
+using SharpWired.Model.News;
+using SharpWired.Model.PrivateMessages;
 
 namespace SharpWired.Gui {
     /// <summary>
@@ -41,17 +40,16 @@ namespace SharpWired.Gui {
     /// common get methods for printing to GUI
     /// </summary>
     public class GuiMessageItem : SharpWiredGuiBase {
-
         // General
-        private DateTime timeStamp;
+        private readonly DateTime timeStamp;
         private string messageType;
-        
+
         //For chat and topic messages
-        private string nickName;
-        private string message;
+        private readonly string nickName;
+        private readonly string message;
 
         //For error messages
-        private bool isErrorMessage = false;
+        private bool isErrorMessage;
         private string errorDescription;
         private string solutionIdea;
         private Bookmark bookmark;
@@ -59,23 +57,17 @@ namespace SharpWired.Gui {
         /// <summary>
         /// Request the timestamp for this message
         /// </summary>
-        public DateTime TimeStamp {
-            get { return timeStamp; }
-        }
+        public DateTime TimeStamp { get { return timeStamp; } }
 
         /// <summary>
         /// Request the nick for this message
         /// </summary>
-        public string Nick {
-            get { return nickName; }
-        }
+        public string Nick { get { return nickName; } }
 
         /// <summary>
         /// Request the message string for this message
         /// </summary>
-        public string Message {
-            get { return message; }
-        }
+        public string Message { get { return message; } }
 
         /// <summary>
         /// Request the HTML for this object.
@@ -83,20 +75,22 @@ namespace SharpWired.Gui {
         /// </summary>
         public string HTML {
             get {
-                if (isEmptyMessage)
+                if (isEmptyMessage) {
                     return "";
+                }
 
-                string divClass = "";
-                if (Nick == Model.Server.User.Nick)
+                var divClass = "";
+                if (Nick == Model.Server.User.Nick) {
                     divClass = " class=\"me\"";
+                }
 
                 return
-@"<div" + divClass + @">
+                    @"<div" + divClass + @">
 	<span class=""time"">" + TimeStamp.ToShortTimeString() + @"</span>
 	<span class=""user"">" + Nick + @"</span>
 	<span class=""text"">
 		<p>
-			" + Message.Replace("\n","<br/>\n") + @"
+			" + Message.Replace("\n", "<br/>\n") + @"
 		</p>
 	</span>
 </div>
@@ -121,11 +115,11 @@ namespace SharpWired.Gui {
         /// </summary>
         /// <param name="item"></param>
         public GuiMessageItem(ChatMessageItem item) {
-
-            if (!item.IsActionChatMessage)
+            if (!item.IsActionChatMessage) {
                 messageType = "chatEntry";
-            else
+            } else {
                 messageType = "actionChatEntry";
+            }
 
             timeStamp = item.TimeStamp;
             nickName = item.FromUser.Nick;
@@ -138,12 +132,11 @@ namespace SharpWired.Gui {
         /// <param name="errorDescription"></param>
         /// <param name="solutionIdea"></param>
         /// <param name="bookmark"></param>
-        public GuiMessageItem(string errorDescription, string solutionIdea, 
-            Bookmark bookmark) {
-
-            this.messageType = "errorEntry";
-            this.isErrorMessage = true;
-            this.timeStamp = DateTime.Now;
+        public GuiMessageItem(string errorDescription, string solutionIdea,
+                              Bookmark bookmark) {
+            messageType = "errorEntry";
+            isErrorMessage = true;
+            timeStamp = DateTime.Now;
             this.errorDescription = errorDescription;
             this.solutionIdea = solutionIdea;
             this.bookmark = bookmark;
@@ -175,14 +168,14 @@ namespace SharpWired.Gui {
         /// Constructor for Client Information
         /// </summary>
         /// <param name="e"></param>
-        public GuiMessageItem(MessageEvents.MessageEventArgs_308 e) {
+        public GuiMessageItem(MessageEventArgs_308 e) {
             // TODO: Make generic info output instead of specific for all events
             // in connection layer.
 
-            this.messageType = "infoEntry";
-            this.nickName = "";
-            this.timeStamp = DateTime.Now;
-            StringBuilder s = new StringBuilder();
+            messageType = "infoEntry";
+            nickName = "";
+            timeStamp = DateTime.Now;
+            var s = new StringBuilder();
             s.Append("User Information" + "\\r\\n\\r\\n");
             s.Append("Nick: " + e.Nick + "\\r\\n");
             s.Append("Login: " + e.Login + "\\r\\n");
@@ -193,7 +186,7 @@ namespace SharpWired.Gui {
             s.Append("Status: " + e.Status + "\\r\\n");
             s.Append("Admin: " + e.Admin + "\\r\\n");
             s.Append("Host: " + e.Host + "\\r\\n");
-            s.Append("Ip:  "+ e.Ip + "\\r\\n");
+            s.Append("Ip:  " + e.Ip + "\\r\\n");
             s.Append("ClientVersion: " + e.ClientVersion + "\\r\\n");
             s.Append("Downloads: " + e.Downloads + "\\r\\n");
             s.Append("Path: " + e.Path + "\\r\\n");
@@ -207,7 +200,7 @@ namespace SharpWired.Gui {
             //s.Append("Icon" + e.Icon + "\\r\\n");
             //s.Append("Image" + e.Image + "\\r\\n");
 
-            this.message = s.ToString();
+            message = s.ToString();
         }
 
         /// <summary>
@@ -217,6 +210,6 @@ namespace SharpWired.Gui {
             isEmptyMessage = true;
         }
 
-        private bool isEmptyMessage = false;
+        private readonly bool isEmptyMessage;
     }
 }

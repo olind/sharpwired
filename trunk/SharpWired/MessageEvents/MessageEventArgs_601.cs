@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_601.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,32 +23,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SharpWired.Model.Users;
 
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// MessageEventArgs for Group Specification
     /// </summary>
-    public class MessageEventArgs_601 : MessageEventArgs_602
-    {
-        private string name;
+    public class MessageEventArgs_601 : MessageEventArgs_602 {
+        private readonly string name;
 
         /// <summary>
         /// Request the name for this user or group
         /// </summary>
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-        }
+        public string Name { get { return name; } }
 
         /// <summary>
         /// Constructor
@@ -57,8 +48,7 @@ namespace SharpWired.MessageEvents
         /// <param name="privileges">The privileges for this group</param>
         /// <param name="name">The name for this group</param>
         public MessageEventArgs_601(int messageId, string messageName, Privileges privileges, string name)
-            : base(messageId, messageName, privileges)
-        {
+            : base(messageId, messageName, privileges) {
             this.name = name;
         }
     }

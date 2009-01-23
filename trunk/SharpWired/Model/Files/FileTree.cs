@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * FileListingModel.cs 
  * Created by Ola Lindberg, 2007-01-28
@@ -22,20 +23,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using SharpWired.MessageEvents;
-using SharpWired.Connection;
-using System.Diagnostics;
-using System.Collections;
 
 namespace SharpWired.Model.Files {
     public class FileTree : Folder {
-
-        Dictionary<string, List<MessageEventArgs_410420>> Listings = new Dictionary<string, List<MessageEventArgs_410420>>();        
+        private readonly Dictionary<string, List<MessageEventArgs_410420>> Listings = new Dictionary<string, List<MessageEventArgs_410420>>();
         //home/ola/ -> message1, message2
 
         public FileTree() : base("/", DateTime.Now, DateTime.Now, 0) {
@@ -43,7 +40,7 @@ namespace SharpWired.Model.Files {
             ConnectionManager.Messages.FileListingDoneEvent += OnFileListingDoneEvent;
         }
 
-        void OnFileListingEvent(MessageEventArgs_410420 message) {
+        private void OnFileListingEvent(MessageEventArgs_410420 message) {
             var p = message.Path;
 
             // message.Path = "/f1"
@@ -51,9 +48,11 @@ namespace SharpWired.Model.Files {
 
             var name = p.Substring(p.LastIndexOf('/') + 1);
             var folder = "/";
-            
+
             if (p.LastIndexOf('/') != 0) // Path is not in root (e.g. "/folder/file")
+            {
                 folder = p.Substring(0, p.LastIndexOf('/'));
+            }
 
             if (Listings.ContainsKey(folder)) {
                 Listings[folder].Add(message);
@@ -64,9 +63,9 @@ namespace SharpWired.Model.Files {
             }
         }
 
-        void OnFileListingDoneEvent(MessageEventArgs_411 message) {
-            string folder = message.Path;
-            Folder n = (Folder)this.Get(folder); //path is always to a folder
+        private void OnFileListingDoneEvent(MessageEventArgs_411 message) {
+            var folder = message.Path;
+            var n = (Folder) Get(folder); //path is always to a folder
 
             if (Listings.ContainsKey(folder)) {
                 n.AddChildren(Listings[folder]);

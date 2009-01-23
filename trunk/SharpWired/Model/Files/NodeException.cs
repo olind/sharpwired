@@ -1,4 +1,5 @@
 ﻿#region Information and licence agreements
+
 /*
  * NodeException.cs 
  * Created by Ola Lindberg & Adam Lindberg, 2009-01-06
@@ -22,11 +23,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
+
 namespace SharpWired.Model.Files {
     public class NodeException : Exception {
-        public NodeException(string message):base(message){}
+        public NodeException(string message) : base(message) {}
     }
 }

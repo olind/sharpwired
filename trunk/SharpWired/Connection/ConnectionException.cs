@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * Server.cs
  * Created by Ola Lindberg, 2006-10-10
@@ -22,36 +23,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using SharpWired.Connection.Bookmarks;
 
-namespace SharpWired.Connection
-{
+namespace SharpWired.Connection {
     /// <summary>
     /// Connection exceptions
     /// </summary>
-    public class ConnectionException : Exception
-    {
-        private Bookmark bookmark;
-
+    public class ConnectionException : Exception {
         /// <summary>
         /// Request or set the bookmark that was connected to
         /// </summary>
-        public Bookmark Bookmark
-        {
-            get
-            {
-                return bookmark;
-            }
-            set
-            {
-                bookmark = value;
-            }
-        }
+        public Bookmark Bookmark { get; set; }
 
         /// <summary>
         /// Constructor
@@ -59,8 +45,6 @@ namespace SharpWired.Connection
         /// <param name="message"></param>
         /// <param name="e"></param>
         public ConnectionException(string message, Exception e)
-            : base(message, e)
-        {
-        }
+            : base(message, e) {}
     }
 }

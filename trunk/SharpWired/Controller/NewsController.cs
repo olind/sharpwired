@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * NewsController.cs 
  * Created by Ola Lindberg, 2006-12-09
@@ -22,13 +23,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpWired.Connection;
-using SharpWired.Model.News;
 using SharpWired.Model;
 
 namespace SharpWired.Controller {
@@ -37,13 +34,16 @@ namespace SharpWired.Controller {
     /// </summary>
     public class NewsController : ControllerBase {
         #region Constructor
-        public NewsController(SharpWiredModel model) 
-                : base(model) {
+
+        public NewsController(SharpWiredModel model)
+            : base(model) {
             ReloadNewsFromServer();
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Send a post message to the server
         /// </summary>
@@ -59,6 +59,7 @@ namespace SharpWired.Controller {
         public void ReloadNewsFromServer() {
             commands.News();
         }
+
         #endregion
     }
 }

@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * Server.cs
  * Created by Ola Lindberg, 2006-07-10
@@ -22,12 +23,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SharpWired.Connection {
     /// <summary>
@@ -77,13 +76,14 @@ namespace SharpWired.Connection {
         /// <param name="obj">The object to compare with.</param>
         /// <returns>T/F.</returns>
         public override bool Equals(object obj) {
-            Server s = obj as Server;
-            if(s == null)
+            var s = obj as Server;
+            if (s == null) {
                 return false;
+            }
 
-            return s.MachineName == this.MachineName
-                && s.ServerName == this.ServerName
-                && s.ServerPort == this.ServerPort;
+            return s.MachineName == MachineName
+                   && s.ServerName == ServerName
+                   && s.ServerPort == ServerPort;
         }
 
         /// <summary>

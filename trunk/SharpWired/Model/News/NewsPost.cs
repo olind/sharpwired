@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * NewsPost.cs 
  * Created by Ola Lindberg, 2006-12-09
@@ -22,11 +23,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.News {
@@ -34,60 +34,61 @@ namespace SharpWired.Model.News {
     /// Represents one news message
     /// </summary>
     public class NewsPost /*: IComparable */ {
-
         #region Fields
-        private string nick;
-        private DateTime postTime;
-        private string post;
+
+        private readonly string nick;
+        private readonly DateTime postTime;
+        private readonly string post;
+
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Construtcor
         /// </summary>
         /// <param name="args"></param>
         public NewsPost(MessageEventArgs_320322 messageEventArgs) {
-            this.nick = messageEventArgs.Nick;
-            this.postTime = messageEventArgs.PostTime;
-            this.post = messageEventArgs.Post;
+            nick = messageEventArgs.Nick;
+            postTime = messageEventArgs.PostTime;
+            post = messageEventArgs.Post;
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// Gets the nick for the user that wrote this message
         /// </summary>
-        public string Nick {
-            get { return nick; }
-        }
+        public string Nick { get { return nick; } }
 
         /// <summary>
         /// Gets the date when this message was posted
         /// </summary>
-        public DateTime PostTime {
-            get { return postTime; }
-        }
+        public DateTime PostTime { get { return postTime; } }
 
         /// <summary>
         /// Request the news post body
         /// </summary>
-        public string Post {
-            get { return post; }
-        }
+        public string Post { get { return post; } }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Compare this object with the given
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
         public int CompareTo(object obj) {
-            NewsPost np = obj as NewsPost;
-            string thisPost = this.postTime + this.nick + this.post;
-            string comparePost = np.postTime + np.nick + np.post;
+            var np = obj as NewsPost;
+            var thisPost = postTime + nick + post;
+            var comparePost = np.postTime + np.nick + np.post;
             return thisPost.CompareTo(comparePost);
         }
+
         #endregion
     }
 }

@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * PrivateMessageController.cs 
  * Created by Ola Lindberg, 2007-12-20
@@ -22,58 +23,59 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpWired.Model.Users;
-using SharpWired.Model.PrivateMessages;
+using SharpWired.MessageEvents;
 using SharpWired.Model;
+using SharpWired.Model.PrivateMessages;
+using SharpWired.Model.Users;
 
-namespace SharpWired.Controller
-{
+namespace SharpWired.Controller {
     /// <summary>
     /// The logic for private messages. Provides functionality for 
     /// sending and receiving private messages.
     /// </summary>
-    public class PrivateMessageController : ControllerBase
-    {
-        private PrivateMessageModel privateMessageModel;
+    public class PrivateMessageController : ControllerBase {
+        private readonly PrivateMessageModel privateMessageModel;
 
         #region Properties
+
         /// <summary>
         /// Request the private message model
         /// </summary>
-        public PrivateMessageModel PrivateMessageModel
-        {
-            get { return privateMessageModel; }
-        }
+        public PrivateMessageModel PrivateMessageModel { get { return privateMessageModel; } }
+
         #endregion
 
         #region Event Listeners
-        void OnPrivateMessageEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_305309 messageEventArgs)  {
-            User u = model.Server.PublicChat.Users.GetUser(messageEventArgs.UserId);
+
+        private void OnPrivateMessageEvent(object sender, MessageEventArgs_305309 messageEventArgs) {
+            var u = model.Server.PublicChat.Users.GetUser(messageEventArgs.UserId);
             privateMessageModel.AddReceivedPrivateMessage(new PrivateMessageItem(u, messageEventArgs.Message));
         }
+
         #endregion
 
         #region Sending to connection layer
+
         /// <summary>
         /// Send the given private message to the given user
         /// </summary>
         /// <param name="user">The user to receive the message</param>
         /// <param name="message">The message to send to the user</param>
-        public void Msg(User user, String message)
-        {
+        public void Msg(User user, String message) {
             //TODO: Make some error checking (empty message etc)
             model.ConnectionManager.Commands.Msg(user.UserId, message);
-            PrivateMessageItem newSentMessage = new PrivateMessageItem(user, message);
+            var newSentMessage = new PrivateMessageItem(user, message);
             privateMessageModel.AddSentPrivateMessage(newSentMessage);
         }
+
         #endregion
 
         #region Initialization
+
         public void OnConnected(Server s) {
             messages.PrivateMessageEvent += OnPrivateMessageEvent;
             s.Offline += OnOffline;
@@ -83,12 +85,12 @@ namespace SharpWired.Controller
             messages.PrivateMessageEvent -= OnPrivateMessageEvent;
         }
 
-        public PrivateMessageController(SharpWiredModel model) : base(model)  {
+        public PrivateMessageController(SharpWiredModel model) : base(model) {
             privateMessageModel = new PrivateMessageModel();
 
             model.Connected += OnConnected;
-            
         }
+
         #endregion
     }
 }

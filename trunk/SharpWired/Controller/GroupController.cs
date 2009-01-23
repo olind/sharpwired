@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * GroupController.cs 
  * Created by Ola Lindberg, 2007-12-14
@@ -22,35 +23,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.Text;
-using SharpWired.Model.Users;
+using SharpWired.MessageEvents;
 using SharpWired.Model;
+using SharpWired.Model.Users;
 
-namespace SharpWired.Controller
-{
+namespace SharpWired.Controller {
     /// <summary>
     /// Handles groups
     /// </summary>
-    class GroupController : ControllerBase
-    {
-        private List<Group> groups = new List<Group>();
-
+    internal class GroupController : ControllerBase {
+        private readonly List<Group> groups = new List<Group>();
 
         /// <summary>
         /// Gets the group with the given name
         /// </summary>
         /// <param name="name">The name for the searched group</param>
         /// <returns>The searched group. If not found null is returned.</returns>
-        public Group GetGroup(string name)
-        {
-            foreach (Group g in groups)
-            {
-                if (g.Name == name)
-                {
+        public Group GetGroup(string name) {
+            foreach (var g in groups) {
+                if (g.Name == name) {
                     return g;
                 }
             }
@@ -63,14 +58,10 @@ namespace SharpWired.Controller
         /// </summary>
         /// <param name="name">The name of the searched group</param>
         /// <returns>True if the given group exists, false otherwise</returns>
-        public bool GroupExists(string name)
-        {
-            if (GetGroup(name) != null)
-            {
+        public bool GroupExists(string name) {
+            if (GetGroup(name) != null) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
@@ -81,10 +72,8 @@ namespace SharpWired.Controller
         /// <param name="name">The name of the group</param>
         /// <param name="p">The privileges for this group</param>
         /// <returns>True if the group was added. False otherwise.</returns>
-        public bool AddGroup(string name, Privileges p)
-        {
-            if (!GroupExists(name))
-            {
+        public bool AddGroup(string name, Privileges p) {
+            if (!GroupExists(name)) {
                 groups.Add(new Group(name, p));
                 return true;
             }
@@ -92,20 +81,18 @@ namespace SharpWired.Controller
         }
 
         #region Event Listeners
-        void OnGroupSpecificationEvent(object sender, SharpWired.MessageEvents.MessageEventArgs_601 messageEventArgs)
-        {
-            if (GroupExists(messageEventArgs.Name))
-            {
+
+        private void OnGroupSpecificationEvent(object sender, MessageEventArgs_601 messageEventArgs) {
+            if (GroupExists(messageEventArgs.Name)) {
                 //Update existing group
-                Group g = GetGroup(messageEventArgs.Name);
+                var g = GetGroup(messageEventArgs.Name);
                 g.Privileges.UpdatePrivileges(messageEventArgs.Privileges);
-            }
-            else
-            {
+            } else {
                 //Create new group
                 AddGroup(messageEventArgs.Name, messageEventArgs.Privileges);
             }
         }
+
         #endregion
 
         public void OnConnected(Server s) {

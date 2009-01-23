@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * ChatModel.cs 
  * Created by Ola Lindberg and Peter Holmdahl, 2006-11-25
@@ -22,6 +23,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System.Collections.Generic;
@@ -34,15 +36,17 @@ namespace SharpWired.Model.Messaging {
     /// The model that the gui can listen to for changes in the chat
     /// </summary>
     public class Chat {
-
         #region Fields
-        int chatId;
-        UserList users;
-        MessageEventArgs_341 topic;
-        List<ChatMessageItem> chatMessages;
+
+        private readonly int chatId;
+        private readonly UserList users;
+        private MessageEventArgs_341 topic;
+        private readonly List<ChatMessageItem> chatMessages;
+
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -50,27 +54,30 @@ namespace SharpWired.Model.Messaging {
         /// <param name="chatId"></param>
         public Chat(Messages m, int chatId) {
             this.chatId = chatId;
-            this.chatMessages = new List<ChatMessageItem>();
-            this.users = new UserList(m);
+            chatMessages = new List<ChatMessageItem>();
+            users = new UserList(m);
 
             m.ChatTopicEvent += OnTopicChanged;
             m.ChatEvent += OnChatEvent;
             m.ActionChatEvent += OnActionChatEvent;
         }
+
         #endregion
 
         #region Properties
-        public UserList Users {
-            get { return users; }
-        }
+
+        public UserList Users { get { return users; } }
+
         #endregion
 
         #region Events & Listeners
+
         /// <summary>
         /// Delegate for the ChatMessageReceivedEvent
         /// </summary>
         /// <param name="chatMessageItem"></param>
         public delegate void ChatMessageReceivedDelegate(ChatMessageItem chatMessageItem);
+
         /// <summary>
         /// Event that's raised when a chat message has arrived
         /// </summary>
@@ -81,17 +88,19 @@ namespace SharpWired.Model.Messaging {
         /// </summary>
         /// <param name="message"></param>
         public delegate void ChatTopicChangedDelegate(MessageEventArgs_341 message);
+
         /// <summary>
         /// Event that's raised when the chat topic has been changed
         /// </summary>
         public event ChatTopicChangedDelegate ChatTopicChangedEvent;
 
         public void OnTopicChanged(MessageEventArgs_341 message) {
-            if (message.ChatId == this.chatId) {
-                this.topic = message;
+            if (message.ChatId == chatId) {
+                topic = message;
 
-                if (ChatTopicChangedEvent != null)
+                if (ChatTopicChangedEvent != null) {
                     ChatTopicChangedEvent(message);
+                }
             }
         }
 
@@ -105,15 +114,17 @@ namespace SharpWired.Model.Messaging {
 
         // TODO: MessageEventArgs_3003001 could contain isActionChat from the beginning!
         private void HandleMessage(MessageEventArgs_300301 message, bool isActionChat) {
-            if (message.ChatId == this.chatId) {
-                User u = this.users.GetUser(message.UserId);
-                ChatMessageItem cmi = new ChatMessageItem(message, u, isActionChat);
+            if (message.ChatId == chatId) {
+                var u = users.GetUser(message.UserId);
+                var cmi = new ChatMessageItem(message, u, isActionChat);
                 chatMessages.Add(cmi);
 
-                if (ChatMessageReceivedEvent != null)
+                if (ChatMessageReceivedEvent != null) {
                     ChatMessageReceivedEvent(cmi);
+                }
             }
         }
+
         #endregion
     }
 }

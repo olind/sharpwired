@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_203.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,30 +23,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// MessageEventArgs for Server Banner (203)
     /// </summary>
-    public class MessageEventArgs_203 : MessageEventArgs
-    {
-        private Bitmap image;
+    public class MessageEventArgs_203 : MessageEventArgs {
+        private readonly Bitmap image;
 
         /// <summary>
         /// Request the new server banner
         /// </summary>
-        public Bitmap Image {
-            get {
-                return image;
-            }
-        }
+        public Bitmap Image { get { return image; } }
 
         /// <summary>
         /// Constructor
@@ -54,8 +47,7 @@ namespace SharpWired.MessageEvents
         /// <param name="messageName">The name for this message</param>
         /// <param name="image">The new server banner</param>
         public MessageEventArgs_203(int messageId, string messageName, Bitmap image)
-            : base(messageId, messageName)
-        {
+            : base(messageId, messageName) {
             this.image = image;
         }
     }

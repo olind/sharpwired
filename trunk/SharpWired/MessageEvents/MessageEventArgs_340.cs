@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_340.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,32 +23,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// MessageEventArgs for message Client Image Changed (340)
     /// </summary>
-    public class MessageEventArgs_340 : MessageEventArgs_201
-    {
-        private Bitmap image;
+    public class MessageEventArgs_340 : MessageEventArgs_201 {
+        private readonly Bitmap image;
 
         /// <summary>
         /// The image for a user
         /// </summary>
-        public Bitmap Image
-        {
-            get
-            {
-                return image;
-            }
-        }
+        public Bitmap Image { get { return image; } }
 
         /// <summary>
         /// Constructor
@@ -57,8 +48,7 @@ namespace SharpWired.MessageEvents
         /// <param name="userId">The user id that changed image</param>
         /// <param name="image">The new image</param>
         public MessageEventArgs_340(int messageId, string messageName, int userId, Bitmap image)
-            : base(messageId, messageName, userId)
-        {
+            : base(messageId, messageName, userId) {
             this.image = image;
         }
     }

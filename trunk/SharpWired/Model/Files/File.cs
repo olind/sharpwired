@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.Files {
     public class File : ANode, IFile {
         public long Size { get; private set; }
 
-        public File(string path, DateTime created, DateTime modified, long size) 
+        public File(string path, DateTime created, DateTime modified, long size)
             : base(path, created, modified) {
             Size = size;
         }

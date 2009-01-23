@@ -1,4 +1,5 @@
 ﻿#region Information and licence agreements
+
 /*
  * Chat.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,31 +23,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using SharpWired.Connection.Bookmarks;
 using SharpWired.MessageEvents;
 using SharpWired.Model.Messaging;
-using SharpWired.Controller;
-using SharpWired.Model;
-using System.Diagnostics;
-using System.Drawing;
 
 namespace SharpWired.Gui.Chat {
     /// <summary>
     /// Control for chats
     /// </summary>
     public partial class Chat : WebBrowserGuiBase {
-
         private delegate void ChangeTopicCallback(GuiMessageItem guiMessage);
 
         #region Initialization
+
         public Chat() {
             InitializeComponent();
         }
+
         #endregion
 
         protected override void OnOnline() {
@@ -77,7 +77,7 @@ namespace SharpWired.Gui.Chat {
         /// </summary>
         /// <param name="message"></param>
         public void OnChatTopicChanged(MessageEventArgs_341 message) {
-            GuiMessageItem guiMessage = new GuiMessageItem(message);
+            var guiMessage = new GuiMessageItem(message);
             ChangeTopic(guiMessage);
         }
 
@@ -86,7 +86,7 @@ namespace SharpWired.Gui.Chat {
         /// </summary>
         /// <param name="chatMessageItem">The chat message item that was received</param>
         public void OnChatMessageArrived(ChatMessageItem chatMessageItem) {
-            GuiMessageItem guiMessage = new GuiMessageItem(chatMessageItem);
+            var guiMessage = new GuiMessageItem(chatMessageItem);
             AppendHTMLToWebBrowser(chatWebBrowser, guiMessage);
         }
 
@@ -97,30 +97,31 @@ namespace SharpWired.Gui.Chat {
         /// <param name="solutionIdea"></param>
         /// <param name="bookmark"></param>
         public void OnErrorEvent(string errorDescription, string solutionIdea,
-            Bookmark bookmark) {
-            GuiMessageItem gmi = new GuiMessageItem(errorDescription, solutionIdea, bookmark);
+                                 Bookmark bookmark) {
+            var gmi = new GuiMessageItem(errorDescription, solutionIdea, bookmark);
             AppendHTMLToWebBrowser(chatWebBrowser, gmi);
         }
 
         public override void Init() {
             base.Init();
         }
-        
+
         private void ChangeTopic(GuiMessageItem guiMessage) {
-            if (this.InvokeRequired) {
-                ChangeTopicCallback changeTopicCallback = new ChangeTopicCallback(ChangeTopic);
-                this.Invoke(changeTopicCallback, new object[] { guiMessage });
+            if (InvokeRequired) {
+                ChangeTopicCallback changeTopicCallback = ChangeTopic;
+                Invoke(changeTopicCallback, new object[] {guiMessage});
             } else {
-                this.topicDisplayLabel.Text = guiMessage.Message;
-                StringBuilder sb = new StringBuilder();
+                topicDisplayLabel.Text = guiMessage.Message;
+                var sb = new StringBuilder();
                 sb.Append(guiMessage.Nick);
                 sb.Append(" - ");
                 sb.Append(guiMessage.TimeStamp);
-                this.setByLabel.Text = sb.ToString();
+                setByLabel.Text = sb.ToString();
             }
         }
 
         #region Send chat messages
+
         private void sendChatButton_MouseUp(object sender, MouseEventArgs e) {
             Controller.ChatController.SendChatMessage(chatInputTextBox.Text);
             chatInputTextBox.Clear();
@@ -135,9 +136,11 @@ namespace SharpWired.Gui.Chat {
                 chatInputTextBox.Clear();
             }
         }
+
         #endregion
 
         #region Edit topic
+
         //TODO: Only enable topic changing if we are online
         //TODO: Only enable topic changing if the user has permissions to change it
         private void topicTextBox_KeyUp(object sender, KeyEventArgs e) {
@@ -155,9 +158,9 @@ namespace SharpWired.Gui.Chat {
 
         private void topicDisplayLabel_MouseUp(object sender, MouseEventArgs e) {
             //TODO: Make better check to see if we are online/offline
-            if (this.Model.Server != null && this.Model.Server.PublicChat != null) {
+            if (Model.Server != null && Model.Server.PublicChat != null) {
                 topicTextBox.Text = topicDisplayLabel.Text;
-                enableTopicEditing(true); 
+                enableTopicEditing(true);
             }
         }
 
@@ -166,8 +169,10 @@ namespace SharpWired.Gui.Chat {
         }
 
         private void topicDisplayLabel_MouseEnter(object sender, EventArgs e) {
-            if(this.Model.Server != null && this.Model.Server.PublicChat != null) //TODO: Make better check to see if we are online/offline
+            if (Model.Server != null && Model.Server.PublicChat != null) //TODO: Make better check to see if we are online/offline
+            {
                 topicDisplayLabel.Cursor = Cursors.Hand;
+            }
         }
 
         private void topicTextBox_Leave(object sender, EventArgs e) {
@@ -185,6 +190,7 @@ namespace SharpWired.Gui.Chat {
                 topicTextBox.Visible = false;
             }
         }
+
         #endregion
     }
 }

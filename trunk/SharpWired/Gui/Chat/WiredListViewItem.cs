@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using SharpWired.Model.Users;
 
 namespace SharpWired.Gui.Chat {
-    class WiredListViewItem : ListViewItem {
-        private User userItem;
+    internal class WiredListViewItem : ListViewItem {
+        public User UserItem { get; set; }
 
-        public User UserItem {
-            get { return userItem; }
-            set { userItem = value; }
-        }
-
-        public WiredListViewItem(User user, string nick, string imageIndex) 
+        public WiredListViewItem(User user, string nick, string imageIndex)
             : base(nick, imageIndex) {
-            this.UserItem = user;
+            UserItem = user;
         }
 
         public WiredListViewItem(User user, string[] subItems, string imageKey)
-            : base( subItems, imageKey) { 
-            this.UserItem = user;
+            : base(subItems, imageKey) {
+            UserItem = user;
         }
     }
 }

@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * FileListingController.cs 
  * Created by Ola Lindberg, 2007-01-28
@@ -22,23 +23,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpWired.Connection;
-using SharpWired.Model.Files;
 using SharpWired.Model;
-using System.Diagnostics;
+using SharpWired.Model.Files;
 
-namespace SharpWired.Controller
-{
+namespace SharpWired.Controller {
     /// <summary>
     /// Handles the local model for all file interactions
     /// </summary>
     public class FileListingController : ControllerBase {
-
         public FileListingController(SharpWiredModel model) : base(model) {}
 
         public void ReloadFileList() {

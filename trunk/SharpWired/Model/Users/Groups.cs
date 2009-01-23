@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * Groups.cs 
  * Created by Ola Lindberg, 2006-10-15
@@ -22,19 +23,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SharpWired.Model.Users
-{
+namespace SharpWired.Model.Users {
     /// <summary>
     /// Represents the groups on this Wired server
     /// </summary>
-    class Groups
-    {
+    internal class Groups {
         // TODO: Implement groups.
     }
 }

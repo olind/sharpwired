@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * ChatUserControl.cs
  * Created by Ola Lindberg, 2006-10-12
@@ -22,26 +23,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
-#endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
-using System.Windows.Forms;
-using SharpWired.Model;
-using SharpWired.Model.Users;
-using SharpWired.Model.Messaging;
-using SharpWired.Controller;
+#endregion
 
 namespace SharpWired.Gui.Chat {
     /// <summary>
     /// User control for the chat
     /// </summary>
     public partial class ChatUserContainer : SharpWiredGuiBase {
-
         /// <summary>
         /// Constructor
         /// </summary>

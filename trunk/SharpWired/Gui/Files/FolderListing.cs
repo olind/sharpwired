@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * FileDetailsControl.cs
  * Created by Ola Lindberg and Peter Holmdahl, 2007-09-29
@@ -22,43 +23,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
-using System.Windows.Forms;
-using SharpWired.Model.Files;
-using SharpWired.Gui.Resources.Icons;
 using System.Diagnostics;
-using SharpWired.Model;
-using SharpWired.Controller;
 using System.IO;
+using System.Windows.Forms;
+using SharpWired.Gui.Resources.Icons;
+using SharpWired.Model.Files;
 
 namespace SharpWired.Gui.Files {
     public partial class FolderListing : SharpWiredGuiBase, IFilesView {
-
-        IconHandler iconHandler = IconHandler.Instance;
-        FileMenu ContextMenu { get; set; }
-        Folder CurrentFolder { get; set; }
+        private readonly IconHandler iconHandler = IconHandler.Instance;
+        private FileMenu ContextMenu { get; set; }
+        private Folder CurrentFolder { get; set; }
 
         public List<INode> SelectedItems {
             get {
                 var n = new List<INode>();
-                foreach(var s in detailsListView.SelectedItems)
-                    n.Add(((WiredListNode)s).ModelNode);
+                foreach (var s in detailsListView.SelectedItems) {
+                    n.Add(((WiredListNode) s).ModelNode);
+                }
                 return n;
             }
         }
 
-        delegate void ClearCallback();
-        delegate void NodeListDelegate(List<INode> nodes);
+        private delegate void ClearCallback();
+
+        private delegate void NodeListDelegate(List<INode> nodes);
 
         // TODO: Use the FolderSelectedDelaget instead? Same signature...
         public delegate void NodeDelegate(INode node);
+
         public event NodeDelegate RequestDownload;
         public event NodeSelectedDelegate NodeSelected;
 
@@ -69,7 +67,7 @@ namespace SharpWired.Gui.Files {
         public override void Init() {
             base.Init();
 
-            ImageList fileViewIcons = new ImageList();
+            var fileViewIcons = new ImageList();
             fileViewIcons.ColorDepth = ColorDepth.Depth32Bit;
             try {
                 fileViewIcons.Images.Add("FOLDER", iconHandler.GetFolderIconFromSystem());
@@ -84,20 +82,21 @@ namespace SharpWired.Gui.Files {
         }
 
         public void SetCurrentNode(INode node) {
-            if(node is Folder) {
-                Folder folder = node as Folder;
+            if (node is Folder) {
+                var folder = node as Folder;
 
-                if(CurrentFolder != null)
+                if (CurrentFolder != null) {
                     CurrentFolder.Updated -= OnFolderUpdated;
+                }
 
                 CurrentFolder = folder;
                 CurrentFolder.Updated += OnFolderUpdated;
             }
         }
 
-        void UpdateListView(List<INode> newNodes) {
-            if (this.InvokeRequired) {
-                this.Invoke(new NodeListDelegate(UpdateListView), new object[] { newNodes });
+        private void UpdateListView(List<INode> newNodes) {
+            if (InvokeRequired) {
+                Invoke(new NodeListDelegate(UpdateListView), new object[] {newNodes});
             } else {
                 detailsListView.Columns.Clear();
 
@@ -114,24 +113,26 @@ namespace SharpWired.Gui.Files {
 
                 newNodes.Sort();
 
-                foreach (INode folder in newNodes) {
+                foreach (var folder in newNodes) {
                     if (folder is Folder) {
                         AddToListView(folder, "FOLDER");
                     }
                 }
 
-                foreach (INode child in newNodes) {
+                foreach (var child in newNodes) {
                     if (child is INode) {
                         try {
-                            string imageKey = Path.GetExtension(child.Name);
+                            var imageKey = Path.GetExtension(child.Name);
 
-                            if (imageKey == "")
+                            if (imageKey == "") {
                                 imageKey = "FILE";
+                            }
 
-                            if (!detailsListView.SmallImageList.Images.ContainsKey(imageKey))
+                            if (!detailsListView.SmallImageList.Images.ContainsKey(imageKey)) {
                                 detailsListView.SmallImageList.Images.Add(
                                     imageKey,
                                     iconHandler.GetFileIconFromSystem(child.Name));
+                            }
 
                             AddToListView(child, imageKey);
                         } catch (ArgumentException e) {
@@ -143,50 +144,50 @@ namespace SharpWired.Gui.Files {
             }
         }
 
-
-        void AddToListView(INode child, string imageKey) {
-            WiredListNode wln = new WiredListNode(child);
+        private void AddToListView(INode child, string imageKey) {
+            var wln = new WiredListNode(child);
             wln.ImageIndex = detailsListView.SmallImageList.Images.IndexOfKey(imageKey);
             //wln.StateImageIndex = wln.Type;
             wln.SubItems.Add(wln.Size);
             wln.SubItems.Add(wln.Created.ToString());
             wln.SubItems.Add(wln.Modified.ToString());
 
-            this.detailsListView.Items.Add(wln);
+            detailsListView.Items.Add(wln);
         }
 
-        void Clear() {
-            if (this.InvokeRequired) {
-                ClearCallback callback = new ClearCallback(Clear);
-                this.Invoke(callback);
+        private void Clear() {
+            if (InvokeRequired) {
+                ClearCallback callback = Clear;
+                Invoke(callback);
             } else {
                 detailsListView.Clear();
             }
         }
 
-        void OnFolderUpdated(INode node) {
-            UpdateListView(((Folder)node).Children);
+        private void OnFolderUpdated(INode node) {
+            UpdateListView(((Folder) node).Children);
         }
 
-        void OnMouseDoubleClick(object sender, MouseEventArgs e) {
-            WiredListNode node = (WiredListNode)detailsListView.GetItemAt(e.X, e.Y);
-            if(node != null && node.ModelNode is Folder && NodeSelected != null) {
+        private void OnMouseDoubleClick(object sender, MouseEventArgs e) {
+            var node = (WiredListNode) detailsListView.GetItemAt(e.X, e.Y);
+            if (node != null && node.ModelNode is Folder && NodeSelected != null) {
                 NodeSelected(node.ModelNode);
             }
         }
 
-        void OnKeyUp(object sender, KeyEventArgs e) {
-            if(e.KeyCode == Keys.Enter) {
-                if(detailsListView.SelectedItems.Count == 1) {
-                    INode n = ((WiredListNode)detailsListView.SelectedItems[0]).ModelNode;
-                    if(n != null && NodeSelected != null)
+        private void OnKeyUp(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) {
+                if (detailsListView.SelectedItems.Count == 1) {
+                    var n = ((WiredListNode) detailsListView.SelectedItems[0]).ModelNode;
+                    if (n != null && NodeSelected != null) {
                         NodeSelected(n);
+                    }
                 }
             }
         }
 
-        void OnMouseUp(object sender, MouseEventArgs e) {
-            if(e.Button == MouseButtons.Right) {
+        private void OnMouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Right) {
                 ContextMenu.Show(detailsListView, e.Location);
             }
         }

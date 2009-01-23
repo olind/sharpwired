@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * ControllerBase.cs 
  * Created by Ola Lindberg and Peter Holmdahl, 2006-11-25
@@ -22,36 +23,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+using SharpWired.Connection;
 using SharpWired.Model;
 
-namespace SharpWired.Controller
-{
+namespace SharpWired.Controller {
     /// <summary>
     /// The basic functionality for the controllers for all different controller objects
     /// </summary>
-    public class ControllerBase
-    {
+    public class ControllerBase {
         #region Fields
+
         protected SharpWiredModel model;
-        protected SharpWired.Connection.Commands commands;
-        protected SharpWired.Connection.Messages messages;
+        protected Commands commands;
+        protected Messages messages;
+
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="model"></param>
-        public ControllerBase(SharpWired.Model.SharpWiredModel model) {
+        public ControllerBase(SharpWiredModel model) {
             this.model = model;
-            this.commands = model.ConnectionManager.Commands;
-            this.messages = model.ConnectionManager.Messages;
+            commands = model.ConnectionManager.Commands;
+            messages = model.ConnectionManager.Messages;
         }
+
         #endregion
     }
 }

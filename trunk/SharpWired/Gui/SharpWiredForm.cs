@@ -1,4 +1,5 @@
 ﻿#region Information and licence agreements
+
 /*
  * SharpWiredForm.cs 
  * Created by Ola Lindberg, 2006-07-23
@@ -22,49 +23,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using System.Net;
-using System.Collections;
-using SharpWired.MessageEvents;
-
-using SharpWired;
-using SharpWired.Model;
-using SharpWired.Gui.Chat;
 using SharpWired.Connection.Bookmarks;
-using SharpWired.Gui.Bookmarks;
-using WiredControls.ToolStripItems;
-using WiredControls.Containers.Forms;
-using SharpWired.Gui.About;
 using SharpWired.Controller;
-using SharpWired.Gui.Files;
-using System.Diagnostics;
+using SharpWired.Gui.About;
+using SharpWired.Gui.Bookmarks;
+using SharpWired.Model;
+using WiredControls.Containers.Forms;
+using WiredControls.ToolStripItems;
 
 namespace SharpWired.Gui {
     /// <summary>
     /// The main GUI
     /// </summary>
     public partial class SharpWiredForm : WiredForm {
-        private SharpWiredModel model;
-        BookmarkBackgroundLoader mBookmarkBackgroundLoader = null;
+        private readonly SharpWiredModel model;
+        private BookmarkBackgroundLoader mBookmarkBackgroundLoader;
+
         /// <summary>
         /// A list of the ToolStripMenuItems that represents bookmarks.
         /// </summary>
-        private List<ToolStripMenuItem> bookmarkItems = new List<ToolStripMenuItem>();
+        private readonly List<ToolStripMenuItem> bookmarkItems = new List<ToolStripMenuItem>();
 
         /// <summary>
         /// Constructor
         /// </summary>
         public SharpWiredForm(SharpWiredModel model,
-            SharpWiredController sharpWiredController) {
-
+                              SharpWiredController sharpWiredController) {
             this.model = model;
 
             InitializeComponent();
@@ -91,11 +83,10 @@ namespace SharpWired.Gui {
             model.Connected += OnLoggedIn;
         }
 
-        public void OnLoggedIn(SharpWired.Model.Server s) {
-
+        public void OnLoggedIn(Server s) {
             s.Offline += OnOffline;
 
-            StringBuilder onlineMessage = new StringBuilder();
+            var onlineMessage = new StringBuilder();
             onlineMessage.Append("Connected");
             if (model.ServerInformation.ServerName != "") {
                 onlineMessage.Append(" to: " + model.ServerInformation.ServerName);
@@ -103,9 +94,10 @@ namespace SharpWired.Gui {
 
             UpdateToolStripText(onlineMessage.ToString());
 
-            ToolStripItem t = GetToolStripMenuItem(mainMenu, "disconnectToolStripMenuItem");
-            if(t != null && !t.Enabled)
+            var t = GetToolStripMenuItem(mainMenu, "disconnectToolStripMenuItem");
+            if (t != null && !t.Enabled) {
                 ToggleToolStripItem(t);
+            }
         }
 
         /// <summary>
@@ -115,10 +107,11 @@ namespace SharpWired.Gui {
         /// <param name="name"></param>
         /// <returns></returns>
         private ToolStripItem GetToolStripMenuItem(MenuStrip strip, string name) {
-            ToolStripItem[] t = strip.Items.Find(name, true);
-            for (int i = 0; i < t.Length; i++) {
-                if (t[i].Name == name)
+            var t = strip.Items.Find(name, true);
+            for (var i = 0; i < t.Length; i++) {
+                if (t[i].Name == name) {
                     return t[i];
+                }
             }
             return null;
         }
@@ -126,9 +119,10 @@ namespace SharpWired.Gui {
         public void OnOffline() {
             UpdateToolStripText("Disconnected");
 
-            ToolStripItem t = GetToolStripMenuItem(mainMenu, "disconnectToolStripMenuItem");
-            if (t != null && t.Enabled)
+            var t = GetToolStripMenuItem(mainMenu, "disconnectToolStripMenuItem");
+            if (t != null && t.Enabled) {
                 ToggleToolStripItem(t);
+            }
         }
 
         private void Exit(object sender) {
@@ -141,17 +135,18 @@ namespace SharpWired.Gui {
         }
 
         #region Bookmark in the menu.
+
         /// <summary>
         /// Displays the bookmark dialog window
         /// </summary>
         /// <param name="sender"></param>
         private void ShowBookmarksDialog(object sender) {
-            using (BookmarkManagerDialog diag = new BookmarkManagerDialog()) {
+            using (var diag = new BookmarkManagerDialog()) {
                 // NOTE: Bookmark manager could be shown as a modless dialog
                 diag.ShowDialog(this);
 
                 if (diag.BookmarkToConnect != null) {
-                    Bookmark bookmark = diag.BookmarkToConnect;
+                    var bookmark = diag.BookmarkToConnect;
                     model.Connect(bookmark);
                 }
             }
@@ -175,9 +170,11 @@ namespace SharpWired.Gui {
         /// <param name="e"></param>
         private void bookmarksToolStripMenuItem_DropDownOpening(object sender, EventArgs e) {
             // Removing should be quick, even if its n^2 or so.
-            if (bookmarkItems.Count > 0)
-                foreach (ToolStripMenuItem item in bookmarkItems)
+            if (bookmarkItems.Count > 0) {
+                foreach (var item in bookmarkItems) {
                     bookmarksToolStripMenuItem.DropDownItems.Remove(item);
+                }
+            }
 
             if (mLoadingToolStripMenuItem != null
                 || bookmarksToolStripMenuItem.DropDownItems.Contains(mLoadingToolStripMenuItem)) {
@@ -190,15 +187,17 @@ namespace SharpWired.Gui {
 
             // Create a loader that can read the bookmark file in the background and then
             // report to us the items to add.
-            if (mBookmarkBackgroundLoader == null)
+            if (mBookmarkBackgroundLoader == null) {
                 mBookmarkBackgroundLoader = new BookmarkBackgroundLoader();
+            }
 
-            mBookmarkBackgroundLoader.ProgressChanged += new ProgressChangedEventHandler(mBookmarkBackgroundLoader_ProgressChanged);
-            mBookmarkBackgroundLoader.RunWorkerCompleted += new RunWorkerCompletedEventHandler(mBookmarkBackgroundLoader_RunWorkerCompleted);
+            mBookmarkBackgroundLoader.ProgressChanged += mBookmarkBackgroundLoader_ProgressChanged;
+            mBookmarkBackgroundLoader.RunWorkerCompleted += mBookmarkBackgroundLoader_RunWorkerCompleted;
 
             // If the loader is working, try cancel and the invoke again.
-            if (mBookmarkBackgroundLoader.IsBusy)
+            if (mBookmarkBackgroundLoader.IsBusy) {
                 mBookmarkBackgroundLoader.CancelAsync();
+            }
             if (!mBookmarkBackgroundLoader.IsBusy) {
                 mBookmarkLoadingTimer.Start();
                 mBookmarkBackgroundLoader.LoadBookmarks(bookmarkItems, bookmarksToolStripMenuItem, BookmarkItemClick);
@@ -210,10 +209,10 @@ namespace SharpWired.Gui {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void mBookmarkBackgroundLoader_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
-            this.bookmarksToolStripMenuItem.DropDownItems.Remove(mLoadingToolStripMenuItem);
-            mBookmarkBackgroundLoader.ProgressChanged -= new ProgressChangedEventHandler(mBookmarkBackgroundLoader_ProgressChanged);
-            mBookmarkBackgroundLoader.RunWorkerCompleted -= new RunWorkerCompletedEventHandler(mBookmarkBackgroundLoader_RunWorkerCompleted);
+        private void mBookmarkBackgroundLoader_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
+            bookmarksToolStripMenuItem.DropDownItems.Remove(mLoadingToolStripMenuItem);
+            mBookmarkBackgroundLoader.ProgressChanged -= mBookmarkBackgroundLoader_ProgressChanged;
+            mBookmarkBackgroundLoader.RunWorkerCompleted -= mBookmarkBackgroundLoader_RunWorkerCompleted;
             mBookmarkLoadingTimer.Stop();
             (mLoadingToolStripMenuItem as AnimatedLoaderItem).Stop();
         }
@@ -223,9 +222,10 @@ namespace SharpWired.Gui {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void mBookmarkBackgroundLoader_ProgressChanged(object sender, ProgressChangedEventArgs e) {
-            if (e.UserState is ToolStripMenuItem)
+        private void mBookmarkBackgroundLoader_ProgressChanged(object sender, ProgressChangedEventArgs e) {
+            if (e.UserState is ToolStripMenuItem) {
                 bookmarksToolStripMenuItem.DropDownItems.Add(e.UserState as ToolStripMenuItem);
+            }
         }
 
         /// <summary>
@@ -233,24 +233,27 @@ namespace SharpWired.Gui {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void BookmarkItemClick(object sender, EventArgs e) {
-            if ((sender as ToolStripMenuItem).Tag is Bookmark)
+        private void BookmarkItemClick(object sender, EventArgs e) {
+            if ((sender as ToolStripMenuItem).Tag is Bookmark) {
                 model.Connect((sender as ToolStripMenuItem).Tag as Bookmark);
+            }
         }
 
         private void mBookmarkLoadingTimer_Tick(object sender, EventArgs e) {
-            string text = mLoadingToolStripMenuItem.Text;
+            var text = mLoadingToolStripMenuItem.Text;
             // cut out loading.
-            string t = text.Substring(1, text.Length - 2);
+            var t = text.Substring(1, text.Length - 2);
             // move one char from beginning to end, or vice versa.
-            string nt = t.Substring(1, t.Length - 1) + t[0].ToString();
+            var nt = t.Substring(1, t.Length - 1) + t[0];
             mLoadingToolStripMenuItem.Text = "(" + nt + ")";
         }
+
         #endregion
 
         #region Listeners from GUI
+
         private void aboutSharpWiredToolStripMenuItem_Click(object sender, EventArgs e) {
-            AboutBox box = new AboutBox();
+            var box = new AboutBox();
             box.ShowDialog();
             box.Dispose();
         }
@@ -340,27 +343,30 @@ namespace SharpWired.Gui {
             filesToolStripButton.Enabled = true;
             transfersToolStripButton.Enabled = false;
         }
+
         #endregion
 
         #region Thread safe manipulation
-        delegate void UpdateToolStripTextCallback(String text);
-        delegate void ToggleToolStripItemCallback(ToolStripItem tsi);
+
+        private delegate void UpdateToolStripTextCallback(String text);
+
+        private delegate void ToggleToolStripItemCallback(ToolStripItem tsi);
 
         private void UpdateToolStripText(String text) {
-            if (this.InvokeRequired) {
-                UpdateToolStripTextCallback callback = new UpdateToolStripTextCallback(UpdateToolStripText);
-                this.Invoke(callback, new object[] { text });
+            if (InvokeRequired) {
+                UpdateToolStripTextCallback callback = UpdateToolStripText;
+                Invoke(callback, new object[] {text});
             } else {
-                ToolStripItem[] toolstrips = this.mainStatusStrip.Items.Find("toolStripStatusLabel_ServerStatus", true);
+                var toolstrips = mainStatusStrip.Items.Find("toolStripStatusLabel_ServerStatus", true);
                 toolstrips[0].Text = text;
             }
         }
 
         private void ToggleToolStripItem(ToolStripItem tsi) {
-            if (this.InvokeRequired) {
+            if (InvokeRequired) {
                 ToggleToolStripItemCallback callback
-                    = new ToggleToolStripItemCallback(ToggleToolStripItem);
-                this.Invoke(callback, new object[] { tsi });
+                    = ToggleToolStripItem;
+                Invoke(callback, new object[] {tsi});
             } else {
                 tsi.Enabled = !tsi.Enabled;
             }

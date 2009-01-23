@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * BookmarkManagerDialog.cs
  * Created by Peter Holmdal, 2006-12-03
@@ -22,78 +23,69 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using SharpWired.Connection.Bookmarks;
 
-namespace SharpWired.Gui.Bookmarks
-{
+namespace SharpWired.Gui.Bookmarks {
     /// <summary>
     /// The Bookmark manager dialog GUI
     /// </summary>
-	public partial class BookmarkManagerDialog : Form {
+    public partial class BookmarkManagerDialog : Form {
         #region Properties
+
         private Bookmark selectedBookmark;
 
         /// <summary>
         /// The bookmark currently selected in the bookmarks dialog.
         /// </summary>
-        public Bookmark SelectedBookmark {
-            get { return selectedBookmark; }
-            set { selectedBookmark = value; }
-        }
-
-        private Bookmark bookmarkToConnect = null;
+        public Bookmark SelectedBookmark { get { return selectedBookmark; } set { selectedBookmark = value; } }
 
         /// <summary>
         /// The bookmark selected for connection.
         /// </summary>
-        public Bookmark BookmarkToConnect {
-            get { return bookmarkToConnect; }
-            set { bookmarkToConnect = value; }
-        }
+        public Bookmark BookmarkToConnect { get; set; }
+
         #endregion
 
         #region Init
+
         /// <summary>
         /// Constructor
         /// </summary>
-		public BookmarkManagerDialog()
-		{
-			InitializeComponent();
+        public BookmarkManagerDialog() {
+            InitializeComponent();
             PopulateList();
-            this.bookmarkEntryControl.Enabled = false;
+            bookmarkEntryControl.Enabled = false;
         }
+
         #endregion
 
         #region EventHandlers
-        private void closeButton_Click(object sender, EventArgs e) {
-			this.Close();
-		}
 
-		private void connectButton_Click(object sender, EventArgs e) {
+        private void closeButton_Click(object sender, EventArgs e) {
+            Close();
+        }
+
+        private void connectButton_Click(object sender, EventArgs e) {
             SaveAndSelectBookmark(SelectedBookmark);
-            this.BookmarkToConnect = this.SelectedBookmark;
-			this.Close();
+            BookmarkToConnect = SelectedBookmark;
+            Close();
         }
 
         private void deleteButton_Click(object sender, EventArgs e) {
             if (bookmarkList.SelectedItems.Count == 1) {
                 BookmarkManager.RemoveBookmark(bookmarkList.SelectedItems[0].Tag as Bookmark);
-                this.bookmarkEntryControl.SetBookmark(null);
+                bookmarkEntryControl.SetBookmark(null);
                 PopulateList();
             }
         }
 
         private void addButton_Click(object sender, EventArgs e) {
-            Bookmark bookmark = new Bookmark();
+            var bookmark = new Bookmark();
             //TODO: When we add bookmarks we should make the name New Bookmark
             //      for the first bookmark. New Bookmark (2) for the second
             //      New Bookmark (3) for the third...
@@ -101,18 +93,19 @@ namespace SharpWired.Gui.Bookmarks
             BookmarkManager.AddBookmark(bookmark, false);
             selectedBookmark = bookmark;
             PopulateList();
-            this.bookmarkEntryControl.ShowPasswordBox(true);
-            this.bookmarkEntryControl.Focus();
+            bookmarkEntryControl.ShowPasswordBox(true);
+            bookmarkEntryControl.Focus();
         }
 
         private void saveButton_Click(object sender, EventArgs e) {
-            SaveAndSelectBookmark(this.bookmarkEntryControl.GetBookmark());
+            SaveAndSelectBookmark(bookmarkEntryControl.GetBookmark());
             PopulateList();
         }
 
         private void bookmarkList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e) {
             ChangeButtonStatus();
         }
+
         #endregion
 
         private void SaveAndSelectBookmark(Bookmark bookmark) {
@@ -122,39 +115,40 @@ namespace SharpWired.Gui.Bookmarks
         }
 
         private void ChangeButtonStatus() {
-            bool buttonsEnabled = true;
+            var buttonsEnabled = true;
             if (bookmarkList.SelectedItems.Count > 0) {
-                Bookmark bookmark = this.bookmarkList.SelectedItems[0].Tag as Bookmark;
-                this.selectedBookmark = bookmark;
-                this.bookmarkEntryControl.SetBookmark(bookmark);
+                var bookmark = bookmarkList.SelectedItems[0].Tag as Bookmark;
+                selectedBookmark = bookmark;
+                bookmarkEntryControl.SetBookmark(bookmark);
             } else {
-                this.selectedBookmark = null;
-                this.bookmarkEntryControl.Clear();
+                selectedBookmark = null;
+                bookmarkEntryControl.Clear();
                 buttonsEnabled = false;
             }
 
-            this.connectButton.Enabled = buttonsEnabled;
-            this.saveBookmarkButton.Enabled = buttonsEnabled;
-            this.deleteButton.Enabled = buttonsEnabled;
-            this.bookmarkEntryControl.Enabled = buttonsEnabled;
+            connectButton.Enabled = buttonsEnabled;
+            saveBookmarkButton.Enabled = buttonsEnabled;
+            deleteButton.Enabled = buttonsEnabled;
+            bookmarkEntryControl.Enabled = buttonsEnabled;
         }
 
         private void PopulateList() {
             try {
                 bookmarkList.Clear();
-                if (BookmarkManager.Bookmarks == null)
+                if (BookmarkManager.Bookmarks == null) {
                     BookmarkManager.GetBookmarks();
-            
-                foreach (Bookmark bookmark in BookmarkManager.Bookmarks) {
+                }
+
+                foreach (var bookmark in BookmarkManager.Bookmarks) {
                     if (bookmark != null) {
                         // TODO: Use bookmark name instead!
-                        ListViewItem item = new ListViewItem(bookmark.ToShortString());
+                        var item = new ListViewItem(bookmark.ToShortString());
                         item.Tag = bookmark;
-                        this.bookmarkList.Items.Add(item);
+                        bookmarkList.Items.Add(item);
                     }
                 }
-                
-                int i = 0;
+
+                var i = 0;
                 foreach (ListViewItem item in bookmarkList.Items) {
                     bookmarkList.Items[i].Selected = (item.Tag == selectedBookmark);
                     i++;
@@ -165,5 +159,5 @@ namespace SharpWired.Gui.Bookmarks
                 MessageBox.Show(e.ToString(), "Bookmark Error");
             }
         }
-	}
+    }
 }

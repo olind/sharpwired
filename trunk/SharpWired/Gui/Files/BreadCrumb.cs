@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * BreadCrumbControl.cs
  * Created by Ola Lindberg, 2007-11-09
@@ -22,26 +23,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using SharpWired.Controller;
-using SharpWired.Model;
-using SharpWired.Model.Files;
 using SharpWired.Gui.Resources.Icons;
+using SharpWired.Model.Files;
 
 namespace SharpWired.Gui.Files {
     public partial class BreadCrumb : SharpWiredGuiBase, IFilesView {
+        private delegate void AddButtonsToFlowLayoutCallback(Button b);
 
-        delegate void AddButtonsToFlowLayoutCallback(Button b);
-        delegate void ClearFlowLayoutCallback();
+        private delegate void ClearFlowLayoutCallback();
 
         public event NodeSelectedDelegate NodeSelected;
 
@@ -50,32 +46,33 @@ namespace SharpWired.Gui.Files {
         }
 
         public void SetCurrentNode(INode node) {
-            if (node is Folder)
+            if (node is Folder) {
                 PopulatePathButtons(node as Folder);
+            }
         }
 
-        void PopulatePathButtons(Folder node) {
+        private void PopulatePathButtons(Folder node) {
             ClearFlowLayout();
-            
+
             List<string> path;
 
-            if(node.FullPath == "/") {
+            if (node.FullPath == "/") {
                 path = new List<string>();
                 path.Add("");
             } else {
                 path = new List<string>(node.FullPath.Split('/'));
             }
 
-            foreach (string folder in path) {
-                Button b = new Button();
+            foreach (var folder in path) {
+                var b = new Button();
                 if (folder != "") {
                     b.Text = folder;
                 } else {
-                    IconHandler iconHandler = IconHandler.Instance;
+                    var iconHandler = IconHandler.Instance;
                     b.Image = iconHandler.GoHome;
                 }
 
-                b.MouseUp += new MouseEventHandler(OnMouseUp);
+                b.MouseUp += OnMouseUp;
                 //b.Tag = Model.Server.FileListingModel.GetNode(CombineFilePath(path, i));
                 //todo: file
                 b.AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -86,41 +83,42 @@ namespace SharpWired.Gui.Files {
             }
         }
 
-        void AddButtonsToFlowLayout(Button b) {
-            if (this.InvokeRequired) {
-                AddButtonsToFlowLayoutCallback callback = new AddButtonsToFlowLayoutCallback(AddButtonsToFlowLayout);
-                this.Invoke(callback, new object[] { b });
+        private void AddButtonsToFlowLayout(Button b) {
+            if (InvokeRequired) {
+                AddButtonsToFlowLayoutCallback callback = AddButtonsToFlowLayout;
+                Invoke(callback, new object[] {b});
             } else {
-                this.breadCrumbsFlowLayoutPanel.Controls.Add(b);
+                breadCrumbsFlowLayoutPanel.Controls.Add(b);
             }
         }
 
-        void ClearFlowLayout() {
-            if (this.InvokeRequired) {
-                ClearFlowLayoutCallback callback = new ClearFlowLayoutCallback(ClearFlowLayout);
-                this.Invoke(callback, new object[] { });
+        private void ClearFlowLayout() {
+            if (InvokeRequired) {
+                ClearFlowLayoutCallback callback = ClearFlowLayout;
+                Invoke(callback, new object[] {});
             } else {
-                this.breadCrumbsFlowLayoutPanel.Controls.Clear();
+                breadCrumbsFlowLayoutPanel.Controls.Clear();
             }
         }
-        
-        string CombineFilePath(String[] pathArray, int dept) {
-            StringBuilder sb = new StringBuilder();
+
+        private string CombineFilePath(String[] pathArray, int dept) {
+            var sb = new StringBuilder();
             if (dept > 0 && pathArray.Length > 0) {
-                for (int i = 0; i <= dept; i++) {
+                for (var i = 0; i <= dept; i++) {
                     sb.Append(pathArray[i]);
-                    if (i != dept)
-                        sb.Append(SharpWired.Utility.PATH_SEPARATOR);
+                    if (i != dept) {
+                        sb.Append(Utility.PATH_SEPARATOR);
+                    }
                 }
                 return sb.ToString();
             } else {
-                return SharpWired.Utility.PATH_SEPARATOR;
+                return Utility.PATH_SEPARATOR;
             }
         }
 
-        void OnMouseUp(object sender, MouseEventArgs e) {
-            if(NodeSelected != null) {
-                INode n = (INode)((Button)sender).Tag;
+        private void OnMouseUp(object sender, MouseEventArgs e) {
+            if (NodeSelected != null) {
+                var n = (INode) ((Button) sender).Tag;
                 NodeSelected(n);
             }
         }

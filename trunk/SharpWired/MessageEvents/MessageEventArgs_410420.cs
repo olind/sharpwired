@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_410420.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,11 +23,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SharpWired.MessageEvents {
     public enum FileType : short {
@@ -44,7 +44,6 @@ namespace SharpWired.MessageEvents {
     /// when all requested files are sent from the server.
     /// </summary>
     public class MessageEventArgs_410420 : MessageEventArgs_Path {
-
         /// <summary>
         /// Request the file type for this event
         /// </summary>
@@ -67,9 +66,8 @@ namespace SharpWired.MessageEvents {
         public DateTime Modified { get; private set; }
 
         public MessageEventArgs_410420(int messageId, string messageName, string path,
-            FileType fileType, long size, DateTime created, DateTime modified)
+                                       FileType fileType, long size, DateTime created, DateTime modified)
             : base(messageId, messageName, path) {
-
             FileType = fileType;
             Size = size;
             Created = created;

@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * UserModel.cs 
  * Created by Ola Lindberg, 2006-12-03
@@ -22,29 +23,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System.Collections.Generic;
 using SharpWired.Connection;
 using SharpWired.MessageEvents;
 
-namespace SharpWired.Model.Users
-{
+namespace SharpWired.Model.Users {
     /// <summary>
     /// Represents a user list in a chat.
     /// </summary>
     public class UserList {
-
         #region Fields
-        private List<User> userList;
+
+        private readonly List<User> userList;
+
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
         public UserList(Messages m) {
-            this.userList = new List<User>();
+            userList = new List<User>();
 
             m.StatusChangeEvent += OnStatusChangedMessage;
             m.ClientImageChangedEvent += OnClientImageChangedMessage;
@@ -56,20 +59,22 @@ namespace SharpWired.Model.Users
             m.ClientBannedEvent += OnClientBannedMessage;
             m.PrivilegesSpecificationEvent += OnPrivilegesSpecificationMessage;
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// Request a copy of the list with users connected to this model.
         /// NOTE! Since we pass a copy of the list editing the content of 
         /// this list outside this class will have no effect.
         /// </summary>
-        public List<User> Users {
-            get { return new List<User>(userList); }
-        }
+        public List<User> Users { get { return new List<User>(userList); } }
+
         #endregion
 
         #region Events & Listeners
+
         /// <summary>
         /// Changes the status for the user in the given message.
         /// Call this method when a Status Changed Message (304) is 
@@ -77,7 +82,7 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnStatusChangedMessage(MessageEventArgs_304 message) {
-            User u = this.GetUser(message.UserId);
+            var u = GetUser(message.UserId);
             if (u != null) {
                 u.OnStatusChangedMessage(message);
             }
@@ -90,9 +95,10 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnClientInformationMessage(MessageEventArgs_308 message) {
-            User u = this.GetUser(message.UserId);
-            if (u != null)
+            var u = GetUser(message.UserId);
+            if (u != null) {
                 u.OnClientInformationMessage(message);
+            }
         }
 
         /// <summary>
@@ -102,9 +108,10 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnClientImageChangedMessage(MessageEventArgs_340 message) {
-            User u = this.GetUser(message.UserId);
-            if (u != null)
+            var u = GetUser(message.UserId);
+            if (u != null) {
                 u.OnClientImageChangedMessage(message);
+            }
         }
 
         /// <summary>
@@ -115,14 +122,15 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnClientJoinMessage(MessageEventArgs_302310 message) {
-            if (!this.UserExists(message.UserId)) {
-                User newUser = new User(message);
-                this.userList.Add(newUser);
-                this.ClientJoined(newUser);
+            if (!UserExists(message.UserId)) {
+                var newUser = new User(message);
+                userList.Add(newUser);
+                ClientJoined(newUser);
             } else {
-                User u = this.GetUser(message.UserId);
-                if (u != null)
+                var u = GetUser(message.UserId);
+                if (u != null) {
                     u.UpdateUserInformation(message);
+                }
             }
         }
 
@@ -133,10 +141,10 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnClientLeaveMessage(MessageEventArgs_303331332 message) {
-            User user = GetUser(message.UserId);
+            var user = GetUser(message.UserId);
             if (user != null) {
-                this.userList.Remove(user);
-                this.ClientLeft(user);
+                userList.Remove(user);
+                ClientLeft(user);
             }
         }
 
@@ -148,10 +156,10 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnClientKickedMessage(MessageEventArgs_306307 message) {
-            User user = GetUser(message.Victim);
+            var user = GetUser(message.Victim);
             if (user != null) {
-                this.userList.Remove(user);
-                this.ClientLeft(user); //TODO: Send a message for why this user was kicked
+                userList.Remove(user);
+                ClientLeft(user); //TODO: Send a message for why this user was kicked
             }
         }
 
@@ -163,10 +171,10 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnClientBannedMessage(MessageEventArgs_306307 message) {
-            User user = GetUser(message.Victim);
+            var user = GetUser(message.Victim);
             if (user != null) {
-                this.userList.Remove(user);
-                this.ClientLeft(user); //TODO: Send a message for why this user was banned
+                userList.Remove(user);
+                ClientLeft(user); //TODO: Send a message for why this user was banned
             }
         }
 
@@ -179,16 +187,18 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnUserListMessage(MessageEventArgs_302310 message) {
-            if (!this.UserExists(message.UserId)) {
-                User newUser = new User(message);
-                this.userList.Add(newUser);
+            if (!UserExists(message.UserId)) {
+                var newUser = new User(message);
+                userList.Add(newUser);
 
-                if (ClientJoined != null)
-                    this.ClientJoined(newUser);
+                if (ClientJoined != null) {
+                    ClientJoined(newUser);
+                }
             } else {
-                User u = this.GetUser(message.UserId);
-                if (u != null)
+                var u = GetUser(message.UserId);
+                if (u != null) {
                     u.UpdateUserInformation(message);
+                }
             }
         }
 
@@ -197,9 +207,10 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnPrivilegesSpecificationMessage(MessageEventArgs_602 message) {
-            User u = this.GetUser(message.Privileges.UserName);
-            if (u != null)
+            var u = GetUser(message.Privileges.UserName);
+            if (u != null) {
                 u.OnPrivilegesSpecificationMessage(message);
+            }
         }
 
         /// <summary>
@@ -207,31 +218,37 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="user"></param>
         public delegate void ClientJoinDelegate(User user);
+
         /// <summary>
         /// Notifies when a user joined this user list
         /// </summary>
         public event ClientJoinDelegate ClientJoined;
+
         /// <summary>
         /// Delegate for ClientLeft event
         /// </summary>
         /// <param name="user"></param>
         public delegate void ClientLeaveDelegate(User user);
+
         /// <summary>
         /// Notifies when a user has left this user list
         /// </summary>
         public event ClientLeaveDelegate ClientLeft;
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Gets the user with the given user id
         /// </summary>
         /// <param name="userId">The UserId for the searched user</param>
         /// <returns>The UserItem with the given user name, null if no user is found</returns>
         public User GetUser(int userId) {
-            foreach (User u in userList) {
-                if (userId == u.UserId)
+            foreach (var u in userList) {
+                if (userId == u.UserId) {
                     return u;
+                }
             }
             return null;
         }
@@ -242,9 +259,10 @@ namespace SharpWired.Model.Users
         /// <param name="login">The login for the searched user</param>
         /// <returns>The UserItem with the given user name, null if no user is found</returns>
         public User GetUser(string login) {
-            foreach (User u in userList) {
-                if (login == u.Login)
+            foreach (var u in userList) {
+                if (login == u.Login) {
                     return u;
+                }
             }
             return null;
         }
@@ -255,9 +273,10 @@ namespace SharpWired.Model.Users
         /// <param name="nick">The nick for the searched user</param>
         /// <returns>The UserItem with the given nick, null if no user was found</returns>
         public User GetUserByNick(string nick) {
-            foreach (User u in userList) {
-                if (nick == u.Nick)
+            foreach (var u in userList) {
+                if (nick == u.Nick) {
                     return u;
+                }
             }
             return null;
         }
@@ -268,13 +287,15 @@ namespace SharpWired.Model.Users
         /// <param name="userId">The UserId for the user</param>
         /// <returns>True if the user exists, false otherwise</returns>
         private bool UserExists(int userId) {
-            bool userExists = false;
-            foreach (User user in userList) {
-                if (userId == user.UserId)
+            var userExists = false;
+            foreach (var user in userList) {
+                if (userId == user.UserId) {
                     userExists = true;
+                }
             }
             return userExists;
         }
+
         #endregion
     }
 }

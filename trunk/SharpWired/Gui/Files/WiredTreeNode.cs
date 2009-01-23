@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics;
 using System.Windows.Forms;
 using SharpWired.Model.Files;
-using System.Diagnostics;
 
 namespace SharpWired.Gui.Files {
     public class WiredTreeNode : TreeNode {
@@ -26,21 +22,24 @@ namespace SharpWired.Gui.Files {
 
         private void PopulateFolder() {
             if (ModelNode is Folder) {
-                Func del = delegate {
-                    Folder folder = ModelNode as Folder;
+                Func del = delegate
+                               {
+                                   var folder = ModelNode as Folder;
 
-                    Debug.WriteLine("GUI:Tree -> Redrawing: " + folder.FullPath);
+                                   Debug.WriteLine("GUI:Tree -> Redrawing: " + folder.FullPath);
 
-                    this.Nodes.Clear();
+                                   Nodes.Clear();
 
-                    foreach (INode child in folder.Children)
-                        if (child is Folder)
-                            this.Nodes.Add(new WiredTreeNode(child));
-                };
+                                   foreach (var child in folder.Children) {
+                                       if (child is Folder) {
+                                           Nodes.Add(new WiredTreeNode(child));
+                                       }
+                                   }
+                               };
 
                 //The TreeView is null when the current node has not been added to a TreeView
-                if (this.TreeView != null) {
-                    this.TreeView.Invoke(del); //Thread safe required when the node is added to a TreeView
+                if (TreeView != null) {
+                    TreeView.Invoke(del); //Thread safe required when the node is added to a TreeView
                 } else {
                     del(); //When the node is not added to a TreeView we don't need to be thread safe
                 }
