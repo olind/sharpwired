@@ -40,7 +40,6 @@ namespace SharpWired.Model {
     /// </summary>
     public sealed class SharpWiredModel {
         private readonly ConnectionManager connectionManager;
-        private HeartBeatTimer heartBeatTimer;
         private Server server;
         private static SharpWiredModel instance;
 
@@ -124,9 +123,6 @@ namespace SharpWired.Model {
         /// Dissconnect from the server
         /// </summary>
         public void Disconnect() {
-            if (heartBeatTimer != null) {
-                heartBeatTimer.StopTimer();
-            }
 
             if (server != null) {
                 server.GoOffline();

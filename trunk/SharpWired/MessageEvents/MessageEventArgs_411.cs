@@ -44,13 +44,6 @@ namespace SharpWired.MessageEvents {
         /// </summary>
         public string Path { get { return path; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="messageId">The id for this message</param>
-        /// <param name="messageName">The name for this message</param>
-        /// <param name="destination">The destination for were file listing was requested</param>
-        /// <param name="free">The amount of free space</param>
         public MessageEventArgs_411(int messageId, string messageName, string path, long free)
             : base(messageId, messageName) {
             this.free = free;

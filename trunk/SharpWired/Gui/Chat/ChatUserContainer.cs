@@ -31,11 +31,7 @@ namespace SharpWired.Gui.Chat {
     /// User control for the chat
     /// </summary>
     public partial class ChatUserContainer : SharpWiredGuiBase {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="controller"></param>
+
         public override void Init() {
             base.Init();
             chat.Init();

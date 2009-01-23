@@ -38,13 +38,6 @@ namespace SharpWired.MessageEvents {
         /// </summary>
         public int Position { get { return position; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="messageId">The id for this message</param>
-        /// <param name="messageName">The name for this message</param>
-        /// <param name="destination">The destination for thi file</param>
-        /// <param name="position">The position in the queue</param>
         public MessageEventArgs_401(int messageId, string messageName, string path, int position)
             : base(messageId, messageName, path) {
             this.position = position;

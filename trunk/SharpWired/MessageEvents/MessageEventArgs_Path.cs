@@ -27,26 +27,12 @@
 #endregion
 
 namespace SharpWired.MessageEvents {
-    /// <summary>
-    /// The base MessageEventArgs that all other MessageEventArgs should inherit.
-    /// </summary>
     public class MessageEventArgs_Path : MessageEventArgs {
-        private readonly string path;
+        public string FullPath { get; private set;}
 
-        /// <summary>
-        /// Gets the destination for this EventArg
-        /// </summary>
-        public string Path { get { return path; } }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="messageId"></param>
-        /// <param name="messageName"></param>
-        /// <param name="destination"></param>
         public MessageEventArgs_Path(int messageId, string messageName, string path)
             : base(messageId, messageName) {
-            this.path = path;
+            FullPath = path;
         }
     }
 }

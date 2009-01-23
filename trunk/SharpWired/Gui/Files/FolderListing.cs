@@ -57,7 +57,6 @@ namespace SharpWired.Gui.Files {
         // TODO: Use the FolderSelectedDelaget instead? Same signature...
         public delegate void NodeDelegate(INode node);
 
-        public event NodeDelegate RequestDownload;
         public event NodeSelectedDelegate NodeSelected;
 
         public FolderListing() {

@@ -44,10 +44,6 @@ namespace SharpWired.Model.News {
 
         #region Constructor
 
-        /// <summary>
-        /// Construtcor
-        /// </summary>
-        /// <param name="args"></param>
         public NewsPost(MessageEventArgs_320322 messageEventArgs) {
             nick = messageEventArgs.Nick;
             postTime = messageEventArgs.PostTime;

@@ -49,11 +49,6 @@ namespace SharpWired.Gui.Files {
             folderListing.NodeSelected -= OnNodeSelected;
         }
 
-        /// <summary>
-        /// Inits this class and it's subclasses
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="controller"></param>
         public override void Init() {
             base.Init();
             tree.Init();

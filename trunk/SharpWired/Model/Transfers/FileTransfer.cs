@@ -81,11 +81,11 @@ namespace SharpWired.Model.Transfers {
             //TODO: File exists on disk? Resume?
             ConnectionManager.Messages.TransferReadyEvent += OnTransferReady;
             Status = Status.Pending;
-            ConnectionManager.Commands.Get(Source.Path, Offset);
+            ConnectionManager.Commands.Get(Source.FullPath, Offset);
         }
 
         private void OnTransferReady(MessageEventArgs_400 args) {
-            if (Source.Path == args.Path) {
+            if (Source.FullPath == args.FullPath) {
                 ConnectionManager.Messages.TransferReadyEvent -= OnTransferReady;
                 Status = Status.Active;
                 LastBytesReceived = 0;
@@ -95,6 +95,7 @@ namespace SharpWired.Model.Transfers {
         }
 
         private void OnInterval() {
+            Debug.WriteLine("MODEL:FileTransfer -> OnInterval");
             Speed = Received - LastBytesReceived;
             AddToSpeedHistory(Speed);
             LastBytesReceived = Received;
@@ -119,8 +120,6 @@ namespace SharpWired.Model.Transfers {
         }
 
         private void CreateSocket(string hash) {
-            Debug.WriteLine("Transfer is ready! File '" + Source.Name + "', with ID '" + hash + "'.");
-
             // TODO: FileMode.CreateNew should be used when resume works
             var fileStream = new FileStream(Destination, FileMode.Create);
 
@@ -129,6 +128,7 @@ namespace SharpWired.Model.Transfers {
             Socket.Connect(Model.ConnectionManager.CurrentBookmark.Transfer,
                            fileStream, ((File) Source).Size, Offset);
 
+            Debug.WriteLine("MODEL:FileTransfer -> CreateSocket: Starting transfer '" + Source.Name + "' ID '" + hash + "'");
             Socket.SendMessage("TRANSFER" + Utility.SP + hash);
 
             Socket.Interval += OnInterval;
@@ -136,6 +136,7 @@ namespace SharpWired.Model.Transfers {
 
         private void OnDataReceivedDone() {
             if (Socket != null) {
+                Debug.WriteLine("MODEL:FileTransfer -> OnDataReceiveDone");
                 Socket.DataReceivedDoneEvent -= OnDataReceivedDone;
                 Socket.Interval -= OnInterval;
             }

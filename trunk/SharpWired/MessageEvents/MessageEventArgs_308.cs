@@ -156,33 +156,6 @@ namespace SharpWired.MessageEvents {
         /// </summary>
         public int Speed { get { return speed; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="messageId"></param>
-        /// <param name="messageName"></param>
-        /// <param name="userId"></param>
-        /// <param name="image"></param>
-        /// <param name="idle"></param>
-        /// <param name="admin"></param>
-        /// <param name="icon"></param>
-        /// <param name="nick"></param>
-        /// <param name="login"></param>
-        /// <param name="status"></param>
-        /// <param name="ip"></param>
-        /// <param name="host"></param>
-        /// <param name="clientVersion">TODO: This should be of type AppVersion</param>
-        /// <param name="cipherName"></param>
-        /// <param name="cipherBits"></param>
-        /// <param name="loginTime"></param>
-        /// <param name="idleTime"></param>
-        /// <param name="downloads">TODO: This should be of type TransferGS</param>
-        /// <param name="uploads">TODO: This should be of type TransferGS</param>
-        /// <param name="transfer">TODO: This should be of type PathRS</param>
-        /// <param name="destination"></param>
-        /// <param name="transferred"></param>
-        /// <param name="size"></param>
-        /// <param name="speed"></param>
         public MessageEventArgs_308(int messageId, string messageName, int userId,
                                     Bitmap image, bool idle, bool admin, int icon, string nick, string login, string status,
                                     IPAddress ip, string host, string clientVersion, string cipherName, int cipherBits,
