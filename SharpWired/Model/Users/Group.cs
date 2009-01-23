@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * Group.cs 
  * Created by Ola Lindberg, 2006-10-15
@@ -22,55 +23,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace SharpWired.Model.Users
-{
+namespace SharpWired.Model.Users {
     /// <summary>
     /// Represents one Wired group
     /// </summary>
-    public class Group
-    {
-        private Privileges privileges;
-        private string name;
-
+    public class Group {
         /// <summary>
         /// Request or set the privileges for this group
         /// </summary>
-        public Privileges Privileges
-        {
-            get
-            {
-                return privileges;
-            }
-            set
-            {
-                this.privileges = value;
-            }
-        }
+        public Privileges Privileges { get; set; }
 
         /// <summary>
         /// Gets or sets the name of this group
         /// </summary>
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-	
+        public string Name { get; set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="name"></param>
         /// <param name="privileges"></param>
-        public Group(String name, Privileges privileges)
-        {
-            this.name = name;
-            this.privileges = privileges;
+        public Group(String name, Privileges privileges) {
+            this.Name = name;
+            this.Privileges = privileges;
         }
     }
 }

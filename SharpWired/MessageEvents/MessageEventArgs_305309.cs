@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_305309.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,33 +23,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// MessageEventArgs for:
     /// * Private Message (305)
     /// * Broadacast Message (309)
     /// </summary>
-    public class MessageEventArgs_305309 : MessageEventArgs_201
-    {
-        private string message;
+    public class MessageEventArgs_305309 : MessageEventArgs_201 {
+        private readonly string message;
 
         /// <summary>
         /// Request the message
         /// </summary>
-        public string Message
-        {
-            get
-            {
-                return message;
-            }
-        }
+        public string Message { get { return message; } }
 
         /// <summary>
         /// Constructor
@@ -58,8 +48,7 @@ namespace SharpWired.MessageEvents
         /// <param name="userId">The user ID</param>
         /// <param name="message">The message</param>
         public MessageEventArgs_305309(int messageId, string messageName, int userId, string message)
-            : base(messageId, messageName, userId)
-        {
+            : base(messageId, messageName, userId) {
             this.message = message;
         }
     }

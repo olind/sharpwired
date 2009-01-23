@@ -1,4 +1,5 @@
 ﻿#region Information and licence agreements
+
 /*
  * SharpWiredGuiBase.cs 
  * Created by Ola Lindberg, 2008-07-09
@@ -22,31 +23,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-using SharpWired.Model;
 using SharpWired.Controller;
-using System.Diagnostics;
+using SharpWired.Model;
 
 namespace SharpWired.Gui {
     /// <summary>
     /// Base class for SharpWired GUI files. Sets references to 
     /// shared resources (e.g. model and controller) when inited.
     /// </summary>
-    public class SharpWiredGuiBase : UserControl { //I wanted to make this class abstract but then can'transfer the visual studio designer handle it...
+    public class SharpWiredGuiBase : UserControl {
+        //I wanted to make this class abstract but then can'transfer the visual studio designer handle it...
 
-        protected SharpWiredController Controller {
-            get { return SharpWiredController.Instance; }
-        }
-        protected SharpWiredModel Model {
-            get { return SharpWiredModel.Instance; }
-        }
+        protected SharpWiredController Controller { get { return SharpWiredController.Instance; } }
+        protected SharpWiredModel Model { get { return SharpWiredModel.Instance; } }
 
         private delegate void ToggleWindowsFormsControlCallback(Control control);
+
         protected delegate void Func();
 
         public virtual void Init() {
@@ -58,14 +54,14 @@ namespace SharpWired.Gui {
             s.Online += OnOnline;
         }
 
-        protected virtual void OnOnline() { }
-        protected virtual void OnOffline() { }
+        protected virtual void OnOnline() {}
+        protected virtual void OnOffline() {}
 
         protected void ToggleWindowsFormControl(Control control) {
-            if (this.InvokeRequired) {
-                ToggleWindowsFormsControlCallback callback 
-                    = new ToggleWindowsFormsControlCallback(ToggleWindowsFormControl);
-                this.Invoke(callback, new object[] { control });
+            if (InvokeRequired) {
+                ToggleWindowsFormsControlCallback callback
+                    = ToggleWindowsFormControl;
+                Invoke(callback, new object[] {control});
             } else {
                 control.Enabled = !control.Enabled;
             }

@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * UserItem.cs 
  * Created by Ola Lindberg, 2006-10-15
@@ -22,23 +23,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpWired.MessageEvents;
 using System.Drawing;
 using System.Net;
+using SharpWired.MessageEvents;
 
-namespace SharpWired.Model.Users
-{
+namespace SharpWired.Model.Users {
     /// <summary>
     /// Represents one user that's online to a Wired server.
     /// </summary>
-    public class User
-    {
+    public class User {
         #region Variables
+
         private bool admin;
         private string host;
         private int icon;
@@ -63,7 +62,7 @@ namespace SharpWired.Model.Users
         private string uploads;
 
         private Privileges privileges;
-        private Group group;
+
         #endregion
 
         #region Properties: User folderListing
@@ -71,156 +70,112 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Request or set if this user is admin
         /// </summary>
-        public bool Admin {
-            get { return admin; }
-        }
+        public bool Admin { get { return admin; } }
 
         /// <summary>
         /// Request or set the cipher bits
         /// </summary>
-        public int CipherBits {
-            get { return cipherBits; }
-        }
+        public int CipherBits { get { return cipherBits; } }
 
         /// <summary>
         /// Request or set the cipher name
         /// </summary>
-        public string CipherName {
-            get { return cipherName; }
-        }
+        public string CipherName { get { return cipherName; } }
 
         /// <summary>
         /// Request or set the client version
         /// </summary>
-        public string ClientVersion {
-            get { return clientVersion; }
-        }
+        public string ClientVersion { get { return clientVersion; } }
 
         /// <summary>
         /// Request or set the downloads
         /// </summary>
-        public string Downloads {
-            get { return Downloads; }
-        }
+        public string Downloads { get { return Downloads; } }
 
         /// <summary>
         /// Request or set the host for this user
         /// </summary>
-        public string Host {
-            get { return host; }
-        }
+        public string Host { get { return host; } }
 
         /// <summary>
         /// Request or set the icon for this user
         /// </summary>
-        public int Icon  {
-            get { return icon; }
-        }
+        public int Icon { get { return icon; } }
 
         /// <summary>
         /// Request or set the idle status for this user
         /// </summary>
-        public bool Idle {
-            get { return idle; }
-        }
+        public bool Idle { get { return idle; } }
 
         /// <summary>
         /// Request or set the idle time
         /// </summary>
-        public DateTime IdleTime {
-            get { return idleTime; }
-        }
+        public DateTime IdleTime { get { return idleTime; } }
 
         /// <summary>
         /// Request or set the image for this user
         /// </summary> 
-        public Bitmap Image {
-            get { return image; }
-        }
+        public Bitmap Image { get { return image; } }
 
         /// <summary>
         /// Request or set ip for this user
         /// </summary>
-        public IPAddress Ip {
-            get { return ip; }
-        }
+        public IPAddress Ip { get { return ip; } }
 
         /// <summary>
         /// Request or set the login for this user
         /// </summary>
-        public string Login {
-            get { return login; }
-        }
+        public string Login { get { return login; } }
 
         /// <summary>
         /// Request or set the login time
         /// </summary>
-        public DateTime LoginTime {
-            get { return loginTime; }
-        }
+        public DateTime LoginTime { get { return loginTime; } }
 
         /// <summary>
         /// Request or set the nick for this user
         /// </summary> 
-        public string Nick {
-            get { return nick; }
-        }
+        public string Nick { get { return nick; } }
 
         /// <summary>
         /// Request or set the destination
         /// </summary>
-        public string Path {
-            get { return path; }
-        }
+        public string Path { get { return path; } }
 
         /// <summary>
         /// Request or set the size
         /// </summary>
-        public int Size {
-            get { return size; }
-        }
+        public int Size { get { return size; } }
 
         /// <summary>
         /// Request or set the speed
         /// </summary>
-        public int Speed {
-            get { return speed; }
-        }
+        public int Speed { get { return speed; } }
 
         /// <summary>
         /// Request or set the status for this user
         /// </summary> 
-        public string Status {
-            get { return status; }
-        }
+        public string Status { get { return status; } }
 
         /// <summary>
         /// Request or set the current transfer
         /// </summary>
-        public string Transfer {
-            get { return transfer; }
-        }
+        public string Transfer { get { return transfer; } }
 
         /// <summary>
         /// Request or set the ammount of transferred data
         /// </summary>
-        public int Transferred {
-            get { return transferred; }
-        }
+        public int Transferred { get { return transferred; } }
 
         /// <summary>
         /// Request or set the uploads
         /// </summary>
-        public string Uploads {
-            get { return uploads; }
-        }
+        public string Uploads { get { return uploads; } }
 
         /// <summary>
         /// Request or set the user id for this user
         /// </summary>
-        public int UserId {
-            get { return userId; }
-        }
+        public int UserId { get { return userId; } }
 
         //TODO: We can now get the user privileges and the group privileges
         //      but instead it would be nice to be able to get the values
@@ -231,21 +186,17 @@ namespace SharpWired.Model.Users
         /// <summary>
         /// Request or set the privileges for this user
         /// </summary>
-        public Privileges UserPrivileges {
-            get { return privileges; }
-            set { privileges = value; }
-        }
+        public Privileges UserPrivileges { get { return privileges; } set { privileges = value; } }
 
         /// <summary>
         /// Request or set the group for this user
         /// </summary> 
-        public Group Group {
-            get { return group; }
-            set { group = value; }
-        }
+        public Group Group { get; set; }
+
         #endregion
 
         #region Events
+
         /// <summary>
         /// Delegate for update event
         /// </summary>
@@ -256,27 +207,31 @@ namespace SharpWired.Model.Users
         /// The user information for this user was updated.
         /// </summary>
         public event UpdatedDelegate Updated;
+
         #endregion
 
         #region Methods updates user information when a message is received from the server
+
         /// <summary>
         /// Updates this user with the information given in the message.
         /// </summary>
         /// <param name="message"></param>
         public void OnStatusChangedMessage(MessageEventArgs_304 message) {
-            if (message.UserId != this.userId)
+            if (message.UserId != userId) {
                 throw new ApplicationException("The user from the given " +
-                    "message ('" + message + "') did not match the current " +
-                    "user ('" + this + "')");
+                                               "message ('" + message + "') did not match the current " +
+                                               "user ('" + this + "')");
+            }
 
-            this.userId = message.UserId;
-            this.idle = message.Idle;
-            this.admin = message.Admin;
-            this.icon = message.Icon;
-            this.nick = message.Nick;
-            this.status = message.Status;
-            if (Updated != null)
+            userId = message.UserId;
+            idle = message.Idle;
+            admin = message.Admin;
+            icon = message.Icon;
+            nick = message.Nick;
+            status = message.Status;
+            if (Updated != null) {
                 Updated(this);
+            }
         }
 
         /// <summary>
@@ -284,35 +239,37 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnClientInformationMessage(MessageEventArgs_308 message) {
-            if (message.UserId != this.userId)
+            if (message.UserId != userId) {
                 throw new ApplicationException("The user from the given " +
-                    "message ('" + message + "') did not match the current " +
-                    "user ('" + this + "')");
+                                               "message ('" + message + "') did not match the current " +
+                                               "user ('" + this + "')");
+            }
 
-            this.admin = message.Admin;
-            this.cipherBits = message.CipherBits;
-            this.cipherName = message.CipherName;
-            this.clientVersion = message.ClientVersion;
-            this.downloads = message.Downloads;
-            this.host = message.Host;
-            this.icon = message.Icon;
-            this.idle = message.Idle;
-            this.idleTime = message.IdleTime;
-            this.image = message.Image;
-            this.ip = message.Ip;
-            this.login = message.Login;
-            this.loginTime = message.LoginTime;
-            this.nick = message.Nick;
-            this.path = message.Path;
-            this.size = message.Size;
-            this.speed = message.Speed;
-            this.status = message.Status;
-            this.transfer = message.Transfer;
-            this.transferred = message.Transferred;
-            this.uploads = message.Uploads;
-            this.userId = message.UserId;
-            if (Updated != null)
+            admin = message.Admin;
+            cipherBits = message.CipherBits;
+            cipherName = message.CipherName;
+            clientVersion = message.ClientVersion;
+            downloads = message.Downloads;
+            host = message.Host;
+            icon = message.Icon;
+            idle = message.Idle;
+            idleTime = message.IdleTime;
+            image = message.Image;
+            ip = message.Ip;
+            login = message.Login;
+            loginTime = message.LoginTime;
+            nick = message.Nick;
+            path = message.Path;
+            size = message.Size;
+            speed = message.Speed;
+            status = message.Status;
+            transfer = message.Transfer;
+            transferred = message.Transferred;
+            uploads = message.Uploads;
+            userId = message.UserId;
+            if (Updated != null) {
                 Updated(this);
+            }
         }
 
         /// <summary>
@@ -320,14 +277,16 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnClientImageChangedMessage(MessageEventArgs_340 message) {
-            if (message.UserId != this.userId)
+            if (message.UserId != userId) {
                 throw new ApplicationException("The user from the given " +
-                    "message ('" + message + "') did not match the current " +
-                    "user ('" + this + "')");
+                                               "message ('" + message + "') did not match the current " +
+                                               "user ('" + this + "')");
+            }
 
-            this.image = message.Image;
-            if (Updated != null)
+            image = message.Image;
+            if (Updated != null) {
                 Updated(this);
+            }
         }
 
         /// <summary>
@@ -335,10 +294,11 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void OnPrivilegesSpecificationMessage(MessageEventArgs_602 message) {
-            if (message.Privileges.UserName != this.login)
+            if (message.Privileges.UserName != login) {
                 throw new ApplicationException("The login from the given " +
-                    "message ('" + message + "') did not match the current " +
-                    "user ('" + this + "')");
+                                               "message ('" + message + "') did not match the current " +
+                                               "user ('" + this + "')");
+            }
 
             privileges = new Privileges(message.Privileges);
         }
@@ -348,36 +308,40 @@ namespace SharpWired.Model.Users
         /// </summary>
         /// <param name="message"></param>
         public void UpdateUserInformation(MessageEventArgs_302310 message) {
-            if (message.UserId != this.userId)
+            if (message.UserId != userId) {
                 throw new ApplicationException("The user from the given " +
-                    "message ('" + message + "') did not match the current " +
-                    "user ('" + this + "')");
+                                               "message ('" + message + "') did not match the current " +
+                                               "user ('" + this + "')");
+            }
 
             SetUserInformation(message);
         }
+
         #endregion
 
         private void SetUserInformation(MessageEventArgs_302310 message) {
-            this.admin = message.Admin;
-            this.host = message.Host;
-            this.icon = message.Icon;
-            this.idle = message.Idle;
-            this.image = message.Image;
-            this.ip = message.Ip;
-            this.login = message.Login;
-            this.nick = message.Nick;
-            this.status = message.Status;
-            this.userId = message.UserId;
+            admin = message.Admin;
+            host = message.Host;
+            icon = message.Icon;
+            idle = message.Idle;
+            image = message.Image;
+            ip = message.Ip;
+            login = message.Login;
+            nick = message.Nick;
+            status = message.Status;
+            userId = message.UserId;
         }
 
         #region Initialization
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="message">The message event arg that caused the adding of this user</param>
         public User(MessageEventArgs_302310 message) {
-            this.SetUserInformation(message);
+            SetUserInformation(message);
         }
+
         #endregion
     }
 }

@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * NewsModel.cs 
  * Created by Ola Lindberg, 2006-12-09
@@ -22,11 +23,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using SharpWired.Connection;
 using SharpWired.MessageEvents;
 
@@ -35,12 +35,14 @@ namespace SharpWired.Model.News {
     /// Represents all the news posted on the server
     /// </summary>
     public class News {
-
         #region Fields
-        List<NewsPost> newsList = new List<NewsPost>();
+
+        private readonly List<NewsPost> newsList = new List<NewsPost>();
+
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -51,25 +53,31 @@ namespace SharpWired.Model.News {
             m.NewsEvent += OnNews;
             m.NewsDoneEvent += OnNewsDone;
         }
+
         #endregion
 
         #region Methods
-        void OnNewsPosted(MessageEventArgs_320322 message) {
-            NewsPost n = new NewsPost(message);
-            if (!newsList.Contains(n)) { //TODO: Verify that contains works
+
+        private void OnNewsPosted(MessageEventArgs_320322 message) {
+            var n = new NewsPost(message);
+            if (!newsList.Contains(n)) {
+                //TODO: Verify that contains works
                 newsList.Add(n);
-                if (NewsPostedEvent != null)
+                if (NewsPostedEvent != null) {
                     NewsPostedEvent(n);
+                }
             }
         }
 
-        void OnNews(MessageEventArgs_320322 message) {
-            NewsPost n = new NewsPost(message);
+        private void OnNews(MessageEventArgs_320322 message) {
+            var n = new NewsPost(message);
             if (!newsList.Contains(n)) //TODO: Verify that contains works
+            {
                 newsList.Add(n);
+            }
         }
 
-        void OnNewsDone(MessageEventArgs_Messages message) {
+        private void OnNewsDone(MessageEventArgs_Messages message) {
             if (NewsListingDoneEvent != null) {
                 NewsListingDoneEvent(NewsList);
             }
@@ -80,7 +88,7 @@ namespace SharpWired.Model.News {
         /// </summary>
         public List<NewsPost> NewsList {
             get {
-                List<NewsPost> l = new List<NewsPost>(newsList);
+                var l = new List<NewsPost>(newsList);
                 l.Reverse();
                 return l;
             }
@@ -89,16 +97,21 @@ namespace SharpWired.Model.News {
         #endregion
 
         #region Events & Listeners
+
         public delegate void NewsPostedDelegate(NewsPost newsPost);
+
         public delegate void NewsListingDoneDelegate(List<NewsPost> newsListing);
+
         /// <summary>
         /// Raised when a news post is received from the server
         /// </summary>
         public event NewsPostedDelegate NewsPostedEvent;
+
         /// <summary>
         /// Raised when the requested news listing (eg. in respons to NEWS) is done.
         /// </summary>
         public event NewsListingDoneDelegate NewsListingDoneEvent;
+
         #endregion
     }
 }

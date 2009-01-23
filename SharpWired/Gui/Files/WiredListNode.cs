@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * WiredListNode.cs 
  * Created by Ola Lindberg, 2007-09-29
@@ -22,43 +23,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using SharpWired.Model.Files;
 
 namespace SharpWired.Gui.Files {
     public class WiredListNode : ListViewItem {
-        private INode modelNode;
+        private readonly INode modelNode;
 
         /// <summary>
         /// Gets the model node for this tree node
         /// </summary>
-        public INode ModelNode {
-            get { return modelNode; }
-        }
+        public INode ModelNode { get { return modelNode; } }
 
-        private string size;
-        private DateTime modified;
-        private DateTime created;
+        private readonly string size;
+        private readonly DateTime modified;
+        private readonly DateTime created;
 
         /// <summary>
         /// Request the size for this node. If it is a Folder the number of sub-items are listed.
         /// </summary>
-        public string Size {
-            get { return size; }
-        }
+        public string Size { get { return size; } }
 
-        public DateTime Created {
-            get { return created; }
-        }
+        public DateTime Created { get { return created; } }
 
-        public DateTime Modified {
-            get { return modified; }
-        }
+        public DateTime Modified { get { return modified; } }
 
         /// <summary>
         /// Constructor
@@ -68,13 +60,13 @@ namespace SharpWired.Gui.Files {
             this.modelNode = modelNode;
 
             if (modelNode is Folder) {
-                size = ((Folder)modelNode).Count.ToString();
-                created = ((Folder)modelNode).Created;
-                modified = ((Folder)modelNode).Modified;
+                size = ((Folder) modelNode).Count.ToString();
+                created = ((Folder) modelNode).Created;
+                modified = ((Folder) modelNode).Modified;
             } else if (modelNode is File) {
-                size = BytesToOptimalUnit(((File)modelNode).Size);
-                created = ((File)modelNode).Created;
-                modified = ((File)modelNode).Modified;
+                size = BytesToOptimalUnit(((File) modelNode).Size);
+                created = ((File) modelNode).Created;
+                modified = ((File) modelNode).Modified;
             }
         }
 
@@ -82,14 +74,15 @@ namespace SharpWired.Gui.Files {
         private string BytesToOptimalUnit(long sizeInBytes) {
             string formattedNumber;
 
-            if (sizeInBytes > 1073741824)
-                formattedNumber = String.Format("{0} Gb", sizeInBytes / 1073741824);
-            else if (sizeInBytes > 1048576)
-                formattedNumber = String.Format("{0} Mb", sizeInBytes / 1048576);
-            else if (sizeInBytes > 1024)
-                formattedNumber = String.Format("{0} Kb", sizeInBytes / 1024);
-            else
+            if (sizeInBytes > 1073741824) {
+                formattedNumber = String.Format("{0} Gb", sizeInBytes/1073741824);
+            } else if (sizeInBytes > 1048576) {
+                formattedNumber = String.Format("{0} Mb", sizeInBytes/1048576);
+            } else if (sizeInBytes > 1024) {
+                formattedNumber = String.Format("{0} Kb", sizeInBytes/1024);
+            } else {
                 formattedNumber = String.Format("{0} b", sizeInBytes);
+            }
 
             return formattedNumber;
         }
@@ -100,7 +93,6 @@ namespace SharpWired.Gui.Files {
         /// </summary>
         /// <param name="text">The text for the node.</param>
         public WiredListNode(string text)
-            : base(text) {
-        }
+            : base(text) {}
     }
 }

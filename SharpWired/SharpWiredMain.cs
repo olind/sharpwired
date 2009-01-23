@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * SharpWiredMain.cs 
  * Created by Ola Lindberg, 2006-07-23
@@ -22,36 +23,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-
-using SharpWired;
-using SharpWired.Connection;
-using SharpWired.Connection.Bookmarks;
-using SharpWired.Model;
 using SharpWired.Controller;
 using SharpWired.Gui;
+using SharpWired.Model;
 
-namespace SharpWired
-{
-    class SharpWiredMain
-    {
+namespace SharpWired {
+    internal class SharpWiredMain {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main() {
-            SharpWiredMain sharpWired = new SharpWiredMain();
+        private static void Main() {
+            var sharpWired = new SharpWiredMain();
         }
 
         public SharpWiredMain() {
             SharpWiredModel.Instance = new SharpWiredModel();
             SharpWiredController.Instance = new SharpWiredController(SharpWiredModel.Instance);
-            SharpWiredGui sharpWiredGui = new SharpWiredGui(SharpWiredModel.Instance, SharpWiredController.Instance);
+            var sharpWiredGui = new SharpWiredGui(SharpWiredModel.Instance, SharpWiredController.Instance);
         }
     }
 }

@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * ChatController.cs 
  * Created by Ola Lindberg and Peter Holmdahl, 2006-11-25
@@ -22,15 +23,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpWired.MessageEvents;
-using SharpWired.Connection;
-using SharpWired.Model.Users;
-using SharpWired.Model.Messaging;
 using SharpWired.Model;
 
 namespace SharpWired.Controller {
@@ -38,7 +33,7 @@ namespace SharpWired.Controller {
     /// Controller for chats. Provide functionality for sending messages, setting topics etc.
     /// </summary>
     public class ChatController : ControllerBase {
-        public ChatController(SharpWiredModel model) : base(model) { }
+        public ChatController(SharpWiredModel model) : base(model) {}
 
         /// <summary>
         /// Send a chat message to the server

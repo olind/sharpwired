@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * PrivateMessageModel.cs 
  * Created by Ola Lindberg, 2007-12-20
@@ -22,45 +23,42 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace SharpWired.Model.PrivateMessages
-{
+namespace SharpWired.Model.PrivateMessages {
     /// <summary>
     /// Model for sent and received users
     /// </summary>
-    public class PrivateMessageModel
-    {
-        private List<PrivateMessageItem> receivedMessages = new List<PrivateMessageItem>();
-        private List<PrivateMessageItem> sentMessages = new List<PrivateMessageItem>();
+    public class PrivateMessageModel {
+        private readonly List<PrivateMessageItem> receivedMessages = new List<PrivateMessageItem>();
+        private readonly List<PrivateMessageItem> sentMessages = new List<PrivateMessageItem>();
 
         /// <summary>
         /// Add the sent message to the local messages model.
         /// NOTE! Doesn'transfer send the message to the server, just holds it for later referencing.
         /// </summary>
         /// <param name="newSentMessage"></param>
-        public void AddSentPrivateMessage(PrivateMessageItem newSentMessage)
-        {
+        public void AddSentPrivateMessage(PrivateMessageItem newSentMessage) {
             sentMessages.Add(newSentMessage);
 
-            if (SentPrivateMessageEvent != null)
+            if (SentPrivateMessageEvent != null) {
                 SentPrivateMessageEvent(newSentMessage);
+            }
         }
 
         /// <summary>
         /// Add the received message to the local messages model and raises event.
         /// </summary>
         /// <param name="newReceivedmessage"></param>
-        public void AddReceivedPrivateMessage(PrivateMessageItem newReceivedmessage)
-        {
+        public void AddReceivedPrivateMessage(PrivateMessageItem newReceivedmessage) {
             receivedMessages.Add(newReceivedmessage);
 
-            if (ReceivedPrivateMessageEvent != null)
+            if (ReceivedPrivateMessageEvent != null) {
                 ReceivedPrivateMessageEvent(newReceivedmessage);
+            }
         }
 
         /// <summary>
@@ -84,12 +82,5 @@ namespace SharpWired.Model.PrivateMessages
         /// Event raised when a new private message is sent
         /// </summary>
         public event SentPrivateMessageDelegate SentPrivateMessageEvent;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public PrivateMessageModel()
-        {
-        }
     }
 }

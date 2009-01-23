@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * ServerInformation.cs 
  * Created by Ola Lindberg, 2007-12-13
@@ -22,17 +23,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpWired.MessageEvents;
-using SharpWired.Model.Messaging;
-using SharpWired.Model.Files;
-using SharpWired.Model.News;
 using SharpWired.Connection;
-using System.Diagnostics;
+using SharpWired.MessageEvents;
+using SharpWired.Model.Files;
+using SharpWired.Model.Messaging;
 using SharpWired.Model.Users;
 
 namespace SharpWired.Model {
@@ -41,106 +39,79 @@ namespace SharpWired.Model {
     /// </summary>
     public class Server : ModelBase {
         #region Fields
-        string appVersion;
-        int filesCount;
-        long fileSize;
-        string protocolVersion;
-        string serverDescription;
-        string serverName;
-        DateTime startTime;
-        Chat publicChat;
-        SharpWired.Model.News.News news;
-        Transfers.Transfers transfers;
+
+        private Chat publicChat;
+        private News.News news;
+        private Transfers.Transfers transfers;
         private HeartBeatTimer HeartBeat { get; set; }
+
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor - Empty
         /// </summary>
         public Server(MessageEventArgs_200 message) {
-            this.appVersion = message.AppVersion;
-            this.filesCount = message.FilesCount;
-            this.fileSize = message.FilesSize;
-            this.protocolVersion = message.ProtocolVersion;
-            this.serverDescription = message.ServerDescription;
-            this.serverName = message.ServerName;
-            this.startTime = message.StartTime;
+            AppVersion = message.AppVersion;
+            FilesCount = message.FilesCount;
+            FileSize = message.FilesSize;
+            ProtocolVersion = message.ProtocolVersion;
+            ServerDescription = message.ServerDescription;
+            ServerName = message.ServerName;
+            StartTime = message.StartTime;
 
             ConnectionManager.Messages.LoginSucceededEvent += OnLoginSucceeded;
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// Request or set the server app version
         /// </summary>
-        public string AppVersion {
-            get { return appVersion; }
-            set { appVersion = value; }
-        }
+        public string AppVersion { get; set; }
 
         /// <summary>
         /// Request or set the servers file count
         /// </summary>
-        public int FilesCount {
-            get { return filesCount; }
-            set { filesCount = value; }
-        }
+        public int FilesCount { get; set; }
 
         /// <summary>
         /// Request or set the file size on the server
         /// </summary>
-        public long FileSize {
-            get { return fileSize; }
-            set { fileSize = value; }
-        }
+        public long FileSize { get; set; }
 
         /// <summary>
         /// Request or set the server protocol version
         /// </summary>
-        public string ProtocolVersion {
-            get { return protocolVersion; }
-            set { protocolVersion = value; }
-        }
+        public string ProtocolVersion { get; set; }
 
         /// <summary>
         /// Request or set the server description
         /// </summary>
-        public string ServerDescription {
-            get { return serverDescription; }
-            set { serverDescription = value; }
-        }
+        public string ServerDescription { get; set; }
 
         /// <summary>
         /// Request or set the server name
         /// </summary>
-        public string ServerName {
-            get { return serverName; }
-            set { serverName = value; }
-        }
+        public string ServerName { get; set; }
 
         /// <summary>
         /// Request or set the server start time
         /// </summary>
-        public DateTime StartTime {
-            get { return startTime; }
-            set { startTime = value; }
-        }
+        public DateTime StartTime { get; set; }
 
         /// <summary>
         /// Request the public chat for this server
         /// </summary>
-        public Chat PublicChat {
-            get { return publicChat; }
-        }
+        public Chat PublicChat { get { return publicChat; } }
 
         /// <summary>
         /// Request the news for this server
         /// </summary>
-        public SharpWired.Model.News.News News {
-            get { return news; }
-        }
+        public News.News News { get { return news; } }
 
         /// <summary>
         /// Gets the file listing model
@@ -154,29 +125,32 @@ namespace SharpWired.Model {
         /// </summary>
         public int OwnUserId { get; set; }
 
-        public User User {
-            get { return PublicChat.Users.GetUser(OwnUserId); }
-        }
+        public User User { get { return PublicChat.Users.GetUser(OwnUserId); } }
+
         #endregion
 
         #region Events & Listeners
+
         public delegate void ServerStatus();
 
         public event ServerStatus Online;
         public event ServerStatus Offline;
+
         #endregion
 
         #region Methods
+
         public void GoOffline() {
-            if(Offline != null)
+            if (Offline != null) {
                 Offline();
+            }
 
             publicChat = null;
             news = null;
             FileRoot = null;
         }
 
-        void OnLoginSucceeded(object sender, MessageEventArgs_201 message) {
+        private void OnLoginSucceeded(object sender, MessageEventArgs_201 message) {
             ConnectionManager.Messages.LoginSucceededEvent -= OnLoginSucceeded;
 
             OwnUserId = message.UserId;
@@ -190,15 +164,17 @@ namespace SharpWired.Model {
 
             publicChat = new Chat(ConnectionManager.Messages, 1); // 1 = chat id for public chat
             news = new News.News(ConnectionManager.Messages);
-            
+
             FileRoot = new FileTree();
             FileRoot.Reload();
 
             transfers = new Transfers.Transfers();
 
-            if(Online != null)
+            if (Online != null) {
                 Online();
+            }
         }
+
         #endregion
     }
 }

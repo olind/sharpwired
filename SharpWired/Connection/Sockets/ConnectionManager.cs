@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * Server.cs
  * Created by Ola Lindberg and Peter Holmdahl, 2006-11-10
@@ -22,16 +23,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpWired.Connection.Sockets;
-using SharpWired.Connection.Bookmarks;
-using System.IO;
-using System.Net.Sockets;
 using System.Diagnostics;
+using SharpWired.Connection.Bookmarks;
+using SharpWired.Connection.Sockets;
 
 namespace SharpWired.Connection {
     /// <summary>
@@ -39,24 +37,28 @@ namespace SharpWired.Connection {
     /// </summary>
     public class ConnectionManager {
         #region Fields
-        Messages messages;
-        Commands commands;
-        SecureSocket commandSocket;
+
+        private readonly Messages messages;
+        private readonly Commands commands;
+        private readonly SecureSocket commandSocket;
         protected BinarySecureSocket binarySocket;
-        Bookmark mCurrentBookmark;
-        LagHandler lagHandler;
+        private Bookmark mCurrentBookmark;
+        private readonly LagHandler lagHandler;
+
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructs a ConnectionManager. Creates a SecureSocket, a Message, and a Commands.
         /// </summary>
         public ConnectionManager() {
-            this.commandSocket = new SecureSocket();
-            this.messages = new Messages();
-            this.commands = new Commands(this.commandSocket);
-            this.lagHandler = new LagHandler();
+            commandSocket = new SecureSocket();
+            messages = new Messages();
+            commands = new Commands(commandSocket);
+            lagHandler = new LagHandler();
         }
+
         #endregion
 
         #region Properties
@@ -64,34 +66,27 @@ namespace SharpWired.Connection {
         /// <summary>
         /// Request the class that exposes the message events.
         /// </summary>
-        public Messages Messages {
-            get { return messages; }
-        }
+        public Messages Messages { get { return messages; } }
 
         /// <summary>
         /// Request the Commands for an eventual connection. Used to send commands over the connection.
         /// </summary>
-        public Commands Commands {
-            get { return commands; }
-        }
-        
+        public Commands Commands { get { return commands; } }
+
         /// <summary>
         /// Request the bookmark used to connect.
         /// </summary>
-        public Bookmark CurrentBookmark {
-            get { return mCurrentBookmark; }
-        }
+        public Bookmark CurrentBookmark { get { return mCurrentBookmark; } }
 
         /// <summary>
         /// Gets the current lag
         /// </summary>
-        public Nullable<TimeSpan> CurrentLag {
-            get { return lagHandler.CurrentLag; }
-        }
+        public TimeSpan? CurrentLag { get { return lagHandler.CurrentLag; } }
 
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Connect to the Server in the Bookmark using the UserInfo from the
         /// bookmark as well.
@@ -112,7 +107,7 @@ namespace SharpWired.Connection {
                 } else {
                     // TODO: Log instead of write to std out
                     Debug.WriteLine("ERROR - ConnectionManager.Connect(): " +
-                                      "Trying to connect to a null bookmark.");
+                                    "Trying to connect to a null bookmark.");
                 }
             } catch (ConnectionException ce) {
                 ce.Bookmark = bookmark;
@@ -149,7 +144,7 @@ namespace SharpWired.Connection {
         /// <param name="bookmark">The Bookmark to use as base.</param>
         /// <returns>A new Bookmark.</returns>
         private Bookmark MakeTransferBookmark(Bookmark bookmark) {
-            Server server = new Server(bookmark.Server.ServerPort + 1, bookmark.Server.MachineName, bookmark.Server.ServerName);
+            var server = new Server(bookmark.Server.ServerPort + 1, bookmark.Server.MachineName, bookmark.Server.ServerName);
             return new Bookmark(server, bookmark.UserInformation);
         }
 
@@ -158,10 +153,12 @@ namespace SharpWired.Connection {
         /// </summary>
         /// <returns>A BinarySecureSocket</returns>
         private BinarySecureSocket GetFileTransferSocket() {
-            if (binarySocket == null)
+            if (binarySocket == null) {
                 binarySocket = new BinarySecureSocket();
+            }
             return binarySocket;
         }
+
         #endregion
     }
 }

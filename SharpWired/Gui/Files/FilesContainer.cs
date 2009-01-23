@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * FileUserControl.cs 
  * Created by Ola Lindberg and Peter Holmdahl, 2007-05-10
@@ -22,22 +23,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
-using System.Windows.Forms;
-using SharpWired.Model;
 using SharpWired.Model.Files;
-using System.Collections;
-using SharpWired.Gui.Resources;
-using SharpWired.Gui.Resources.Icons;
-using SharpWired.Controller;
-using System.Diagnostics;
 
 namespace SharpWired.Gui.Files {
     /// <summary>
@@ -49,15 +38,15 @@ namespace SharpWired.Gui.Files {
         }
 
         protected override void OnOnline() {
-            tree.NodeSelected       += OnNodeSelected;
+            tree.NodeSelected += OnNodeSelected;
             breadCrumb.NodeSelected += OnNodeSelected;
-            folderListing.NodeSelected    += OnNodeSelected;
+            folderListing.NodeSelected += OnNodeSelected;
         }
 
         protected override void OnOffline() {
-            tree.NodeSelected       -= OnNodeSelected;
+            tree.NodeSelected -= OnNodeSelected;
             breadCrumb.NodeSelected -= OnNodeSelected;
-            folderListing.NodeSelected    -= OnNodeSelected;
+            folderListing.NodeSelected -= OnNodeSelected;
         }
 
         /// <summary>
@@ -74,13 +63,13 @@ namespace SharpWired.Gui.Files {
 
         private void OnNodeSelected(INode node) {
             if (node is Folder) {
-                Folder folder = node as Folder;
+                var folder = node as Folder;
 
                 // Listen to model happens in these:
                 tree.SetCurrentNode(node);
                 folderListing.SetCurrentNode(node);
                 breadCrumb.SetCurrentNode(node);
-                
+
                 // Model update happens here:
                 Controller.FileListingController.ReloadFileList(folder);
             }

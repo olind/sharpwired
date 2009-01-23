@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_300301.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,33 +23,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// MessageEventArgs for Wired messages:
     /// * 300 Chat
     /// * 301 ActionChat
     /// </summary>
-    public class MessageEventArgs_300301 : MessageEventArgs_303331332
-    {
-        private string message;
+    public class MessageEventArgs_300301 : MessageEventArgs_303331332 {
+        private readonly string message;
 
         /// <summary>
         /// Gets the message
         /// </summary>
-        public string Message
-        {
-            get
-            {
-                return message;
-            }
-        }
+        public string Message { get { return message; } }
 
         /// <summary>
         /// Constructor
@@ -59,8 +49,7 @@ namespace SharpWired.MessageEvents
         /// <param name="userId">The user id for the user that sent this message</param>
         /// <param name="message">The message</param>
         public MessageEventArgs_300301(int messageId, string messageName, int chatId, int userId, string message)
-            : base(messageId, messageName, chatId, userId)
-        {
+            : base(messageId, messageName, chatId, userId) {
             this.message = message;
         }
     }

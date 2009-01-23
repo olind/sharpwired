@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_341.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,80 +23,47 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Net;
 
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// MessageEventArgs for message Chat Topic (341)
     /// </summary>
-    public class MessageEventArgs_341 : MessageEventArgs_311330
-    {
-        private string nick;
-        private string login;
-        private IPAddress ip;
-        private DateTime time;
-        private string topic;
+    public class MessageEventArgs_341 : MessageEventArgs_311330 {
+        private readonly string nick;
+        private readonly string login;
+        private readonly IPAddress ip;
+        private readonly DateTime time;
+        private readonly string topic;
 
         /// <summary>
         /// The nick of the user that edited the topic
         /// </summary>
-        public string Nick
-        {
-            get
-            {
-                return nick;
-            }
-        }
+        public string Nick { get { return nick; } }
 
         /// <summary>
         /// The login of the user that editid the topic
         /// </summary>
-        public string Login
-        {
-            get
-            {
-                return login;
-            }
-        }
+        public string Login { get { return login; } }
 
         /// <summary>
         /// The ip of the user that edited the topic
         /// </summary>
-        public IPAddress Ip
-        {
-            get
-            {
-                return ip;
-            }
-        }
+        public IPAddress Ip { get { return ip; } }
 
         /// <summary>
         /// The time when the topic was edited
         /// </summary>
-        public DateTime Time
-        {
-            get
-            {
-                return time;
-            }
-        }
+        public DateTime Time { get { return time; } }
 
         /// <summary>
         /// The chat topic
         /// </summary>
-        public string Topic
-        {
-            get
-            {
-                return topic;
-            }
-        }
+        public string Topic { get { return topic; } }
 
         /// <summary>
         /// Constructor
@@ -109,9 +77,8 @@ namespace SharpWired.MessageEvents
         /// <param name="time">The time when the topic was changed</param>
         /// <param name="topic">The topic</param>
         public MessageEventArgs_341(int messageId, string messageName, int chatId,
-            string nick, string login, IPAddress ip, DateTime time, string topic)
-            : base(messageId, messageName, chatId)
-        {
+                                    string nick, string login, IPAddress ip, DateTime time, string topic)
+            : base(messageId, messageName, chatId) {
             this.nick = nick;
             this.login = login;
             this.ip = ip;

@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * SharpWiredModel.cs 
  * Created by Ola Lindberg, 2006-11-25
@@ -22,16 +23,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using SharpWired.Connection;
-using SharpWired.Connection.Bookmarks;
-using SharpWired.Controller;
-using SharpWired.MessageEvents;
-using System.Collections;
-using System.Collections.Generic;
 using System;
 using System.Diagnostics;
+using SharpWired.Connection;
+using SharpWired.Connection.Bookmarks;
+using SharpWired.Gui.Resources.Icons;
+using SharpWired.MessageEvents;
 
 namespace SharpWired.Model {
     /// <summary>
@@ -39,37 +39,34 @@ namespace SharpWired.Model {
     /// Initializes the other models
     /// </summary>
     public sealed class SharpWiredModel {
-        private ConnectionManager connectionManager;
+        private readonly ConnectionManager connectionManager;
         private HeartBeatTimer heartBeatTimer;
-        private SharpWired.Model.Server server;
+        private Server server;
         private static SharpWiredModel instance;
 
         public static SharpWiredModel Instance {
             get { return instance; }
             set {
-                if (instance == null)
+                if (instance == null) {
                     instance = value;
-                else
+                } else {
                     throw new SingletonException("Singleton already created");
+                }
             }
         }
-       
 
         #region Properties
-        public ConnectionManager ConnectionManager {
-            get { return connectionManager; }
-        }
 
-        public SharpWired.Model.Server ServerInformation {
-            get { return server; }
-        }
+        public ConnectionManager ConnectionManager { get { return connectionManager; } }
 
-        public Server Server {
-            get { return server; }
-        }
+        public Server ServerInformation { get { return server; } }
+
+        public Server Server { get { return server; } }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Connect to the given bookmark. Note! Dissconnects any current connection.
         /// </summary>
@@ -77,57 +74,63 @@ namespace SharpWired.Model {
         public void Connect(Bookmark bookmark) {
             try {
                 //TODO: Probably want to let the user confirm dissconnecting the current connection
-                if(server != null && server.PublicChat != null)
+                if (server != null && server.PublicChat != null) {
                     Disconnect();
-                
+                }
+
                 connectionManager.Connect(bookmark);
             } catch (ConnectionException ce) {
                 Debug.WriteLine("Failed to connect: '" + ce + "'");
             }
         }
+
         #endregion
 
         public delegate void ServerChanged(Server server);
+
         /// <summary>
         /// We have a connection to the server but are NOT yet logged in.
         /// </summary>
         public event ServerChanged Connected;
 
-        void OnBanned(MessageEventArgs_Messages message) {
+        private void OnBanned(MessageEventArgs_Messages message) {
             //TODO: Implement handling for banned
             throw new NotImplementedException("Client banned from server. Not implemented yet, please report to SharpWired bug tracker.");
         }
 
-        void OnConnected(MessageEventArgs_200 message) {
-            server = new SharpWired.Model.Server(message);
+        private void OnConnected(MessageEventArgs_200 message) {
+            server = new Server(message);
 
-            UserInformation ui = connectionManager.CurrentBookmark.UserInformation;
-            SharpWired.Gui.Resources.Icons.IconHandler ih = new SharpWired.Gui.Resources.Icons.IconHandler();
+            var ui = connectionManager.CurrentBookmark.UserInformation;
+            var ih = new IconHandler();
 
-            Commands c = connectionManager.Commands;
-            c.Nick(ui.Nick);            //Required
-            c.Icon(1, ih.UserImage);    //Optional
+            var c = connectionManager.Commands;
+            c.Nick(ui.Nick); //Required
+            c.Icon(1, ih.UserImage); //Optional
             //STATUS                    //Optional TODO: Set status
-            c.Client();                 //Optional but highly required
+            c.Client(); //Optional but highly required
 
             c.User(ui.UserName);
             c.Pass(ui.Password);
 
-            if (Connected != null)
+            if (Connected != null) {
                 Connected(server);
+            }
         }
 
-        void OnDisconnected() { }
+        private void OnDisconnected() {}
 
         /// <summary>
         /// Dissconnect from the server
         /// </summary>
         public void Disconnect() {
-            if (heartBeatTimer != null)
+            if (heartBeatTimer != null) {
                 heartBeatTimer.StopTimer();
+            }
 
-            if(server != null)
+            if (server != null) {
                 server.GoOffline();
+            }
 
             // TODO: Create enum for chat id 1
             connectionManager.Commands.Leave(1);
@@ -138,16 +141,18 @@ namespace SharpWired.Model {
         }
 
         #region Initialization
+
         /// <summary>
         /// Constructor
         /// </summary>
         public SharpWiredModel() {
             connectionManager = new ConnectionManager();
 
-            Messages m = connectionManager.Messages;
+            var m = connectionManager.Messages;
             m.ServerInformationEvent += OnConnected;
             m.BannedEvent += OnBanned;
         }
+
         #endregion
     }
 }

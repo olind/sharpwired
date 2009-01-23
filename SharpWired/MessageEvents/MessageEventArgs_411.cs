@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_411.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,43 +23,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// MessageEventArgs for File Listing Done
     /// </summary>
-    public class MessageEventArgs_411 : MessageEventArgs
-    {
-        private long free;
-        private string path;
+    public class MessageEventArgs_411 : MessageEventArgs {
+        private readonly long free;
+        private readonly string path;
 
         /// <summary>
         /// Request the amount of free disk space
         /// </summary>
-        public long Free
-        {
-            get
-            {
-                return free;
-            }
-        }
+        public long Free { get { return free; } }
 
         /// <summary>
         /// Request the destination for were file listing was requested
         /// </summary>
-        public string Path
-        {
-            get
-            {
-                return path;
-            }
-        }
+        public string Path { get { return path; } }
 
         /// <summary>
         /// Constructor
@@ -68,8 +52,7 @@ namespace SharpWired.MessageEvents
         /// <param name="destination">The destination for were file listing was requested</param>
         /// <param name="free">The amount of free space</param>
         public MessageEventArgs_411(int messageId, string messageName, string path, long free)
-            : base(messageId, messageName)
-        {
+            : base(messageId, messageName) {
             this.free = free;
             this.path = path;
         }

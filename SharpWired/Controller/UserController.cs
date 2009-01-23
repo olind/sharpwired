@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * UserController.cs 
  * Created by Ola Lindberg, 2006-10-15
@@ -22,11 +23,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using SharpWired.Model;
 using System.Collections.Generic;
+using SharpWired.Model;
 using SharpWired.Model.Users;
+
 namespace SharpWired.Controller {
     /// <summary>
     /// This class represents the users connected to the chat. If this chat is the public chat, 
@@ -37,15 +40,16 @@ namespace SharpWired.Controller {
         /// <summary>
         /// Constructor
         /// </summary>
-        public UserController(SharpWiredModel model) : base(model) { }
+        public UserController(SharpWiredModel model) : base(model) {}
 
         /// <summary>
         /// Request the user information for the given list of users.
         /// </summary>
         /// <param name="users"></param>
         public void GetUserInfo(List<User> users) {
-            foreach (User u in users)
+            foreach (var u in users) {
                 GetUserInfo(u);
+            }
         }
 
         /// <summary>

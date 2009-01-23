@@ -23,18 +23,13 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections;
-using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
+using System.IO;
 using System.Net.Security;
-using System.Net;
 using System.Net.Sockets;
 using System.Security.Authentication;
-
-using SharpWired;
-using System.IO;
-using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
 
 namespace SharpWired.Connection.Sockets {
     /// <summary>
@@ -46,13 +41,14 @@ namespace SharpWired.Connection.Sockets {
         /// <summary>
         /// Used to create the SSL Stream.
         /// </summary>
-        TcpClient client;
+        private TcpClient client;
+
         /// <summary>
         ///  The secure connection to the server.
         /// </summary>
-        SslStream sslStream;
+        private SslStream sslStream;
 
-        DateTime TimeOfLastNotify { get; set; }
+        private DateTime TimeOfLastNotify { get; set; }
 
         /// <summary>
         /// The default size of the buffer to use
@@ -62,13 +58,11 @@ namespace SharpWired.Connection.Sockets {
         /// <summary>
         /// Default transmission parameters. Only used internally
         /// </summary>
-        protected static readonly int BUFFER_BLOCK_SIZE = 512;	// The number of bytes to receive in every block
+        protected static readonly int BUFFER_BLOCK_SIZE = 512; // The number of bytes to receive in every block
 
         private Int64 bytesTransferred;
 
-        public Int64 BytesTransferred {
-            get { return bytesTransferred; }
-        }
+        public Int64 BytesTransferred { get { return bytesTransferred; } }
 
         /// <summary>
         /// A delegate type for hooking up message received notifications.
@@ -80,7 +74,7 @@ namespace SharpWired.Connection.Sockets {
 
         #region Connect
 
-        internal void Start() { }
+        internal void Start() {}
 
         /// <summary>
         /// Connects to the server using Connect(Port, MachineName, ServerName).
@@ -103,7 +97,6 @@ namespace SharpWired.Connection.Sockets {
         /// <param name="fileSize"></param>
         /// <param name="offset"></param>
         private void Connect(int serverPort, string machineName, string serverName, FileStream stream, long fileSize, long offset) {
-
             // Create a TCP/IP client socket.
             // Set up a temporary connection that is unencrypted, used to transfer the certificates?
             try {
@@ -122,9 +115,9 @@ namespace SharpWired.Connection.Sockets {
             //TODO: The validate server certificate allways returns true
             //      If the validation fails we should ask the user to connect anyway
             sslStream = new SslStream(client.GetStream(),
-                false,
-                new RemoteCertificateValidationCallback(ValidateServerCertificate),
-                null);
+                                      false,
+                                      ValidateServerCertificate,
+                                      null);
 
             // The server name must match the name on the server certificate.
             try {
@@ -138,8 +131,8 @@ namespace SharpWired.Connection.Sockets {
             }
 
             // When we are connected we can now set up our receive mechanism
-            byte[] readBuffer = new byte[BUFFER_SIZE];
-            FileTransferStateObject stateObj = new FileTransferStateObject();
+            var readBuffer = new byte[BUFFER_SIZE];
+            var stateObj = new FileTransferStateObject();
             stateObj.fileSize = fileSize;
             stateObj.sslStream = sslStream;
             stateObj.target = stream;
@@ -148,7 +141,7 @@ namespace SharpWired.Connection.Sockets {
 
             TimeOfLastNotify = DateTime.Now;
 
-            sslStream.BeginRead(readBuffer, 0, readBuffer.Length, new AsyncCallback(ReadCallback), stateObj);
+            sslStream.BeginRead(readBuffer, 0, readBuffer.Length, ReadCallback, stateObj);
         }
 
         /// <summary>
@@ -160,15 +153,16 @@ namespace SharpWired.Connection.Sockets {
         /// <param name="sslPolicyErrors">One or more errors associated with the remote certificate.</param>
         /// <returns>Returns true all the time, shoulh be: True if the certificate is valid, false otherwise</returns>
         private bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) {
-            if (sslPolicyErrors == SslPolicyErrors.None)
+            if (sslPolicyErrors == SslPolicyErrors.None) {
                 return true;
+            }
 
             // TODO: We should trow an exception if the validate is not valid, 
             //       for now return true anyway
             return true;
         }
-        #endregion
 
+        #endregion
 
         #region Send Message
 
@@ -178,13 +172,13 @@ namespace SharpWired.Connection.Sockets {
         /// <param name="message">The message to be sent (without any EOT).</param>
         public void SendMessage(string message) {
             if (sslStream != null) {
-                byte[] messsage = Encoding.UTF8.GetBytes(message + Utility.EOT);
+                var messsage = Encoding.UTF8.GetBytes(message + Utility.EOT);
                 sslStream.Write(messsage);
                 sslStream.Flush();
             }
         }
-        #endregion
 
+        #endregion
 
         /// <summary>
         /// Disconnect this connection
@@ -194,13 +188,16 @@ namespace SharpWired.Connection.Sockets {
             //try { client.Close(); } catch { } finally { client = null; }
             //trans.target.Close();
 
-            if (client != null)
+            if (client != null) {
                 client.Close();
-            if (sslStream != null)
+            }
+            if (sslStream != null) {
                 sslStream.Close();
+            }
         }
 
         public event IntervalDelegate Interval;
+
         public delegate void IntervalDelegate();
 
         /// <summary>
@@ -213,15 +210,16 @@ namespace SharpWired.Connection.Sockets {
                 var now = DateTime.Now;
                 if (now > TimeOfLastNotify.AddSeconds(1)) {
                     TimeOfLastNotify = now;
-                    if (Interval != null)
+                    if (Interval != null) {
                         Interval();
+                    }
                 }
 
-                FileTransferStateObject trans = (FileTransferStateObject)result.AsyncState;
-                int bytesRead = trans.sslStream.EndRead(result);
+                var trans = (FileTransferStateObject) result.AsyncState;
+                var bytesRead = trans.sslStream.EndRead(result);
 
                 if (bytesRead > 0) // Check if there is any data
-			{
+                {
                     trans.transferOffset += bytesRead;
                     bytesTransferred += bytesRead;
 
@@ -232,8 +230,8 @@ namespace SharpWired.Connection.Sockets {
 
                     // Transfer might not be complete
                     trans.transferBuffer = new byte[BUFFER_SIZE];
-                    IAsyncResult r = trans.sslStream.BeginRead(trans.transferBuffer, 0, BUFFER_SIZE,
-                        new AsyncCallback(this.ReadCallback), trans);
+                    var r = trans.sslStream.BeginRead(trans.transferBuffer, 0, BUFFER_SIZE,
+                                                      ReadCallback, trans);
                 } else {
                     // All data has been received close ssl connection
                     //trans.sslStream.Shutdown();
@@ -242,8 +240,9 @@ namespace SharpWired.Connection.Sockets {
                     // Close fileStream
                     trans.target.Close();
 
-                    if (DataReceivedDoneEvent != null)
+                    if (DataReceivedDoneEvent != null) {
                         DataReceivedDoneEvent();
+                    }
                 }
             }
         }
@@ -252,6 +251,7 @@ namespace SharpWired.Connection.Sockets {
         /// Event for telling when received data is done
         /// </summary>
         public event DataReceivedDoneDelegate DataReceivedDoneEvent;
+
         public delegate void DataReceivedDoneDelegate();
 
         //FileTransfer classen år tänkt att skickas in som state objekt för överföringen

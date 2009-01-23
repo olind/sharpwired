@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,54 +23,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// This class is the base event class. Many other events inherits from this.
     /// </summary>
-    public class MessageEventArgs
-    {
+    public class MessageEventArgs {
         /// 
         /// All variables declared here have a property associated below.
         /// 
-        private int messageId;
-        private string messageName;
-        
+        private readonly int messageId;
+
+        private readonly string messageName;
+
         /// <summary>
         /// The ID for this message
         /// </summary>
-        public int MessageId
-        {
-            get
-            {
-                return messageId;
-            }
-        }
+        public int MessageId { get { return messageId; } }
 
         /// <summary>
         /// The name for the message
         /// </summary>
-        public string MessageName
-        {
-            get
-            {
-                return messageName;
-            }
-        }
+        public string MessageName { get { return messageName; } }
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="messageId"></param>
         /// <param name="messageName"></param>
-        public MessageEventArgs(int messageId, string messageName)
-        {
+        public MessageEventArgs(int messageId, string messageName) {
             this.messageId = messageId;
             this.messageName = messageName;
         }

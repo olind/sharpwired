@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Windows.Forms;
 using SharpWired.Controller;
 using SharpWired.Model.Files;
-using SharpWired.Model.Transfers;
 
 namespace SharpWired.Gui.Files {
     public class FileMenu : ContextMenu {
-        MenuItem DownloadItem { get; set; }
-        SharpWiredController Controller { get; set; }
-        Control Parent { get; set; }
+        private MenuItem DownloadItem { get; set; }
+        private SharpWiredController Controller { get; set; }
+        private Control Parent { get; set; }
 
-        public FileMenu(SharpWiredController controller, Control parent) : base() {
+        public FileMenu(SharpWiredController controller, Control parent) {
             Controller = controller;
             Parent = parent;
 
@@ -26,13 +23,14 @@ namespace SharpWired.Gui.Files {
         }
 
         public void Show(Control control, Point location) {
-            FolderListing details = Parent as FolderListing;
+            var details = Parent as FolderListing;
 
-            if(details != null) {
-                if(details.SelectedItems.Count > 0)
+            if (details != null) {
+                if (details.SelectedItems.Count > 0) {
                     DownloadItem.Visible = true;
-                else
+                } else {
                     DownloadItem.Visible = false;
+                }
 
                 base.Show(control, location);
             }
@@ -43,16 +41,17 @@ namespace SharpWired.Gui.Files {
         }
 
         private void OnDownload(Object sender, EventArgs e) {
-            FolderListing details = Parent as FolderListing;
+            var details = Parent as FolderListing;
 
-            if(details != null) {
-                foreach (var n in details.SelectedItems)
+            if (details != null) {
+                foreach (var n in details.SelectedItems) {
                     Download(n);
+                }
             }
         }
 
         private void Download(INode node) {
-            ITransfer entry = Controller.FileTransferController.AddDownload(node);
+            var entry = Controller.FileTransferController.AddDownload(node);
             Controller.FileTransferController.StartDownload(entry);
         }
     }

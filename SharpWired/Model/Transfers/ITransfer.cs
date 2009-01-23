@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SharpWired.Model.Files;
 
 namespace SharpWired.Model.Transfers {

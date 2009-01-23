@@ -1,19 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace SharpWired.Connection.Sockets
-{
-	/// <summary>
-	/// EventArgs for the event when binary data is recieved.
-	/// </summary>
-	public class DataRecievedEventArgs : EventArgs
-	{
-		/// <summary>
-		/// Construct.
-		/// </summary>
-		public DataRecievedEventArgs()
-		{
-		}
-	}
+namespace SharpWired.Connection.Sockets {
+    /// <summary>
+    /// EventArgs for the event when binary data is recieved.
+    /// </summary>
+    public class DataRecievedEventArgs : EventArgs {}
 }

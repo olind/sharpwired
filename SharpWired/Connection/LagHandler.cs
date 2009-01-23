@@ -1,4 +1,5 @@
 ﻿#region Information and licence agreements
+
 /*
  * LagHandler.cs 
  * Created by Ola Lindberg, 2008-02-10
@@ -22,48 +23,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using SharpWired.MessageEvents;
 
-namespace SharpWired.Connection
-{
+namespace SharpWired.Connection {
     /// <summary>
     /// Holds information about the current server lag i.e. the time
     /// it takes for a message to travel from the client to the server
     /// and back to the client.
     /// </summary>
-    public class LagHandler
-    {
+    public class LagHandler {
         private DateTime lastReceivedPing;
         private DateTime lastSentPing;
-        private Nullable<TimeSpan> lag;
+        private TimeSpan? lag;
 
         /// <summary>
         /// Gets the current lag
         /// </summary>
-        public Nullable<TimeSpan> CurrentLag
-        {
-            get
-            {
+        public TimeSpan? CurrentLag {
+            get {
                 /* TimeSpan.CompareTo explanation
                  * >0 lastReceivedPing is before lastSentPing
                  * =0 lastReceivedPing is at the same time as lastSentPing
                  * <0 lastReceivedPing is after or lastSentPing is null
                  */
-                int lagComparison = lastReceivedPing.CompareTo(lastSentPing);
-                if ((lastReceivedPing.Ticks > 0) && (lastSentPing.Ticks > 0))
-                {
-                    if (lagComparison >= 0)
-                    {
+                var lagComparison = lastReceivedPing.CompareTo(lastSentPing);
+                if ((lastReceivedPing.Ticks > 0) && (lastSentPing.Ticks > 0)) {
+                    if (lagComparison >= 0) {
                         lag = lastReceivedPing.Subtract(lastSentPing);
                         return lag;
-                    }
-                    else
-                    {
+                    } else {
                         //If we fail we return last succesful lag time
                         return lag;
                     }
@@ -75,16 +67,14 @@ namespace SharpWired.Connection
         /// <summary>
         /// Notify this when a ping is sent
         /// </summary>
-        public void OnPingSent(object sender)
-        {
+        public void OnPingSent(object sender) {
             lastSentPing = DateTime.Now;
         }
 
         /// <summary>
         /// Notify this wehn a ping is received
         /// </summary>
-        public void OnPingReceived(object sender, MessageEventArgs_Messages m)
-        {
+        public void OnPingReceived(object sender, MessageEventArgs_Messages m) {
             lastReceivedPing = DateTime.Now;
         }
     }

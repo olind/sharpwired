@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * ErrorController.cs 
  * Created by Ola Lindberg 2007-12-15
@@ -22,50 +23,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
 using System.Text;
 using SharpWired.Connection;
 using SharpWired.Connection.Bookmarks;
 using SharpWired.MessageEvents;
 using SharpWired.Model;
 
-namespace SharpWired.Controller
-{
+namespace SharpWired.Controller {
     /// <summary>
     /// Reads error messages from various sources (ie the connection layer) and 
     /// raises nicer error messages to consume by GUI
     /// </summary>
-    public class ErrorModel
-    {
-        private SharpWiredModel model;
+    public class ErrorModel {
+        private readonly SharpWiredModel model;
 
         /// <summary>
         /// Report a Connection Exception
         /// </summary>
         /// <param name="ce"></param>
-        public void ReportConnectionExceptionError(ConnectionException ce)
-        {
-            StringBuilder errorDescription = new StringBuilder();
-            StringBuilder solutionIdea = new StringBuilder();
-            if (ce.Message == "HostNotFound")
-            {
+        public void ReportConnectionExceptionError(ConnectionException ce) {
+            var errorDescription = new StringBuilder();
+            var solutionIdea = new StringBuilder();
+            if (ce.Message == "HostNotFound") {
                 errorDescription.Append("The server you tried connecting to doesn't exist.");
                 solutionIdea.Append("Make sure the host name for the server you tried connecting to is correct.");
-            }
-            else if(ce.Message == "NoRouteToTost")
-            {
+            } else if (ce.Message == "NoRouteToTost") {
                 errorDescription.Append("A socket operation was attempted to an unreachable host");
                 solutionIdea.Append("Check the host name you tried connecting to. Make sure it's correct.");
-            }
-            else if (ce.Message == "ConnectionRefused")
-            {
+            } else if (ce.Message == "ConnectionRefused") {
                 errorDescription.Append("No connection could be made because the target computer actively refused it. This usually results from trying to connect to a service that is inactive on the foreign host—that is, one with no server application running.");
                 solutionIdea.Append("Check the host name you tried connecting to, make sure it's correct. You can also try to report this problem to the server owners.");
-            }
-            else //TODO: Handle more types of errors. Add the errors to SecureSocket.cs as well
+            } else //TODO: Handle more types of errors. Add the errors to SecureSocket.cs as well
             {
                 errorDescription.Append("An unknown error occured.");
                 solutionIdea.Append("Please report this error in the SharpWired bug tracker at https://launchpad.net/sharpwired/+filebug. Error message is: " + ce);
@@ -83,6 +74,7 @@ namespace SharpWired.Controller
         /// <param name="solutionIdea"></param>
         /// <param name="bookmark"></param>
         public delegate void LoginToServerFailedDelegate(string errorDescription, string solutionIdea, Bookmark bookmark);
+
         /// <summary>
         /// Event triggered when loggin in to the server failed
         /// </summary>
@@ -91,22 +83,21 @@ namespace SharpWired.Controller
         /// <summary>
         /// Constructor
         /// </summary>
-        public ErrorModel(SharpWiredModel model)
-        {
+        public ErrorModel(SharpWiredModel model) {
             this.model = model;
 
-            model.ConnectionManager.Messages.LoginFailedEvent += new Messages.LoginFailedEventHandler(Messages_LoginFailedEvent);
+            model.ConnectionManager.Messages.LoginFailedEvent += Messages_LoginFailedEvent;
             model.ConnectionManager.Messages.BannedEvent += Messages_BannedEvent;
-            model.ConnectionManager.Messages.ClientNotFoundEvent += new Messages.ClientNotFoundEventHandler(Messages_ClientNotFoundEvent);
+            model.ConnectionManager.Messages.ClientNotFoundEvent += Messages_ClientNotFoundEvent;
         }
 
         #region Listeners to connection layer - messages
-        void Messages_LoginFailedEvent(object sender, MessageEventArgs_Messages messageEventArgs)
-        {
-            Bookmark currentBookmark = model.ConnectionManager.CurrentBookmark;
 
-            StringBuilder errorDescription = new StringBuilder();
-            StringBuilder solutionIdea = new StringBuilder();
+        private void Messages_LoginFailedEvent(object sender, MessageEventArgs_Messages messageEventArgs) {
+            var currentBookmark = model.ConnectionManager.CurrentBookmark;
+
+            var errorDescription = new StringBuilder();
+            var solutionIdea = new StringBuilder();
 
             errorDescription.Append("Login failure caused by a problem with the login or password when connecting to " + currentBookmark.Server.ServerName + ".");
             solutionIdea.Append("Check your login name and password and try again.");
@@ -114,12 +105,11 @@ namespace SharpWired.Controller
             LoginToServerFailedEvent(errorDescription.ToString(), solutionIdea.ToString(), currentBookmark);
         }
 
-        void Messages_ClientNotFoundEvent(object sender, MessageEventArgs_Messages messageEventArgs)
-        {
-            Bookmark currentBookmark = model.ConnectionManager.CurrentBookmark;
+        private void Messages_ClientNotFoundEvent(object sender, MessageEventArgs_Messages messageEventArgs) {
+            var currentBookmark = model.ConnectionManager.CurrentBookmark;
 
-            StringBuilder errorDescription = new StringBuilder();
-            StringBuilder solutionIdea = new StringBuilder();
+            var errorDescription = new StringBuilder();
+            var solutionIdea = new StringBuilder();
 
             errorDescription.Append("Login failure since the login name was not found on the server " + currentBookmark.Server.ServerName + ".");
             solutionIdea.Append("Check your login name and try again.");
@@ -127,19 +117,19 @@ namespace SharpWired.Controller
             LoginToServerFailedEvent(errorDescription.ToString(), solutionIdea.ToString(), currentBookmark);
         }
 
-        void Messages_BannedEvent(MessageEventArgs_Messages messageEventArgs)
-        {
+        private void Messages_BannedEvent(MessageEventArgs_Messages messageEventArgs) {
             //TODO: Throwing exception in SharpWiredModel on banned received message since this implementation should be build from scratch
-            Bookmark currentBookmark = model.ConnectionManager.CurrentBookmark;
+            var currentBookmark = model.ConnectionManager.CurrentBookmark;
 
-            StringBuilder errorDescription = new StringBuilder();
-            StringBuilder solutionIdea = new StringBuilder();
+            var errorDescription = new StringBuilder();
+            var solutionIdea = new StringBuilder();
 
             errorDescription.Append("Login failure since the login name was banned on the server " + currentBookmark.Server.ServerName + ".");
             solutionIdea.Append("Check your login name and try again or ask the server administrator.");
 
             LoginToServerFailedEvent(errorDescription.ToString(), solutionIdea.ToString(), currentBookmark);
         }
+
         #endregion
     }
 }

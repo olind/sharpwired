@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_200.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,103 +23,58 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// MessageEventArgs for Server Information (200). In response to HELLO.
     /// </summary>
-    public class MessageEventArgs_200 : MessageEventArgs
-    {
-        private string appVersion; // TODO change type of this
-        private string protocolVersion; // TODO Change type of this
-        private string serverName;
-        private string serverDescription;
-        private DateTime startTime;
-        private int filesCount;
-        private long filesSize;
+    public class MessageEventArgs_200 : MessageEventArgs {
+        private readonly string appVersion; // TODO change type of this
+        private readonly string protocolVersion; // TODO Change type of this
+        private readonly string serverName;
+        private readonly string serverDescription;
+        private readonly DateTime startTime;
+        private readonly int filesCount;
+        private readonly long filesSize;
 
         /// <summary>
         /// Request the server app version
         /// </summary>
-        public string AppVersion
-        {
-            get
-            {
-                return appVersion;
-            }
-        }
+        public string AppVersion { get { return appVersion; } }
 
         /// <summary>
         /// Request the server protocol version
         /// </summary>
-        public string ProtocolVersion
-        {
-            get
-            {
-                return protocolVersion;
-            }
-        }
+        public string ProtocolVersion { get { return protocolVersion; } }
 
         /// <summary>
         /// Request the server name
         /// </summary>
-        public string ServerName
-        {
-            get
-            {
-                return serverName;
-            }
-        }
+        public string ServerName { get { return serverName; } }
 
         /// <summary>
         /// Request the server description
         /// </summary>
-        public string ServerDescription
-        {
-            get
-            {
-                return serverDescription;
-            }
-        }
+        public string ServerDescription { get { return serverDescription; } }
 
         /// <summary>
         /// Request the start time for this server
         /// </summary>
-        public DateTime StartTime
-        {
-            get
-            {
-                return startTime;
-            }
-        }
+        public DateTime StartTime { get { return startTime; } }
 
         /// <summary>
         /// Request the number of files
         /// </summary>
-        public int FilesCount
-        {
-            get
-            {
-                return filesCount;
-            }
-        }
+        public int FilesCount { get { return filesCount; } }
 
         /// <summary>
         /// Request the size of the files
         /// </summary>
-        public long FilesSize
-        {
-            get
-            {
-                return filesSize;
-            }
-        }
+        public long FilesSize { get { return filesSize; } }
 
         /// <summary>
         /// Constructor
@@ -132,10 +88,9 @@ namespace SharpWired.MessageEvents
         /// <param name="startTime">The time when the server started</param>
         /// <param name="filesCount">The number of files on the server</param>
         /// <param name="filesSize">The size of the files on the server?</param>
-        public MessageEventArgs_200(int messageId, string messageName, string appVersion, string protocolVersion, 
-            string serverName, string serverDescription, DateTime startTime, int filesCount, long filesSize)
-            : base(messageId, messageName)
-        {
+        public MessageEventArgs_200(int messageId, string messageName, string appVersion, string protocolVersion,
+                                    string serverName, string serverDescription, DateTime startTime, int filesCount, long filesSize)
+            : base(messageId, messageName) {
             this.appVersion = appVersion;
             this.protocolVersion = protocolVersion;
             this.serverName = serverName;

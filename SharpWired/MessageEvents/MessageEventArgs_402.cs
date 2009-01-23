@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_402.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,42 +23,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// MessageEventArgs for File Information (402)
     /// </summary>
-    public class MessageEventArgs_402 : MessageEventArgs_410420
-    {
-        private string checksum;
-        private string comment;
+    public class MessageEventArgs_402 : MessageEventArgs_410420 {
+        private readonly string checksum;
+        private readonly string comment;
 
         /// <summary>
         /// Request the checksum for this file
         /// </summary>
-        public string Checksum
-        {
-            get
-            {
-                return checksum;
-            }
-        }
+        public string Checksum { get { return checksum; } }
 
         /// <summary>
         /// Request the comment for this file
         /// </summary>
-        public string Comment
-        {
-            get { 
-                return comment; 
-            }
-        }
+        public string Comment { get { return comment; } }
 
         /// <summary>
         /// Constructon
@@ -72,9 +59,8 @@ namespace SharpWired.MessageEvents
         /// <param name="checksum">The checksum for this file</param>
         /// <param name="comment">The comment for this file</param>
         public MessageEventArgs_402(int messageId, string messageName, string path,
-            FileType fileType, int size, DateTime created, DateTime modified, string checksum, string comment)
-            : base(messageId, messageName, path, fileType, size, created, modified)
-        {
+                                    FileType fileType, int size, DateTime created, DateTime modified, string checksum, string comment)
+            : base(messageId, messageName, path, fileType, size, created, modified) {
             this.checksum = checksum;
             this.comment = comment;
         }

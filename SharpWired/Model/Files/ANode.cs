@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * ANode.cs 
  * Created: 2007-05-01
@@ -24,12 +25,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpWired.MessageEvents;
 using System.Diagnostics;
 
 namespace SharpWired.Model.Files {
@@ -39,10 +38,11 @@ namespace SharpWired.Model.Files {
 
         public int Depth {
             get {
-                if (Parent != null)
+                if (Parent != null) {
                     return Parent.Depth + 1;
-                else
+                } else {
                     return 0;
+                }
             }
         }
 
@@ -52,10 +52,11 @@ namespace SharpWired.Model.Files {
         public string FullPath {
             get {
                 // FIXME: Use real path joining!
-                if(Path == "/" && Name == "/")
+                if (Path == "/" && Name == "/") {
                     return Path;
-                else
-                    return Path + Name;    
+                } else {
+                    return Path + Name;
+                }
             }
         }
 
@@ -67,10 +68,11 @@ namespace SharpWired.Model.Files {
         public ANode(string path, DateTime created, DateTime modified) {
             Debug.WriteLine("MODEL:ANode -> Adding node: " + path);
 
-            if (path == "/")
+            if (path == "/") {
                 Name = "/";
-            else
+            } else {
                 Name = path.Substring(path.LastIndexOf('/') + 1);
+            }
 
             Path = path.Substring(0, path.LastIndexOf('/') + 1);
 
@@ -81,9 +83,9 @@ namespace SharpWired.Model.Files {
         public abstract void Reload();
 
         public int CompareTo(object obj) {
-            INode node = obj as INode;
-            string thisString = "" + Name + Path + Created + Modified;
-            string nodeString = "" + node.Name + node.Path + node.Created + node.Modified;
+            var node = obj as INode;
+            var thisString = "" + Name + Path + Created + Modified;
+            var nodeString = "" + node.Name + node.Path + node.Created + node.Modified;
 
             return thisString.CompareTo(nodeString);
         }

@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_304.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,78 +23,44 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// MessageEventArgs for Status Changed (304)
     /// </summary>
-    public class MessageEventArgs_304 : MessageEventArgs_201
-    {
-        private bool idle;
-        private bool admin;
-        private int icon;
-        private string nick;
-        private string status;
+    public class MessageEventArgs_304 : MessageEventArgs_201 {
+        private readonly bool idle;
+        private readonly bool admin;
+        private readonly int icon;
+        private readonly string nick;
+        private readonly string status;
 
         /// <summary>
         /// Request if this user is idle
         /// </summary>
-        public bool Idle {
-            get
-            {
-                return idle;
-            }
-        }
+        public bool Idle { get { return idle; } }
 
         /// <summary>
         /// Request if this user is admin
         /// </summary>
-        public bool Admin
-        {
-            get
-            {
-                return admin;
-            }
-        }
+        public bool Admin { get { return admin; } }
 
         /// <summary>
         /// Request the icon for this user
         /// </summary>
-        public int Icon
-        {
-            get
-            {
-                return icon;
-            }
-        }
+        public int Icon { get { return icon; } }
 
         /// <summary>
         /// Request the nick for this user
         /// </summary>
-        public string Nick
-        {
-            get
-            {
-                return nick;
-            }
-        }
+        public string Nick { get { return nick; } }
 
         /// <summary>
         /// Request the status for this user
         /// </summary>
-        public string Status
-        {
-            get
-            {
-                return status;
-            }
-        }
+        public string Status { get { return status; } }
 
         /// <summary>
         /// Constructor
@@ -107,8 +74,7 @@ namespace SharpWired.MessageEvents
         /// <param name="nick">The nick for this user</param>
         /// <param name="status">The status for this user</param>
         public MessageEventArgs_304(int messageId, string messageName, int userId, bool idle, bool admin, int icon, string nick, string status)
-            : base(messageId, messageName, userId)
-        {
+            : base(messageId, messageName, userId) {
             this.idle = idle;
             this.admin = admin;
             this.icon = icon;

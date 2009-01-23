@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_201.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,29 +23,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SharpWired.MessageEvents
-{
+namespace SharpWired.MessageEvents {
     /// <summary>
     /// MessageEventArgs for Login Succeeded (201)
     /// </summary>
-    public class MessageEventArgs_201 : MessageEventArgs
-    {
-        private int userId;
+    public class MessageEventArgs_201 : MessageEventArgs {
+        private readonly int userId;
 
         /// <summary>
         /// Request the user id for the user that logged in
         /// </summary>
-        public int UserId {
-            get {
-                return userId;
-            }
-        }
+        public int UserId { get { return userId; } }
 
         /// <summary>
         /// Constructor
@@ -53,8 +45,7 @@ namespace SharpWired.MessageEvents
         /// <param name="messageName">The name for this message</param>
         /// <param name="userId">The user ID</param>
         public MessageEventArgs_201(int messageId, string messageName, int userId)
-            : base(messageId, messageName)
-        {
+            : base(messageId, messageName) {
             this.userId = userId;
         }
     }

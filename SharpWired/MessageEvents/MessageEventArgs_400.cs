@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * MessageEventArgs_400.cs 
  * Created by Ola Lindberg, 2006-09-28
@@ -22,74 +23,63 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+namespace SharpWired.MessageEvents {
+    /// <summary>
+    /// 7.4.1 400 Transfer Ready
+    /// 
+    ///    "400" SP destination FS offset FS hash EOT
+    ///    destination = STRING
+    ///    offset = 1*DIGIT
+    ///    hash = STRING
+    /// 
+    ///The transfer of "destination" is ready to begin. "hash" is a unique
+    ///identifier for this particular transfer.
+    ///
+    ///See section 4 for more information on files.
+    ///
+    ///In response to "GET" and "PUT".
+    /// </summary>
+    public class MessageEventArgs_400 : MessageEventArgs_Path {
+        #region Fields
 
-namespace SharpWired.MessageEvents
-{
-	/// <summary>
-	/// 7.4.1 400 Transfer Ready
-	/// 
-	///    "400" SP destination FS offset FS hash EOT
-	///    destination = STRING
-	///    offset = 1*DIGIT
-	///    hash = STRING
-	/// 
-	///The transfer of "destination" is ready to begin. "hash" is a unique
-	///identifier for this particular transfer.
-	///
-	///See section 4 for more information on files.
-	///
-	///In response to "GET" and "PUT".
-	/// </summary>
-    public class MessageEventArgs_400 : MessageEventArgs_Path
-	{
-		#region Fields
+        private readonly int offset;
+        private readonly string hash;
 
-		private int offset;
-        private string hash;
-		#endregion
+        #endregion
 
+        #region Properties
 
-		#region Properties
+        /// <summary>
+        /// The offset in the file transfered(?).
+        /// </summary>
+        public int Offset { get { return offset; } }
 
-		/// <summary>
-		/// The offset in the file transfered(?).
-		/// </summary>
-		public int Offset
-		{
-			get { return offset; }
-		}
+        /// <summary>
+        /// A unique identifier for this transefer. Uses when connecting to the servers transfer port.
+        /// </summary>
+        public string Hash { get { return hash; } }
 
-		/// <summary>
-		/// A unique identifier for this transefer. Uses when connecting to the servers transfer port.
-		/// </summary>
-		public string Hash
-		{
-			get { return hash; }
-		} 
-		#endregion
+        #endregion
 
+        #region Constructor
 
-		#region Constructor
-
-		/// <summary>
-		/// Creates a 400 message.
-		/// </summary>
-		/// <param name="messageId">The ID.</param>
-		/// <param name="messageName">Message Name.</param>
-		/// <param name="destination">The destination to the file to transfer (?)</param>
-		/// <param name="offset">The file offset.</param>
-		/// <param name="hash">The unique identifier for the transfer.</param>
+        /// <summary>
+        /// Creates a 400 message.
+        /// </summary>
+        /// <param name="messageId">The ID.</param>
+        /// <param name="messageName">Message Name.</param>
+        /// <param name="destination">The destination to the file to transfer (?)</param>
+        /// <param name="offset">The file offset.</param>
+        /// <param name="hash">The unique identifier for the transfer.</param>
         public MessageEventArgs_400(int messageId, string messageName, string path, int offset, string hash)
-            : base(messageId, messageName, path)
-        {
+            : base(messageId, messageName, path) {
             this.offset = offset;
             this.hash = hash;
-		}
-		#endregion
-	}
+        }
+
+        #endregion
+    }
 }

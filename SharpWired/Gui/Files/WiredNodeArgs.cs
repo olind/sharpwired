@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * WiredTreeNodeArgs.cs
  * Created by Ola Lindberg, 2007-10-01
@@ -22,38 +23,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using SharpWired.Model.Files;
 
-namespace SharpWired.Gui.Files
-{
+namespace SharpWired.Gui.Files {
     /// <summary>
     /// Arguments for File Messages in GUI
     /// </summary>
-    public class WiredNodeArgs: EventArgs
-    {
-        private INode node;
-
+    public class WiredNodeArgs : EventArgs {
         /// <summary>
         /// Request or set the FileSystemEntry associated with this argument
         /// </summary>
-        public INode Node
-        {
-            get { return node; }
-            set { node = value; }
-        }
+        public INode Node { get; set; }
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="node">The assosiated FileSystemEntry</param>
-        public WiredNodeArgs(INode node)
-        {
-            this.Node = node;
+        public WiredNodeArgs(INode node) {
+            Node = node;
         }
     }
 }

@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using SharpWired.Model.Files;
-using SharpWired.Connection;
-using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.Transfers {
     public class Transfers : ModelBase {
-        private List<ITransfer> transfers = new List<ITransfer>();
+        private readonly List<ITransfer> transfers = new List<ITransfer>();
 
         public List<ITransfer> AllTransfers { get { return transfers; } }
+
         public delegate void TransferDelegate(ITransfer t);
+
         public event TransferDelegate TransferAdded;
         public event TransferDelegate TransferRemoved;
 
@@ -22,20 +21,23 @@ namespace SharpWired.Model.Transfers {
             ITransfer transfer = null;
 
             if (node is INode) {
-                transfer = new FileTransfer((INode)node, target, offset);
+                transfer = new FileTransfer(node, target, offset);
             } else if (node is Folder) {
-                transfer = new FolderTransfer((Folder)node, target);
+                transfer = new FolderTransfer((Folder) node, target);
             }
 
             if (transfer != null) {
                 transfers.Add(transfer);
 
-                if (TransferAdded != null)
+                if (TransferAdded != null) {
                     TransferAdded(transfer);
+                }
             }
             return transfer;
         }
 
-        public void Remove(ITransfer transfer) { throw new NotImplementedException(); }
+        public void Remove(ITransfer transfer) {
+            throw new NotImplementedException();
+        }
     }
 }

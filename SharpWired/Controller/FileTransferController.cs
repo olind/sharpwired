@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpWired.Model.Files;
-using SharpWired.Model;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using System.Diagnostics;
-using SharpWired.Model.Transfers;
 using SharpWired.Model;
+using SharpWired.Model.Files;
+using SharpWired.Model.Transfers;
 
 namespace SharpWired.Controller {
     public class FileTransferController : ControllerBase {
-
-        string defaultDownloadFolder;
-        Transfers Transfers { get; set; }
+        private readonly string defaultDownloadFolder;
+        private Transfers Transfers { get; set; }
 
         public FileTransferController(SharpWiredModel model) : base(model) {
             Transfers = model.Server.Transfers;
@@ -22,17 +18,17 @@ namespace SharpWired.Controller {
 
             if (!Directory.Exists(defaultDownloadFolder)) {
                 try {
-                    DirectoryInfo di = Directory.CreateDirectory(defaultDownloadFolder);
+                    var di = Directory.CreateDirectory(defaultDownloadFolder);
                 } catch (Exception e) {
                     Debug.WriteLine("Error trying to create default download dir '"
-                        + defaultDownloadFolder + "'.\n" + e.ToString());
+                                    + defaultDownloadFolder + "'.\n" + e);
                 }
             }
         }
 
         public ITransfer AddDownload(INode node) {
             //TODO: File exists? Resume?
-            string target = Path.Combine(defaultDownloadFolder, node.Name);
+            var target = Path.Combine(defaultDownloadFolder, node.Name);
             return Transfers.Add(node, target);
         }
 
@@ -45,8 +41,9 @@ namespace SharpWired.Controller {
         }
 
         public void RemoveDownload(ITransfer transfer) {
-            if(transfer.Status == SharpWired.Model.Transfers.Status.Idle)
+            if (transfer.Status == Status.Idle) {
                 Transfers.Remove(transfer);
+            }
         }
     }
 }

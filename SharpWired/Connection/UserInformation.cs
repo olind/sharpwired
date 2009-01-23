@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * UserInformation.cs
  * Created by Ola Lindberg, 2006-07-22
@@ -22,112 +23,94 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace SharpWired.Connection
-{
-	/// <summary>
-	/// This class represents a login on a server with username/pass/nick.
-	/// </summary>
+namespace SharpWired.Connection {
+    /// <summary>
+    /// This class represents a login on a server with username/pass/nick.
+    /// </summary>
     [Serializable]
-    public class UserInformation
-    {
-		#region Constrctors.
-		/// <summary>
-		/// Parameterless constructor for serialization. For XML.
-		/// </summary>
-		public UserInformation()
-		{
-		}
+    public class UserInformation {
+        #region Constrctors.
 
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="nick">The Nickname.</param>
-		/// <param name="userName">The user name.</param>
-		/// <param name="password">The hashed password.</param>
-        public UserInformation(string nick, string userName, string password)
-        {
-            this.Nick = nick;
-            this.UserName = userName;
-            this.Password = password;
-		}
-		#endregion
+        /// <summary>
+        /// Parameterless constructor for serialization. For XML.
+        /// </summary>
+        public UserInformation() {}
 
-		#region Properties
-		private string nick = "";
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="nick">The Nickname.</param>
+        /// <param name="userName">The user name.</param>
+        /// <param name="password">The hashed password.</param>
+        public UserInformation(string nick, string userName, string password) {
+            Nick = nick;
+            UserName = userName;
+            Password = password;
+        }
+
+        #endregion
+
+        #region Properties
+
+        private string nick = "";
         private string user = "";
         private string password = "";
 
-		/// <summary>
-		/// Request/Set the NickName.
-		/// </summary>
-        public string Nick
-        {
-            get { return nick; }
-            set { nick = value; }
+        /// <summary>
+        /// Request/Set the NickName.
+        /// </summary>
+        public string Nick { get { return nick; } set { nick = value; } }
+
+        /// <summary>
+        /// Request/Set the UserName.
+        /// </summary>
+        public string UserName { get { return user; } set { user = value; } }
+
+        /// <summary>
+        /// Request/Set the password. The password is hashed!
+        /// </summary>
+        public string Password { get { return password; } set { password = value; } }
+
+        #endregion
+
+        #region Overrides
+
+        /// <summary>
+        /// Compares the user name and nick using '=='. The password isn'transfer compared.
+        /// </summary>
+        /// <param name="obj">The object to compare to.</param>
+        /// <returns>T/F.</returns>
+        public override bool Equals(object obj) {
+            var u = obj as UserInformation;
+            if (u == null) {
+                return false;
+            } else {
+                return u.nick == nick
+                       && u.user == user;
+            }
         }
 
-        
-		/// <summary>
-		/// Request/Set the UserName.
-		/// </summary>
-        public string UserName
-        {
-            get { return user; }
-            set { user = value; }
-        }
-
-        
-		/// <summary>
-		/// Request/Set the password. The password is hashed!
-		/// </summary>
-        public string Password
-        {
-            get { return password; }
-            set { password = value; }
-        }
-		#endregion
-
-		#region Overrides
-		/// <summary>
-		/// Compares the user name and nick using '=='. The password isn'transfer compared.
-		/// </summary>
-		/// <param name="obj">The object to compare to.</param>
-		/// <returns>T/F.</returns>
-		public override bool Equals(object obj)
-		{
-			UserInformation u = obj as UserInformation;
-			if (u == null)
-				return false;
-			else
-			{
-				return u.nick == this.nick
-					&& u.user == this.user;
-			}
-		}
-
-		/// <summary>
-		/// Returns a string representation.
-		/// </summary>
+        /// <summary>
+        /// Returns a string representation.
+        /// </summary>
         /// <returns>[Username]([Nickname])</returns>
-		public override string ToString()
-		{
-			return UserName + "(" + Nick + ")";
-		}
+        public override string ToString() {
+            return UserName + "(" + Nick + ")";
+        }
 
-		/// <summary>
-		/// Returns base.GetHashCode().
-		/// </summary>
-		/// <returns>A hash Code.</returns>
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
-		}
-		#endregion
-	}
+        /// <summary>
+        /// Returns base.GetHashCode().
+        /// </summary>
+        /// <returns>A hash Code.</returns>
+        public override int GetHashCode() {
+            return base.GetHashCode();
+        }
+
+        #endregion
+    }
 }

@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * SharpWiredClientInfo.cs 
  * Created by Ola Lindberg, 2008-01-15
@@ -22,19 +23,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace SharpWired
-{
+namespace SharpWired {
     /// <summary>
     /// Holds client and protocol information
     /// </summary>
-    public static class SharpWiredClientInfo
-    {
+    public static class SharpWiredClientInfo {
         //TODO: This data should updated once we are supporting Mono
         //See: http://support.microsoft.com/default.aspx?scid=kb%3Ben-us%3B304283
 
@@ -43,50 +41,29 @@ namespace SharpWired
         private static string clientName = "SharpWired";
         private static string architecture = "";
         private static string osVersion = "";
-        private static string osRelease = System.Environment.OSVersion.ToString();
-        private static string libVersion = ".Net V" + System.Environment.Version.ToString();
-        private static string appVersion = clientName + "/0.1-Pre" + Utility.SP + "(" + Os + ")" + Utility.SP + "(" + libVersion + ")";
-        private static string os = osRelease + "; " + osVersion + "; " + architecture;
+        private static readonly string osRelease = Environment.OSVersion.ToString();
+        private static readonly string libVersion = ".Net V" + Environment.Version;
+        private static readonly string appVersion = clientName + "/0.1-Pre" + Utility.SP + "(" + Os + ")" + Utility.SP + "(" + libVersion + ")";
+        private static readonly string os = osRelease + "; " + osVersion + "; " + architecture;
 
         /// <summary>
         /// Gets the Wired protocol version Sharpwired is using.
         /// </summary>
-        public static double ProtocolVersion
-        {
-            get { return protocolVersion; }
-        }
+        public static double ProtocolVersion { get { return protocolVersion; } }
 
         /// <summary>
         /// Gets the name for this client.
         /// </summary>
-        public static string ClientName
-        {
-            get { return clientName; }
-        }
+        public static string ClientName { get { return clientName; } }
 
         /// <summary>
         /// Gets the app version for this client.
         /// </summary>
-        public static string AppVersion
-        {
-            get { return appVersion; }
-        }
+        public static string AppVersion { get { return appVersion; } }
 
         /// <summary>
         /// Request the operative system info string
         /// </summary>
-        public static string Os
-        {
-            get {
-                return os; 
-            }
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        static SharpWiredClientInfo()
-        {
-        }
+        public static string Os { get { return os; } }
     }
 }

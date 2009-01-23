@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * News.cs
  * Created by Ola Lindberg, 2006-12-10
@@ -22,29 +23,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
-using System.Windows.Forms;
-using SharpWired.Model;
 using SharpWired.Model.News;
-using SharpWired.Model.Users;
-using System.Web;
-using System.Diagnostics;
-using SharpWired.Controller;
 
 namespace SharpWired.Gui.News {
     /// <summary>
     /// The News view
     /// </summary>
     public partial class NewsContainer : WebBrowserGuiBase {
-
-        delegate void WriteToNewsCallback(GuiMessageItem guiMessage);
+        private delegate void WriteToNewsCallback(GuiMessageItem guiMessage);
 
         public NewsContainer() {
             InitializeComponent();
@@ -62,6 +53,7 @@ namespace SharpWired.Gui.News {
             ToggleWindowsFormControl(postNewsTextBox);
             ResetWebBrowser(newsWebBrowser);
         }
+
         protected override void OnOffline() {
             Model.Server.News.NewsPostedEvent -= OnNewsPostReceived;
             Model.Server.News.NewsListingDoneEvent += OnNewsListingDone;
@@ -71,27 +63,32 @@ namespace SharpWired.Gui.News {
         }
 
         #region Receiving from model
-        void OnNewsListingDone(List<NewsPost> newsList) {
-            foreach (NewsPost n in newsList) {
+
+        private void OnNewsListingDone(List<NewsPost> newsList) {
+            foreach (var n in newsList) {
                 OnNewsPostReceived(n);
             }
         }
 
-        void OnNewsPostReceived(NewsPost newPost) {
-            GuiMessageItem m = new GuiMessageItem(newPost);
+        private void OnNewsPostReceived(NewsPost newPost) {
+            var m = new GuiMessageItem(newPost);
             AppendHTMLToWebBrowser(newsWebBrowser, m);
         }
+
         #endregion
 
         #region Send to controller
+
         private void postNewsButton_Click(object sender, EventArgs e) {
             //TODO: Privileges: Check if we are allowed to post news
-            string text = this.postNewsTextBox.Text.Trim();
-            if (text.Length > 0)
-                Model.ConnectionManager.Commands.Post(this.postNewsTextBox.Text);
+            var text = postNewsTextBox.Text.Trim();
+            if (text.Length > 0) {
+                Model.ConnectionManager.Commands.Post(postNewsTextBox.Text);
+            }
 
             postNewsTextBox.Clear();
         }
+
         #endregion
     }
 }

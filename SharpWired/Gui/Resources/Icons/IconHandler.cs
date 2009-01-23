@@ -1,4 +1,5 @@
 #region Information and licence agreements
+
 /*
  * IconHandler.cs 
  * Created by Ola Lindberg, 2007-06-25
@@ -22,16 +23,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
+
 #endregion
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
-using System.Windows.Forms;
-using System.IO;
-using SharpWired.Utils;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using SharpWired.Utils;
 
 namespace SharpWired.Gui.Resources.Icons {
     /// <summary>
@@ -39,9 +41,11 @@ namespace SharpWired.Gui.Resources.Icons {
     /// </summary>
     internal class IconHandler {
         #region Singelton
-        private static IconHandler sInstance = new IconHandler();
+
+        private static readonly IconHandler sInstance = new IconHandler();
         private const uint conFILE_ATTRIBUTE_NORMAL = 0x00000080;
-        private const uint conFILE_ATTRIBUTE_DIRECTORY = 0x00000010;  
+        private const uint conFILE_ATTRIBUTE_DIRECTORY = 0x00000010;
+
         private enum EnumFileInfoFlags : uint {
             /// get large icon
             LARGEICON = 0x000000000,
@@ -81,35 +85,33 @@ namespace SharpWired.Gui.Resources.Icons {
             ATTR_SPECIFIED = 0x000020000
         }
 
-        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+        [StructLayout(LayoutKind.Sequential)]
         private struct ShellFileInfo {
             public const int conNameSize = 80;
-            public System.IntPtr hIcon;  // note to call DestroyIcon
+            public IntPtr hIcon; // note to call DestroyIcon
             public int iIndex;
             public uint dwAttributes;
 
-            [System.Runtime.InteropServices.MarshalAs(
-               System.Runtime.InteropServices.UnmanagedType.ByValTStr,
-               SizeConst = conMAX_PATH)]
-            public string szDisplayName;
+            [MarshalAs(
+                UnmanagedType.ByValTStr,
+                SizeConst = conMAX_PATH)] public string szDisplayName;
 
-            [System.Runtime.InteropServices.MarshalAs(
-               System.Runtime.InteropServices.UnmanagedType.ByValTStr,
-               SizeConst = conNameSize)]
-            public string szTypeName;
-        };
+            [MarshalAs(
+                UnmanagedType.ByValTStr,
+                SizeConst = conNameSize)] public string szTypeName;
+        } ;
 
         private const int conMAX_PATH = 260;
 
         /// <summary>
         /// Request the singelton instance.
         /// </summary>
-        public static IconHandler Instance {
-            get { return sInstance; }
-        }
+        public static IconHandler Instance { get { return sInstance; } }
+
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructs and sets iconFilePath. Read standard icons.
         /// </summary>
@@ -131,36 +133,38 @@ namespace SharpWired.Gui.Resources.Icons {
         public IconHandler(string pIconFilePath) {
             iconFilePath = pIconFilePath;
         }
+
         #endregion
 
         #region Variables
-        // This is a collection of the icons and their namings.
-        private Dictionary<string, Image> mIcons = new Dictionary<string, Image>();
 
-        private string iconFilePath;
+        // This is a collection of the icons and their namings.
+        private readonly Dictionary<string, Image> mIcons = new Dictionary<string, Image>();
+
+        private readonly string iconFilePath;
         private Image userImage;
         private Image goHome;
         private Image mediaPlaybackPause;
         private Image mediaPlaybackStart;
         private Image processStop;
+
         #endregion
 
         #region Properties
-        private string IconFilePath     { get { return iconFilePath; } }
-        public Image GoHome             { get { return goHome; } }
-        public Image UserImage          { get { return userImage; } }
+
+        private string IconFilePath { get { return iconFilePath; } }
+        public Image GoHome { get { return goHome; } }
+        public Image UserImage { get { return userImage; } }
         public Image MediaPlaybackPause { get { return mediaPlaybackPause; } }
         public Image MediaPlaybackStart { get { return mediaPlaybackStart; } }
-        public Image ProcessStop        { get { return processStop; } }
+        public Image ProcessStop { get { return processStop; } }
 
         /// <summary>
         /// Request the icon with this name.
         /// </summary>
         /// <param name="name">The name of the icon (not the filename!)</param>
         /// <returns>The icon or null.</returns>
-        public Image this[string name] {
-            get { return LoadAndStoreIcon(name); }
-        }
+        public Image this[string name] { get { return LoadAndStoreIcon(name); } }
 
         /// <summary>
         /// Request the icon with the given name, or try to load it from the given
@@ -169,9 +173,7 @@ namespace SharpWired.Gui.Resources.Icons {
         /// <param name="name">The name of the icon.</param>
         /// <param name="fileName">The filename to load image from.</param>
         /// <returns>The icon or null.</returns>
-        public Image this[string name, string fileName] {
-            get { return LoadAndStoreIcon(name, fileName); }
-        }
+        public Image this[string name, string fileName] { get { return LoadAndStoreIcon(name, fileName); } }
 
         /// <summary>
         /// Request the icon with the given name, or try to load it from the given
@@ -179,13 +181,14 @@ namespace SharpWired.Gui.Resources.Icons {
         /// </summary>
         /// <param name="nameAndFilePair">The pair of name and filename.</param>
         /// <returns>The icon or null.</returns>
-        public Image this[Pair<string, string> nameAndFilePair] {
-            get { return LoadAndStoreIcon(nameAndFilePair); }
-        }
+        public Image this[Pair<string, string> nameAndFilePair] { get { return LoadAndStoreIcon(nameAndFilePair); } }
+
         #endregion
 
         #region Methods
+
         #region Loading File and Storing Image
+
         /// <summary>
         /// Tries to find icon in the dictionary. If it doesn'transfer exist
         /// or is null, try to load it from the filename.
@@ -205,14 +208,16 @@ namespace SharpWired.Gui.Resources.Icons {
         /// <returns>The icon, or null.</returns>
         private Image LoadAndStoreIcon(string name) {
             Image im = null;
-            bool gotIt = mIcons.TryGetValue(name, out im);
-            if (im != null)
+            var gotIt = mIcons.TryGetValue(name, out im);
+            if (im != null) {
                 return im;
+            }
 
             Pair<string, string> pair = null;
             gotIt = IconList.Icons.TryGetValue(name, out pair);
-            if (gotIt && pair != null)
+            if (gotIt && pair != null) {
                 return LoadAndStoreIcon(pair);
+            }
             return null;
         }
 
@@ -225,15 +230,17 @@ namespace SharpWired.Gui.Resources.Icons {
         /// <returns></returns>
         private Image LoadAndStoreIcon(string name, string fileName) {
             Image im = null;
-            bool gotIt = mIcons.TryGetValue(name, out im);
-            if (im != null)
+            var gotIt = mIcons.TryGetValue(name, out im);
+            if (im != null) {
                 return im;
+            }
 
             if (!string.IsNullOrEmpty(fileName)) {
-                Image image = CreateHiQualityIconImage(fileName);
-                if (image != null)
+                var image = CreateHiQualityIconImage(fileName);
+                if (image != null) {
                     // Using property add overwrites previous values.
                     mIcons[name] = image;
+                }
                 return image;
             }
             return null;
@@ -248,12 +255,12 @@ namespace SharpWired.Gui.Resources.Icons {
         /// <returns>If succesful the imager is returned. Otherwise null is returned.</returns>
         private Image CreateHiQualityIconImage(string fileName) {
             try {
-                string file = Path.Combine(iconFilePath, fileName);
+                var file = Path.Combine(iconFilePath, fileName);
                 return Image.FromFile(file);
             } catch (Exception e) {
                 // TODO: Add to log instead.
                 Debug.WriteLine("Error loading image from file '"
-                    + fileName + "'.\n" + e.ToString());
+                                + fileName + "'.\n" + e);
                 return null;
             }
         }
@@ -280,17 +287,17 @@ namespace SharpWired.Gui.Resources.Icons {
             processStop = CreateHiQualityIconImage("process-stop.png");
         }
 
-        [System.Runtime.InteropServices.DllImport("User32.dll")]
-        private static extern int DestroyIcon(System.IntPtr hIcon);
+        [DllImport("User32.dll")]
+        private static extern int DestroyIcon(IntPtr hIcon);
 
-        [System.Runtime.InteropServices.DllImport("Shell32.dll")]
-        private static extern System.IntPtr SHGetFileInfo(
-          string pszPath,
-          uint dwFileAttributes,
-          ref ShellFileInfo psfi,
-          uint cbFileInfo,
-          uint uFlags
-        );
+        [DllImport("Shell32.dll")]
+        private static extern IntPtr SHGetFileInfo(
+            string pszPath,
+            uint dwFileAttributes,
+            ref ShellFileInfo psfi,
+            uint cbFileInfo,
+            uint uFlags
+            );
 
         public Image GetFileIconFromSystem(string fileName) {
             return GetSystemIcon(fileName, false);
@@ -304,7 +311,7 @@ namespace SharpWired.Gui.Resources.Icons {
             // Taken from:
             // http://www.dotnetjunkies.com/WebLog/malio/archive/2004/10/04/27603.aspx
 
-            EnumFileInfoFlags flags =
+            var flags =
                 EnumFileInfoFlags.ICON | EnumFileInfoFlags.USEFILEATTRIBUTES | EnumFileInfoFlags.SMALLICON;
 
             //if (folderType == EnumFolderType.Open)
@@ -312,28 +319,29 @@ namespace SharpWired.Gui.Resources.Icons {
 
             // flags |= EnumFileInfoFlags.LINKOVERLAY;
 
-            ShellFileInfo shellFileInfo = new ShellFileInfo();
+            var shellFileInfo = new ShellFileInfo();
             uint fileAttribute;
-            if (isFolder)
+            if (isFolder) {
                 fileAttribute = conFILE_ATTRIBUTE_DIRECTORY;
-            else
+            } else {
                 fileAttribute = conFILE_ATTRIBUTE_NORMAL;
+            }
 
             SHGetFileInfo(
                 fileName,
                 fileAttribute,
                 ref shellFileInfo,
-                (uint)System.Runtime.InteropServices.Marshal.SizeOf(shellFileInfo),
-                (uint)flags);
+                (uint) Marshal.SizeOf(shellFileInfo),
+                (uint) flags);
 
             // deep copy
-            System.Drawing.Icon icon =
-            (System.Drawing.Icon)System.Drawing.Icon.FromHandle(shellFileInfo.hIcon).Clone();
+            var icon =
+                (Icon) Icon.FromHandle(shellFileInfo.hIcon).Clone();
 
             // release handle
             DestroyIcon(shellFileInfo.hIcon);
 
-            return (Image)icon.ToBitmap();
+            return icon.ToBitmap();
         }
 
         #endregion
