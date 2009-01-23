@@ -61,22 +61,6 @@ namespace SharpWired.Model.Files {
             throw new NotImplementedException();
         }
 
-        private bool IsParent(string path) {
-            var p = path.Split('/');
-
-            if (p.Length == 0) {
-                return false;
-            } else if (p.Length == 1 && Name == p[1]) {
-                return true;
-            }
-                // FIXME: -2 is not possible in C#! :-D
-            else if (p.Length > 1 && Name == p[-2]) {
-                return true;
-            }
-
-            return false;
-        }
-
         public virtual INode Get(string path) {
             if (FullPath == path) {
                 return this;
