@@ -46,18 +46,6 @@ namespace SharpWired.MessageEvents {
         /// </summary>
         public string Comment { get { return comment; } }
 
-        /// <summary>
-        /// Constructon
-        /// </summary>
-        /// <param name="messageId">The id for this message</param>
-        /// <param name="messageName">The name for this message</param>
-        /// <param name="destination">The destination for the file</param>
-        /// <param name="fileType">The type for the file</param>
-        /// <param name="size">The size for the file</param>
-        /// <param name="created">The date when this file was created</param>
-        /// <param name="modified">The date when this file was modified</param>
-        /// <param name="checksum">The checksum for this file</param>
-        /// <param name="comment">The comment for this file</param>
         public MessageEventArgs_402(int messageId, string messageName, string path,
                                     FileType fileType, int size, DateTime created, DateTime modified, string checksum, string comment)
             : base(messageId, messageName, path, fileType, size, created, modified) {

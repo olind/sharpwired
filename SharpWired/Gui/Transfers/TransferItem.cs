@@ -21,19 +21,12 @@ namespace SharpWired.Gui.Transfers {
 
         public void Init(ITransfer t) {
             transfer = t;
-
             var icons = IconHandler.Instance;
             pauseButton.Image = icons.MediaPlaybackPause;
             deleteButton.Image = icons.ProcessStop;
-
-            Func update = delegate
-                              {
-                                  fileName.Text = t.Source.Name;
-                                  info.Text = "";
-                                  Anchor = AnchorStyles.Left | AnchorStyles.Right;
-                              };
-
-            Invoke(update);
+            fileName.Text = t.Source.Name;
+            info.Text = "";
+            Anchor = AnchorStyles.Left | AnchorStyles.Right;
         }
 
         private void OnClicked(object sender, EventArgs e) {

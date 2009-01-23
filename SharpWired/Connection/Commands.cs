@@ -115,11 +115,6 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Set the comment for a file or folder
-        /// </summary>
-        /// <param name="destination">The destination to the file or folder to set the comment to</param>
-        /// <param name="comment">The comment</param>
         public void Comment(string path, string comment) {
             if (socket != null) {
                 socket.SendMessage("COMMENT" + Utility.SP + path + Utility.FS + comment);
@@ -169,10 +164,6 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Delete a file or folder
-        /// </summary>
-        /// <param name="destination">The destination to the file or folder to delete</param>
         public void Delete(string path) {
             if (socket != null) {
                 socket.SendMessage("DELETE" + Utility.SP + path);
@@ -232,21 +223,12 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Create a new folder
-        /// </summary>
-        /// <param name="destination">The destination for the new folder</param>
         public void Folder(string path) {
             if (socket != null) {
                 socket.SendMessage("FOLDER" + Utility.SP + path);
             }
         }
 
-        /// <summary>
-        /// Request a download of a file
-        /// </summary>
-        /// <param name="destination">The destination for the file to request</param>
-        /// <param name="offset">The offset for the file</param>
         public void Get(string path, Int64 offset) {
             if (socket != null) {
                 //An int might not be big enough for the offset?
@@ -341,10 +323,6 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// List the file content
-        /// </summary>
-        /// <param name="destination">The destination to where file content should be listed</param>
         public void List(string path) {
             if (socket != null) {
                 socket.SendMessage("LIST" + Utility.SP + path);
@@ -465,12 +443,6 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Request an upload of a file
-        /// </summary>
-        /// <param name="destination">The destination (on the server) to the file to be uploaded</param>
-        /// <param name="size">The size of the file to be uploaded</param>
-        /// <param name="checksum">The checksum</param>
         public void Put(string path, int size, string checksum) {
             if (socket != null) {
                 socket.SendMessage("PUT" + Utility.SP + path + Utility.FS +
@@ -528,10 +500,6 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Request the file information for a file or folder
-        /// </summary>
-        /// <param name="destination">The destination to the file or folder</param>
         public void Stat(string path) {
             if (socket != null) {
                 socket.SendMessage("STAT" + Utility.SP + path);
@@ -569,11 +537,6 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Set the type of a folder
-        /// </summary>
-        /// <param name="destination">The destination to the folder</param>
-        /// <param name="folderType">The new type of the folder</param>
         public void Type(string path, int folderType) {
             if (socket != null) {
                 socket.SendMessage("TYPE" + Utility.SP + path + Utility.SP + folderType);

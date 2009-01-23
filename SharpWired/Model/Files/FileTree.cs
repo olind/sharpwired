@@ -41,7 +41,7 @@ namespace SharpWired.Model.Files {
         }
 
         private void OnFileListingEvent(MessageEventArgs_410420 message) {
-            var p = message.Path;
+            var p = message.FullPath;
 
             // message.Path = "/f1"
             // message.Path = "/f1/sub"

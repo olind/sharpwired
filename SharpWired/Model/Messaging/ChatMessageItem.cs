@@ -63,12 +63,6 @@ namespace SharpWired.Model.Messaging {
         /// </summary>
         public User FromUser { get { return fromUser; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="args">The event args for this chat object</param>
-        /// <param name="fromUser">The user that sent this message</param>
-        /// <param name="isActionChatMessage">Is this message an action chat message or not</param>
         public ChatMessageItem(MessageEventArgs_300301 messageEventArgs,
                                User fromUser, bool isActionChatMessage) {
             this.isActionChatMessage = isActionChatMessage;

@@ -12,32 +12,8 @@ namespace SharpWired.Model.Files {
         public override event UpdatedDelegate Updated;
 
         public override void Reload() {
-            //run wired command STAT
+            //FIXME: Run wired command STAT
             throw new NotImplementedException();
         }
-
-        /*public override void OnFileListing(MessageEventArgs_410420 message) {
-            if (message.Path == Path) {
-                if (message.FileType != FileType.FILE)
-                    throw new NotImplementedException("FileType changed");
-
-                Created = message.Created;
-                Modified = message.Modified;
-                Size = message.Size;
-            }
-        }*/
-
-        /** Old Stuff ******************************************
-
-        /// <summary>
-        /// Construtor
-        /// </summary>
-        /// <param name="args"></param>
-        public FileNode(MessageEventArgs_410420 messageEventArgs)
-            : base(messageEventArgs) {
-            this.size = messageEventArgs.Size;
-        }
-        
-        */
     }
 }

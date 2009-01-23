@@ -66,14 +66,6 @@ namespace SharpWired.MessageEvents {
 
         #region Constructor
 
-        /// <summary>
-        /// Creates a 400 message.
-        /// </summary>
-        /// <param name="messageId">The ID.</param>
-        /// <param name="messageName">Message Name.</param>
-        /// <param name="destination">The destination to the file to transfer (?)</param>
-        /// <param name="offset">The file offset.</param>
-        /// <param name="hash">The unique identifier for the transfer.</param>
         public MessageEventArgs_400(int messageId, string messageName, string path, int offset, string hash)
             : base(messageId, messageName, path) {
             this.offset = offset;
