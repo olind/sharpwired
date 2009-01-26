@@ -30,18 +30,12 @@ using System;
 using SharpWired.Model.Files;
 
 namespace SharpWired.Gui.Files {
-    /// <summary>
-    /// Arguments for File Messages in GUI
-    /// </summary>
+    /// <summary>Arguments for File Messages in GUI</summary>
     public class WiredNodeArgs : EventArgs {
-        /// <summary>
-        /// Request or set the FileSystemEntry associated with this argument
-        /// </summary>
+        /// <summary>Request or set the FileSystemEntry associated with this argument</summary>
         public INode Node { get; set; }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="node">The assosiated FileSystemEntry</param>
         public WiredNodeArgs(INode node) {
             Node = node;

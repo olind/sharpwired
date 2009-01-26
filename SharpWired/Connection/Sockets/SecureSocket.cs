@@ -38,48 +38,32 @@ namespace SharpWired.Connection.Sockets {
     /// NOTE: This class has derived from the Socio Project. See http://socio.sf.net/
     /// </summary>
     public class SecureSocket {
-        /// <summary>
-        /// Used to create the SSL Stream.
-        /// </summary>
+        /// <summary>Used to create the SSL Stream.</summary>
         private TcpClient client;
 
-        /// <summary>
-        ///  The secure connection to the server.
-        /// </summary>
+        /// <summary> The secure connection to the server.</summary>
         private SslStream sslStream;
 
-        /// <summary>
-        /// The default size of the buffer to use
-        /// </summary>
+        /// <summary>The default size of the buffer to use</summary>
         private int buffer_size = 2048;
 
-        /// <summary>
-        /// Default transmission parameters. Only used internally
-        /// </summary>
+        /// <summary>Default transmission parameters. Only used internally</summary>
         protected static readonly int BUFFER_BLOCK_SIZE = 256; // The number of bytes to receive in every block
 
-        /// <summary>
-        /// A delegate type for hooking up message received notifications.
-        /// </summary>
+        /// <summary>A delegate type for hooking up message received notifications.</summary>
         /// <param name="message"></param>
         public delegate void MessageReceivedHandler(string message);
 
-        /// <summary>
-        /// Message raised when a message is received from the server
-        /// </summary>
+        /// <summary>Message raised when a message is received from the server</summary>
         public event MessageReceivedHandler MessageReceived;
 
-        /// <summary>
-        /// Connects to the server using Connect(Port, MachineName, ServerName).
-        /// </summary>
+        /// <summary>Connects to the server using Connect(Port, MachineName, ServerName).</summary>
         /// <param name="server">The Server to connect to.</param>
         internal void Connect(Server server) {
             Connect(server.ServerPort, server.MachineName, server.ServerName);
         }
 
-        /// <summary>
-        /// Connects the client to the server.
-        /// </summary>
+        /// <summary>Connects the client to the server.</summary>
         /// <param name="serverPort">The port for the server to use for this connection</param>
         /// <param name="machineName">The host running the server application</param>
         /// <param name="serverName">The machine name for the server, must match the machine name in the server certificate</param>
@@ -107,6 +91,7 @@ namespace SharpWired.Connection.Sockets {
                     errorMessage.Append("ErrorNotRecognized" + " Socket error code: '" + argSExp.ErrorCode + "'");
                 }
 
+                // TODO: Connect with Server.Errors in model.
                 throw new ConnectionException(errorMessage.ToString(), argSExp);
             }
 
@@ -134,9 +119,7 @@ namespace SharpWired.Connection.Sockets {
             sslStream.BeginRead(readBuffer, 0, readBuffer.Length, ReadCallback, readBuffer);
         }
 
-        /// <summary>
-        /// Send a message to the server.
-        /// </summary>
+        /// <summary>Send a message to the server.</summary>
         /// <param name="message">The message to be sent (without any EOT).</param>
         public void SendMessage(string message) {
             if (sslStream != null && sslStream.CanWrite) {
@@ -152,9 +135,7 @@ namespace SharpWired.Connection.Sockets {
             }
         }
 
-        /// <summary>
-        /// Disconnect this connection
-        /// </summary>
+        /// <summary>Disconnect this connection</summary>
         public void Disconnect() {
             if (client != null) {
                 client.Close();
@@ -164,9 +145,7 @@ namespace SharpWired.Connection.Sockets {
             }
         }
 
-        /// <summary>
-        /// Verifies the remote Secure Sockets Layer (SSL) certificate used for authentication.
-        /// </summary>
+        /// <summary>Verifies the remote Secure Sockets Layer (SSL) certificate used for authentication.</summary>
         /// <param name="sender">An object that contains state information for this validation.</param>
         /// <param name="certificate">The certificate used to authenticate the remote party.</param>
         /// <param name="chain">The chain of certificate authorities associated with the remote certificate.</param>

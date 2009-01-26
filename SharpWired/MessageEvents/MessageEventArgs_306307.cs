@@ -36,19 +36,13 @@ namespace SharpWired.MessageEvents {
         private readonly int victim;
         private readonly int killer;
 
-        /// <summary>
-        /// The ID for the user that was killed
-        /// </summary>
+        /// <summary>The ID for the user that was killed</summary>
         public int Victim { get { return victim; } }
 
-        /// <summary>
-        /// The ID for the user that killed the victim
-        /// </summary>
+        /// <summary>The ID for the user that killed the victim</summary>
         public int Killer { get { return killer; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId">ID for this message</param>
         /// <param name="messageName">Name for this message</param>
         /// <param name="message">The message</param>

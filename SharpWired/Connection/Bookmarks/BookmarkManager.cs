@@ -54,23 +54,17 @@ namespace SharpWired.Connection.Bookmarks {
 
         private static List<Bookmark> bookmarks;
 
-        /// <summary>
-        /// Request/Set the list of Bookmarks.
-        /// </summary>
+        /// <summary>Request/Set the list of Bookmarks.</summary>
         public static List<Bookmark> Bookmarks { get { return bookmarks; } set { bookmarks = value; } }
 
         #endregion
 
         #region Constructors.
 
-        /// <summary>
-        /// Private hidden constructor.
-        /// </summary>
+        /// <summary>Private hidden constructor.</summary>
         private BookmarkManager() {}
 
-        /// <summary>
-        /// The static constructor.
-        /// </summary>
+        /// <summary>The static constructor.</summary>
         static BookmarkManager() {
             var dir = new DirectoryInfo(BookmarkFolder);
             if (dir.Parent != null) {
@@ -88,9 +82,7 @@ namespace SharpWired.Connection.Bookmarks {
 
         private static readonly object BookmarkLock = new object();
 
-        /// <summary>
-        /// Gets a List of Bookmarks. Only one caller at a time!
-        /// </summary>
+        /// <summary>Gets a List of Bookmarks. Only one caller at a time!</summary>
         /// <returns></returns>
         public static List<Bookmark> GetBookmarks() {
             lock (BookmarkLock) {
@@ -114,17 +106,13 @@ namespace SharpWired.Connection.Bookmarks {
 
         #region Add Bookmark(s)
 
-        /// <summary>
-        /// Adds a bookmark to the bookmark file.
-        /// </summary>
+        /// <summary>Adds a bookmark to the bookmark file.</summary>
         /// <returns></returns>
         public static bool AddBookmark(Bookmark bookmark, bool allowDuplicate) {
             return AddBookmarks(new[] {bookmark}, allowDuplicate);
         }
 
-        /// <summary>
-        /// Adds several bookmarks.
-        /// </summary>
+        /// <summary>Adds several bookmarks.</summary>
         /// <param name="marksToAdd"></param>
         /// <param name="allowDuplicate">If false, no bookmarks are saves if theres a duplicate.</param>
         /// <returns>True if succeded. False if not saved becouse of adding duplicates.</returns>
@@ -156,9 +144,7 @@ namespace SharpWired.Connection.Bookmarks {
 
         #region Remove Bookmark
 
-        /// <summary>
-        /// Removes a bookmark.
-        /// </summary>
+        /// <summary>Removes a bookmark.</summary>
         /// <param name="bookmark"></param>
         /// <returns>Null if the bookmark wasn'transfer in the list, otherwise the bookmark that is removed.</returns>
         /// <remarks>Opens the file, loads the list, removes the bookmark, saves the file.</remarks>
@@ -182,9 +168,7 @@ namespace SharpWired.Connection.Bookmarks {
 
         #region Load
 
-        /// <summary>
-        /// Deserializes bookmarks from the given FileInfo.
-        /// </summary>
+        /// <summary>Deserializes bookmarks from the given FileInfo.</summary>
         /// <param name="file"></param>
         /// <returns>An arrays with the bookmarks.</returns>
         private static Bookmark[] LoadBookmarks(FileInfo file) {
@@ -234,9 +218,7 @@ namespace SharpWired.Connection.Bookmarks {
 
         #region Save
 
-        /// <summary>
-        /// Saves the bookmarks to the given file.
-        /// </summary>
+        /// <summary>Saves the bookmarks to the given file.</summary>
         /// <param name="bookmarks">The Bookmarks to store.</param>
         /// <param name="file">The file to save to (overwrite!).</param>
         /// <returns></returns>
@@ -301,9 +283,7 @@ namespace SharpWired.Connection.Bookmarks {
 
         #region Create, encrypt decrypt bookmark file
 
-        /// <summary>
-        /// Creates the Bookmark file.
-        /// </summary>
+        /// <summary>Creates the Bookmark file.</summary>
         private static FileInfo CreateBookmarkFile() {
             var file = new FileInfo(BookmarkFileFullName);
             try {
@@ -319,9 +299,7 @@ namespace SharpWired.Connection.Bookmarks {
             }
         }
 
-        /// <summary>
-        /// Encrypt the given file
-        /// </summary>
+        /// <summary>Encrypt the given file</summary>
         /// <param name="file"></param>
         private static void EncryptFile(FileInfo file) {
             try {
@@ -334,9 +312,7 @@ namespace SharpWired.Connection.Bookmarks {
             }
         }
 
-        /// <summary>
-        /// Decrypt the given file
-        /// </summary>
+        /// <summary>Decrypt the given file</summary>
         /// <param name="file"></param>
         private static void DecryptFile(FileInfo file) {
             try {
@@ -354,21 +330,15 @@ namespace SharpWired.Connection.Bookmarks {
 
     #region BookmarkException
 
-    /// <summary>
-    /// Exception for Bookmarks.
-    /// </summary>
+    /// <summary>Exception for Bookmarks.</summary>
     public class BookmarkException : ApplicationException {
-        /// <summary>
-        /// Constucts.
-        /// </summary>
+        /// <summary>Constucts.</summary>
         /// <param name="message">Message.</param>
         /// <param name="innerException">Inner.</param>
         public BookmarkException(string message, Exception innerException)
             : base(message, innerException) {}
 
-        /// <summary>
-        /// Constructs.
-        /// </summary>
+        /// <summary>Constructs.</summary>
         /// <param name="message">Message.</param>
         public BookmarkException(string message)
             : base(message) {}

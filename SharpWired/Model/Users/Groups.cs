@@ -27,9 +27,7 @@
 #endregion
 
 namespace SharpWired.Model.Users {
-    /// <summary>
-    /// Represents the groups on this Wired server
-    /// </summary>
+    /// <summary>Represents the groups on this Wired server</summary>
     internal class Groups {
         // TODO: Implement groups.
     }

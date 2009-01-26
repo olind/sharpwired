@@ -29,21 +29,15 @@
 using System;
 
 namespace SharpWired.Connection {
-    /// <summary>
-    /// This class represents a login on a server with username/pass/nick.
-    /// </summary>
+    /// <summary>This class represents a login on a server with username/pass/nick.</summary>
     [Serializable]
     public class UserInformation {
         #region Constrctors.
 
-        /// <summary>
-        /// Parameterless constructor for serialization. For XML.
-        /// </summary>
+        /// <summary>Parameterless constructor for serialization. For XML.</summary>
         public UserInformation() {}
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <summary>Constructor.</summary>
         /// <param name="nick">The Nickname.</param>
         /// <param name="userName">The user name.</param>
         /// <param name="password">The hashed password.</param>
@@ -61,28 +55,20 @@ namespace SharpWired.Connection {
         private string user = "";
         private string password = "";
 
-        /// <summary>
-        /// Request/Set the NickName.
-        /// </summary>
+        /// <summary>Request/Set the NickName.</summary>
         public string Nick { get { return nick; } set { nick = value; } }
 
-        /// <summary>
-        /// Request/Set the UserName.
-        /// </summary>
+        /// <summary>Request/Set the UserName.</summary>
         public string UserName { get { return user; } set { user = value; } }
 
-        /// <summary>
-        /// Request/Set the password. The password is hashed!
-        /// </summary>
+        /// <summary>Request/Set the password. The password is hashed!</summary>
         public string Password { get { return password; } set { password = value; } }
 
         #endregion
 
         #region Overrides
 
-        /// <summary>
-        /// Compares the user name and nick using '=='. The password isn'transfer compared.
-        /// </summary>
+        /// <summary>Compares the user name and nick using '=='. The password isn'transfer compared.</summary>
         /// <param name="obj">The object to compare to.</param>
         /// <returns>T/F.</returns>
         public override bool Equals(object obj) {
@@ -95,17 +81,13 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Returns a string representation.
-        /// </summary>
+        /// <summary>Returns a string representation.</summary>
         /// <returns>[Username]([Nickname])</returns>
         public override string ToString() {
             return UserName + "(" + Nick + ")";
         }
 
-        /// <summary>
-        /// Returns base.GetHashCode().
-        /// </summary>
+        /// <summary>Returns base.GetHashCode().</summary>
         /// <returns>A hash Code.</returns>
         public override int GetHashCode() {
             return base.GetHashCode();

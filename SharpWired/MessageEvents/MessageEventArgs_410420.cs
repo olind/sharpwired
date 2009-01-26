@@ -44,9 +44,7 @@ namespace SharpWired.MessageEvents {
     /// when all requested files are sent from the server.
     /// </summary>
     public class MessageEventArgs_410420 : MessageEventArgs_Path {
-        /// <summary>
-        /// Request the file type for this event
-        /// </summary>
+        /// <summary>Request the file type for this event</summary>
         public FileType FileType { get; private set; }
 
         /// <summary>
@@ -55,14 +53,10 @@ namespace SharpWired.MessageEvents {
         /// </summary>
         public long Size { get; private set; }
 
-        /// <summary>
-        /// The date when this file was created
-        /// </summary>
+        /// <summary>The date when this file was created</summary>
         public DateTime Created { get; private set; }
 
-        /// <summary>
-        /// The date when this file was modified
-        /// </summary>
+        /// <summary>The date when this file was modified</summary>
         public DateTime Modified { get; private set; }
 
         public MessageEventArgs_410420(int messageId, string messageName, string path,

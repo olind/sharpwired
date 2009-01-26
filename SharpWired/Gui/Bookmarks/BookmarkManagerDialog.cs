@@ -31,31 +31,23 @@ using System.Windows.Forms;
 using SharpWired.Connection.Bookmarks;
 
 namespace SharpWired.Gui.Bookmarks {
-    /// <summary>
-    /// The Bookmark manager dialog GUI
-    /// </summary>
+    /// <summary>The Bookmark manager dialog GUI</summary>
     public partial class BookmarkManagerDialog : Form {
         #region Properties
 
         private Bookmark selectedBookmark;
 
-        /// <summary>
-        /// The bookmark currently selected in the bookmarks dialog.
-        /// </summary>
+        /// <summary>The bookmark currently selected in the bookmarks dialog.</summary>
         public Bookmark SelectedBookmark { get { return selectedBookmark; } set { selectedBookmark = value; } }
 
-        /// <summary>
-        /// The bookmark selected for connection.
-        /// </summary>
+        /// <summary>The bookmark selected for connection.</summary>
         public Bookmark BookmarkToConnect { get; set; }
 
         #endregion
 
         #region Init
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         public BookmarkManagerDialog() {
             InitializeComponent();
             PopulateList();

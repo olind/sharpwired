@@ -34,9 +34,7 @@ using System.Windows.Forms;
 using SharpWired.Model.Users;
 
 namespace SharpWired.Gui.Chat {
-    /// <summary>
-    /// The gui class for the user list
-    /// </summary>
+    /// <summary>The gui class for the user list</summary>
     public partial class UserList : SharpWiredGuiBase {
         #region Fields
 
@@ -135,9 +133,7 @@ namespace SharpWired.Gui.Chat {
 
         #region Initialization of UserListControl
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         public UserList() {
             InitializeComponent();
             userListView.LargeImageList = new ImageList();

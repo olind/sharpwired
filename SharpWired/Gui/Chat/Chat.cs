@@ -35,9 +35,7 @@ using SharpWired.MessageEvents;
 using SharpWired.Model.Messaging;
 
 namespace SharpWired.Gui.Chat {
-    /// <summary>
-    /// Control for chats
-    /// </summary>
+    /// <summary>Control for chats</summary>
     public partial class Chat : WebBrowserGuiBase {
         private delegate void ChangeTopicCallback(GuiMessageItem guiMessage);
 
@@ -72,27 +70,21 @@ namespace SharpWired.Gui.Chat {
             ToggleWindowsFormControl(setByLabel);
         }
 
-        /// <summary>
-        /// Formats and writes the text on an Chat Event to the GUI
-        /// </summary>
+        /// <summary>Formats and writes the text on an Chat Event to the GUI</summary>
         /// <param name="message"></param>
         public void OnChatTopicChanged(MessageEventArgs_341 message) {
             var guiMessage = new GuiMessageItem(message);
             ChangeTopic(guiMessage);
         }
 
-        /// <summary>
-        /// Formats and writes the text on a Chat Event to the GUI
-        /// </summary>
+        /// <summary>Formats and writes the text on a Chat Event to the GUI</summary>
         /// <param name="chatMessageItem">The chat message item that was received</param>
         public void OnChatMessageArrived(ChatMessageItem chatMessageItem) {
             var guiMessage = new GuiMessageItem(chatMessageItem);
             AppendHTMLToWebBrowser(chatWebBrowser, guiMessage);
         }
 
-        /// <summary>
-        /// Call this method to report an error that should be printed to chat window
-        /// </summary>
+        /// <summary>Call this method to report an error that should be printed to chat window</summary>
         /// <param name="errorDescription"></param>
         /// <param name="solutionIdea"></param>
         /// <param name="bookmark"></param>

@@ -35,14 +35,10 @@ namespace SharpWired.MessageEvents {
     public class MessageEventArgs_300301 : MessageEventArgs_303331332 {
         private readonly string message;
 
-        /// <summary>
-        /// Gets the message
-        /// </summary>
+        /// <summary>Gets the message</summary>
         public string Message { get { return message; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId">The id for this messag: 300 or 301</param>
         /// <param name="messageName">The name for this message</param>
         /// <param name="chatId">The chat id where this message belongs</param>

@@ -46,54 +46,34 @@ namespace SharpWired.MessageEvents {
         private readonly string status;
         private readonly Bitmap image;
 
-        /// <summary>
-        /// Gets if this client is idle
-        /// </summary>
+        /// <summary>Gets if this client is idle</summary>
         public bool Idle { get { return idle; } }
 
-        /// <summary>
-        /// Request if this client is admin
-        /// </summary>
+        /// <summary>Request if this client is admin</summary>
         public bool Admin { get { return admin; } }
 
-        /// <summary>
-        /// Request the icon for this client
-        /// </summary>
+        /// <summary>Request the icon for this client</summary>
         public int Icon { get { return icon; } }
 
-        /// <summary>
-        /// Request the nick for this client
-        /// </summary>
+        /// <summary>Request the nick for this client</summary>
         public string Nick { get { return nick; } }
 
-        /// <summary>
-        /// Request the login for this client
-        /// </summary>
+        /// <summary>Request the login for this client</summary>
         public string Login { get { return login; } }
 
-        /// <summary>
-        /// Request the ip for this client
-        /// </summary>
+        /// <summary>Request the ip for this client</summary>
         public IPAddress Ip { get { return ip; } }
 
-        /// <summary>
-        /// Request the host for this client
-        /// </summary>
+        /// <summary>Request the host for this client</summary>
         public string Host { get { return host; } }
 
-        /// <summary>
-        /// Request the status for this client
-        /// </summary>
+        /// <summary>Request the status for this client</summary>
         public string Status { get { return status; } }
 
-        /// <summary>
-        /// Request the image for this client
-        /// </summary>
+        /// <summary>Request the image for this client</summary>
         public Bitmap Image { get { return image; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId">The id for this message</param>
         /// <param name="messageName">The name for this message</param>
         /// <param name="chatId">The chat id to where this user joined</param>

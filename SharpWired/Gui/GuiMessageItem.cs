@@ -54,19 +54,13 @@ namespace SharpWired.Gui {
         private string solutionIdea;
         private Bookmark bookmark;
 
-        /// <summary>
-        /// Request the timestamp for this message
-        /// </summary>
+        /// <summary>Request the timestamp for this message</summary>
         public DateTime TimeStamp { get { return timeStamp; } }
 
-        /// <summary>
-        /// Request the nick for this message
-        /// </summary>
+        /// <summary>Request the nick for this message</summary>
         public string Nick { get { return nickName; } }
 
-        /// <summary>
-        /// Request the message string for this message
-        /// </summary>
+        /// <summary>Request the message string for this message</summary>
         public string Message { get { return message; } }
 
         /// <summary>
@@ -98,9 +92,7 @@ namespace SharpWired.Gui {
             }
         }
 
-        /// <summary>
-        /// Creates a HTML writable object from a ChatTopicItem
-        /// </summary>
+        /// <summary>Creates a HTML writable object from a ChatTopicItem</summary>
         /// <param name="messageArgs"></param>
         public GuiMessageItem(MessageEventArgs_341 messageArgs) {
             messageType = "topicEntry";
@@ -110,9 +102,7 @@ namespace SharpWired.Gui {
             message = messageArgs.Topic;
         }
 
-        /// <summary>
-        /// Creates a HTML writable object from a ChatMessageItem
-        /// </summary>
+        /// <summary>Creates a HTML writable object from a ChatMessageItem</summary>
         /// <param name="item"></param>
         public GuiMessageItem(ChatMessageItem item) {
             if (!item.IsActionChatMessage) {
@@ -126,9 +116,7 @@ namespace SharpWired.Gui {
             message = item.ChatMessage;
         }
 
-        /// <summary>
-        /// Constructor for error messages
-        /// </summary>
+        /// <summary>Constructor for error messages</summary>
         /// <param name="errorDescription"></param>
         /// <param name="solutionIdea"></param>
         /// <param name="bookmark"></param>
@@ -142,9 +130,7 @@ namespace SharpWired.Gui {
             this.bookmark = bookmark;
         }
 
-        /// <summary>
-        /// Constructor for private messages
-        /// </summary>
+        /// <summary>Constructor for private messages</summary>
         /// <param name="item"></param>
         public GuiMessageItem(PrivateMessageItem item) {
             messageType = "privateMessageEntry privateMessageEntry_received";
@@ -153,9 +139,7 @@ namespace SharpWired.Gui {
             message = item.Message;
         }
 
-        /// <summary>
-        /// Constructor for news post
-        /// </summary>
+        /// <summary>Constructor for news post</summary>
         /// <param name="newPost"></param>
         public GuiMessageItem(NewsPost newPost) {
             messageType = "newsEntry";
@@ -164,9 +148,7 @@ namespace SharpWired.Gui {
             message = newPost.Post;
         }
 
-        /// <summary>
-        /// Constructor for Client Information
-        /// </summary>
+        /// <summary>Constructor for Client Information</summary>
         /// <param name="e"></param>
         public GuiMessageItem(MessageEventArgs_308 e) {
             // TODO: Make generic info output instead of specific for all events
@@ -203,9 +185,7 @@ namespace SharpWired.Gui {
             message = s.ToString();
         }
 
-        /// <summary>
-        /// Empty constructor
-        /// </summary>
+        /// <summary>Empty constructor</summary>
         public GuiMessageItem() {
             isEmptyMessage = true;
         }

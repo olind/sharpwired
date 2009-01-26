@@ -27,9 +27,7 @@ namespace SharpWired.Model.Transfers {
         public INode Source { get; private set; }
         public Status Status { get; private set; }
 
-        /// <summary>
-        /// Gets the time left in seconds
-        /// </summary>
+        /// <summary>Gets the time left in seconds</summary>
         public TimeSpan? EstimatedTimeLeft {
             get {
                 if (SpeedHistory.Count <= 0) {
@@ -61,9 +59,7 @@ namespace SharpWired.Model.Transfers {
             }
         }
 
-        /// <summary>
-        /// Gets the speed in bytes / second
-        /// </summary>
+        /// <summary>Gets the speed in bytes / second</summary>
         public long Speed { get; private set; }
 
         private Queue<long> SpeedHistory { get; set; }

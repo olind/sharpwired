@@ -11,17 +11,13 @@ namespace SharpWired.Gui.Bookmarks {
     /// Argument must be a BookmarkLoaderArgument!
     /// </summary>
     internal class BookmarkBackgroundLoader : BackgroundWorker {
-        /// <summary>
-        /// Set some properties we want.
-        /// </summary>
+        /// <summary>Set some properties we want.</summary>
         public BookmarkBackgroundLoader() {
             WorkerReportsProgress = true;
             WorkerSupportsCancellation = true;
         }
 
-        /// <summary>
-        /// This runs the loader for you!
-        /// </summary>
+        /// <summary>This runs the loader for you!</summary>
         /// <param name="pBookmarkItems">The list of items that represents bookmarks.</param>
         /// <param name="pMenuItem">The menu item for bookmarks.</param>
         /// <param name="pItemClickMethod">The method to invoke upon item.Click.</param>
@@ -30,9 +26,7 @@ namespace SharpWired.Gui.Bookmarks {
             RunWorkerAsync(arg);
         }
 
-        /// <summary>
-        /// The e.Argument must be BookmarkLoaderArgument.
-        /// </summary>
+        /// <summary>The e.Argument must be BookmarkLoaderArgument.</summary>
         /// <param name="e"></param>
         protected override void OnDoWork(DoWorkEventArgs e) {
             base.OnDoWork(e);
@@ -44,9 +38,7 @@ namespace SharpWired.Gui.Bookmarks {
             }
         }
 
-        /// <summary>
-        /// Read the bookmarks and report them.
-        /// </summary>
+        /// <summary>Read the bookmarks and report them.</summary>
         /// <param name="arg">The bookmarks to add.</param>
         private void AddBookmarks(BookmarkLoaderArgument arg) {
             if (BookmarkManager.Bookmarks == null) {
@@ -71,9 +63,7 @@ namespace SharpWired.Gui.Bookmarks {
 
         #region Argument Class.
 
-        /// <summary>
-        /// Holds the arguments that is to be passed to the background loader.
-        /// </summary>
+        /// <summary>Holds the arguments that is to be passed to the background loader.</summary>
         internal class BookmarkLoaderArgument {
             public EventHandler ItemClickMethod { get; set; }
 

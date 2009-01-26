@@ -32,9 +32,7 @@ using SharpWired.Connection.Bookmarks;
 using SharpWired.Connection.Sockets;
 
 namespace SharpWired.Connection {
-    /// <summary>
-    /// Manages connections
-    /// </summary>
+    /// <summary>Manages connections</summary>
     public class ConnectionManager {
         #region Fields
 
@@ -49,9 +47,7 @@ namespace SharpWired.Connection {
 
         #region Constructor
 
-        /// <summary>
-        /// Constructs a ConnectionManager. Creates a SecureSocket, a Message, and a Commands.
-        /// </summary>
+        /// <summary>Constructs a ConnectionManager. Creates a SecureSocket, a Message, and a Commands.</summary>
         public ConnectionManager() {
             commandSocket = new SecureSocket();
             messages = new Messages();
@@ -63,24 +59,16 @@ namespace SharpWired.Connection {
 
         #region Properties
 
-        /// <summary>
-        /// Request the class that exposes the message events.
-        /// </summary>
+        /// <summary>Request the class that exposes the message events.</summary>
         public Messages Messages { get { return messages; } }
 
-        /// <summary>
-        /// Request the Commands for an eventual connection. Used to send commands over the connection.
-        /// </summary>
+        /// <summary>Request the Commands for an eventual connection. Used to send commands over the connection.</summary>
         public Commands Commands { get { return commands; } }
 
-        /// <summary>
-        /// Request the bookmark used to connect.
-        /// </summary>
+        /// <summary>Request the bookmark used to connect.</summary>
         public Bookmark CurrentBookmark { get { return mCurrentBookmark; } }
 
-        /// <summary>
-        /// Gets the current lag
-        /// </summary>
+        /// <summary>Gets the current lag</summary>
         public TimeSpan? CurrentLag { get { return lagHandler.CurrentLag; } }
 
         #endregion
@@ -115,9 +103,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Close the TCP connection to the server.
-        /// </summary>
+        /// <summary>Close the TCP connection to the server.</summary>
         public void Disconnect() {
             commandSocket.MessageReceived -= messages.MessageReceived;
             messages.PingReplyEvent -= lagHandler.OnPingReceived;
@@ -148,9 +134,7 @@ namespace SharpWired.Connection {
             return new Bookmark(server, bookmark.UserInformation);
         }
 
-        /// <summary>
-        /// Should only give out this once.
-        /// </summary>
+        /// <summary>Should only give out this once.</summary>
         /// <returns>A BinarySecureSocket</returns>
         private BinarySecureSocket GetFileTransferSocket() {
             if (binarySocket == null) {

@@ -52,14 +52,10 @@ namespace SharpWired.MessageEvents {
 
         #region Properties
 
-        /// <summary>
-        /// The offset in the file transfered(?).
-        /// </summary>
+        /// <summary>The offset in the file transfered(?).</summary>
         public int Offset { get { return offset; } }
 
-        /// <summary>
-        /// A unique identifier for this transefer. Uses when connecting to the servers transfer port.
-        /// </summary>
+        /// <summary>A unique identifier for this transefer. Uses when connecting to the servers transfer port.</summary>
         public string Hash { get { return hash; } }
 
         #endregion

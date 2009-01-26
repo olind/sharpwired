@@ -34,24 +34,50 @@ using SharpWired.Model.Messaging;
 using SharpWired.Model.Users;
 
 namespace SharpWired.Model {
-    /// <summary>
-    /// Represents the connected server
-    /// </summary>
+    /// <summary>Represents the connected server</summary>
     public class Server : ModelBase {
-        #region Fields
-
         private Chat publicChat;
         private News.News news;
         private Transfers.Transfers transfers;
         private HeartBeatTimer HeartBeat { get; set; }
 
-        #endregion
+        /// <summary>Request or set the server app version</summary>
+        public string AppVersion { get; set; }
 
-        #region Constructor
+        /// <summary>Request or set the servers file count</summary>
+        public int FilesCount { get; set; }
 
-        /// <summary>
-        /// Constructor - Empty
-        /// </summary>
+        /// <summary>Request or set the file size on the server</summary>
+        public long FileSize { get; set; }
+
+        /// <summary>Request or set the server protocol version</summary>
+        public string ProtocolVersion { get; set; }
+
+        /// <summary>Request or set the server description</summary>
+        public string ServerDescription { get; set; }
+
+        /// <summary>Request or set the server name</summary>
+        public string ServerName { get; set; }
+
+        /// <summary>Request or set the server start time</summary>
+        public DateTime StartTime { get; set; }
+
+        /// <summary>Request the public chat for this server</summary>
+        public Chat PublicChat { get { return publicChat; } }
+
+        /// <summary>Request the news for this server</summary>
+        public News.News News { get { return news; } }
+
+        /// <summary>Gets the file listing model</summary>
+        public FileTree FileRoot { get; private set; }
+
+        public Transfers.Transfers Transfers { get { return transfers; } }
+
+        /// <summary>Sets the user id for this user.</summary>
+        public int OwnUserId { get; set; }
+
+        public User User { get { return PublicChat.Users.GetUser(OwnUserId); } }
+
         public Server(MessageEventArgs_200 message) {
             AppVersion = message.AppVersion;
             FilesCount = message.FilesCount;
@@ -63,71 +89,6 @@ namespace SharpWired.Model {
 
             ConnectionManager.Messages.LoginSucceededEvent += OnLoginSucceeded;
         }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Request or set the server app version
-        /// </summary>
-        public string AppVersion { get; set; }
-
-        /// <summary>
-        /// Request or set the servers file count
-        /// </summary>
-        public int FilesCount { get; set; }
-
-        /// <summary>
-        /// Request or set the file size on the server
-        /// </summary>
-        public long FileSize { get; set; }
-
-        /// <summary>
-        /// Request or set the server protocol version
-        /// </summary>
-        public string ProtocolVersion { get; set; }
-
-        /// <summary>
-        /// Request or set the server description
-        /// </summary>
-        public string ServerDescription { get; set; }
-
-        /// <summary>
-        /// Request or set the server name
-        /// </summary>
-        public string ServerName { get; set; }
-
-        /// <summary>
-        /// Request or set the server start time
-        /// </summary>
-        public DateTime StartTime { get; set; }
-
-        /// <summary>
-        /// Request the public chat for this server
-        /// </summary>
-        public Chat PublicChat { get { return publicChat; } }
-
-        /// <summary>
-        /// Request the news for this server
-        /// </summary>
-        public News.News News { get { return news; } }
-
-        /// <summary>
-        /// Gets the file listing model
-        /// </summary>
-        public FileTree FileRoot { get; private set; }
-
-        public Transfers.Transfers Transfers { get { return transfers; } }
-
-        /// <summary>
-        /// Sets the user id for this user.
-        /// </summary>
-        public int OwnUserId { get; set; }
-
-        public User User { get { return PublicChat.Users.GetUser(OwnUserId); } }
-
-        #endregion
 
         #region Events & Listeners
 

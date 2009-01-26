@@ -40,9 +40,7 @@ namespace SharpWired.Connection {
         private DateTime lastSentPing;
         private TimeSpan? lag;
 
-        /// <summary>
-        /// Gets the current lag
-        /// </summary>
+        /// <summary>Gets the current lag</summary>
         public TimeSpan? CurrentLag {
             get {
                 /* TimeSpan.CompareTo explanation
@@ -64,16 +62,12 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Notify this when a ping is sent
-        /// </summary>
+        /// <summary>Notify this when a ping is sent</summary>
         public void OnPingSent(object sender) {
             lastSentPing = DateTime.Now;
         }
 
-        /// <summary>
-        /// Notify this wehn a ping is received
-        /// </summary>
+        /// <summary>Notify this wehn a ping is received</summary>
         public void OnPingReceived(object sender, MessageEventArgs_Messages m) {
             lastReceivedPing = DateTime.Now;
         }

@@ -32,9 +32,7 @@ using System.Diagnostics;
 using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.Files {
-    /// <summary>
-    /// Representation of a "Wired Folder"
-    /// </summary>
+    /// <summary>Representation of a "Wired Folder"</summary>
     public class Folder : ANode, IFolder {
         public long Count { get; private set; }
         public NodeChildren Children { get; private set; }

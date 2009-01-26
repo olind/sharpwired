@@ -66,9 +66,7 @@ namespace SharpWired.Model {
 
         #region Methods
 
-        /// <summary>
-        /// Connect to the given bookmark. Note! Dissconnects any current connection.
-        /// </summary>
+        /// <summary>Connect to the given bookmark. Note! Dissconnects any current connection.</summary>
         /// <param name="bookmark"></param>
         public void Connect(Bookmark bookmark) {
             try {
@@ -87,9 +85,7 @@ namespace SharpWired.Model {
 
         public delegate void ServerChanged(Server server);
 
-        /// <summary>
-        /// We have a connection to the server but are NOT yet logged in.
-        /// </summary>
+        /// <summary>We have a connection to the server but are NOT yet logged in.</summary>
         public event ServerChanged Connected;
 
         private void OnBanned(MessageEventArgs_Messages message) {
@@ -119,9 +115,7 @@ namespace SharpWired.Model {
 
         private void OnDisconnected() {}
 
-        /// <summary>
-        /// Dissconnect from the server
-        /// </summary>
+        /// <summary>Dissconnect from the server</summary>
         public void Disconnect() {
 
             if (server != null) {
@@ -138,9 +132,7 @@ namespace SharpWired.Model {
 
         #region Initialization
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         public SharpWiredModel() {
             connectionManager = new ConnectionManager();
 

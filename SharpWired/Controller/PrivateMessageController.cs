@@ -42,9 +42,7 @@ namespace SharpWired.Controller {
 
         #region Properties
 
-        /// <summary>
-        /// Request the private message model
-        /// </summary>
+        /// <summary>Request the private message model</summary>
         public PrivateMessageModel PrivateMessageModel { get { return privateMessageModel; } }
 
         #endregion
@@ -60,9 +58,7 @@ namespace SharpWired.Controller {
 
         #region Sending to connection layer
 
-        /// <summary>
-        /// Send the given private message to the given user
-        /// </summary>
+        /// <summary>Send the given private message to the given user</summary>
         /// <param name="user">The user to receive the message</param>
         /// <param name="message">The message to send to the user</param>
         public void Msg(User user, String message) {

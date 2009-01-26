@@ -39,24 +39,16 @@ namespace SharpWired.MessageEvents {
         private readonly DateTime postTime;
         private readonly string post;
 
-        /// <summary>
-        /// Gets the nick for the user that posted this news 
-        /// </summary>
+        /// <summary>Gets the nick for the user that posted this news </summary>
         public string Nick { get { return nick; } }
 
-        /// <summary>
-        /// Gets the time when this post was done
-        /// </summary>
+        /// <summary>Gets the time when this post was done</summary>
         public DateTime PostTime { get { return postTime; } }
 
-        /// <summary>
-        /// Gets the news post
-        /// </summary>
+        /// <summary>Gets the news post</summary>
         public string Post { get { return post; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId">The id for this message</param>
         /// <param name="messageName">The name for this message</param>
         /// <param name="nick">The nick for the user that posted this message</param>

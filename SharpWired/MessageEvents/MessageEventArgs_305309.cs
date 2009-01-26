@@ -35,14 +35,10 @@ namespace SharpWired.MessageEvents {
     public class MessageEventArgs_305309 : MessageEventArgs_201 {
         private readonly string message;
 
-        /// <summary>
-        /// Request the message
-        /// </summary>
+        /// <summary>Request the message</summary>
         public string Message { get { return message; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId">The ID for this message</param>
         /// <param name="messageName">The name for this message</param>
         /// <param name="userId">The user ID</param>

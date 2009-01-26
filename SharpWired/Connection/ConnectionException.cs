@@ -30,18 +30,12 @@ using System;
 using SharpWired.Connection.Bookmarks;
 
 namespace SharpWired.Connection {
-    /// <summary>
-    /// Connection exceptions
-    /// </summary>
+    /// <summary>Connection exceptions</summary>
     public class ConnectionException : Exception {
-        /// <summary>
-        /// Request or set the bookmark that was connected to
-        /// </summary>
+        /// <summary>Request or set the bookmark that was connected to</summary>
         public Bookmark Bookmark { get; set; }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="message"></param>
         /// <param name="e"></param>
         public ConnectionException(string message, Exception e)

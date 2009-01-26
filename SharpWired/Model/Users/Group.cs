@@ -29,23 +29,15 @@
 using System;
 
 namespace SharpWired.Model.Users {
-    /// <summary>
-    /// Represents one Wired group
-    /// </summary>
+    /// <summary>Represents one Wired group</summary>
     public class Group {
-        /// <summary>
-        /// Request or set the privileges for this group
-        /// </summary>
+        /// <summary>Request or set the privileges for this group</summary>
         public Privileges Privileges { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of this group
-        /// </summary>
+        /// <summary>Gets or sets the name of this group</summary>
         public string Name { get; set; }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="name"></param>
         /// <param name="privileges"></param>
         public Group(String name, Privileges privileges) {

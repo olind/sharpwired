@@ -29,9 +29,7 @@
 using System;
 
 namespace SharpWired.Connection.Bookmarks {
-    /// <summary>
-    /// This class is a Bookmark to a server. It consist of server info together with a login.
-    /// </summary>
+    /// <summary>This class is a Bookmark to a server. It consist of server info together with a login.</summary>
     [Serializable]
     public class Bookmark : IComparable {
         #region Properties
@@ -41,19 +39,13 @@ namespace SharpWired.Connection.Bookmarks {
         private UserInformation userInformation = new UserInformation();
         private Server server = new Server();
 
-        /// <summary>
-        /// The name of the bookmark.
-        /// </summary>
+        /// <summary>The name of the bookmark.</summary>
         public string Name { get { return name; } set { name = value; } }
 
-        /// <summary>
-        /// Request/Set the login to the server.
-        /// </summary>
+        /// <summary>Request/Set the login to the server.</summary>
         public UserInformation UserInformation { get { return userInformation; } set { userInformation = value; } }
 
-        /// <summary>
-        /// Request/Set the Server info.
-        /// </summary>
+        /// <summary>Request/Set the Server info.</summary>
         public Server Server { get { return server; } set { server = value; } }
 
         public Server Transfer {
@@ -67,9 +59,7 @@ namespace SharpWired.Connection.Bookmarks {
 
         #region Constructors
 
-        /// <summary>
-        /// Construct.
-        /// </summary>
+        /// <summary>Construct.</summary>
         /// <param name="name">The name of the bookmark.</param>
         /// <param name="server">The server.</param>
         /// <param name="userInformation">The user information.</param>
@@ -79,26 +69,20 @@ namespace SharpWired.Connection.Bookmarks {
             UserInformation = userInformation;
         }
 
-        /// <summary>
-        /// Constructor without name.
-        /// </summary>
+        /// <summary>Constructor without name.</summary>
         /// <param name="server">The server.</param>
         /// <param name="userInformation">The user information.</param>
         public Bookmark(Server server, UserInformation userInformation)
             : this("", server, userInformation) {}
 
-        /// <summary>
-        /// Parameterless constructor for de-serialization. For Xml.
-        /// </summary>
+        /// <summary>Parameterless constructor for de-serialization. For Xml.</summary>
         public Bookmark() {}
 
         #endregion
 
         #region
 
-        /// <summary>
-        /// Compares the objects using .Equals() fo Server and UserInformation.
-        /// </summary>
+        /// <summary>Compares the objects using .Equals() fo Server and UserInformation.</summary>
         /// <param name="obj">The object to compare with.</param>
         /// <returns>T/F.</returns>
         public override bool Equals(object obj) {
@@ -111,9 +95,7 @@ namespace SharpWired.Connection.Bookmarks {
                    && b.UserInformation.Equals(UserInformation);
         }
 
-        /// <summary>
-        /// Returns a short representation of this Bookmark.
-        /// </summary>
+        /// <summary>Returns a short representation of this Bookmark.</summary>
         /// <returns>[Name]</returns>
         public string ToShortString() {
             if (Name == "") {
@@ -123,17 +105,13 @@ namespace SharpWired.Connection.Bookmarks {
             return Name;
         }
 
-        /// <summary>
-        /// A string for this Bookmark.
-        /// </summary>
+        /// <summary>A string for this Bookmark.</summary>
         /// <returns>[UserName]@[ServerName]:[Port]</returns>
         public override string ToString() {
             return Name + "[" + userInformation + "@" + server + "]";
         }
 
-        /// <summary>
-        /// Base.GetHashCode().
-        /// </summary>
+        /// <summary>Base.GetHashCode().</summary>
         /// <returns>Code de la Hash.</returns>
         public override int GetHashCode() {
             return base.GetHashCode();
@@ -143,9 +121,7 @@ namespace SharpWired.Connection.Bookmarks {
 
         #region IComparable Members
 
-        /// <summary>
-        /// Compares this object by name with the given object
-        /// </summary>
+        /// <summary>Compares this object by name with the given object</summary>
         /// <param name="obj">The object to compare with</param>
         /// <returns></returns>
         public int CompareTo(object obj) {

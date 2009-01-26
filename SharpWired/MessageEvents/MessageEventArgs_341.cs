@@ -30,9 +30,7 @@ using System;
 using System.Net;
 
 namespace SharpWired.MessageEvents {
-    /// <summary>
-    /// MessageEventArgs for message Chat Topic (341)
-    /// </summary>
+    /// <summary>MessageEventArgs for message Chat Topic (341)</summary>
     public class MessageEventArgs_341 : MessageEventArgs_311330 {
         private readonly string nick;
         private readonly string login;
@@ -40,34 +38,22 @@ namespace SharpWired.MessageEvents {
         private readonly DateTime time;
         private readonly string topic;
 
-        /// <summary>
-        /// The nick of the user that edited the topic
-        /// </summary>
+        /// <summary>The nick of the user that edited the topic</summary>
         public string Nick { get { return nick; } }
 
-        /// <summary>
-        /// The login of the user that editid the topic
-        /// </summary>
+        /// <summary>The login of the user that editid the topic</summary>
         public string Login { get { return login; } }
 
-        /// <summary>
-        /// The ip of the user that edited the topic
-        /// </summary>
+        /// <summary>The ip of the user that edited the topic</summary>
         public IPAddress Ip { get { return ip; } }
 
-        /// <summary>
-        /// The time when the topic was edited
-        /// </summary>
+        /// <summary>The time when the topic was edited</summary>
         public DateTime Time { get { return time; } }
 
-        /// <summary>
-        /// The chat topic
-        /// </summary>
+        /// <summary>The chat topic</summary>
         public string Topic { get { return topic; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId">The id for the message</param>
         /// <param name="messageName">The name for the message</param>
         /// <param name="chatId">The chat id for thi topic</param>

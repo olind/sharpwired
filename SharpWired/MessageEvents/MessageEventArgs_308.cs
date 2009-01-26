@@ -31,9 +31,7 @@ using System.Drawing;
 using System.Net;
 
 namespace SharpWired.MessageEvents {
-    /// <summary>
-    /// MessageEventArgs for Client Information (308)
-    /// </summary>
+    /// <summary>MessageEventArgs for Client Information (308)</summary>
     public class MessageEventArgs_308 : MessageEventArgs_340 {
         private readonly bool idle;
         private readonly bool admin;
@@ -56,104 +54,64 @@ namespace SharpWired.MessageEvents {
         private readonly int size;
         private readonly int speed;
 
-        /// <summary>
-        /// Request if this user is idle or not
-        /// </summary>
+        /// <summary>Request if this user is idle or not</summary>
         public bool Idle { get { return idle; } }
 
-        /// <summary>
-        /// Request if this user is admin
-        /// </summary>
+        /// <summary>Request if this user is admin</summary>
         public bool Admin { get { return admin; } }
 
-        /// <summary>
-        /// Request the icon for this user
-        /// </summary>
+        /// <summary>Request the icon for this user</summary>
         public int Icon { get { return icon; } }
 
-        /// <summary>
-        /// Request the nick for this user
-        /// </summary>
+        /// <summary>Request the nick for this user</summary>
         public string Nick { get { return nick; } }
 
-        /// <summary>
-        /// Request the login for this user
-        /// </summary>
+        /// <summary>Request the login for this user</summary>
         public string Login { get { return login; } }
 
-        /// <summary>
-        /// Request the status for this user
-        /// </summary>
+        /// <summary>Request the status for this user</summary>
         public string Status { get { return status; } }
 
-        /// <summary>
-        /// Request the IP Address for this user
-        /// </summary>
+        /// <summary>Request the IP Address for this user</summary>
         public IPAddress Ip { get { return ip; } }
 
-        /// <summary>
-        /// Request the host for this user
-        /// </summary>
+        /// <summary>Request the host for this user</summary>
         public string Host { get { return host; } }
 
-        /// <summary>
-        /// Request the client version for this user
-        /// </summary>
+        /// <summary>Request the client version for this user</summary>
         public string ClientVersion { get { return clientVersion; } }
 
-        /// <summary>
-        /// Request the cipher name for this user
-        /// </summary>
+        /// <summary>Request the cipher name for this user</summary>
         public string CipherName { get { return cipherName; } }
 
-        /// <summary>
-        /// Request the cipher bits for this user
-        /// </summary>
+        /// <summary>Request the cipher bits for this user</summary>
         public int CipherBits { get { return cipherBits; } }
 
-        /// <summary>
-        /// Request the login time for this user
-        /// </summary>
+        /// <summary>Request the login time for this user</summary>
         public DateTime LoginTime { get { return loginTime; } }
 
-        /// <summary>
-        /// Request the idle time for this user
-        /// </summary>
+        /// <summary>Request the idle time for this user</summary>
         public DateTime IdleTime { get { return idleTime; } }
 
-        /// <summary>
-        /// Request the current download for this user
-        /// </summary>
+        /// <summary>Request the current download for this user</summary>
         public string Downloads { get { return downloads; } }
 
-        /// <summary>
-        /// Request the current upload for this user
-        /// </summary>
+        /// <summary>Request the current upload for this user</summary>
         public string Uploads { get { return uploads; } }
 
-        /// <summary>
-        /// Request the transfer this user currently have
-        /// </summary>
+        /// <summary>Request the transfer this user currently have</summary>
         public string Transfer { get { return transfer; } }
 
-        /// <summary>
-        /// Request the destination (destination transferred size speed)
-        /// </summary>
+        /// <summary>Request the destination (destination transferred size speed)</summary>
         public string Path { get { return path; } }
 
-        /// <summary>
-        /// Request the ammount of transferred data
-        /// </summary>
+        /// <summary>Request the ammount of transferred data</summary>
         public int Transferred { get { return transferred; } }
 
-        /// <summary>
-        /// Request the size for the current download?
-        /// </summary>
+        /// <summary>Request the size for the current download?</summary>
         public int Size { get { return size; } }
 
-        /// <summary>
-        /// Request the speed for the current download?
-        /// </summary>
+        /// <summary>Request the speed for the current download?</summary>
         public int Speed { get { return speed; } }
 
         public MessageEventArgs_308(int messageId, string messageName, int userId,

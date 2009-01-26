@@ -31,9 +31,7 @@ using SharpWired.Connection;
 using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.News {
-    /// <summary>
-    /// Represents all the news posted on the server
-    /// </summary>
+    /// <summary>Represents all the news posted on the server</summary>
     public class News {
         #region Fields
 
@@ -43,9 +41,7 @@ namespace SharpWired.Model.News {
 
         #region Constructor
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="m"></param>
         public News(Messages m) {
             //All three are needed in order to sort the list
@@ -83,9 +79,7 @@ namespace SharpWired.Model.News {
             }
         }
 
-        /// <summary>
-        /// Gets the news list. Sorted Descending (e.g. earliest post first).
-        /// </summary>
+        /// <summary>Gets the news list. Sorted Descending (e.g. earliest post first).</summary>
         public List<NewsPost> NewsList {
             get {
                 var l = new List<NewsPost>(newsList);
@@ -102,14 +96,10 @@ namespace SharpWired.Model.News {
 
         public delegate void NewsListingDoneDelegate(List<NewsPost> newsListing);
 
-        /// <summary>
-        /// Raised when a news post is received from the server
-        /// </summary>
+        /// <summary>Raised when a news post is received from the server</summary>
         public event NewsPostedDelegate NewsPostedEvent;
 
-        /// <summary>
-        /// Raised when the requested news listing (eg. in respons to NEWS) is done.
-        /// </summary>
+        /// <summary>Raised when the requested news listing (eg. in respons to NEWS) is done.</summary>
         public event NewsListingDoneDelegate NewsListingDoneEvent;
 
         #endregion

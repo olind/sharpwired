@@ -30,9 +30,7 @@ using System;
 using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.News {
-    /// <summary>
-    /// Represents one news message
-    /// </summary>
+    /// <summary>Represents one news message</summary>
     public class NewsPost /*: IComparable */ {
         #region Fields
 
@@ -54,28 +52,20 @@ namespace SharpWired.Model.News {
 
         #region Properties
 
-        /// <summary>
-        /// Gets the nick for the user that wrote this message
-        /// </summary>
+        /// <summary>Gets the nick for the user that wrote this message</summary>
         public string Nick { get { return nick; } }
 
-        /// <summary>
-        /// Gets the date when this message was posted
-        /// </summary>
+        /// <summary>Gets the date when this message was posted</summary>
         public DateTime PostTime { get { return postTime; } }
 
-        /// <summary>
-        /// Request the news post body
-        /// </summary>
+        /// <summary>Request the news post body</summary>
         public string Post { get { return post; } }
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Compare this object with the given
-        /// </summary>
+        /// <summary>Compare this object with the given</summary>
         /// <param name="obj"></param>
         /// <returns></returns>
         public int CompareTo(object obj) {

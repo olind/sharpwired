@@ -30,9 +30,7 @@ using SharpWired.Connection;
 using SharpWired.Model;
 
 namespace SharpWired.Controller {
-    /// <summary>
-    /// The basic functionality for the controllers for all different controller objects
-    /// </summary>
+    /// <summary>The basic functionality for the controllers for all different controller objects</summary>
     public class ControllerBase {
         #region Fields
 
@@ -44,9 +42,7 @@ namespace SharpWired.Controller {
 
         #region Constructor
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="model"></param>
         public ControllerBase(SharpWiredModel model) {
             this.model = model;

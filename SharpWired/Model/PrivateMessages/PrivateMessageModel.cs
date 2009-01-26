@@ -29,9 +29,7 @@
 using System.Collections.Generic;
 
 namespace SharpWired.Model.PrivateMessages {
-    /// <summary>
-    /// Model for sent and received users
-    /// </summary>
+    /// <summary>Model for sent and received users</summary>
     public class PrivateMessageModel {
         private readonly List<PrivateMessageItem> receivedMessages = new List<PrivateMessageItem>();
         private readonly List<PrivateMessageItem> sentMessages = new List<PrivateMessageItem>();
@@ -49,9 +47,7 @@ namespace SharpWired.Model.PrivateMessages {
             }
         }
 
-        /// <summary>
-        /// Add the received message to the local messages model and raises event.
-        /// </summary>
+        /// <summary>Add the received message to the local messages model and raises event.</summary>
         /// <param name="newReceivedmessage"></param>
         public void AddReceivedPrivateMessage(PrivateMessageItem newReceivedmessage) {
             receivedMessages.Add(newReceivedmessage);
@@ -61,26 +57,18 @@ namespace SharpWired.Model.PrivateMessages {
             }
         }
 
-        /// <summary>
-        /// Delegate for receiving new private message
-        /// </summary>
+        /// <summary>Delegate for receiving new private message</summary>
         /// <param name="receivedPrivateMessage"></param>
         public delegate void ReceivedPrivateMessageDelegate(PrivateMessageItem receivedPrivateMessage);
 
-        /// <summary>
-        /// Event raised when a new private message is received
-        /// </summary>
+        /// <summary>Event raised when a new private message is received</summary>
         public event ReceivedPrivateMessageDelegate ReceivedPrivateMessageEvent;
 
-        /// <summary>
-        /// Delegate for telling when a new private message was sent
-        /// </summary>
+        /// <summary>Delegate for telling when a new private message was sent</summary>
         /// <param name="sentPrivateMessage"></param>
         public delegate void SentPrivateMessageDelegate(PrivateMessageItem sentPrivateMessage);
 
-        /// <summary>
-        /// Event raised when a new private message is sent
-        /// </summary>
+        /// <summary>Event raised when a new private message is sent</summary>
         public event SentPrivateMessageDelegate SentPrivateMessageEvent;
     }
 }

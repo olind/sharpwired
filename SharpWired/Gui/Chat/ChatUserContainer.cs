@@ -27,9 +27,7 @@
 #endregion
 
 namespace SharpWired.Gui.Chat {
-    /// <summary>
-    /// User control for the chat
-    /// </summary>
+    /// <summary>User control for the chat</summary>
     public partial class ChatUserContainer : SharpWiredGuiBase {
 
         public override void Init() {
@@ -38,9 +36,7 @@ namespace SharpWired.Gui.Chat {
             userList.Init();
         }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         public ChatUserContainer() {
             InitializeComponent();
         }

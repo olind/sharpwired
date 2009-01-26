@@ -27,9 +27,7 @@
 #endregion
 
 namespace SharpWired.MessageEvents {
-    /// <summary>
-    /// MessageEventArgs for Status Changed (304)
-    /// </summary>
+    /// <summary>MessageEventArgs for Status Changed (304)</summary>
     public class MessageEventArgs_304 : MessageEventArgs_201 {
         private readonly bool idle;
         private readonly bool admin;
@@ -37,34 +35,22 @@ namespace SharpWired.MessageEvents {
         private readonly string nick;
         private readonly string status;
 
-        /// <summary>
-        /// Request if this user is idle
-        /// </summary>
+        /// <summary>Request if this user is idle</summary>
         public bool Idle { get { return idle; } }
 
-        /// <summary>
-        /// Request if this user is admin
-        /// </summary>
+        /// <summary>Request if this user is admin</summary>
         public bool Admin { get { return admin; } }
 
-        /// <summary>
-        /// Request the icon for this user
-        /// </summary>
+        /// <summary>Request the icon for this user</summary>
         public int Icon { get { return icon; } }
 
-        /// <summary>
-        /// Request the nick for this user
-        /// </summary>
+        /// <summary>Request the nick for this user</summary>
         public string Nick { get { return nick; } }
 
-        /// <summary>
-        /// Request the status for this user
-        /// </summary>
+        /// <summary>Request the status for this user</summary>
         public string Status { get { return status; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId">The id for this message</param>
         /// <param name="messageName">The name for this message</param>
         /// <param name="userId">The user id</param>

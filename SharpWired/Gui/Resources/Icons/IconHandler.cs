@@ -36,9 +36,7 @@ using System.Windows.Forms;
 using SharpWired.Utils;
 
 namespace SharpWired.Gui.Resources.Icons {
-    /// <summary>
-    /// Abstracts reading icon files from disk.
-    /// </summary>
+    /// <summary>Abstracts reading icon files from disk.</summary>
     internal class IconHandler {
         #region Singelton
 
@@ -103,18 +101,14 @@ namespace SharpWired.Gui.Resources.Icons {
 
         private const int conMAX_PATH = 260;
 
-        /// <summary>
-        /// Request the singelton instance.
-        /// </summary>
+        /// <summary>Request the singelton instance.</summary>
         public static IconHandler Instance { get { return sInstance; } }
 
         #endregion
 
         #region Constructor
 
-        /// <summary>
-        /// Constructs and sets iconFilePath. Read standard icons.
-        /// </summary>
+        /// <summary>Constructs and sets iconFilePath. Read standard icons.</summary>
         public IconHandler() {
             // I think Application.StartupPath is a bit better really. The curetn
             // dir can change independent of where the .exe file is.
@@ -126,9 +120,7 @@ namespace SharpWired.Gui.Resources.Icons {
             ReadStandardIcons();
         }
 
-        /// <summary>
-        /// Constructs and sets file source destination to given destination.
-        /// </summary>
+        /// <summary>Constructs and sets file source destination to given destination.</summary>
         /// <param name="pIconFilePath">The destination where the icons reciedes.</param>
         public IconHandler(string pIconFilePath) {
             iconFilePath = pIconFilePath;
@@ -159,9 +151,7 @@ namespace SharpWired.Gui.Resources.Icons {
         public Image MediaPlaybackStart { get { return mediaPlaybackStart; } }
         public Image ProcessStop { get { return processStop; } }
 
-        /// <summary>
-        /// Request the icon with this name.
-        /// </summary>
+        /// <summary>Request the icon with this name.</summary>
         /// <param name="name">The name of the icon (not the filename!)</param>
         /// <returns>The icon or null.</returns>
         public Image this[string name] { get { return LoadAndStoreIcon(name); } }
@@ -248,9 +238,7 @@ namespace SharpWired.Gui.Resources.Icons {
 
         #endregion
 
-        /// <summary>
-        /// Creates a hi quality image from the given fileName. Note the file must be located in the IconFilePath.
-        /// </summary>
+        /// <summary>Creates a hi quality image from the given fileName. Note the file must be located in the IconFilePath.</summary>
         /// <param name="fileName"></param>
         /// <returns>If succesful the imager is returned. Otherwise null is returned.</returns>
         private Image CreateHiQualityIconImage(string fileName) {
@@ -265,18 +253,14 @@ namespace SharpWired.Gui.Resources.Icons {
             }
         }
 
-        /// <summary>
-        /// Try load image from file.
-        /// </summary>
+        /// <summary>Try load image from file.</summary>
         /// <param name="fileName">Filename.</param>
         /// <returns>Image or null.</returns>
         public Image IconFromFile(string fileName) {
             return CreateHiQualityIconImage(fileName);
         }
 
-        /// <summary>
-        /// Reads the most common icons from file.
-        /// </summary>
+        /// <summary>Reads the most common icons from file.</summary>
         private void ReadStandardIcons() {
             //TODO: Use the IconList instead
             userImage = CreateHiQualityIconImage("userImage.png");

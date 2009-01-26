@@ -29,9 +29,7 @@
 using System;
 
 namespace SharpWired.MessageEvents {
-    /// <summary>
-    /// MessageEventArgs for Server Information (200). In response to HELLO.
-    /// </summary>
+    /// <summary>MessageEventArgs for Server Information (200). In response to HELLO.</summary>
     public class MessageEventArgs_200 : MessageEventArgs {
         private readonly string appVersion; // TODO change type of this
         private readonly string protocolVersion; // TODO Change type of this
@@ -41,44 +39,28 @@ namespace SharpWired.MessageEvents {
         private readonly int filesCount;
         private readonly long filesSize;
 
-        /// <summary>
-        /// Request the server app version
-        /// </summary>
+        /// <summary>Request the server app version</summary>
         public string AppVersion { get { return appVersion; } }
 
-        /// <summary>
-        /// Request the server protocol version
-        /// </summary>
+        /// <summary>Request the server protocol version</summary>
         public string ProtocolVersion { get { return protocolVersion; } }
 
-        /// <summary>
-        /// Request the server name
-        /// </summary>
+        /// <summary>Request the server name</summary>
         public string ServerName { get { return serverName; } }
 
-        /// <summary>
-        /// Request the server description
-        /// </summary>
+        /// <summary>Request the server description</summary>
         public string ServerDescription { get { return serverDescription; } }
 
-        /// <summary>
-        /// Request the start time for this server
-        /// </summary>
+        /// <summary>Request the start time for this server</summary>
         public DateTime StartTime { get { return startTime; } }
 
-        /// <summary>
-        /// Request the number of files
-        /// </summary>
+        /// <summary>Request the number of files</summary>
         public int FilesCount { get { return filesCount; } }
 
-        /// <summary>
-        /// Request the size of the files
-        /// </summary>
+        /// <summary>Request the size of the files</summary>
         public long FilesSize { get { return filesSize; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId">The id for this message</param>
         /// <param name="messageName">The name for this message</param>
         /// <param name="appVersion">The app version the server runs</param>

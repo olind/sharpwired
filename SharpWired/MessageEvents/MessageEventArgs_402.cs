@@ -29,21 +29,15 @@
 using System;
 
 namespace SharpWired.MessageEvents {
-    /// <summary>
-    /// MessageEventArgs for File Information (402)
-    /// </summary>
+    /// <summary>MessageEventArgs for File Information (402)</summary>
     public class MessageEventArgs_402 : MessageEventArgs_410420 {
         private readonly string checksum;
         private readonly string comment;
 
-        /// <summary>
-        /// Request the checksum for this file
-        /// </summary>
+        /// <summary>Request the checksum for this file</summary>
         public string Checksum { get { return checksum; } }
 
-        /// <summary>
-        /// Request the comment for this file
-        /// </summary>
+        /// <summary>Request the comment for this file</summary>
         public string Comment { get { return comment; } }
 
         public MessageEventArgs_402(int messageId, string messageName, string path,
