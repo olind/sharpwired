@@ -256,7 +256,7 @@
     <Compile Include="Gui\WebBrowserGuiBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Model\Errors\Errors.cs" />
+    <Compile Include="Model\Errors.cs" />
     <Compile Include="Controller\FileListingController.cs" />
     <Compile Include="Controller\GroupController.cs" />
     <Compile Include="Controller\NewsController.cs" />

@@ -39,49 +39,51 @@ namespace SharpWired.Model {
     /// Initializes the other models
     /// </summary>
     public sealed class SharpWiredModel {
-        private readonly ConnectionManager connectionManager;
-        private Server server;
         private static SharpWiredModel instance;
+
+        public ConnectionManager ConnectionManager { get; private set; }
+        public Errors Errors { get; private set; }
+        public Server Server { get; private set; }
 
         public static SharpWiredModel Instance {
             get { return instance; }
             set {
                 if (instance == null) {
                     instance = value;
+                    instance.Errors = new Errors();
                 } else {
                     throw new SingletonException("Singleton already created");
                 }
             }
         }
 
-        #region Properties
 
-        public ConnectionManager ConnectionManager { get { return connectionManager; } }
+        /// <summary>Constructor</summary>
+        public SharpWiredModel() {
+            ConnectionManager = new ConnectionManager();
 
-        public Server ServerInformation { get { return server; } }
-
-        public Server Server { get { return server; } }
-
-        #endregion
-
-        #region Methods
+            var m = ConnectionManager.Messages;
+            m.ServerInformationEvent += OnConnected;
+            m.BannedEvent += OnBanned;
+        }
 
         /// <summary>Connect to the given bookmark. Note! Dissconnects any current connection.</summary>
         /// <param name="bookmark"></param>
         public void Connect(Bookmark bookmark) {
             try {
                 //TODO: Probably want to let the user confirm dissconnecting the current connection
-                if (server != null && server.PublicChat != null) {
+                if (Server != null && Server.PublicChat != null) {
                     Disconnect();
                 }
 
-                connectionManager.Connect(bookmark);
+                Server = new Server();
+
+                ConnectionManager.Connect(bookmark);
+
             } catch (ConnectionException ce) {
-                Debug.WriteLine("Failed to connect: '" + ce + "'");
+                Errors.ReportConnectionExceptionError(ce);
             }
         }
-
-        #endregion
 
         public delegate void ServerChanged(Server server);
 
@@ -94,12 +96,12 @@ namespace SharpWired.Model {
         }
 
         private void OnConnected(MessageEventArgs_200 message) {
-            server = new Server(message);
+            Server.SetInfo(message);
 
-            var ui = connectionManager.CurrentBookmark.UserInformation;
+            var ui = ConnectionManager.CurrentBookmark.UserInformation;
             var ih = new IconHandler();
 
-            var c = connectionManager.Commands;
+            var c = ConnectionManager.Commands;
             c.Nick(ui.Nick); //Required
             c.Icon(1, ih.UserImage); //Optional
             //STATUS                    //Optional TODO: Set status
@@ -109,7 +111,7 @@ namespace SharpWired.Model {
             c.Pass(ui.Password);
 
             if (Connected != null) {
-                Connected(server);
+                Connected(Server);
             }
         }
 
@@ -118,29 +120,16 @@ namespace SharpWired.Model {
         /// <summary>Dissconnect from the server</summary>
         public void Disconnect() {
 
-            if (server != null) {
-                server.GoOffline();
+            if (Server != null) {
+                Server.GoOffline();
             }
 
             // TODO: Create enum for chat id 1
-            connectionManager.Commands.Leave(1);
+            ConnectionManager.Commands.Leave(1);
 
-            server = null;
+            Server = null;
 
-            connectionManager.Disconnect();
+            ConnectionManager.Disconnect();
         }
-
-        #region Initialization
-
-        /// <summary>Constructor</summary>
-        public SharpWiredModel() {
-            connectionManager = new ConnectionManager();
-
-            var m = connectionManager.Messages;
-            m.ServerInformationEvent += OnConnected;
-            m.BannedEvent += OnBanned;
-        }
-
-        #endregion
     }
 }

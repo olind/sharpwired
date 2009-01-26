@@ -82,8 +82,8 @@ namespace SharpWired.Gui {
 
             var onlineMessage = new StringBuilder();
             onlineMessage.Append("Connected");
-            if (model.ServerInformation.ServerName != "") {
-                onlineMessage.Append(" to: " + model.ServerInformation.ServerName);
+            if (model.Server.ServerName != "") {
+                onlineMessage.Append(" to: " + model.Server.ServerName);
             }
 
             UpdateToolStripText(onlineMessage.ToString());
