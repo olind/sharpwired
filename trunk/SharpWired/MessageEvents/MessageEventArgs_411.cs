@@ -27,21 +27,15 @@
 #endregion
 
 namespace SharpWired.MessageEvents {
-    /// <summary>
-    /// MessageEventArgs for File Listing Done
-    /// </summary>
+    /// <summary>MessageEventArgs for File Listing Done</summary>
     public class MessageEventArgs_411 : MessageEventArgs {
         private readonly long free;
         private readonly string path;
 
-        /// <summary>
-        /// Request the amount of free disk space
-        /// </summary>
+        /// <summary>Request the amount of free disk space</summary>
         public long Free { get { return free; } }
 
-        /// <summary>
-        /// Request the destination for were file listing was requested
-        /// </summary>
+        /// <summary>Request the destination for were file listing was requested</summary>
         public string Path { get { return path; } }
 
         public MessageEventArgs_411(int messageId, string messageName, string path, long free)

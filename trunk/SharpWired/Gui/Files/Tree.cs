@@ -32,9 +32,7 @@ using SharpWired.Gui.Resources.Icons;
 using SharpWired.Model.Files;
 
 namespace SharpWired.Gui.Files {
-    /// <summary>
-    /// Shows a representation of the File Model, which models the file tree on the server.
-    /// </summary>
+    /// <summary>Shows a representation of the File Model, which models the file tree on the server.</summary>
     public partial class Tree : SharpWiredGuiBase, IFilesView {
         private ArrayList nodeList = new ArrayList();
 

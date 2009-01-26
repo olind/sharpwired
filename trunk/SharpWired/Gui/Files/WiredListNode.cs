@@ -34,27 +34,21 @@ namespace SharpWired.Gui.Files {
     public class WiredListNode : ListViewItem {
         private readonly INode modelNode;
 
-        /// <summary>
-        /// Gets the model node for this tree node
-        /// </summary>
+        /// <summary>Gets the model node for this tree node</summary>
         public INode ModelNode { get { return modelNode; } }
 
         private readonly string size;
         private readonly DateTime modified;
         private readonly DateTime created;
 
-        /// <summary>
-        /// Request the size for this node. If it is a Folder the number of sub-items are listed.
-        /// </summary>
+        /// <summary>Request the size for this node. If it is a Folder the number of sub-items are listed.</summary>
         public string Size { get { return size; } }
 
         public DateTime Created { get { return created; } }
 
         public DateTime Modified { get { return modified; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         public WiredListNode(INode modelNode)
             : base(modelNode.Name) {
             this.modelNode = modelNode;

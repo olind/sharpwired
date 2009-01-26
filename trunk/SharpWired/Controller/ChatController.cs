@@ -29,23 +29,17 @@
 using SharpWired.Model;
 
 namespace SharpWired.Controller {
-    /// <summary>
-    /// Controller for chats. Provide functionality for sending messages, setting topics etc.
-    /// </summary>
+    /// <summary>Controller for chats. Provide functionality for sending messages, setting topics etc.</summary>
     public class ChatController : ControllerBase {
         public ChatController(SharpWiredModel model) : base(model) {}
 
-        /// <summary>
-        /// Send a chat message to the server
-        /// </summary>
+        /// <summary>Send a chat message to the server</summary>
         /// <param name="message">The message to send to the server</param>
         public void SendChatMessage(string message) {
             commands.Say(message);
         }
 
-        /// <summary>
-        /// Change the topic for this chat
-        /// </summary>
+        /// <summary>Change the topic for this chat</summary>
         /// <param name="topic"></param>
         public void ChangeTopic(string topic) {
             //TODO: Check permissions before setting topic

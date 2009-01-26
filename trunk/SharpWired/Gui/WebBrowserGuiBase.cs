@@ -3,9 +3,7 @@ using System.Text;
 using System.Windows.Forms;
 
 namespace SharpWired.Gui {
-    /// <summary>
-    /// Base class for all SharpWired views that's using a WebBrowser to display data.
-    /// </summary>
+    /// <summary>Base class for all SharpWired views that's using a WebBrowser to display data.</summary>
     public class WebBrowserGuiBase : SharpWiredGuiBase {
         private String browserHeader;
         private String browserFooter;

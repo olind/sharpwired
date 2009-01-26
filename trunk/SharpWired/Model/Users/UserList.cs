@@ -31,9 +31,7 @@ using SharpWired.Connection;
 using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.Users {
-    /// <summary>
-    /// Represents a user list in a chat.
-    /// </summary>
+    /// <summary>Represents a user list in a chat.</summary>
     public class UserList {
         #region Fields
 
@@ -43,9 +41,7 @@ namespace SharpWired.Model.Users {
 
         #region Constructor
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         public UserList(Messages m) {
             userList = new List<User>();
 
@@ -202,9 +198,7 @@ namespace SharpWired.Model.Users {
             }
         }
 
-        /// <summary>
-        /// Adds or updates the privileges for the user in the given message
-        /// </summary>
+        /// <summary>Adds or updates the privileges for the user in the given message</summary>
         /// <param name="message"></param>
         public void OnPrivilegesSpecificationMessage(MessageEventArgs_602 message) {
             var u = GetUser(message.Privileges.UserName);
@@ -213,35 +207,25 @@ namespace SharpWired.Model.Users {
             }
         }
 
-        /// <summary>
-        /// Delegate for a user join event
-        /// </summary>
+        /// <summary>Delegate for a user join event</summary>
         /// <param name="user"></param>
         public delegate void ClientJoinDelegate(User user);
 
-        /// <summary>
-        /// Notifies when a user joined this user list
-        /// </summary>
+        /// <summary>Notifies when a user joined this user list</summary>
         public event ClientJoinDelegate ClientJoined;
 
-        /// <summary>
-        /// Delegate for ClientLeft event
-        /// </summary>
+        /// <summary>Delegate for ClientLeft event</summary>
         /// <param name="user"></param>
         public delegate void ClientLeaveDelegate(User user);
 
-        /// <summary>
-        /// Notifies when a user has left this user list
-        /// </summary>
+        /// <summary>Notifies when a user has left this user list</summary>
         public event ClientLeaveDelegate ClientLeft;
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Gets the user with the given user id
-        /// </summary>
+        /// <summary>Gets the user with the given user id</summary>
         /// <param name="userId">The UserId for the searched user</param>
         /// <returns>The UserItem with the given user name, null if no user is found</returns>
         public User GetUser(int userId) {
@@ -253,9 +237,7 @@ namespace SharpWired.Model.Users {
             return null;
         }
 
-        /// <summary>
-        /// Gets the user with the given user login name
-        /// </summary>
+        /// <summary>Gets the user with the given user login name</summary>
         /// <param name="login">The login for the searched user</param>
         /// <returns>The UserItem with the given user name, null if no user is found</returns>
         public User GetUser(string login) {
@@ -267,9 +249,7 @@ namespace SharpWired.Model.Users {
             return null;
         }
 
-        /// <summary>
-        /// Gets the user with the given nick
-        /// </summary>
+        /// <summary>Gets the user with the given nick</summary>
         /// <param name="nick">The nick for the searched user</param>
         /// <returns>The UserItem with the given nick, null if no user was found</returns>
         public User GetUserByNick(string nick) {
@@ -281,9 +261,7 @@ namespace SharpWired.Model.Users {
             return null;
         }
 
-        /// <summary>
-        /// Finds out if the user with the given UserId exists
-        /// </summary>
+        /// <summary>Finds out if the user with the given UserId exists</summary>
         /// <param name="userId">The UserId for the user</param>
         /// <returns>True if the user exists, false otherwise</returns>
         private bool UserExists(int userId) {

@@ -38,35 +38,25 @@ namespace SharpWired.Connection.Sockets {
     /// NOTE: This class has derived from the Socio Project. See http://socio.sf.net/
     /// </summary>
     public class BinarySecureSocket {
-        /// <summary>
-        /// Used to create the SSL Stream.
-        /// </summary>
+        /// <summary>Used to create the SSL Stream.</summary>
         private TcpClient client;
 
-        /// <summary>
-        ///  The secure connection to the server.
-        /// </summary>
+        /// <summary> The secure connection to the server.</summary>
         private SslStream sslStream;
 
         private DateTime TimeOfLastNotify { get; set; }
 
-        /// <summary>
-        /// The default size of the buffer to use
-        /// </summary>
+        /// <summary>The default size of the buffer to use</summary>
         private static int BUFFER_SIZE = 2048;
 
-        /// <summary>
-        /// Default transmission parameters. Only used internally
-        /// </summary>
+        /// <summary>Default transmission parameters. Only used internally</summary>
         protected static readonly int BUFFER_BLOCK_SIZE = 512; // The number of bytes to receive in every block
 
         private Int64 bytesTransferred;
 
         public Int64 BytesTransferred { get { return bytesTransferred; } }
 
-        /// <summary>
-        /// A delegate type for hooking up message received notifications.
-        /// </summary>
+        /// <summary>A delegate type for hooking up message received notifications.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <param name="data"></param>
@@ -76,9 +66,7 @@ namespace SharpWired.Connection.Sockets {
 
         internal void Start() {}
 
-        /// <summary>
-        /// Connects to the server using Connect(Port, MachineName, ServerName).
-        /// </summary>
+        /// <summary>Connects to the server using Connect(Port, MachineName, ServerName).</summary>
         /// <param name="server">The Server to connect to.</param>
         /// <param name="stream"></param>
         /// <param name="fileSize"></param>
@@ -87,9 +75,7 @@ namespace SharpWired.Connection.Sockets {
             Connect(server.ServerPort, server.MachineName, server.ServerName, stream, fileSize, offset);
         }
 
-        /// <summary>
-        /// Connects the client to the server.
-        /// </summary>
+        /// <summary>Connects the client to the server.</summary>
         /// <param name="serverPort">The port for the server to use for this connection</param>
         /// <param name="machineName">The host running the server application</param>
         /// <param name="serverName">The machine name for the server, must match the machine name in the server certificate</param>
@@ -144,9 +130,7 @@ namespace SharpWired.Connection.Sockets {
             sslStream.BeginRead(readBuffer, 0, readBuffer.Length, ReadCallback, stateObj);
         }
 
-        /// <summary>
-        /// Verifies the remote Secure Sockets Layer (SSL) certificate used for authentication.
-        /// </summary>
+        /// <summary>Verifies the remote Secure Sockets Layer (SSL) certificate used for authentication.</summary>
         /// <param name="sender">An object that contains state information for this validation.</param>
         /// <param name="certificate">The certificate used to authenticate the remote party.</param>
         /// <param name="chain">The chain of certificate authorities associated with the remote certificate.</param>
@@ -166,9 +150,7 @@ namespace SharpWired.Connection.Sockets {
 
         #region Send Message
 
-        /// <summary>
-        /// Send a message to the server.
-        /// </summary>
+        /// <summary>Send a message to the server.</summary>
         /// <param name="message">The message to be sent (without any EOT).</param>
         public void SendMessage(string message) {
             if (sslStream != null) {
@@ -180,9 +162,7 @@ namespace SharpWired.Connection.Sockets {
 
         #endregion
 
-        /// <summary>
-        /// Disconnect this connection
-        /// </summary>
+        /// <summary>Disconnect this connection</summary>
         public void Disconnect() {
             // try { sslStream.Close(); } catch { } finally { sslStream = null; }
             //try { client.Close(); } catch { } finally { client = null; }
@@ -247,9 +227,7 @@ namespace SharpWired.Connection.Sockets {
             }
         }
 
-        /// <summary>
-        /// Event for telling when received data is done
-        /// </summary>
+        /// <summary>Event for telling when received data is done</summary>
         public event DataReceivedDoneDelegate DataReceivedDoneEvent;
 
         public delegate void DataReceivedDoneDelegate();

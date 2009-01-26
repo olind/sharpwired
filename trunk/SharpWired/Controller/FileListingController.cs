@@ -30,9 +30,7 @@ using SharpWired.Model;
 using SharpWired.Model.Files;
 
 namespace SharpWired.Controller {
-    /// <summary>
-    /// Handles the local model for all file interactions
-    /// </summary>
+    /// <summary>Handles the local model for all file interactions</summary>
     public class FileListingController : ControllerBase {
         public FileListingController(SharpWiredModel model) : base(model) {}
 

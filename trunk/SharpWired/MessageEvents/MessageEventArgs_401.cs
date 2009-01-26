@@ -27,15 +27,11 @@
 #endregion
 
 namespace SharpWired.MessageEvents {
-    /// <summary>
-    /// MessageEventArgs for Transfer Queued (401)
-    /// </summary>
+    /// <summary>MessageEventArgs for Transfer Queued (401)</summary>
     public class MessageEventArgs_401 : MessageEventArgs_Path {
         private readonly int position;
 
-        /// <summary>
-        /// The position in the queue
-        /// </summary>
+        /// <summary>The position in the queue</summary>
         public int Position { get { return position; } }
 
         public MessageEventArgs_401(int messageId, string messageName, string path, int position)

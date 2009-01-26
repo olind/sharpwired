@@ -27,9 +27,7 @@
 #endregion
 
 namespace SharpWired.MessageEvents {
-    /// <summary>
-    /// This class is the base event class. Many other events inherits from this.
-    /// </summary>
+    /// <summary>This class is the base event class. Many other events inherits from this.</summary>
     public class MessageEventArgs {
         /// 
         /// All variables declared here have a property associated below.
@@ -38,19 +36,13 @@ namespace SharpWired.MessageEvents {
 
         private readonly string messageName;
 
-        /// <summary>
-        /// The ID for this message
-        /// </summary>
+        /// <summary>The ID for this message</summary>
         public int MessageId { get { return messageId; } }
 
-        /// <summary>
-        /// The name for the message
-        /// </summary>
+        /// <summary>The name for the message</summary>
         public string MessageName { get { return messageName; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId"></param>
         /// <param name="messageName"></param>
         public MessageEventArgs(int messageId, string messageName) {

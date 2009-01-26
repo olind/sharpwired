@@ -68,9 +68,7 @@ namespace SharpWired {
         ///</summary>
         public static string SP { get { return Encoding.ASCII.GetString(new byte[] {0x20}); } }
 
-        /// <summary> 
-        /// Hash the password with the SHA1 algorithm  
-        /// </summary>
+        /// <summary>Hash the password with the SHA1 algorithm  </summary>
         /// <params name="password"> The password in plain text to be hashed</params>
         /// <returns> A lowercase string of hexadecimal characters,
         /// representing a SHA1 hashed password </returns>
@@ -134,9 +132,7 @@ namespace SharpWired {
             return null;
         }
 
-        /// <summary>
-        /// Splits the a Wired string by the Utility.FS delimiter.
-        /// </summary>
+        /// <summary>Splits the a Wired string by the Utility.FS delimiter.</summary>
         /// <param name="message"></param>
         /// <returns></returns>
         public static string[] SplitWiredString(string message) {
@@ -145,9 +141,7 @@ namespace SharpWired {
             return message.Split(delimiterChars);
         }
 
-        /// <summary>
-        /// Converts an integer to a boolean. 
-        /// </summary>
+        /// <summary>Converts an integer to a boolean. </summary>
         /// <param name="i"></param>
         /// <returns>False if the given integer is 0, true otherwise</returns>
         public static bool ConvertIntToBool(int i) {

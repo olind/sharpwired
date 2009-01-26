@@ -29,26 +29,18 @@
 using SharpWired.Model.Users;
 
 namespace SharpWired.MessageEvents {
-    /// <summary>
-    /// MessageEventArgs for User Specification (600)
-    /// </summary>
+    /// <summary>MessageEventArgs for User Specification (600)</summary>
     public class MessageEventArgs_600 : MessageEventArgs_601 {
         private readonly string password;
         private readonly string group;
 
-        /// <summary>
-        /// Request the hashed password
-        /// </summary>
+        /// <summary>Request the hashed password</summary>
         public string Password { get { return password; } }
 
-        /// <summary>
-        /// Request the group(s) for this user
-        /// </summary>
+        /// <summary>Request the group(s) for this user</summary>
         public string Group { get { return group; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId">The id for this message</param>
         /// <param name="messageName">The name for this message</param>
         /// <param name="privileges">The privileges for this user</param>

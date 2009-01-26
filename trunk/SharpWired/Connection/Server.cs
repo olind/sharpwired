@@ -29,29 +29,19 @@
 using System;
 
 namespace SharpWired.Connection {
-    /// <summary>
-    /// Represents a Server with adress and port.
-    /// </summary>
+    /// <summary>Represents a Server with adress and port.</summary>
     [Serializable]
     public class Server {
-        /// <summary>
-        /// Request/Set the Port.
-        /// </summary>
+        /// <summary>Request/Set the Port.</summary>
         public int ServerPort { get; set; }
 
-        /// <summary>
-        /// Request/Set the server machine name.
-        /// </summary>
+        /// <summary>Request/Set the server machine name.</summary>
         public string MachineName { get; set; }
 
-        /// <summary>
-        /// Request/Set the server name; domain or IP.
-        /// </summary>
+        /// <summary>Request/Set the server name; domain or IP.</summary>
         public string ServerName { get; set; }
 
-        /// <summary>
-        /// Constructs.
-        /// </summary>
+        /// <summary>Constructs.</summary>
         /// <param name="serverPort">The port to use.</param>
         /// <param name="machineName">The servers computer name.</param>
         /// <param name="serverName">The domain name or IP adress.</param>
@@ -61,18 +51,14 @@ namespace SharpWired.Connection {
             ServerName = serverName;
         }
 
-        /// <summary>
-        /// Parameterless constructor for de-serialization.
-        /// </summary>
+        /// <summary>Parameterless constructor for de-serialization.</summary>
         public Server() {
             ServerPort = 2000;
             MachineName = "";
             ServerName = "";
         }
 
-        /// <summary>
-        /// Compares the server name, the machine name and the port using '=='.
-        /// </summary>
+        /// <summary>Compares the server name, the machine name and the port using '=='.</summary>
         /// <param name="obj">The object to compare with.</param>
         /// <returns>T/F.</returns>
         public override bool Equals(object obj) {
@@ -86,17 +72,13 @@ namespace SharpWired.Connection {
                    && s.ServerPort == ServerPort;
         }
 
-        /// <summary>
-        /// Returns a string representing this Server.
-        /// </summary>
+        /// <summary>Returns a string representing this Server.</summary>
         /// <returns>([MachineName])[ServerName]:[Port]</returns>
         public override string ToString() {
             return "(" + MachineName + ")" + ServerName + ":" + ServerPort;
         }
 
-        /// <summary>
-        /// Return base.GetHashCode().
-        /// </summary>
+        /// <summary>Return base.GetHashCode().</summary>
         /// <returns>A hash code.</returns>
         public override int GetHashCode() {
             return base.GetHashCode();

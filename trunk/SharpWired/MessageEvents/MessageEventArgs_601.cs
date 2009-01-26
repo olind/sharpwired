@@ -29,20 +29,14 @@
 using SharpWired.Model.Users;
 
 namespace SharpWired.MessageEvents {
-    /// <summary>
-    /// MessageEventArgs for Group Specification
-    /// </summary>
+    /// <summary>MessageEventArgs for Group Specification</summary>
     public class MessageEventArgs_601 : MessageEventArgs_602 {
         private readonly string name;
 
-        /// <summary>
-        /// Request the name for this user or group
-        /// </summary>
+        /// <summary>Request the name for this user or group</summary>
         public string Name { get { return name; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId">The id for this message</param>
         /// <param name="messageName">The name for this message</param>
         /// <param name="privileges">The privileges for this group</param>

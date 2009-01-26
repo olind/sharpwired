@@ -32,9 +32,7 @@ using System.Net;
 using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.Users {
-    /// <summary>
-    /// Represents one user that's online to a Wired server.
-    /// </summary>
+    /// <summary>Represents one user that's online to a Wired server.</summary>
     public class User {
         #region Variables
 
@@ -67,114 +65,70 @@ namespace SharpWired.Model.Users {
 
         #region Properties: User folderListing
 
-        /// <summary>
-        /// Request or set if this user is admin
-        /// </summary>
+        /// <summary>Request or set if this user is admin</summary>
         public bool Admin { get { return admin; } }
 
-        /// <summary>
-        /// Request or set the cipher bits
-        /// </summary>
+        /// <summary>Request or set the cipher bits</summary>
         public int CipherBits { get { return cipherBits; } }
 
-        /// <summary>
-        /// Request or set the cipher name
-        /// </summary>
+        /// <summary>Request or set the cipher name</summary>
         public string CipherName { get { return cipherName; } }
 
-        /// <summary>
-        /// Request or set the client version
-        /// </summary>
+        /// <summary>Request or set the client version</summary>
         public string ClientVersion { get { return clientVersion; } }
 
-        /// <summary>
-        /// Request or set the downloads
-        /// </summary>
+        /// <summary>Request or set the downloads</summary>
         public string Downloads { get { return Downloads; } }
 
-        /// <summary>
-        /// Request or set the host for this user
-        /// </summary>
+        /// <summary>Request or set the host for this user</summary>
         public string Host { get { return host; } }
 
-        /// <summary>
-        /// Request or set the icon for this user
-        /// </summary>
+        /// <summary>Request or set the icon for this user</summary>
         public int Icon { get { return icon; } }
 
-        /// <summary>
-        /// Request or set the idle status for this user
-        /// </summary>
+        /// <summary>Request or set the idle status for this user</summary>
         public bool Idle { get { return idle; } }
 
-        /// <summary>
-        /// Request or set the idle time
-        /// </summary>
+        /// <summary>Request or set the idle time</summary>
         public DateTime IdleTime { get { return idleTime; } }
 
-        /// <summary>
-        /// Request or set the image for this user
-        /// </summary> 
+        /// <summary>Request or set the image for this user</summary>
         public Bitmap Image { get { return image; } }
 
-        /// <summary>
-        /// Request or set ip for this user
-        /// </summary>
+        /// <summary>Request or set ip for this user</summary>
         public IPAddress Ip { get { return ip; } }
 
-        /// <summary>
-        /// Request or set the login for this user
-        /// </summary>
+        /// <summary>Request or set the login for this user</summary>
         public string Login { get { return login; } }
 
-        /// <summary>
-        /// Request or set the login time
-        /// </summary>
+        /// <summary>Request or set the login time</summary>
         public DateTime LoginTime { get { return loginTime; } }
 
-        /// <summary>
-        /// Request or set the nick for this user
-        /// </summary> 
+        /// <summary>Request or set the nick for this user</summary>
         public string Nick { get { return nick; } }
 
-        /// <summary>
-        /// Request or set the destination
-        /// </summary>
+        /// <summary>Request or set the destination</summary>
         public string Path { get { return path; } }
 
-        /// <summary>
-        /// Request or set the size
-        /// </summary>
+        /// <summary>Request or set the size</summary>
         public int Size { get { return size; } }
 
-        /// <summary>
-        /// Request or set the speed
-        /// </summary>
+        /// <summary>Request or set the speed</summary>
         public int Speed { get { return speed; } }
 
-        /// <summary>
-        /// Request or set the status for this user
-        /// </summary> 
+        /// <summary>Request or set the status for this user</summary>
         public string Status { get { return status; } }
 
-        /// <summary>
-        /// Request or set the current transfer
-        /// </summary>
+        /// <summary>Request or set the current transfer</summary>
         public string Transfer { get { return transfer; } }
 
-        /// <summary>
-        /// Request or set the ammount of transferred data
-        /// </summary>
+        /// <summary>Request or set the ammount of transferred data</summary>
         public int Transferred { get { return transferred; } }
 
-        /// <summary>
-        /// Request or set the uploads
-        /// </summary>
+        /// <summary>Request or set the uploads</summary>
         public string Uploads { get { return uploads; } }
 
-        /// <summary>
-        /// Request or set the user id for this user
-        /// </summary>
+        /// <summary>Request or set the user id for this user</summary>
         public int UserId { get { return userId; } }
 
         //TODO: We can now get the user privileges and the group privileges
@@ -183,38 +137,28 @@ namespace SharpWired.Model.Users {
         //      AND user privileges).
         //      The group privileges overrides the user privileges.
 
-        /// <summary>
-        /// Request or set the privileges for this user
-        /// </summary>
+        /// <summary>Request or set the privileges for this user</summary>
         public Privileges UserPrivileges { get { return privileges; } set { privileges = value; } }
 
-        /// <summary>
-        /// Request or set the group for this user
-        /// </summary> 
+        /// <summary>Request or set the group for this user</summary>
         public Group Group { get; set; }
 
         #endregion
 
         #region Events
 
-        /// <summary>
-        /// Delegate for update event
-        /// </summary>
+        /// <summary>Delegate for update event</summary>
         /// <param name="u">The new status</param>
         public delegate void UpdatedDelegate(User u);
 
-        /// <summary>
-        /// The user information for this user was updated.
-        /// </summary>
+        /// <summary>The user information for this user was updated.</summary>
         public event UpdatedDelegate Updated;
 
         #endregion
 
         #region Methods updates user information when a message is received from the server
 
-        /// <summary>
-        /// Updates this user with the information given in the message.
-        /// </summary>
+        /// <summary>Updates this user with the information given in the message.</summary>
         /// <param name="message"></param>
         public void OnStatusChangedMessage(MessageEventArgs_304 message) {
             if (message.UserId != userId) {
@@ -234,9 +178,7 @@ namespace SharpWired.Model.Users {
             }
         }
 
-        /// <summary>
-        /// Call this method when the client information for this user has been updated
-        /// </summary>
+        /// <summary>Call this method when the client information for this user has been updated</summary>
         /// <param name="message"></param>
         public void OnClientInformationMessage(MessageEventArgs_308 message) {
             if (message.UserId != userId) {
@@ -272,9 +214,7 @@ namespace SharpWired.Model.Users {
             }
         }
 
-        /// <summary>
-        /// Call this method when the client image for this user has been updated
-        /// </summary>
+        /// <summary>Call this method when the client image for this user has been updated</summary>
         /// <param name="message"></param>
         public void OnClientImageChangedMessage(MessageEventArgs_340 message) {
             if (message.UserId != userId) {
@@ -289,9 +229,7 @@ namespace SharpWired.Model.Users {
             }
         }
 
-        /// <summary>
-        /// Call this method when the privileges for this user has been updated
-        /// </summary>
+        /// <summary>Call this method when the privileges for this user has been updated</summary>
         /// <param name="message"></param>
         public void OnPrivilegesSpecificationMessage(MessageEventArgs_602 message) {
             if (message.Privileges.UserName != login) {
@@ -303,9 +241,7 @@ namespace SharpWired.Model.Users {
             privileges = new Privileges(message.Privileges);
         }
 
-        /// <summary>
-        /// Updates the user information with the information in the given message.
-        /// </summary>
+        /// <summary>Updates the user information with the information in the given message.</summary>
         /// <param name="message"></param>
         public void UpdateUserInformation(MessageEventArgs_302310 message) {
             if (message.UserId != userId) {
@@ -334,9 +270,7 @@ namespace SharpWired.Model.Users {
 
         #region Initialization
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="message">The message event arg that caused the adding of this user</param>
         public User(MessageEventArgs_302310 message) {
             SetUserInformation(message);

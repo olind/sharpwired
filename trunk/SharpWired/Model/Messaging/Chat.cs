@@ -32,9 +32,7 @@ using SharpWired.MessageEvents;
 using SharpWired.Model.Users;
 
 namespace SharpWired.Model.Messaging {
-    /// <summary>
-    /// The model that the gui can listen to for changes in the chat
-    /// </summary>
+    /// <summary>The model that the gui can listen to for changes in the chat</summary>
     public class Chat {
         #region Fields
 
@@ -47,9 +45,7 @@ namespace SharpWired.Model.Messaging {
 
         #region Constructor
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="m"></param>
         /// <param name="chatId"></param>
         public Chat(Messages m, int chatId) {
@@ -72,26 +68,18 @@ namespace SharpWired.Model.Messaging {
 
         #region Events & Listeners
 
-        /// <summary>
-        /// Delegate for the ChatMessageReceivedEvent
-        /// </summary>
+        /// <summary>Delegate for the ChatMessageReceivedEvent</summary>
         /// <param name="chatMessageItem"></param>
         public delegate void ChatMessageReceivedDelegate(ChatMessageItem chatMessageItem);
 
-        /// <summary>
-        /// Event that's raised when a chat message has arrived
-        /// </summary>
+        /// <summary>Event that's raised when a chat message has arrived</summary>
         public event ChatMessageReceivedDelegate ChatMessageReceivedEvent;
 
-        /// <summary>
-        /// Delegate for the ChatTopicChangedEvent
-        /// </summary>
+        /// <summary>Delegate for the ChatTopicChangedEvent</summary>
         /// <param name="message"></param>
         public delegate void ChatTopicChangedDelegate(MessageEventArgs_341 message);
 
-        /// <summary>
-        /// Event that's raised when the chat topic has been changed
-        /// </summary>
+        /// <summary>Event that's raised when the chat topic has been changed</summary>
         public event ChatTopicChangedDelegate ChatTopicChangedEvent;
 
         public void OnTopicChanged(MessageEventArgs_341 message) {

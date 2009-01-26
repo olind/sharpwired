@@ -40,21 +40,15 @@ using WiredControls.Containers.Forms;
 using WiredControls.ToolStripItems;
 
 namespace SharpWired.Gui {
-    /// <summary>
-    /// The main GUI
-    /// </summary>
+    /// <summary>The main GUI</summary>
     public partial class SharpWiredForm : WiredForm {
         private readonly SharpWiredModel model;
         private BookmarkBackgroundLoader mBookmarkBackgroundLoader;
 
-        /// <summary>
-        /// A list of the ToolStripMenuItems that represents bookmarks.
-        /// </summary>
+        /// <summary>A list of the ToolStripMenuItems that represents bookmarks.</summary>
         private readonly List<ToolStripMenuItem> bookmarkItems = new List<ToolStripMenuItem>();
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         public SharpWiredForm(SharpWiredModel model,
                               SharpWiredController sharpWiredController) {
             this.model = model;
@@ -100,9 +94,7 @@ namespace SharpWired.Gui {
             }
         }
 
-        /// <summary>
-        /// Returns the first ToolStripItem in the given MenuStrip that matched the given name.
-        /// </summary>
+        /// <summary>Returns the first ToolStripItem in the given MenuStrip that matched the given name.</summary>
         /// <param name="strip"></param>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -136,9 +128,7 @@ namespace SharpWired.Gui {
 
         #region Bookmark in the menu.
 
-        /// <summary>
-        /// Displays the bookmark dialog window
-        /// </summary>
+        /// <summary>Displays the bookmark dialog window</summary>
         /// <param name="sender"></param>
         private void ShowBookmarksDialog(object sender) {
             using (var diag = new BookmarkManagerDialog()) {
@@ -152,9 +142,7 @@ namespace SharpWired.Gui {
             }
         }
 
-        /// <summary>
-        /// User wants to manage bookmarks. Open the bookmarmanager gui.
-        /// </summary>
+        /// <summary>User wants to manage bookmarks. Open the bookmarmanager gui.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void manageBookmarksToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -204,9 +192,7 @@ namespace SharpWired.Gui {
             }
         }
 
-        /// <summary>
-        /// The worker is done. Remove the (Loading...) menu item and remove event listeners.
-        /// </summary>
+        /// <summary>The worker is done. Remove the (Loading...) menu item and remove event listeners.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void mBookmarkBackgroundLoader_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
@@ -217,9 +203,7 @@ namespace SharpWired.Gui {
             (mLoadingToolStripMenuItem as AnimatedLoaderItem).Stop();
         }
 
-        /// <summary>
-        /// The loader have loaded something. Add it to the menu.
-        /// </summary>
+        /// <summary>The loader have loaded something. Add it to the menu.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void mBookmarkBackgroundLoader_ProgressChanged(object sender, ProgressChangedEventArgs e) {
@@ -228,9 +212,7 @@ namespace SharpWired.Gui {
             }
         }
 
-        /// <summary>
-        /// The method that is invoked when a bookmark item is clicked.
-        /// </summary>
+        /// <summary>The method that is invoked when a bookmark item is clicked.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void BookmarkItemClick(object sender, EventArgs e) {
@@ -276,9 +258,7 @@ namespace SharpWired.Gui {
             ShowBookmarksDialog(sender);
         }
 
-        /// <summary>
-        /// The news button was clicked
-        /// </summary>
+        /// <summary>The news button was clicked</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void newsToolStripButton_Click(object sender, EventArgs e) {
@@ -293,9 +273,7 @@ namespace SharpWired.Gui {
             transfersToolStripButton.Enabled = true;
         }
 
-        /// <summary>
-        /// The public chat button was clicked
-        /// </summary>
+        /// <summary>The public chat button was clicked</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void publicChatToolStripButton_Click(object sender, EventArgs e) {
@@ -310,9 +288,7 @@ namespace SharpWired.Gui {
             transfersToolStripButton.Enabled = true;
         }
 
-        /// <summary>
-        /// The files button was clicked
-        /// </summary>
+        /// <summary>The files button was clicked</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void filesToolStripButton_Click(object sender, EventArgs e) {
@@ -327,9 +303,7 @@ namespace SharpWired.Gui {
             transfersToolStripButton.Enabled = true;
         }
 
-        /// <summary>
-        /// The transfers button was clicked
-        /// </summary>
+        /// <summary>The transfers button was clicked</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void transfersToolStripButton_Click(object sender, EventArgs e) {

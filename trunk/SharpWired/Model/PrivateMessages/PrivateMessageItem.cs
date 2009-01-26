@@ -30,22 +30,16 @@ using System;
 using SharpWired.Model.Users;
 
 namespace SharpWired.Model.PrivateMessages {
-    /// <summary>
-    /// Represents one private message - Sent or received
-    /// </summary>
+    /// <summary>Represents one private message - Sent or received</summary>
     public class PrivateMessageItem {
         private readonly User userItem;
         private readonly string message;
         private readonly DateTime timeStamp;
 
-        /// <summary>
-        /// Request the user sending or receiving this message
-        /// </summary>
+        /// <summary>Request the user sending or receiving this message</summary>
         public User UserItem { get { return userItem; } }
 
-        /// <summary>
-        /// Request the private message
-        /// </summary>
+        /// <summary>Request the private message</summary>
         public string Message { get { return message; } }
 
         /// <summary>
@@ -55,9 +49,7 @@ namespace SharpWired.Model.PrivateMessages {
         /// </summary>
         public DateTime TimeStamp { get { return timeStamp; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         public PrivateMessageItem(User user, String message) {
             userItem = user;
             this.message = message;

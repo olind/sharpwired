@@ -32,15 +32,11 @@ using SharpWired.Model;
 using SharpWired.Model.Users;
 
 namespace SharpWired.Controller {
-    /// <summary>
-    /// Handles groups
-    /// </summary>
+    /// <summary>Handles groups</summary>
     internal class GroupController : ControllerBase {
         private readonly List<Group> groups = new List<Group>();
 
-        /// <summary>
-        /// Gets the group with the given name
-        /// </summary>
+        /// <summary>Gets the group with the given name</summary>
         /// <param name="name">The name for the searched group</param>
         /// <returns>The searched group. If not found null is returned.</returns>
         public Group GetGroup(string name) {
@@ -66,9 +62,7 @@ namespace SharpWired.Controller {
             }
         }
 
-        /// <summary>
-        /// Adds the group with the given name and privileges to the list of groups
-        /// </summary>
+        /// <summary>Adds the group with the given name and privileges to the list of groups</summary>
         /// <param name="name">The name of the group</param>
         /// <param name="p">The privileges for this group</param>
         /// <returns>True if the group was added. False otherwise.</returns>

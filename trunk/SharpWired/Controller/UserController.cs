@@ -37,14 +37,10 @@ namespace SharpWired.Controller {
     /// the users available in that chat.
     /// </summary>
     public class UserController : ControllerBase {
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         public UserController(SharpWiredModel model) : base(model) {}
 
-        /// <summary>
-        /// Request the user information for the given list of users.
-        /// </summary>
+        /// <summary>Request the user information for the given list of users.</summary>
         /// <param name="users"></param>
         public void GetUserInfo(List<User> users) {
             foreach (var u in users) {
@@ -52,9 +48,7 @@ namespace SharpWired.Controller {
             }
         }
 
-        /// <summary>
-        /// Request the user information for the given user.
-        /// </summary>
+        /// <summary>Request the user information for the given user.</summary>
         /// <param name="user"></param>
         public void GetUserInfo(User user) {
             commands.Info(user.UserId);

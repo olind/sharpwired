@@ -27,20 +27,14 @@
 #endregion
 
 namespace SharpWired.MessageEvents {
-    /// <summary>
-    /// MessageEventArgs for Login Succeeded (201)
-    /// </summary>
+    /// <summary>MessageEventArgs for Login Succeeded (201)</summary>
     public class MessageEventArgs_201 : MessageEventArgs {
         private readonly int userId;
 
-        /// <summary>
-        /// Request the user id for the user that logged in
-        /// </summary>
+        /// <summary>Request the user id for the user that logged in</summary>
         public int UserId { get { return userId; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId">The ID for this message</param>
         /// <param name="messageName">The name for this message</param>
         /// <param name="userId">The user ID</param>

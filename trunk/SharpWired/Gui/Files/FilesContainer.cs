@@ -29,9 +29,7 @@
 using SharpWired.Model.Files;
 
 namespace SharpWired.Gui.Files {
-    /// <summary>
-    /// Holds referenses to and inits the other file views
-    /// </summary>
+    /// <summary>Holds referenses to and inits the other file views</summary>
     public partial class FilesContainer : SharpWiredGuiBase {
         public FilesContainer() {
             InitializeComponent();

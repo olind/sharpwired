@@ -29,9 +29,7 @@
 using SharpWired.Model;
 
 namespace SharpWired.Controller {
-    /// <summary>
-    /// Model representation of the news
-    /// </summary>
+    /// <summary>Model representation of the news</summary>
     public class NewsController : ControllerBase {
         #region Constructor
 
@@ -44,18 +42,14 @@ namespace SharpWired.Controller {
 
         #region Methods
 
-        /// <summary>
-        /// Send a post message to the server
-        /// </summary>
+        /// <summary>Send a post message to the server</summary>
         /// <param name="newsMessage"></param>
         public void PostNewsMessage(string newsMessage) {
             //TODO: Check permissions before posting news
             commands.Post(newsMessage);
         }
 
-        /// <summary>
-        /// Refresh the news from the server
-        /// </summary>
+        /// <summary>Refresh the news from the server</summary>
         public void ReloadNewsFromServer() {
             commands.News();
         }

@@ -31,9 +31,7 @@ using System.Collections.Generic;
 using SharpWired.Model.News;
 
 namespace SharpWired.Gui.News {
-    /// <summary>
-    /// The News view
-    /// </summary>
+    /// <summary>The News view</summary>
     public partial class NewsContainer : WebBrowserGuiBase {
         private delegate void WriteToNewsCallback(GuiMessageItem guiMessage);
 

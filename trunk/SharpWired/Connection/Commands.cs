@@ -37,14 +37,10 @@ namespace SharpWired.Connection {
     /// with the Wired 1.1 protocol.
     /// </summary>
     public class Commands {
-        /// <summary>
-        /// The socket this commands uses
-        /// </summary>
+        /// <summary>The socket this commands uses</summary>
         private readonly SecureSocket socket;
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         public Commands(SecureSocket socket) {
             this.socket = socket;
         }
@@ -58,18 +54,14 @@ namespace SharpWired.Connection {
             socket.SendMessage(message);
         }
 
-        /// <summary>
-        /// Connects the client to the server.
-        /// </summary>
+        /// <summary>Connects the client to the server.</summary>
         public void InitConnection(UserInformation userInformation) {
             if (socket != null) {
                 SendMessage("HELLO");
             }
         }
 
-        /// <summary>
-        /// Bans the user.
-        /// </summary>
+        /// <summary>Bans the user.</summary>
         /// <param name="id">The ID for the user to be banned</param>
         /// <param name="message">The message to send to the user that is banned</param>
         public void Ban(int id, string message) {
@@ -78,18 +70,14 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Requests the server banner.
-        /// </summary>
+        /// <summary>Requests the server banner.</summary>
         public void Banner() {
             if (socket != null) {
                 socket.SendMessage("BANNER");
             }
         }
 
-        /// <summary>
-        /// Send a broadcast message.
-        /// </summary>
+        /// <summary>Send a broadcast message.</summary>
         /// <param name="message">The message to broadcast</param>
         public void Broadcast(string message) {
             if (socket != null) {
@@ -97,18 +85,14 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Empty the news.
-        /// </summary>
+        /// <summary>Empty the news.</summary>
         public void Clearnews() {
             if (socket != null) {
                 socket.SendMessage("CLEARNEWS");
             }
         }
 
-        /// <summary>
-        /// Send the client information.
-        /// </summary>
+        /// <summary>Send the client information.</summary>
         public void Client() {
             if (socket != null) {
                 socket.SendMessage("CLIENT" + Utility.SP + SharpWiredClientInfo.AppVersion);
@@ -121,9 +105,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Create a new user
-        /// </summary>
+        /// <summary>Create a new user</summary>
         /// <param name="name">The user name for the new user</param>
         /// <param name="password">The non-hashed password for the new user</param>
         public void CreateUser(string name, string password) {
@@ -139,9 +121,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Create a new group
-        /// </summary>
+        /// <summary>Create a new group</summary>
         /// <param name="name">The name of the new group</param>
         public void CreateGroup(string name) {
             if (socket != null) {
@@ -154,9 +134,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Decline a chat invitation
-        /// </summary>
+        /// <summary>Decline a chat invitation</summary>
         /// <param name="id">The id for the chat to decline</param>
         public void Decline(int id) {
             if (socket != null) {
@@ -170,9 +148,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Delete a user
-        /// </summary>
+        /// <summary>Delete a user</summary>
         /// <param name="name">The user name for the user to delete</param>
         public void DeleteUser(string name) {
             if (socket != null) {
@@ -180,9 +156,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Delete a group
-        /// </summary>
+        /// <summary>Delete a group</summary>
         /// <param name="group">The name of the group to delete</param>
         public void DeleteGroup(string group) {
             if (socket != null) {
@@ -190,9 +164,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Modify a user
-        /// </summary>
+        /// <summary>Modify a user</summary>
         /// <param name="name">The user name for the user to modify</param>
         /// <param name="password">The new password for the user</param>
         /// <param name="group">The new group for the user</param>
@@ -208,9 +180,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Modify a group
-        /// </summary>
+        /// <summary>Modify a group</summary>
         /// <param name="name">The name of the group to modify</param>
         /// <param name="privileges">The new privileges for the group</param>
         public void EditGroup(string name, string privileges) {
@@ -236,18 +206,14 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Request a listing of all group accounts on the server
-        /// </summary>
+        /// <summary>Request a listing of all group accounts on the server</summary>
         public void Groups() {
             if (socket != null) {
                 socket.SendMessage("GROUPS");
             }
         }
 
-        /// <summary>
-        /// Request a conversation with a server.
-        /// </summary>
+        /// <summary>Request a conversation with a server.</summary>
         /// <param name="serverPort">The port for the server to use for this connection</param>
         /// <param name="machineName">The host running the server application</param>
         /// <param name="serverName">The machine name for the server, must match the machine name in the server certificate</param>
@@ -258,9 +224,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Change the icon
-        /// </summary>
+        /// <summary>Change the icon</summary>
         /// <param name="icon">The icon number to use</param>
         /// <param name="image">The custom icon image</param>
         public void Icon(int icon, Image image) {
@@ -271,9 +235,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Request client information
-        /// </summary>
+        /// <summary>Request client information</summary>
         /// <param name="userId">The ID for the user client (user) to request information for</param>
         public void Info(int userId) {
             if (socket != null) {
@@ -281,9 +243,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Invite a user to a chat
-        /// </summary>
+        /// <summary>Invite a user to a chat</summary>
         /// <param name="userId">The ID for the user to invite</param>
         /// <param name="chatId">The ID for the chat to invite the user to</param>
         public void Invite(int userId, int chatId) {
@@ -292,9 +252,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Join a chat
-        /// </summary>
+        /// <summary>Join a chat</summary>
         /// <param name="chatId">The ID for the chat to join.</param>
         public void Join(int chatId) {
             if (socket != null) {
@@ -302,9 +260,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Kick a user
-        /// </summary>
+        /// <summary>Kick a user</summary>
         /// <param name="userId">The user ID for the user to kick</param>
         /// <param name="message">The message to send to the user to kick</param>
         public void Kick(int userId, string message) {
@@ -313,9 +269,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Leave a chat
-        /// </summary>
+        /// <summary>Leave a chat</summary>
         /// <param name="chatId">The chat ID for the chat to leave</param>
         public void Leave(int chatId) {
             if (socket != null) {
@@ -329,9 +283,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Send action to chat
-        /// </summary>
+        /// <summary>Send action to chat</summary>
         /// <param name="id">The ID for the chat to send to</param>
         /// <param name="message">The action message</param>
         public void Me(int id, string message) {
@@ -340,9 +292,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Move a file or folder
-        /// </summary>
+        /// <summary>Move a file or folder</summary>
         /// <param name="from">The current destination to the file or folder</param>
         /// <param name="to">The new destination to the file or folder</param>
         public void Move(string from, string to) {
@@ -351,9 +301,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Send a private message to a user
-        /// </summary>
+        /// <summary>Send a private message to a user</summary>
         /// <param name="id">The ID for the user to receive the message</param>
         /// <param name="message">The message</param>
         public void Msg(int id, string message) {
@@ -362,18 +310,14 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Request the news
-        /// </summary>
+        /// <summary>Request the news</summary>
         public void News() {
             if (socket != null) {
                 socket.SendMessage("NEWS");
             }
         }
 
-        /// <summary>
-        /// Change the nic
-        /// </summary>
+        /// <summary>Change the nic</summary>
         /// <param name="nick">The new nick name</param>
         public void Nick(string nick) {
             if (socket != null) {
@@ -381,9 +325,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Send the password
-        /// </summary>
+        /// <summary>Send the password</summary>
         /// <param name="password">The password to be sent</param>
         public void Pass(string password) {
             if (socket != null) {
@@ -393,9 +335,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Ping the server
-        /// </summary>
+        /// <summary>Ping the server</summary>
         public void Ping(object sender) {
             if (socket != null) {
                 socket.SendMessage("PING");
@@ -405,19 +345,13 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Delegate for notifying when pings are sent
-        /// </summary>
+        /// <summary>Delegate for notifying when pings are sent</summary>
         public delegate void PingSentDelegate(object sender);
 
-        /// <summary>
-        /// Event raised when a ping is sent
-        /// </summary>
+        /// <summary>Event raised when a ping is sent</summary>
         public event PingSentDelegate PingSentEvent;
 
-        /// <summary>
-        /// Post a message to the news
-        /// </summary>
+        /// <summary>Post a message to the news</summary>
         /// <param name="message">The message to be posted</param>
         public void Post(string message) {
             if (socket != null) {
@@ -425,18 +359,14 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Create a private chat on the server
-        /// </summary>
+        /// <summary>Create a private chat on the server</summary>
         public void PrivateChat() {
             if (socket != null) {
                 socket.SendMessage("PRIVCHAT");
             }
         }
 
-        /// <summary>
-        /// Request the current privileges mask
-        /// </summary>
+        /// <summary>Request the current privileges mask</summary>
         public void Privileges() {
             if (socket != null) {
                 socket.SendMessage("PRIVILEGES");
@@ -450,9 +380,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Request account specification for a user
-        /// </summary>
+        /// <summary>Request account specification for a user</summary>
         /// <param name="name">The name of the user to request information on</param>
         public void ReadUser(string name) {
             if (socket != null) {
@@ -460,9 +388,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Request the account specification for a group
-        /// </summary>
+        /// <summary>Request the account specification for a group</summary>
         /// <param name="name">The group to request specification for</param>
         public void ReadGroup(string name) {
             if (socket != null) {
@@ -479,9 +405,7 @@ namespace SharpWired.Connection {
             Say(1, message);
         }
 
-        /// <summary>
-        /// Send a chat message
-        /// </summary>
+        /// <summary>Send a chat message</summary>
         /// <param name="id">The ID for the chat where the message will be sent to</param>
         /// <param name="message">The message</param>
         public void Say(int id, string message) {
@@ -490,9 +414,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Search for a file
-        /// </summary>
+        /// <summary>Search for a file</summary>
         /// <param name="query">The query for what to search for</param>
         public void Search(string query) {
             if (socket != null) {
@@ -506,9 +428,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Change the status message
-        /// </summary>
+        /// <summary>Change the status message</summary>
         /// <param name="status">The new status message</param>
         public void Status(string status) {
             if (socket != null) {
@@ -516,9 +436,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Set the topic to a chat
-        /// </summary>
+        /// <summary>Set the topic to a chat</summary>
         /// <param name="chatId">The ID for the chat to change topic</param>
         /// <param name="topic">The new topic</param>
         public void Topic(int chatId, string topic) {
@@ -527,9 +445,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Initiate the transfer with the given ID.
-        /// </summary>
+        /// <summary>Initiate the transfer with the given ID.</summary>
         /// <param name="hash">The hash key for the transfer</param>
         public void Transfer(string hash) {
             if (socket != null) {
@@ -543,9 +459,7 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Send login name
-        /// </summary>
+        /// <summary>Send login name</summary>
         /// <param name="login">The login name to be sent</param>
         public void User(string login) {
             if (socket != null) {
@@ -553,18 +467,14 @@ namespace SharpWired.Connection {
             }
         }
 
-        /// <summary>
-        /// Request a listing of all user accounts on the server
-        /// </summary>
+        /// <summary>Request a listing of all user accounts on the server</summary>
         public void Users() {
             if (socket != null) {
                 socket.SendMessage("USERS");
             }
         }
 
-        /// <summary>
-        /// Request the user list for a chat
-        /// </summary>
+        /// <summary>Request the user list for a chat</summary>
         /// <param name="chat">The ID for the chat</param>
         public void Who(int chat) {
             if (socket != null) {

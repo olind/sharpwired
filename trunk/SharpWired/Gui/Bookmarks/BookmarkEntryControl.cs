@@ -32,9 +32,7 @@ using SharpWired.Connection;
 using SharpWired.Connection.Bookmarks;
 
 namespace SharpWired.Gui.Bookmarks {
-    /// <summary>
-    /// A control for showing and editing a BookmarkEntry.
-    /// </summary>
+    /// <summary>A control for showing and editing a BookmarkEntry.</summary>
     public partial class BookmarkEntryControl : UserControl {
         //The password should only be hashed if we edit it 
         //otherwise it will be hashed twice
@@ -43,9 +41,7 @@ namespace SharpWired.Gui.Bookmarks {
 
         #region Constructors
 
-        /// <summary>
-        /// Inits.
-        /// </summary>
+        /// <summary>Inits.</summary>
         public BookmarkEntryControl() {
             InitializeComponent();
         }
@@ -54,9 +50,7 @@ namespace SharpWired.Gui.Bookmarks {
 
         #region Request Bookmark
 
-        /// <summary>
-        /// Request a Bookmark created from the info entered into the control at present.
-        /// </summary>
+        /// <summary>Request a Bookmark created from the info entered into the control at present.</summary>
         /// <returns>A Bookmark.</returns>
         public Bookmark GetBookmark() {
             return new Bookmark(nameBox.Text.Trim(),
@@ -64,9 +58,7 @@ namespace SharpWired.Gui.Bookmarks {
                                 GetUser());
         }
 
-        /// <summary>
-        /// Request the user info. Password should be hashed!
-        /// </summary>
+        /// <summary>Request the user info. Password should be hashed!</summary>
         /// <returns>The user information object for this user.</returns>
         private UserInformation GetUser() {
             var password = passwordBox.Text;
@@ -80,9 +72,7 @@ namespace SharpWired.Gui.Bookmarks {
                                        password);
         }
 
-        /// <summary>
-        /// Creates a Server from what is currently entered into the controls.
-        /// </summary>
+        /// <summary>Creates a Server from what is currently entered into the controls.</summary>
         /// <returns>A Server.</returns>
         private Server GetServer() {
             return new Server((int) portUpDown.Value,
@@ -94,9 +84,7 @@ namespace SharpWired.Gui.Bookmarks {
 
         #region Set Bookmark
 
-        /// <summary>
-        /// Set the info to display in the controls.
-        /// </summary>
+        /// <summary>Set the info to display in the controls.</summary>
         /// <param name="bookmark">The Bookmark to set.</param>
         public void SetBookmark(Bookmark bookmark) {
             if (bookmark != null) {
@@ -112,9 +100,7 @@ namespace SharpWired.Gui.Bookmarks {
             ShowPasswordBox(false);
         }
 
-        /// <summary>
-        /// Set the user info to show.
-        /// </summary>
+        /// <summary>Set the user info to show.</summary>
         /// <param name="user">The UserInformation to show.</param>
         public void SetUser(UserInformation user) {
             suspendEvents = true;
@@ -132,9 +118,7 @@ namespace SharpWired.Gui.Bookmarks {
             suspendEvents = false;
         }
 
-        /// <summary>
-        /// Set the Server to display.
-        /// </summary>
+        /// <summary>Set the Server to display.</summary>
         /// <param name="server">The Server object to display.</param>
         public void SetServer(Server server) {
             suspendEvents = true;
@@ -154,20 +138,14 @@ namespace SharpWired.Gui.Bookmarks {
 
         #region Events
 
-        /// <summary>
-        /// This is used for the ValueChanged event.
-        /// </summary>
+        /// <summary>This is used for the ValueChanged event.</summary>
         /// <param name="sender">The sender of the event.</param>
         public delegate void ValueChangedDelegate(object sender);
 
-        /// <summary>
-        /// Listen to this if you want to know when the Server name or port changed.
-        /// </summary>
+        /// <summary>Listen to this if you want to know when the Server name or port changed.</summary>
         public event ValueChangedDelegate ValueChanged;
 
-        /// <summary>
-        /// Triggers the ValueChanged event.
-        /// </summary>
+        /// <summary>Triggers the ValueChanged event.</summary>
         protected virtual void OnValueChanged() {
             if (!suspendEvents) {
                 if (ValueChanged != null) {
@@ -201,9 +179,7 @@ namespace SharpWired.Gui.Bookmarks {
             passwordBox.Text = "";
         }
 
-        /// <summary>
-        /// Shold the password box be shown or not. 
-        /// </summary>
+        /// <summary>Shold the password box be shown or not. </summary>
         /// <param name="show">
         ///     If true show password box. 
         ///     Hide it otherwise.

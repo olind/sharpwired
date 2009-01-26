@@ -36,14 +36,10 @@ namespace SharpWired.MessageEvents {
     public class MessageEventArgs_303331332 : MessageEventArgs_311330 {
         private readonly int userId;
 
-        /// <summary>
-        /// Gets the user id
-        /// </summary>
+        /// <summary>Gets the user id</summary>
         public int UserId { get { return userId; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId">The ID for this message</param>
         /// <param name="messageName">The name of this message</param>
         /// <param name="chatId">The chat id for this message</param>

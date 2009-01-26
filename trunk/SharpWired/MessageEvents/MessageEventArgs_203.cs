@@ -29,20 +29,14 @@
 using System.Drawing;
 
 namespace SharpWired.MessageEvents {
-    /// <summary>
-    /// MessageEventArgs for Server Banner (203)
-    /// </summary>
+    /// <summary>MessageEventArgs for Server Banner (203)</summary>
     public class MessageEventArgs_203 : MessageEventArgs {
         private readonly Bitmap image;
 
-        /// <summary>
-        /// Request the new server banner
-        /// </summary>
+        /// <summary>Request the new server banner</summary>
         public Bitmap Image { get { return image; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId">The id for this message</param>
         /// <param name="messageName">The name for this message</param>
         /// <param name="image">The new server banner</param>

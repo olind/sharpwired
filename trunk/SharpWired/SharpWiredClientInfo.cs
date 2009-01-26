@@ -29,9 +29,7 @@
 using System;
 
 namespace SharpWired {
-    /// <summary>
-    /// Holds client and protocol information
-    /// </summary>
+    /// <summary>Holds client and protocol information</summary>
     public static class SharpWiredClientInfo {
         //TODO: This data should updated once we are supporting Mono
         //See: http://support.microsoft.com/default.aspx?scid=kb%3Ben-us%3B304283
@@ -46,24 +44,16 @@ namespace SharpWired {
         private static readonly string appVersion = clientName + "/0.1-Pre" + Utility.SP + "(" + Os + ")" + Utility.SP + "(" + libVersion + ")";
         private static readonly string os = osRelease + "; " + osVersion + "; " + architecture;
 
-        /// <summary>
-        /// Gets the Wired protocol version Sharpwired is using.
-        /// </summary>
+        /// <summary>Gets the Wired protocol version Sharpwired is using.</summary>
         public static double ProtocolVersion { get { return protocolVersion; } }
 
-        /// <summary>
-        /// Gets the name for this client.
-        /// </summary>
+        /// <summary>Gets the name for this client.</summary>
         public static string ClientName { get { return clientName; } }
 
-        /// <summary>
-        /// Gets the app version for this client.
-        /// </summary>
+        /// <summary>Gets the app version for this client.</summary>
         public static string AppVersion { get { return appVersion; } }
 
-        /// <summary>
-        /// Request the operative system info string
-        /// </summary>
+        /// <summary>Request the operative system info string</summary>
         public static string Os { get { return os; } }
     }
 }

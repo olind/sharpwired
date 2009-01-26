@@ -29,20 +29,14 @@
 using System.Drawing;
 
 namespace SharpWired.MessageEvents {
-    /// <summary>
-    /// MessageEventArgs for message Client Image Changed (340)
-    /// </summary>
+    /// <summary>MessageEventArgs for message Client Image Changed (340)</summary>
     public class MessageEventArgs_340 : MessageEventArgs_201 {
         private readonly Bitmap image;
 
-        /// <summary>
-        /// The image for a user
-        /// </summary>
+        /// <summary>The image for a user</summary>
         public Bitmap Image { get { return image; } }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <summary>Constructor</summary>
         /// <param name="messageId">The message id</param>
         /// <param name="messageName">The message name</param>
         /// <param name="userId">The user id that changed image</param>
