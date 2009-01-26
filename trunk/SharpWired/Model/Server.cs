@@ -36,9 +36,6 @@ using SharpWired.Model.Users;
 namespace SharpWired.Model {
     /// <summary>Represents the connected server</summary>
     public class Server : ModelBase {
-        private Chat publicChat;
-        private News.News news;
-        private Transfers.Transfers transfers;
         private HeartBeatTimer HeartBeat { get; set; }
 
         /// <summary>Request or set the server app version</summary>
@@ -63,22 +60,27 @@ namespace SharpWired.Model {
         public DateTime StartTime { get; set; }
 
         /// <summary>Request the public chat for this server</summary>
-        public Chat PublicChat { get { return publicChat; } }
+        public Chat PublicChat { get; private set; }
 
         /// <summary>Request the news for this server</summary>
-        public News.News News { get { return news; } }
+        public News.News News { get; private set; }
 
         /// <summary>Gets the file listing model</summary>
         public FileTree FileRoot { get; private set; }
 
-        public Transfers.Transfers Transfers { get { return transfers; } }
+        public Transfers.Transfers Transfers { get; private set; }
 
         /// <summary>Sets the user id for this user.</summary>
         public int OwnUserId { get; set; }
 
         public User User { get { return PublicChat.Users.GetUser(OwnUserId); } }
+        
+        public delegate void ServerStatus();
 
-        public Server(MessageEventArgs_200 message) {
+        public event ServerStatus Online;
+        public event ServerStatus Offline;
+
+        public void SetInfo(MessageEventArgs_200 message) {
             AppVersion = message.AppVersion;
             FilesCount = message.FilesCount;
             FileSize = message.FilesSize;
@@ -90,25 +92,16 @@ namespace SharpWired.Model {
             ConnectionManager.Messages.LoginSucceededEvent += OnLoginSucceeded;
         }
 
-        #region Events & Listeners
-
-        public delegate void ServerStatus();
-
-        public event ServerStatus Online;
-        public event ServerStatus Offline;
-
-        #endregion
-
-        #region Methods
-
         public void GoOffline() {
             if (Offline != null) {
                 Offline();
             }
 
-            publicChat = null;
-            news = null;
+            PublicChat = null;
+            News = null;
             FileRoot = null;
+
+            // TODO: Should probably null much more here (HeartBeat etc).
         }
 
         private void OnLoginSucceeded(object sender, MessageEventArgs_201 message) {
@@ -123,19 +116,17 @@ namespace SharpWired.Model {
             HeartBeat = new HeartBeatTimer(ConnectionManager);
             HeartBeat.StartTimer();
 
-            publicChat = new Chat(ConnectionManager.Messages, 1); // 1 = chat id for public chat
-            news = new News.News(ConnectionManager.Messages);
+            PublicChat = new Chat(ConnectionManager.Messages, 1); // 1 = chat id for public chat
+            News = new News.News(ConnectionManager.Messages);
 
             FileRoot = new FileTree();
             FileRoot.Reload();
 
-            transfers = new Transfers.Transfers();
+            Transfers = new Transfers.Transfers();
 
             if (Online != null) {
                 Online();
             }
         }
-
-        #endregion
     }
 }

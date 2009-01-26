@@ -45,7 +45,7 @@ namespace SharpWired.Gui {
         private string messageType;
 
         //For chat and topic messages
-        private readonly string nickName;
+        private readonly string nickName = "";
         private readonly string message;
 
         //For error messages
@@ -74,8 +74,10 @@ namespace SharpWired.Gui {
                 }
 
                 var divClass = "";
-                if (Nick == Model.Server.User.Nick) {
-                    divClass = " class=\"me\"";
+                if (isErrorMessage == false) {
+                    if (Nick == Model.Server.User.Nick) {
+                        divClass = " class=\"me\"";
+                    }
                 }
 
                 return
@@ -125,6 +127,7 @@ namespace SharpWired.Gui {
             messageType = "errorEntry";
             isErrorMessage = true;
             timeStamp = DateTime.Now;
+            this.message = errorDescription;
             this.errorDescription = errorDescription;
             this.solutionIdea = solutionIdea;
             this.bookmark = bookmark;

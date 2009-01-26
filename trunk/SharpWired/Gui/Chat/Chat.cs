@@ -35,17 +35,14 @@ using SharpWired.MessageEvents;
 using SharpWired.Model.Messaging;
 
 namespace SharpWired.Gui.Chat {
-    /// <summary>Control for chats</summary>
     public partial class Chat : WebBrowserGuiBase {
         private delegate void ChangeTopicCallback(GuiMessageItem guiMessage);
 
-        #region Initialization
-
         public Chat() {
             InitializeComponent();
-        }
 
-        #endregion
+            Model.Errors.LoginFailed += OnLoginFailed;
+        }
 
         protected override void OnOnline() {
             Model.Server.PublicChat.ChatMessageReceivedEvent += OnChatMessageArrived;
@@ -88,8 +85,7 @@ namespace SharpWired.Gui.Chat {
         /// <param name="errorDescription"></param>
         /// <param name="solutionIdea"></param>
         /// <param name="bookmark"></param>
-        public void OnErrorEvent(string errorDescription, string solutionIdea,
-                                 Bookmark bookmark) {
+        public void OnLoginFailed(string errorDescription, string solutionIdea, Bookmark bookmark) {
             var gmi = new GuiMessageItem(errorDescription, solutionIdea, bookmark);
             AppendHTMLToWebBrowser(chatWebBrowser, gmi);
         }
@@ -112,8 +108,6 @@ namespace SharpWired.Gui.Chat {
             }
         }
 
-        #region Send chat messages
-
         private void sendChatButton_MouseUp(object sender, MouseEventArgs e) {
             Controller.ChatController.SendChatMessage(chatInputTextBox.Text);
             chatInputTextBox.Clear();
@@ -128,8 +122,6 @@ namespace SharpWired.Gui.Chat {
                 chatInputTextBox.Clear();
             }
         }
-
-        #endregion
 
         #region Edit topic
 

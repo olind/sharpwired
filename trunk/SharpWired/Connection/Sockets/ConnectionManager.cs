@@ -34,18 +34,12 @@ using SharpWired.Connection.Sockets;
 namespace SharpWired.Connection {
     /// <summary>Manages connections</summary>
     public class ConnectionManager {
-        #region Fields
-
         private readonly Messages messages;
         private readonly Commands commands;
         private readonly SecureSocket commandSocket;
         protected BinarySecureSocket binarySocket;
         private Bookmark mCurrentBookmark;
         private readonly LagHandler lagHandler;
-
-        #endregion
-
-        #region Constructor
 
         /// <summary>Constructs a ConnectionManager. Creates a SecureSocket, a Message, and a Commands.</summary>
         public ConnectionManager() {
@@ -54,10 +48,6 @@ namespace SharpWired.Connection {
             commands = new Commands(commandSocket);
             lagHandler = new LagHandler();
         }
-
-        #endregion
-
-        #region Properties
 
         /// <summary>Request the class that exposes the message events.</summary>
         public Messages Messages { get { return messages; } }
@@ -70,10 +60,6 @@ namespace SharpWired.Connection {
 
         /// <summary>Gets the current lag</summary>
         public TimeSpan? CurrentLag { get { return lagHandler.CurrentLag; } }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Connect to the Server in the Bookmark using the UserInfo from the
@@ -142,7 +128,5 @@ namespace SharpWired.Connection {
             }
             return binarySocket;
         }
-
-        #endregion
     }
 }
