@@ -29,6 +29,7 @@
 using System;
 using System.Collections.Generic;
 using SharpWired.Model.News;
+using System.Diagnostics;
 
 namespace SharpWired.Gui.News {
     /// <summary>The News view</summary>
@@ -62,13 +63,13 @@ namespace SharpWired.Gui.News {
 
         #region Receiving from model
 
-        private void OnNewsListingDone(List<NewsPost> newsList) {
+        private void OnNewsListingDone(List<NewsMessageItem> newsList) {
             foreach (var n in newsList) {
                 OnNewsPostReceived(n);
             }
         }
 
-        private void OnNewsPostReceived(NewsPost newPost) {
+        private void OnNewsPostReceived(NewsMessageItem newPost) {
             var m = new GuiMessageItem(newPost);
             AppendHTMLToWebBrowser(newsWebBrowser, m);
         }

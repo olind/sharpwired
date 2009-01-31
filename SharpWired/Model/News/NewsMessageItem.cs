@@ -31,7 +31,7 @@ using SharpWired.MessageEvents;
 
 namespace SharpWired.Model.News {
     /// <summary>Represents one news message</summary>
-    public class NewsPost /*: IComparable */ {
+    public class NewsMessageItem /*: IComparable */ {
         #region Fields
 
         private readonly string nick;
@@ -42,7 +42,7 @@ namespace SharpWired.Model.News {
 
         #region Constructor
 
-        public NewsPost(MessageEventArgs_320322 messageEventArgs) {
+        public NewsMessageItem(MessageEventArgs_320322 messageEventArgs) {
             nick = messageEventArgs.Nick;
             postTime = messageEventArgs.PostTime;
             post = messageEventArgs.Post;
@@ -56,7 +56,7 @@ namespace SharpWired.Model.News {
         public string Nick { get { return nick; } }
 
         /// <summary>Gets the date when this message was posted</summary>
-        public DateTime PostTime { get { return postTime; } }
+        public DateTime Time { get { return postTime; } }
 
         /// <summary>Request the news post body</summary>
         public string Post { get { return post; } }
@@ -69,7 +69,7 @@ namespace SharpWired.Model.News {
         /// <param name="obj"></param>
         /// <returns></returns>
         public int CompareTo(object obj) {
-            var np = obj as NewsPost;
+            var np = obj as NewsMessageItem;
             var thisPost = postTime + nick + post;
             var comparePost = np.postTime + np.nick + np.post;
             return thisPost.CompareTo(comparePost);

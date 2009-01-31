@@ -34,16 +34,12 @@ using SharpWired.Model.Users;
 namespace SharpWired.Model.Messaging {
     /// <summary>The model that the gui can listen to for changes in the chat</summary>
     public class Chat {
-        #region Fields
-
         private readonly int chatId;
         private readonly UserList users;
         private MessageEventArgs_341 topic;
         private readonly List<ChatMessageItem> chatMessages;
 
-        #endregion
-
-        #region Constructor
+        public UserList Users { get { return users; } }
 
         /// <summary>Constructor</summary>
         /// <param name="m"></param>
@@ -58,15 +54,6 @@ namespace SharpWired.Model.Messaging {
             m.ActionChatEvent += OnActionChatEvent;
         }
 
-        #endregion
-
-        #region Properties
-
-        public UserList Users { get { return users; } }
-
-        #endregion
-
-        #region Events & Listeners
 
         /// <summary>Delegate for the ChatMessageReceivedEvent</summary>
         /// <param name="chatMessageItem"></param>
@@ -112,7 +99,5 @@ namespace SharpWired.Model.Messaging {
                 }
             }
         }
-
-        #endregion
     }
 }
