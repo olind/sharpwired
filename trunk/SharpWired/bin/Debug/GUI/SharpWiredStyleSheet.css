@@ -81,9 +81,7 @@ table {
 }
 
 /** END OF CSS RESET ******************/
-
-
-/** CHAT ******************/
+/** CHAT & NEWS ******************/
 
 body {
 	font-size: small;
@@ -93,7 +91,7 @@ body {
 }
 
 div {
-	padding: 0.4em 0.5em;
+	padding: 0.4em 0;
 	border: 1px solid #eeeeec;
 	margin: 0.5em;
 	border-right: 2px solid #d3d7cf;
@@ -101,9 +99,16 @@ div {
 	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAABTSURBVFiF7ZLBCcAwDMTckP1n7qcjBKIKCfy3OM1IeL77PXskIuv2A6fQLKIRKS0aGpHSoqERKS0aGpHSoqERKS0aGpHSoqERKS0aGpHSoqEReQFA9AB0TvlLtwAAAABJRU5ErkJggg==) repeat-x bottom left;
 }
 
+div span {
+	display: block;
+	padding-right: 0.5em;
+	padding-left: 0.5em;
+}
+
 p {
-	margin-top: 0.5em;
-	margin-bottom: 0.2em;
+	padding: 0;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
 }
 
 /*.alt  {
@@ -113,11 +118,14 @@ p {
 .time {
 	color: #4e9a06;
 	float: right;
+	padding-right: 1em;
 }
 
 .user {
 	color: #3465a4;
 	font-weight: bold;
+	display: block;
+	margin-bottom: 0.5em;
 }
 
 .me .user {
@@ -129,4 +137,27 @@ p {
 	color: #939590;
 }
 
-/** END OF CHAT ******************/
+/** END OF CHAT & NEWS ******************/
+/** ERRORS ******************/
+
+.error {
+	border: 0.5em solid #fabdb1;
+	background-color: #ffece7;
+}
+
+.error .description {
+	font-size: 110%;
+}
+
+.error .solution {
+	border: 1px solid #c4a000;
+	background-color: #fffbda;
+	margin: 0.5em 0.5em 0.2em 0.5em;
+	padding: 0.2em 0.7em 0.4em 0.7em;
+}
+
+.error .time {
+	padding-right: 0.6em;
+}
+
+/** END OF ERRORS ******************/

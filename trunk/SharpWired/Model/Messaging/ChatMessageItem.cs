@@ -44,7 +44,7 @@ namespace SharpWired.Model.Messaging {
         /// date is therefore created when the message arrive to the client
         /// and not when the message was sent from the server.
         /// </summary>
-        public DateTime TimeStamp { get { return timeStamp; } }
+        public DateTime Time { get { return timeStamp; } }
 
         /// <summary>Gets if this message is an action chat message or not.</summary>
         public bool IsActionChatMessage { get { return isActionChatMessage; } }

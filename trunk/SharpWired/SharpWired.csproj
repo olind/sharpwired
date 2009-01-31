@@ -235,6 +235,14 @@
     </Compile>
     <Compile Include="Gui\Files\IFilesView.cs" />
     <Compile Include="Gui\Files\WiredTreeNode.cs" />
+    <Compile Include="Gui\Messages\ChatMessage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Messages\ErrorMessage.cs" />
+    <Compile Include="Gui\Messages\IPrintableHTML.cs" />
+    <Compile Include="Gui\Messages\NewsMessage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Gui\Transfers\TransferContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -346,7 +354,7 @@
     <Compile Include="Model\Files\ANode.cs" />
     <Compile Include="Model\Files\Folder.cs" />
     <Compile Include="Model\News\News.cs" />
-    <Compile Include="Model\News\NewsPost.cs" />
+    <Compile Include="Model\News\NewsMessageItem.cs" />
     <Compile Include="Model\PrivateMessages\PrivateMessageItem.cs" />
     <Compile Include="Model\PrivateMessages\PrivateMessageModel.cs" />
     <Compile Include="Model\Server.cs" />

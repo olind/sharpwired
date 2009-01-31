@@ -35,7 +35,7 @@ namespace SharpWired.Model.News {
     public class News {
         #region Fields
 
-        private readonly List<NewsPost> newsList = new List<NewsPost>();
+        private readonly List<NewsMessageItem> newsList = new List<NewsMessageItem>();
 
         #endregion
 
@@ -55,7 +55,7 @@ namespace SharpWired.Model.News {
         #region Methods
 
         private void OnNewsPosted(MessageEventArgs_320322 message) {
-            var n = new NewsPost(message);
+            var n = new NewsMessageItem(message);
             if (!newsList.Contains(n)) {
                 //TODO: Verify that contains works
                 newsList.Add(n);
@@ -66,7 +66,7 @@ namespace SharpWired.Model.News {
         }
 
         private void OnNews(MessageEventArgs_320322 message) {
-            var n = new NewsPost(message);
+            var n = new NewsMessageItem(message);
             if (!newsList.Contains(n)) //TODO: Verify that contains works
             {
                 newsList.Add(n);
@@ -80,9 +80,9 @@ namespace SharpWired.Model.News {
         }
 
         /// <summary>Gets the news list. Sorted Descending (e.g. earliest post first).</summary>
-        public List<NewsPost> NewsList {
+        public List<NewsMessageItem> NewsList {
             get {
-                var l = new List<NewsPost>(newsList);
+                var l = new List<NewsMessageItem>(newsList);
                 l.Reverse();
                 return l;
             }
@@ -92,9 +92,9 @@ namespace SharpWired.Model.News {
 
         #region Events & Listeners
 
-        public delegate void NewsPostedDelegate(NewsPost newsPost);
+        public delegate void NewsPostedDelegate(NewsMessageItem newsPost);
 
-        public delegate void NewsListingDoneDelegate(List<NewsPost> newsListing);
+        public delegate void NewsListingDoneDelegate(List<NewsMessageItem> newsListing);
 
         /// <summary>Raised when a news post is received from the server</summary>
         public event NewsPostedDelegate NewsPostedEvent;

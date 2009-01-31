@@ -33,6 +33,7 @@ using System.Windows.Forms;
 using SharpWired.Connection.Bookmarks;
 using SharpWired.MessageEvents;
 using SharpWired.Model.Messaging;
+using SharpWired.Gui.Messages;
 
 namespace SharpWired.Gui.Chat {
     public partial class Chat : WebBrowserGuiBase {
@@ -41,6 +42,7 @@ namespace SharpWired.Gui.Chat {
         public Chat() {
             InitializeComponent();
 
+            ResetWebBrowser(chatWebBrowser);
             Model.Errors.LoginFailed += OnLoginFailed;
         }
 
@@ -65,6 +67,8 @@ namespace SharpWired.Gui.Chat {
             ToggleWindowsFormControl(sendChatButton);
             ToggleWindowsFormControl(topicDisplayLabel);
             ToggleWindowsFormControl(setByLabel);
+
+            ResetWebBrowser(chatWebBrowser);
         }
 
         /// <summary>Formats and writes the text on an Chat Event to the GUI</summary>
@@ -77,8 +81,8 @@ namespace SharpWired.Gui.Chat {
         /// <summary>Formats and writes the text on a Chat Event to the GUI</summary>
         /// <param name="chatMessageItem">The chat message item that was received</param>
         public void OnChatMessageArrived(ChatMessageItem chatMessageItem) {
-            var guiMessage = new GuiMessageItem(chatMessageItem);
-            AppendHTMLToWebBrowser(chatWebBrowser, guiMessage);
+            var chatMessage = new ChatMessage(chatMessageItem);
+            AppendHTMLToWebBrowser(chatWebBrowser, chatMessage);
         }
 
         /// <summary>Call this method to report an error that should be printed to chat window</summary>
@@ -86,8 +90,8 @@ namespace SharpWired.Gui.Chat {
         /// <param name="solutionIdea"></param>
         /// <param name="bookmark"></param>
         public void OnLoginFailed(string errorDescription, string solutionIdea, Bookmark bookmark) {
-            var gmi = new GuiMessageItem(errorDescription, solutionIdea, bookmark);
-            AppendHTMLToWebBrowser(chatWebBrowser, gmi);
+            var message = new ErrorMessage(errorDescription, solutionIdea, bookmark);
+            AppendHTMLToWebBrowser(chatWebBrowser, message);
         }
 
         public override void Init() {

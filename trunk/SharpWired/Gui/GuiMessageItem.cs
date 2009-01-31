@@ -113,7 +113,7 @@ namespace SharpWired.Gui {
                 messageType = "actionChatEntry";
             }
 
-            timeStamp = item.TimeStamp;
+            timeStamp = item.Time;
             nickName = item.FromUser.Nick;
             message = item.ChatMessage;
         }
@@ -144,9 +144,9 @@ namespace SharpWired.Gui {
 
         /// <summary>Constructor for news post</summary>
         /// <param name="newPost"></param>
-        public GuiMessageItem(NewsPost newPost) {
+        public GuiMessageItem(NewsMessageItem newPost) {
             messageType = "newsEntry";
-            timeStamp = newPost.PostTime;
+            timeStamp = newPost.Time;
             nickName = newPost.Nick;
             message = newPost.Post;
         }

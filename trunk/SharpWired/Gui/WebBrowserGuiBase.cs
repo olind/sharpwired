@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace SharpWired.Gui {
     /// <summary>Base class for all SharpWired views that's using a WebBrowser to display data.</summary>
@@ -10,7 +11,8 @@ namespace SharpWired.Gui {
         private readonly StringBuilder browserBody = new StringBuilder();
         private int altItemCounter;
 
-        private delegate void AppendHTMLToWebBrowserCallback(WebBrowser browser, GuiMessageItem guiMessage);
+        private delegate void AppendHTMLToWebBrowserCallbackObsolete(WebBrowser browser, GuiMessageItem guiMessage);
+        private delegate void AppendHTMLToWebBrowserCallback(WebBrowser browser, IPrintableHTML htmlItem);
 
         private delegate void ResetWebBrowserCallback(WebBrowser browser);
 
@@ -25,12 +27,23 @@ namespace SharpWired.Gui {
             }
         }
 
+        [Obsolete]
         protected void AppendHTMLToWebBrowser(WebBrowser browser, GuiMessageItem guiMessage) {
             if (InvokeRequired) {
-                AppendHTMLToWebBrowserCallback c = AppendHTMLToWebBrowser;
+                AppendHTMLToWebBrowserCallbackObsolete c = AppendHTMLToWebBrowser;
                 Invoke(c, new object[] {browser, guiMessage});
             } else {
                 browserBody.Append(guiMessage.HTML);
+                browser.DocumentText = browserHeader + browserBody + browserFooter;
+            }
+        }
+
+        protected void AppendHTMLToWebBrowser(WebBrowser browser, IPrintableHTML htmlItem) {
+            if (InvokeRequired) {
+                AppendHTMLToWebBrowserCallback c = AppendHTMLToWebBrowser;
+                Invoke(c, new object[] { browser, htmlItem });
+            } else {
+                browserBody.Append(htmlItem.ToHTML());
                 browser.DocumentText = browserHeader + browserBody + browserFooter;
             }
         }
