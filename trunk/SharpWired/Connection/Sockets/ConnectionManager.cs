@@ -34,19 +34,16 @@ using SharpWired.Connection.Sockets;
 namespace SharpWired.Connection {
     /// <summary>Manages connections</summary>
     public class ConnectionManager {
-        private readonly Messages messages;
-        private readonly Commands commands;
-        private readonly SecureSocket commandSocket;
+        private Messages messages;
+        private Commands commands;
+        private SecureSocket commandSocket;
         protected BinarySecureSocket binarySocket;
         private Bookmark mCurrentBookmark;
-        private readonly LagHandler lagHandler;
+        private LagHandler lagHandler;
 
         /// <summary>Constructs a ConnectionManager. Creates a SecureSocket, a Message, and a Commands.</summary>
         public ConnectionManager() {
-            commandSocket = new SecureSocket();
             messages = new Messages();
-            commands = new Commands(commandSocket);
-            lagHandler = new LagHandler();
         }
 
         /// <summary>Request the class that exposes the message events.</summary>
@@ -68,6 +65,11 @@ namespace SharpWired.Connection {
         /// <param name="bookmark">The info about Server and
         /// UserInformation.</param>
         public void Connect(Bookmark bookmark) {
+
+            commandSocket = new SecureSocket();
+            commands = new Commands(commandSocket);
+            lagHandler = new LagHandler();
+
             try {
                 if (bookmark != null) {
                     commandSocket.MessageReceived += messages.MessageReceived;
