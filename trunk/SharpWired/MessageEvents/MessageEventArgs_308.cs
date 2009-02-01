@@ -41,14 +41,14 @@ namespace SharpWired.MessageEvents {
         private readonly string status;
         private readonly IPAddress ip;
         private readonly string host;
-        private readonly string clientVersion; // TODO: This should be of type AppVersion
+        private readonly string clientVersion; // TODO: This should be of other type
         private readonly string cipherName;
         private readonly int cipherBits;
         private readonly DateTime loginTime;
         private readonly DateTime idleTime;
-        private readonly string downloads; // TODO: This should be of type TransferGS
-        private readonly string uploads; // TODO: This should be of type TransferGS
-        private readonly string transfer; // TODO: This should be of type PathRS
+        private readonly string downloads; // TODO: This should be of other type
+        private readonly string uploads; // TODO: This should be of other type
+        private readonly string transfer; // TODO: This should be of other type
         private readonly string path;
         private readonly int transferred;
         private readonly int size;

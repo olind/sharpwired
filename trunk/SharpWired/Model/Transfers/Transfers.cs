@@ -11,7 +11,6 @@ namespace SharpWired.Model.Transfers {
         public delegate void TransferDelegate(ITransfer t);
 
         public event TransferDelegate TransferAdded;
-        public event TransferDelegate TransferRemoved;
 
         public ITransfer Add(INode node, string target) {
             return Add(node, target, 0);
@@ -38,6 +37,7 @@ namespace SharpWired.Model.Transfers {
 
         public void Remove(ITransfer transfer) {
             throw new NotImplementedException();
+            //Use the following event: public event TransferDelegate TransferRemoved;
         }
     }
 }

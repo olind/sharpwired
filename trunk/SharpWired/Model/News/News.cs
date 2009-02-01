@@ -67,8 +67,8 @@ namespace SharpWired.Model.News {
 
         private void OnNews(MessageEventArgs_320322 message) {
             var n = new NewsMessageItem(message);
-            if (!newsList.Contains(n)) //TODO: Verify that contains works
-            {
+            if (!newsList.Contains(n)) {
+                //TODO: Verify that contains works
                 newsList.Add(n);
             }
         }

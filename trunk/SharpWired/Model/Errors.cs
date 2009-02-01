@@ -54,13 +54,12 @@ namespace SharpWired.Model {
             } else if (ce.Message == "ConnectionRefused") {
                 errorDescription += "No connection could be made because the target computer actively refused it. This usually results from trying to connect to a service that is inactive on the foreign host—that is, one with no server application running.";
                 solutionIdea += "Check the host name you tried connecting to, make sure it's correct. You can also try to report this problem to the server owners.";
-            } else { //TODO: Handle more types of errors. Add the errors to SecureSocket.cs as well
+            } else { 
                 errorDescription += "An unknown error occured.";
-                solutionIdea += "Please report this error in the SharpWired bug tracker at https://launchpad.net/sharpwired/+filebug. Error message is: " + ce;
+                solutionIdea += "Please report this error in the SharpWired bug tracker at http://code.google.com/p/sharpwired/issues/list. Error message is: " + ce;
             }
 
-            // TODO: Remove this once SW recovers from connection problems
-            solutionIdea += " For now, restart SharpWired before trying again.";
+            solutionIdea += " For now, restart SharpWired before trying again."; // TODO: Remove this once SW recovers from connection problems
 
             Console.WriteLine("Error! " + errorDescription);
             Console.WriteLine("Bookmark: " + ce.Bookmark);
@@ -78,10 +77,8 @@ namespace SharpWired.Model {
         /// <summary>Event triggered when loggin in to the server failed</summary>
         public event LoginToServerFailedDelegate LoginFailed;
 
-        /// <summary>Constructor</summary>
         public Errors() {
             Model.ConnectionManager.Messages.LoginFailedEvent += Messages_LoginFailedEvent;
-            Model.ConnectionManager.Messages.BannedEvent += Messages_BannedEvent;
             Model.ConnectionManager.Messages.ClientNotFoundEvent += Messages_ClientNotFoundEvent;
         }
 
@@ -99,16 +96,6 @@ namespace SharpWired.Model {
 
             var errorDescription = "Login failure since the login name was not found on the server " + currentBookmark.Server.ServerName + ".";
             var solutionIdea = "Check your login name and try again.";
-
-            LoginFailed(errorDescription, solutionIdea, currentBookmark);
-        }
-
-        private void Messages_BannedEvent(MessageEventArgs_Messages messageEventArgs) {
-            //TODO: Throwing exception in SharpWiredModel on banned received message since this implementation should be build from scratch
-            var currentBookmark = Model.ConnectionManager.CurrentBookmark;
-
-            var errorDescription = "Login failure since the login name was banned on the server " + currentBookmark.Server.ServerName + ".";
-            var solutionIdea = "Check your login name and try again or ask the server administrator.";
 
             LoginFailed(errorDescription, solutionIdea, currentBookmark);
         }

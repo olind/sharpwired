@@ -78,7 +78,6 @@ namespace SharpWired.Connection.Sockets {
             } catch (ArgumentOutOfRangeException argORExp) {
                 throw new ConnectionException("ThePortIsIncorrect", argORExp);
             } catch (SocketException argSExp) {
-                //For error messages see: http://msdn2.microsoft.com/en-us/library/ms740668.aspx
                 var errorMessage = new StringBuilder();
                 if (argSExp.ErrorCode == 11001) {
                     errorMessage.Append("HostNotFound");
@@ -86,22 +85,19 @@ namespace SharpWired.Connection.Sockets {
                     errorMessage.Append("NoRouteToTost");
                 } else if (argSExp.ErrorCode == 10061) {
                     errorMessage.Append("ConnectionRefused");
-                } else //TODO: Add more error codes
-                {
+                } else {
                     errorMessage.Append("ErrorNotRecognized" + " Socket error code: '" + argSExp.ErrorCode + "'");
                 }
 
-                // TODO: Connect with Server.Errors in model.
+                //TODO: Add more error codes from: http://msdn2.microsoft.com/en-us/library/ms740668.aspx
+
                 throw new ConnectionException(errorMessage.ToString(), argSExp);
             }
 
             // Create an SSL stream that will close the client's stream.
-            //TODO: The validate server certificate allways returns true
+            // TODO: The validate server certificate allways returns true
             //      If the validation fails we should ask the user to connect anyway
-            sslStream = new SslStream(client.GetStream(),
-                                      false,
-                                      ValidateServerCertificate,
-                                      null);
+            sslStream = new SslStream(client.GetStream(), false, ValidateServerCertificate, null);
 
             // The server name must match the name on the server certificate.
             try {
@@ -156,9 +152,7 @@ namespace SharpWired.Connection.Sockets {
                 return true;
             }
 
-            //throw new ValidationException("Could not validate SSL certificate!");
-            // TODO: We should trow an exception if the validate is not valid, 
-            //       for now return true anyway
+            // TODO: Fix certificate validation
             return true;
         }
 
@@ -169,7 +163,7 @@ namespace SharpWired.Connection.Sockets {
         /// <param name="result">The result from the socket</param>
         private void ReadCallback(IAsyncResult result) {
             if (client.Connected) {
-                sslStream.EndRead(result); //TODO: If the client are banned we crash here. Probably since the server dissconects us before we are done reading...
+                sslStream.EndRead(result); //FIXME: If the client are banned we crash here. Probably since the server dissconects us before we are done reading...
                 var data_received = Encoding.UTF8.GetString((byte[]) result.AsyncState);
 
                 string msg;

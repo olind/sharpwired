@@ -30,9 +30,9 @@ using System;
 using System.Collections.Generic;
 using SharpWired.Model.News;
 using System.Diagnostics;
+using SharpWired.Gui.Messages;
 
 namespace SharpWired.Gui.News {
-    /// <summary>The News view</summary>
     public partial class NewsContainer : WebBrowserGuiBase {
         private delegate void WriteToNewsCallback(GuiMessageItem guiMessage);
 
@@ -61,8 +61,6 @@ namespace SharpWired.Gui.News {
             ToggleWindowsFormControl(postNewsTextBox);
         }
 
-        #region Receiving from model
-
         private void OnNewsListingDone(List<NewsMessageItem> newsList) {
             foreach (var n in newsList) {
                 OnNewsPostReceived(n);
@@ -70,13 +68,9 @@ namespace SharpWired.Gui.News {
         }
 
         private void OnNewsPostReceived(NewsMessageItem newPost) {
-            var m = new GuiMessageItem(newPost);
+            var m = new NewsMessage(newPost);
             AppendHTMLToWebBrowser(newsWebBrowser, m);
         }
-
-        #endregion
-
-        #region Send to controller
 
         private void postNewsButton_Click(object sender, EventArgs e) {
             //TODO: Privileges: Check if we are allowed to post news
@@ -87,7 +81,5 @@ namespace SharpWired.Gui.News {
 
             postNewsTextBox.Clear();
         }
-
-        #endregion
     }
 }

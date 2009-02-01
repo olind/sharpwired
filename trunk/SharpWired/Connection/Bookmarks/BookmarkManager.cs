@@ -121,7 +121,6 @@ namespace SharpWired.Connection.Bookmarks {
             lock (typeof (BookmarkManager)) {
                 try {
                     var save = true;
-                    //List<Bookmark> bms = GetBookmarks();
                     foreach (var bm in marksToAdd) {
                         if (!allowDuplicate && bookmarks.Contains(bm)) {
                             save = false;
@@ -151,7 +150,6 @@ namespace SharpWired.Connection.Bookmarks {
         public static Bookmark RemoveBookmark(Bookmark bookmark) {
             lock (typeof (BookmarkManager)) {
                 try {
-                    //List<Bookmark> bms = GetBookmarks();
                     if (bookmarks.Contains(bookmark)) {
                         bookmarks.Remove(bookmark);
                         SaveBookmarks(bookmarks, new FileInfo(BookmarkFileFullName));
@@ -240,7 +238,6 @@ namespace SharpWired.Connection.Bookmarks {
                         stream = File.Open(file.FullName, FileMode.Create, FileAccess.Write);
                     } catch (IOException ioe) {
                         try {
-                            // Try creating like this.
                             stream = File.Create(file.FullName);
                         } finally {
                             // TODO: Handle failure of saving bookmarks
@@ -305,8 +302,7 @@ namespace SharpWired.Connection.Bookmarks {
             try {
                 file.Encrypt();
             } catch (Exception e) {
-                Debug.WriteLine("Unknown Error Encrypting File:"
-                                + e);
+                Debug.WriteLine("Unknown Error Encrypting File:" + e);
                 //TODO: Raise error event for error handler notifying 
                 //      the user that the bookmark file is saved unencrypted
             }
@@ -318,8 +314,7 @@ namespace SharpWired.Connection.Bookmarks {
             try {
                 file.Decrypt();
             } catch (Exception e) {
-                Debug.WriteLine("Unknown Error Decrypting File:"
-                                + e);
+                Debug.WriteLine("Unknown Error Decrypting File:" + e);
                 //TODO: Raise error event for error handler notifying 
                 //      the user that the bookmark file is saved unencrypted
             }

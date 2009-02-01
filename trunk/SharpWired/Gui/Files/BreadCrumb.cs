@@ -73,8 +73,6 @@ namespace SharpWired.Gui.Files {
                 }
 
                 b.MouseUp += OnMouseUp;
-                //b.Tag = Model.Server.FileListingModel.GetNode(CombineFilePath(path, i));
-                //todo: file
                 b.AutoSizeMode = AutoSizeMode.GrowAndShrink;
                 b.AutoSize = true;
                 b.Padding = new Padding(2);

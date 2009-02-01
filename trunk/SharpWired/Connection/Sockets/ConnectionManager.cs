@@ -81,9 +81,8 @@ namespace SharpWired.Connection {
                     messages.PingReplyEvent += lagHandler.OnPingReceived;
                     commands.PingSentEvent += lagHandler.OnPingSent;
                 } else {
-                    // TODO: Log instead of write to std out
-                    Debug.WriteLine("ERROR - ConnectionManager.Connect(): " +
-                                    "Trying to connect to a null bookmark.");
+                    //TODO: Handle error
+                    Debug.WriteLine("CONNECTIONMANAGER -> Connect: Trying to connect to a null bookmark.");
                 }
             } catch (ConnectionException ce) {
                 ce.Bookmark = bookmark;

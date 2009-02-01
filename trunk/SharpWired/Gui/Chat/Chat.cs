@@ -145,7 +145,6 @@ namespace SharpWired.Gui.Chat {
         }
 
         private void topicDisplayLabel_MouseUp(object sender, MouseEventArgs e) {
-            //TODO: Make better check to see if we are online/offline
             if (Model.Server != null && Model.Server.PublicChat != null) {
                 topicTextBox.Text = topicDisplayLabel.Text;
                 enableTopicEditing(true);
@@ -157,8 +156,7 @@ namespace SharpWired.Gui.Chat {
         }
 
         private void topicDisplayLabel_MouseEnter(object sender, EventArgs e) {
-            if (Model.Server != null && Model.Server.PublicChat != null) //TODO: Make better check to see if we are online/offline
-            {
+            if (Model.Server != null && Model.Server.PublicChat != null) {
                 topicDisplayLabel.Cursor = Cursors.Hand;
             }
         }

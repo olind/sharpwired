@@ -2,7 +2,6 @@
 
 namespace SharpWired.Controller {
     public class SharpWiredController {
-        //TODO: Add regions
         private ChatController chatController;
         private UserController userController;
         private NewsController newsController;

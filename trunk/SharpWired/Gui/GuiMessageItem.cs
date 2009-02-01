@@ -39,10 +39,11 @@ namespace SharpWired.Gui {
     /// An object that takes ChatEvents or TopicsEvents and provides
     /// common get methods for printing to GUI
     /// </summary>
+    [Obsolete]
     public class GuiMessageItem : SharpWiredGuiBase {
         // General
         private readonly DateTime timeStamp;
-        private string messageType;
+        
 
         //For chat and topic messages
         private readonly string nickName = "";
@@ -97,8 +98,6 @@ namespace SharpWired.Gui {
         /// <summary>Creates a HTML writable object from a ChatTopicItem</summary>
         /// <param name="messageArgs"></param>
         public GuiMessageItem(MessageEventArgs_341 messageArgs) {
-            messageType = "topicEntry";
-
             timeStamp = messageArgs.Time;
             nickName = messageArgs.Nick;
             message = messageArgs.Topic;
@@ -107,12 +106,6 @@ namespace SharpWired.Gui {
         /// <summary>Creates a HTML writable object from a ChatMessageItem</summary>
         /// <param name="item"></param>
         public GuiMessageItem(ChatMessageItem item) {
-            if (!item.IsActionChatMessage) {
-                messageType = "chatEntry";
-            } else {
-                messageType = "actionChatEntry";
-            }
-
             timeStamp = item.Time;
             nickName = item.FromUser.Nick;
             message = item.ChatMessage;
@@ -124,7 +117,6 @@ namespace SharpWired.Gui {
         /// <param name="bookmark"></param>
         public GuiMessageItem(string errorDescription, string solutionIdea,
                               Bookmark bookmark) {
-            messageType = "errorEntry";
             isErrorMessage = true;
             timeStamp = DateTime.Now;
             this.message = errorDescription;
@@ -136,7 +128,6 @@ namespace SharpWired.Gui {
         /// <summary>Constructor for private messages</summary>
         /// <param name="item"></param>
         public GuiMessageItem(PrivateMessageItem item) {
-            messageType = "privateMessageEntry privateMessageEntry_received";
             timeStamp = item.TimeStamp;
             nickName = item.UserItem.Nick;
             message = item.Message;
@@ -145,7 +136,6 @@ namespace SharpWired.Gui {
         /// <summary>Constructor for news post</summary>
         /// <param name="newPost"></param>
         public GuiMessageItem(NewsMessageItem newPost) {
-            messageType = "newsEntry";
             timeStamp = newPost.Time;
             nickName = newPost.Nick;
             message = newPost.Post;
@@ -154,10 +144,6 @@ namespace SharpWired.Gui {
         /// <summary>Constructor for Client Information</summary>
         /// <param name="e"></param>
         public GuiMessageItem(MessageEventArgs_308 e) {
-            // TODO: Make generic info output instead of specific for all events
-            // in connection layer.
-
-            messageType = "infoEntry";
             nickName = "";
             timeStamp = DateTime.Now;
             var s = new StringBuilder();

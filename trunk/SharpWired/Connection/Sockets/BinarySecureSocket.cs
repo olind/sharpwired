@@ -62,8 +62,6 @@ namespace SharpWired.Connection.Sockets {
         /// <param name="data"></param>
         public delegate void BinaryMessageReceivedHandler(object sender, EventArgs e, byte[] data);
 
-        #region Connect
-
         internal void Start() {}
 
         /// <summary>Connects to the server using Connect(Port, MachineName, ServerName).</summary>
@@ -93,13 +91,12 @@ namespace SharpWired.Connection.Sockets {
             } catch (ArgumentOutOfRangeException argORExp) {
                 throw new ConnectionException("The Port is incorrect", argORExp);
             } catch (SocketException argSExp) {
-                //argSExp.SocketErrorCode == HostNotFound
                 throw new ConnectionException("There is a problem with the Socket", argSExp);
             }
 
             // Create an SSL stream that will close the client's stream.
-            //TODO: The validate server certificate allways returns true
-            //      If the validation fails we should ask the user to connect anyway
+            // TODO: The validate server certificate allways returns true
+            //       If the validation fails we should ask the user to connect anyway
             sslStream = new SslStream(client.GetStream(),
                                       false,
                                       ValidateServerCertificate,
@@ -140,13 +137,9 @@ namespace SharpWired.Connection.Sockets {
             if (sslPolicyErrors == SslPolicyErrors.None) {
                 return true;
             }
-
-            // TODO: We should trow an exception if the validate is not valid, 
-            //       for now return true anyway
+            // TODO: fix certificate validation
             return true;
         }
-
-        #endregion
 
         #region Send Message
 

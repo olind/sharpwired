@@ -77,7 +77,6 @@ namespace SharpWired.Model {
                 }
 
                 Server = new Server();
-
                 ConnectionManager.Connect(bookmark);
 
             } catch (ConnectionException ce) {
@@ -102,10 +101,10 @@ namespace SharpWired.Model {
             var ih = new IconHandler();
 
             var c = ConnectionManager.Commands;
-            c.Nick(ui.Nick); //Required
+            c.Nick(ui.Nick);         //Required
             c.Icon(1, ih.UserImage); //Optional
-            //STATUS                    //Optional TODO: Set status
-            c.Client(); //Optional but highly required
+            //STATUS                 //Optional TODO: Set status
+            c.Client();              //Optional but highly recomended
 
             c.User(ui.UserName);
             c.Pass(ui.Password);
@@ -117,7 +116,6 @@ namespace SharpWired.Model {
 
         private void OnDisconnected() {}
 
-        /// <summary>Dissconnect from the server</summary>
         public void Disconnect() {
 
             if (Server != null) {

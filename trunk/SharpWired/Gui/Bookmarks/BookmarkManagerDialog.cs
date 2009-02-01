@@ -78,9 +78,8 @@ namespace SharpWired.Gui.Bookmarks {
 
         private void addButton_Click(object sender, EventArgs e) {
             var bookmark = new Bookmark();
-            //TODO: When we add bookmarks we should make the name New Bookmark
-            //      for the first bookmark. New Bookmark (2) for the second
-            //      New Bookmark (3) for the third...
+            //TODO: When we add bookmarks we should make the name New Bookmark for the first bookmark. 
+            //      New Bookmark (2) for the second. New Bookmark (3) for the third.
             bookmark.Name = "New Bookmark";
             BookmarkManager.AddBookmark(bookmark, false);
             selectedBookmark = bookmark;
