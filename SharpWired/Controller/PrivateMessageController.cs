@@ -62,7 +62,7 @@ namespace SharpWired.Controller {
         /// <param name="user">The user to receive the message</param>
         /// <param name="message">The message to send to the user</param>
         public void Msg(User user, String message) {
-            //TODO: Make some error checking (empty message etc)
+            //FIXME: Make some error checking (empty message etc)
             model.ConnectionManager.Commands.Msg(user.UserId, message);
             var newSentMessage = new PrivateMessageItem(user, message);
             privateMessageModel.AddSentPrivateMessage(newSentMessage);

@@ -235,6 +235,9 @@
     </Compile>
     <Compile Include="Gui\Files\IFilesView.cs" />
     <Compile Include="Gui\Files\WiredTreeNode.cs" />
+    <Compile Include="Gui\GuiMessageItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Gui\Messages\ChatMessage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -299,9 +302,6 @@
       <DependentUpon>Chat.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\Chat\WiredListViewItem.cs" />
-    <Compile Include="Gui\GuiMessageItem.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Gui\Files\FolderListing.cs">
       <SubType>UserControl</SubType>
     </Compile>

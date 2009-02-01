@@ -37,7 +37,6 @@ using SharpWired.Model.Files;
 namespace SharpWired.Gui.Files {
     public partial class FolderListing : SharpWiredGuiBase, IFilesView {
         private readonly IconHandler iconHandler = IconHandler.Instance;
-        private FileMenu ContextMenu { get; set; }
         private Folder CurrentFolder { get; set; }
 
         public List<INode> SelectedItems {
@@ -99,7 +98,6 @@ namespace SharpWired.Gui.Files {
             } else {
                 detailsListView.Columns.Clear();
 
-                //detailsListView.Sorting = SortOrder.Ascending; //TODO: Sort folders before files
                 detailsListView.LabelEdit = true;
                 detailsListView.AllowColumnReorder = true;
 
@@ -135,7 +133,7 @@ namespace SharpWired.Gui.Files {
 
                             AddToListView(child, imageKey);
                         } catch (ArgumentException e) {
-                            // TODO: Do something smarter?
+                            // TODO: Error handling
                             Debug.WriteLine(e.Message + ": " + child.Path);
                         }
                     }

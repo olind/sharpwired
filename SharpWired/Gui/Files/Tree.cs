@@ -81,7 +81,6 @@ namespace SharpWired.Gui.Files {
         }
 
         protected override void OnOffline() {
-            // TODO: Use thread safe invoke?
             base.OnOffline();
             Clear();
         }

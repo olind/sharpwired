@@ -30,33 +30,24 @@ using System;
 using System.Threading;
 
 namespace SharpWired.Connection {
-    /// <summary>Timer that sends regular PING commands to the Wired server</summary>
+    /// <summary>Timer that keeps connection to the server by sending regular PING commands</summary>
     internal class HeartBeatTimer {
         private ConnectionManager connectionManager;
         private Timer timer;
         private readonly HeartBeatHandler heartBeatHandler;
 
-        /// <summary>Starts the timer for this connection</summary>
         public void StartTimer() {
             TimerCallback tc = heartBeatHandler.DoPing;
             timer = new Timer(tc);
-
-            // Waits 10 seconds before starting 
-            // the pings. Then every minute (same
-            // time difference as Wired Client)
             var waitBeforeStarting = 10000; // TODO: Move to configuration
-            var waitBetwenPings = 60000; //       Move to configuration
+            var waitBetwenPings = 60000;    // TODO: Move to configuration
             timer.Change(waitBeforeStarting, waitBetwenPings);
         }
 
-        /// <summary>Stops the timer for this connection</summary>
         public void StopTimer() {
             timer.Dispose();
         }
 
-        /// <summary>Constructor</summary>
-        /// <param name="connectionManager">The commands object assosiated 
-        /// with the connection to send PINGS to</param>
         public HeartBeatTimer(ConnectionManager connectionManager) {
             this.connectionManager = connectionManager;
             heartBeatHandler = new HeartBeatHandler(connectionManager);
@@ -68,18 +59,13 @@ namespace SharpWired.Connection {
         private readonly ConnectionManager connectionManager;
         private DateTime lastPing;
 
-        /// <summary>Gets the time when the last PING command was sent</summary>
         public DateTime LastSentPing { get { return lastPing; } }
 
-        /// <summary>Does a ping to the server</summary>
         public void DoPing(Object stateInfo) {
             connectionManager.Commands.Ping(this);
             lastPing = DateTime.Now;
         }
 
-        /// <summary>Constructor</summary>
-        /// <param name="connectionManager">The connection manager for
-        /// the connection to bing</param>
         public HeartBeatHandler(ConnectionManager connectionManager) {
             this.connectionManager = connectionManager;
         }

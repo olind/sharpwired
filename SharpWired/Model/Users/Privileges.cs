@@ -29,7 +29,6 @@
 namespace SharpWired.Model.Users {
     /// <summary>
     /// This class represents the privileges a user has on a Wired server.
-    /// 
     /// TODO: This object should be able to have predefined values based on what group it belongs to.
     /// </summary>
     public class Privileges {
@@ -130,6 +129,10 @@ namespace SharpWired.Model.Users {
         /// <summary>Request or set whether this user is allowed to change chat topic or not?</summary>
         public bool ChangeTopic { get { return changeTopic; } }
 
+        public Privileges(Privileges p) {
+            UpdatePrivileges(p);
+        }
+
         /// <summary>
         /// This privileges object is converted to a privileges string 
         /// compatible with the Wired protocol.
@@ -194,56 +197,5 @@ namespace SharpWired.Model.Users {
             userName = p.UserName;
             viewDropboxes = p.ViewDropboxes;
         }
-
-        /// <summary>Constructor</summary>
-        /// <param name="p"></param>
-        public Privileges(Privileges p) {
-            UpdatePrivileges(p);
-        }
-
-/*
-TODO: Started out with a User Model cleanup which isn'transfer done yet. Disabled the privileges in the following 3 methods in Messages class. Make the privileges work.
-private void OnUserSpecificationEvent(object sender, int messageId, string messageName, string message)
-private void OnGroupSpecificationEvent(object sender, int messageId, string messageName, string message)
-private void OnPrivilegesSpecificationEvent(object sender, int messageId, string messageName, string message)
-
-        /// <summary>Constructor</summary>
-        /// <param name="userName">This privileges are for the user with this name</param>
-        /// <param name="privilegesString">The string from Wired that contains the privileges. Wired protocol 1.1.</param>
-        public Privileges(string userName, string privilegesString) : this (privilegesString)
-        {
-            this.userName = userName;
-        }
-        
-        /// <summary>Constructor</summary>
-        /// <param name="privilegesString">The string from Wired that contains the privileges. Wired protocol 1.1.</param>
-        private Privileges(string privilegesString)
-        {
-            string[] privilegesStringSplitted = Utility.SplitWiredString(privilegesString);
-            getUserInfo = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[0]));
-            broadcast = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[1]));
-            postNews = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[2]));
-            clearNews = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[3]));
-            download = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[4]));
-            upload = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[5]));
-            uploadAnywhere = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[6]));
-            createFolders = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[7]));
-            alterFiles = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[8]));
-            deleteFiles = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[9]));
-            viewDropboxes = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[10]));
-            createAccounts = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[11]));
-            editAccounts = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[12]));
-            deleteAccounts = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[13]));
-            elevatePrivileges = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[14]));
-            kickUsers = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[15]));
-            banUsers = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[16]));
-            cannotBeKicked = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[17]));
-            downloadSpeed = int.Parse(privilegesStringSplitted[18]);
-            uploadSpeed = int.Parse(privilegesStringSplitted[19]);
-            downloadLimit = int.Parse(privilegesStringSplitted[20]);
-            uploadLimit = int.Parse(privilegesStringSplitted[21]);
-            changeTopic = Utility.ConvertIntToBool(int.Parse(privilegesStringSplitted[22]));
-        }
- */
     }
 }

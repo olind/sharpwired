@@ -4,7 +4,7 @@
             InitializeComponent();
         }
 
-        public void Init() {
+        public override void Init() {
             transferList1.Init();
         }
     }

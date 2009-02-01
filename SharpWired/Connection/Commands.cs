@@ -111,12 +111,10 @@ namespace SharpWired.Connection {
         public void CreateUser(string name, string password) {
             if (socket != null) {
                 throw new NotImplementedException();
-                /*
-                //TODO:
+                /* TODO:
                 string group = "";
                 string privileges = "";
-                socket.SendMessage("CREATEUSER" + Utility.SP + name
-                    + Utility.FS + password + Utility.FS + group + Utility.FS + privileges);
+                socket.SendMessage("CREATEUSER" + Utility.SP + name + Utility.FS + password + Utility.FS + group + Utility.FS + privileges);
                 */
             }
         }
@@ -126,8 +124,7 @@ namespace SharpWired.Connection {
         public void CreateGroup(string name) {
             if (socket != null) {
                 throw new NotImplementedException();
-                /*
-                //TODO:
+                /* TODO:
                 string privileges = "";
                 socket.SendMessage("CREATEGROUP" + Utility.SP + name + Utility.FS + privileges);
                 */
@@ -172,8 +169,7 @@ namespace SharpWired.Connection {
         public void EditUser(string name, string password, string group, string privileges) {
             if (socket != null) {
                 throw new NotImplementedException();
-                /*
-                //TODO:
+                /* TODO:
                 socket.SendMessage("EDITUSER" + Utility.SP + name + Utility.FS
                     + password + Utility.FS + group + Utility.FS + privileges);
                 */
@@ -186,8 +182,7 @@ namespace SharpWired.Connection {
         public void EditGroup(string name, string privileges) {
             if (socket != null) {
                 throw new NotImplementedException();
-                /*
-                //TODO
+                /* TODO
                 socket.SendMessage("EDITGROUP" + Utility.SP + name + Utility.FS + privileges);
                 */
             }
@@ -218,7 +213,8 @@ namespace SharpWired.Connection {
         /// <param name="machineName">The host running the server application</param>
         /// <param name="serverName">The machine name for the server, must match the machine name in the server certificate</param>
         public void Hello(string machineName, int serverPort, string serverName) {
-            //TODO: The input data in this method is never used...
+            //FIXME: Since the socket is already setup the input data to this method 
+            //       is never used. Should probably change method signature.
             if (socket != null) {
                 socket.SendMessage("HELLO");
             }

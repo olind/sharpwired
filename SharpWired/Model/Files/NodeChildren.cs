@@ -8,13 +8,13 @@ namespace SharpWired.Model.Files {
             Parent = parent;
         }
 
-        public INode Add(INode node) {
+        public new INode Add(INode node) {
             base.Add(node);
             node.Parent = Parent;
             return node;
         }
 
-        public INode Remove(INode node) {
+        public new INode Remove(INode node) {
             node.Parent = null;
             base.Remove(node);
             return node;
