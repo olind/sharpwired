@@ -59,6 +59,8 @@
     <Compile Include="Connection\ServerTest.cs" />
     <Compile Include="Gui\GuiUtilTest.cs" />
     <Compile Include="Model\Files\FolderTest.cs" />
+    <Compile Include="Model\Users\NickColorTest.cs" />
+    <Compile Include="Model\Users\UserTest.cs" />
     <Compile Include="UtilityTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +73,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -100,5 +103,8 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
 </Project>

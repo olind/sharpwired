@@ -362,6 +362,7 @@
     <Compile Include="Model\Transfers\FolderTransfer.cs" />
     <Compile Include="Model\Transfers\ITransfer.cs" />
     <Compile Include="Model\Transfers\Transfers.cs" />
+    <Compile Include="Model\Users\NickColor.cs" />
     <Compile Include="SharpWiredClientInfo.cs" />
     <Compile Include="SingletonException.cs" />
     <Compile Include="Utils\Pair.cs" />

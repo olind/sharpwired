@@ -34,8 +34,7 @@ using SharpWired.MessageEvents;
 namespace SharpWired.Model.Users {
     /// <summary>Represents one user that's online to a Wired server.</summary>
     public class User {
-        #region Variables
-
+        
         private bool admin;
         private string host;
         private int icon;
@@ -60,10 +59,6 @@ namespace SharpWired.Model.Users {
         private string uploads;
 
         private Privileges privileges;
-
-        #endregion
-
-        #region Properties: User folderListing
 
         /// <summary>Request or set if this user is admin</summary>
         public bool Admin { get { return admin; } }
@@ -143,9 +138,11 @@ namespace SharpWired.Model.Users {
         /// <summary>Request or set the group for this user</summary>
         public Group Group { get; set; }
 
-        #endregion
-
-        #region Events
+        public Color Color { 
+            get {
+                return new NickColor(Nick).RGB; 
+            }
+        }
 
         /// <summary>Delegate for update event</summary>
         /// <param name="u">The new status</param>
@@ -153,10 +150,6 @@ namespace SharpWired.Model.Users {
 
         /// <summary>The user information for this user was updated.</summary>
         public event UpdatedDelegate Updated;
-
-        #endregion
-
-        #region Methods updates user information when a message is received from the server
 
         /// <summary>Updates this user with the information given in the message.</summary>
         /// <param name="message"></param>
@@ -253,8 +246,6 @@ namespace SharpWired.Model.Users {
             SetUserInformation(message);
         }
 
-        #endregion
-
         private void SetUserInformation(MessageEventArgs_302310 message) {
             admin = message.Admin;
             host = message.Host;
@@ -268,14 +259,8 @@ namespace SharpWired.Model.Users {
             userId = message.UserId;
         }
 
-        #region Initialization
-
-        /// <summary>Constructor</summary>
-        /// <param name="message">The message event arg that caused the adding of this user</param>
         public User(MessageEventArgs_302310 message) {
             SetUserInformation(message);
         }
-
-        #endregion
     }
 }
