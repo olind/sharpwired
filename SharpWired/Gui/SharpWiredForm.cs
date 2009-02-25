@@ -122,8 +122,9 @@ namespace SharpWired.Gui {
         }
 
         private void Disconnect(object sender) {
-            model.Disconnect();
-            //TODO: Clear all the data from the previous connection
+            if (SharpWiredModel.Instance.Server != null) {
+                model.Disconnect();
+            }
         }
 
         #region Bookmark in the menu.
