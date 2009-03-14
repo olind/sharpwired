@@ -122,19 +122,19 @@ p {
 }
 
 .user {
-	color: #3465a4;
+	/* color: #3465a4; */
 	font-weight: bold;
 	display: block;
 	margin-bottom: 0.5em;
 }
 
 .me .user {
-	color: #cc0000;
+	/* color: #cc0000; */
 	font-weight: normal;
 }
 
 .me { 
-	color: #939590;
+	/* color: #939590; */
 }
 
 /** END OF CHAT & NEWS ******************/
