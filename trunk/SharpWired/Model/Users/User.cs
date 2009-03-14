@@ -138,11 +138,7 @@ namespace SharpWired.Model.Users {
         /// <summary>Request or set the group for this user</summary>
         public Group Group { get; set; }
 
-        public Color Color { 
-            get {
-                return new NickColor(Nick).RGB; 
-            }
-        }
+        public Color Color { get; private set; }
 
         /// <summary>Delegate for update event</summary>
         /// <param name="u">The new status</param>
@@ -166,6 +162,9 @@ namespace SharpWired.Model.Users {
             icon = message.Icon;
             nick = message.Nick;
             status = message.Status;
+
+            Color = new NickColor(nick).RGB;
+
             if (Updated != null) {
                 Updated(this);
             }
@@ -261,6 +260,8 @@ namespace SharpWired.Model.Users {
 
         public User(MessageEventArgs_302310 message) {
             SetUserInformation(message);
+
+            Color =  new NickColor(Nick).RGB;
         }
     }
 }
