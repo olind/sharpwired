@@ -23,7 +23,7 @@ namespace SharpWired.Gui.Messages {
             return
 "<div" + divClass + @">
 	<span class=""time"">" + message.Time.ToShortTimeString() + @"</span>
-	<span class=""user"" style=""color: " + ColorTranslator.ToHtml(message.FromUser.Color) + " ! important\">" + message.FromUser.Nick + @"</span>
+	<span class=""user"" style=""color: " + ColorTranslator.ToHtml(message.FromUser.Color) + "\">" + message.FromUser.Nick + @"</span>
 	<span class=""text"">
 		<p>
 			" + message.ChatMessage.Replace("\n", "<br/>\n") + @"
