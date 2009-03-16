@@ -16,7 +16,12 @@ namespace SharpWired.Model.Users {
 
 		public NickColor(String nick) {
 			this.nick = nick;
-			var hsl = new HSLColor((int)((float)Hash * (360.0 / 255.0)), 80, 50);
+            
+            var hue = (int)((float)Hash * (360.0 / 255.0));
+            var saturation = 60;
+            var light = 40;
+
+			var hsl = new HSLColor(hue, saturation, light);
 			RGB = hsl.ToColor();
 		}
 
