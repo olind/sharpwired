@@ -1,5 +1,5 @@
 ﻿namespace SharpWired.Gui.Transfers {
-    partial class TransferItem {
+    partial class PrototypeTransferItem {
         /// <summary>Required designer variable.</summary>
         private System.ComponentModel.IContainer components = null;
 
@@ -30,31 +30,32 @@
             // 
             // progressBar
             // 
-            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(65, 20);
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar.Location = new System.Drawing.Point(50, 24);
             this.progressBar.Maximum = 1000;
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(290, 19);
+            this.progressBar.Size = new System.Drawing.Size(306, 16);
             this.progressBar.TabIndex = 0;
             this.progressBar.Click += new System.EventHandler(this.OnClicked);
             // 
             // fileName
             // 
-            this.fileName.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.fileName.AutoSize = true;
-            this.fileName.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fileName.Location = new System.Drawing.Point(63, 4);
+            this.fileName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fileName.Location = new System.Drawing.Point(46, 0);
             this.fileName.Name = "fileName";
-            this.fileName.Size = new System.Drawing.Size(60, 13);
+            this.fileName.Size = new System.Drawing.Size(79, 21);
             this.fileName.TabIndex = 2;
             this.fileName.Text = "MyFile.zip";
             this.fileName.Click += new System.EventHandler(this.OnClicked);
             // 
             // info
             // 
-            this.info.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.info.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.info.AutoSize = true;
-            this.info.Location = new System.Drawing.Point(62, 42);
+            this.info.Location = new System.Drawing.Point(47, 43);
             this.info.Name = "info";
             this.info.Size = new System.Drawing.Size(256, 13);
             this.info.TabIndex = 3;
@@ -63,32 +64,40 @@
             // 
             // pauseButton
             // 
-            this.pauseButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.pauseButton.Location = new System.Drawing.Point(361, 16);
+            this.pauseButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pauseButton.FlatAppearance.BorderSize = 0;
+            this.pauseButton.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.pauseButton.Location = new System.Drawing.Point(367, 20);
             this.pauseButton.Name = "pauseButton";
-            this.pauseButton.Size = new System.Drawing.Size(29, 27);
+            this.pauseButton.Size = new System.Drawing.Size(24, 24);
             this.pauseButton.TabIndex = 5;
             this.pauseButton.UseVisualStyleBackColor = true;
             this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
             // 
             // deleteButton
             // 
-            this.deleteButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.deleteButton.Location = new System.Drawing.Point(396, 16);
+            this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteButton.FlatAppearance.BorderSize = 0;
+            this.deleteButton.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.deleteButton.Location = new System.Drawing.Point(394, 20);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(29, 27);
+            this.deleteButton.Size = new System.Drawing.Size(24, 24);
             this.deleteButton.TabIndex = 4;
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
             // iconPictureBox
             // 
-            this.iconPictureBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.iconPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.iconPictureBox.Image = global::SharpWired.Properties.Resources.format_justify_left;
             this.iconPictureBox.InitialImage = null;
-            this.iconPictureBox.Location = new System.Drawing.Point(3, 4);
+            this.iconPictureBox.Location = new System.Drawing.Point(9, 14);
             this.iconPictureBox.Name = "iconPictureBox";
-            this.iconPictureBox.Size = new System.Drawing.Size(54, 55);
+            this.iconPictureBox.Size = new System.Drawing.Size(32, 32);
+            this.iconPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.iconPictureBox.TabIndex = 1;
             this.iconPictureBox.TabStop = false;
             this.iconPictureBox.Click += new System.EventHandler(this.OnClicked);
@@ -105,7 +114,7 @@
             this.Controls.Add(this.iconPictureBox);
             this.Controls.Add(this.progressBar);
             this.Name = "TransferItem";
-            this.Size = new System.Drawing.Size(428, 63);
+            this.Size = new System.Drawing.Size(428, 64);
             this.Click += new System.EventHandler(this.OnClicked);
             ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox)).EndInit();
             this.ResumeLayout(false);

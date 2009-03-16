@@ -19,10 +19,10 @@ namespace SharpWired.Model.Transfers {
         public ITransfer Add(INode node, string target, Int64 offset) {
             ITransfer transfer = null;
 
-            if (node is INode) {
-                transfer = new FileTransfer(node, target, offset);
-            } else if (node is Folder) {
-                transfer = new FolderTransfer((Folder) node, target);
+            if (node is IFile) {
+                transfer = new FileTransfer((IFile)node, target, offset);
+            } else if (node is IFolder) {
+                transfer = new FolderTransfer((IFolder) node, target);
             }
 
             if (transfer != null) {

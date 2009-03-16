@@ -185,7 +185,7 @@ namespace SharpWired.Gui.Files {
 
         private void OnMouseUp(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Right) {
-                ContextMenu.Show(detailsListView, e.Location);
+                ((FileMenu)ContextMenu).Show(detailsListView, e.Location);
             }
         }
     }

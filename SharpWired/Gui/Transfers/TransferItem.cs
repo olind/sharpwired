@@ -4,29 +4,36 @@ using SharpWired.Gui.Resources.Icons;
 using SharpWired.Model.Transfers;
 
 namespace SharpWired.Gui.Transfers {
-    public partial class TransferItem : SharpWiredGuiBase {
+    public partial class PrototypeTransferItem : SharpWiredGuiBase {
         private ITransfer transfer;
         public bool Selected { get; set; }
         public Status Status { get { return transfer.Status; } }
 
-        public delegate void ClickedArgs(TransferItem ti, bool control);
+        public delegate void ClickedArgs(PrototypeTransferItem ti, bool control);
 
         public event ClickedArgs Clicked;
 
         private bool frozen = true; //Stops repainting a paused/idle transfer
 
-        public TransferItem() {
+        public PrototypeTransferItem() {
             InitializeComponent();
         }
 
         public void Init(ITransfer t) {
             transfer = t;
+            transfer.TransferDone += OnTransferDone;
             var icons = IconHandler.Instance;
             pauseButton.Image = icons.MediaPlaybackPause;
             deleteButton.Image = icons.ProcessStop;
             fileName.Text = t.Source.Name;
             info.Text = "";
             Anchor = AnchorStyles.Left | AnchorStyles.Right;
+        }
+
+        private void OnTransferDone() {
+            pauseButton.Enabled = false;
+            deleteButton.Enabled = false;
+            progressBar.Enabled = false;
         }
 
         private void OnClicked(object sender, EventArgs e) {
