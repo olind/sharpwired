@@ -17,16 +17,23 @@ namespace SharpWired.Model.Transfers {
 
         public long Speed { get { throw new NotImplementedException(); } }
 
-        public FolderTransfer(Folder node, string destination) {
-            Source = node;
+        public event TransferDoneDelegate TransferDone;
+
+        public FolderTransfer(IFolder node, string destination) {
+            Source = (INode)node;
             Destination = destination;
             Status = Status.Idle;
         }
 
         public void Start() {
-            //Get all file listings from source
-            //Create folder on local disk
-            //Create all files and folder transfers
+            //TODO: Get all file listings from source
+
+            System.IO.Directory.CreateDirectory(Destination);
+            if (TransferDone != null) {
+                TransferDone();
+            }
+
+            //TODO: Create all files and folder transfers
         }
 
         public void Pause() {

@@ -64,8 +64,10 @@ namespace SharpWired.Model.Transfers {
 
         private Queue<long> SpeedHistory { get; set; }
 
-        public FileTransfer(INode node, string destination, Int64 offset) {
-            Source = node;
+        public event TransferDoneDelegate TransferDone;
+
+        public FileTransfer(IFile file, string destination, Int64 offset) {
+            Source = (INode)file;
             Destination = destination;
             Status = Status.Idle;
             Offset = 0;
@@ -135,6 +137,10 @@ namespace SharpWired.Model.Transfers {
                 Debug.WriteLine("MODEL:FileTransfer -> OnDataReceiveDone");
                 Socket.DataReceivedDoneEvent -= OnDataReceivedDone;
                 Socket.Interval -= OnInterval;
+            }
+
+            if (TransferDone != null) {
+                TransferDone();
             }
         }
     }

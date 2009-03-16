@@ -5,13 +5,13 @@ using SharpWired.Model.Transfers;
 
 namespace SharpWired.Gui.Transfers {
     public partial class TransferList : SharpWiredGuiBase {
-        private List<TransferItem> Items { get; set; }
+        private List<PrototypeTransferItem> Items { get; set; }
 
-        private delegate void ItemModifier(TransferItem ti, bool odd);
+        private delegate void ItemModifier(PrototypeTransferItem ti, bool odd);
 
         public TransferList() {
             InitializeComponent();
-            Items = new List<TransferItem>();
+            Items = new List<PrototypeTransferItem>();
         }
 
         public override void Init() {
@@ -43,7 +43,7 @@ namespace SharpWired.Gui.Transfers {
         }
 
         private void AddTransferItem(ITransfer t) {
-            var ti = new TransferItem();
+            var ti = new PrototypeTransferItem();
             ti.Init(t);
 
             Items.Add(ti);
@@ -54,7 +54,7 @@ namespace SharpWired.Gui.Transfers {
             var currentPos = 0;
 
             ModifyItems(
-                delegate(TransferItem current, bool odd)
+                delegate(PrototypeTransferItem current, bool odd)
                     {
                         current.Width = transferScrollPanel.Width - 2;
                         current.Top = currentPos*current.Height;
@@ -72,7 +72,7 @@ namespace SharpWired.Gui.Transfers {
 
         private void OnClicked(object sender, EventArgs e) {
             ModifyItems(
-                delegate(TransferItem current, bool odd)
+                delegate(PrototypeTransferItem current, bool odd)
                     {
                         current.Selected = false;
                         SetItemColor(current, odd);
@@ -80,9 +80,9 @@ namespace SharpWired.Gui.Transfers {
                 );
         }
 
-        private void OnItemClicked(TransferItem ti, bool control) {
+        private void OnItemClicked(PrototypeTransferItem ti, bool control) {
             ModifyItems(
-                delegate(TransferItem current, bool odd)
+                delegate(PrototypeTransferItem current, bool odd)
                     {
                         var clicked = ti == current;
 
@@ -99,7 +99,7 @@ namespace SharpWired.Gui.Transfers {
                 );
         }
 
-        private void SetItemColor(TransferItem ti, bool odd) {
+        private void SetItemColor(PrototypeTransferItem ti, bool odd) {
             if (ti.Selected) {
                 ti.BackColor = SystemColors.MenuHighlight;
             } else if (odd) {

@@ -22,6 +22,7 @@ namespace SharpWired.Gui.Files {
             DownloadItem.Visible = false;
         }
 
+
         public new void Show(Control control, Point location) {
             var details = Parent as FolderListing;
 
@@ -31,7 +32,6 @@ namespace SharpWired.Gui.Files {
                 } else {
                     DownloadItem.Visible = false;
                 }
-
                 base.Show(control, location);
             }
         }

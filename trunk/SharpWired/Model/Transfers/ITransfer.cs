@@ -2,6 +2,9 @@
 using SharpWired.Model.Files;
 
 namespace SharpWired.Model.Transfers {
+
+    public delegate void TransferDoneDelegate();
+
     public interface ITransfer {
         string Destination { get; }
         INode Source { get; }
@@ -11,6 +14,8 @@ namespace SharpWired.Model.Transfers {
         long Size { get; }
         long Received { get; }
         long Speed { get; }
+    
+        event TransferDoneDelegate TransferDone;
 
         void Start();
         void Pause();
