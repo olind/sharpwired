@@ -20,20 +20,7 @@ namespace SharpWired.Gui.Files {
             DownloadItem = new MenuItem("&Download", OnDownload);
             MenuItems.Add(DownloadItem);
             DownloadItem.Visible = false;
-        }
-
-
-        public new void Show(Control control, Point location) {
-            var details = Parent as FolderListing;
-
-            if (details != null) {
-                if (details.SelectedItems.Count > 0) {
-                    DownloadItem.Visible = true;
-                } else {
-                    DownloadItem.Visible = false;
-                }
-                base.Show(control, location);
-            }
+            this.Popup += OnPopup;
         }
 
         private void OnRefresh(Object sender, EventArgs e) {
@@ -50,9 +37,21 @@ namespace SharpWired.Gui.Files {
             }
         }
 
+        private void OnPopup(Object sender, EventArgs e) {
+            var details = Parent as FolderListing;
+
+            if(details != null) {
+                if(details.SelectedItems.Count > 0) {
+                    DownloadItem.Visible = true;
+                } else {
+                    DownloadItem.Visible = false;
+                }
+            }
+        }
+
         private void Download(INode node) {
             var entry = Controller.FileTransferController.AddDownload(node);
             Controller.FileTransferController.StartDownload(entry);
-        }
+        }     
     }
 }

@@ -37,15 +37,14 @@ namespace SharpWired.Gui.Files
             this.detailsListView.TabIndex = 0;
             this.detailsListView.UseCompatibleStateImageBehavior = false;
             this.detailsListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseDoubleClick);
-            this.detailsListView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnMouseUp);
             this.detailsListView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnKeyUp);
             // 
-            // Details
+            // FolderListing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.detailsListView);
-            this.Name = "Details";
+            this.Name = "FolderListing";
             this.Size = new System.Drawing.Size(418, 298);
             this.ResumeLayout(false);
 
