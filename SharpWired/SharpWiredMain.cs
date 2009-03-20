@@ -30,19 +30,29 @@ using System;
 using SharpWired.Controller;
 using SharpWired.Gui;
 using SharpWired.Model;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace SharpWired {
     internal class SharpWiredMain {
-        /// <summary>The main entry point for the application.</summary>
+
         [STAThread]
         private static void Main() {
-            var sharpWired = new SharpWiredMain();
+            Application.ThreadException += HandleError;
+            Thread.CurrentThread.Name = "main";
+            new SharpWiredMain();
         }
 
         public SharpWiredMain() {
             SharpWiredModel.Instance = new SharpWiredModel();
             SharpWiredController.Instance = new SharpWiredController(SharpWiredModel.Instance);
-            var sharpWiredGui = new SharpWiredGui(SharpWiredModel.Instance, SharpWiredController.Instance);
+            new SharpWiredGui(SharpWiredModel.Instance, SharpWiredController.Instance);
+        }
+
+        static void HandleError(object sender, ThreadExceptionEventArgs e) {
+            MessageBox.Show("Oups! SharpWired crashed and we don't know why. Sorry!");
+            //TODO: Fix error reporting
+            throw new Exception(e.Exception.Message);
         }
     }
 }

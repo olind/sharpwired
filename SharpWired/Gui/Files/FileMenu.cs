@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SharpWired.Controller;
 using SharpWired.Model.Files;
+using System.Threading;
 
 namespace SharpWired.Gui.Files {
     public class FileMenu : ContextMenu {
@@ -51,6 +52,7 @@ namespace SharpWired.Gui.Files {
 
         private void Download(INode node) {
             var entry = Controller.FileTransferController.AddDownload(node);
+            Thread.Sleep(10000);
             Controller.FileTransferController.StartDownload(entry);
         }     
     }
