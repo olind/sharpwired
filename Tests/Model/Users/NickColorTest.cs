@@ -95,11 +95,6 @@ namespace SharpWired.Tests.Model.Users {
             }
         }
 
-        [Test, Explicit]
-        public void Should_get_HSL_value_from_hashed_nick() {
-            Assert.Fail("TODO");
-        }
-
         private static void AssertRGBNotEqual(Color c1, Color c2) {
         	Assert.That(c1.R != c2.R || c1.G != c2.G || c1.B != c2.B);
         }

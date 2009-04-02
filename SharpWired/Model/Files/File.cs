@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpWired.MessageEvents;
+using System;
 
 namespace SharpWired.Model.Files {
     public class File : ANode, IFile {
@@ -14,6 +15,14 @@ namespace SharpWired.Model.Files {
         public override void Reload() {
             //FIXME: Run wired command STAT
             throw new NotImplementedException();
+        }
+        
+        public override void Update(MessageEventArgs_410420 message) {
+        	base.Update(message);
+        	Size = message.Size;
+        	
+        	if (Updated != null)
+        		Updated(this);
         }
     }
 }
