@@ -28,6 +28,7 @@
 
 #endregion
 
+using SharpWired.MessageEvents;
 using System;
 using System.Diagnostics;
 
@@ -89,5 +90,17 @@ namespace SharpWired.Model.Files {
 
             return thisString.CompareTo(nodeString);
         }
+    	
+		public virtual void Update(MessageEventArgs_410420 message) {
+        	if (FullPath != message.FullPath)
+        		throw new ArgumentException("Update only allowed on node with same path. [this.FullPath]: "
+        		                            + FullPath
+        		                            + ", [message.FullPath]: "
+        		                            + message.FullPath,
+        		                            "message");
+        	
+			Created = message.Created;
+			Modified = message.Modified;
+		}
     }
 }

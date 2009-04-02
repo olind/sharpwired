@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpWired.MessageEvents;
+using System;
 
 namespace SharpWired.Model.Files {
     public delegate void UpdatedDelegate(INode node);
@@ -21,5 +22,6 @@ namespace SharpWired.Model.Files {
         event UpdatedDelegate Updated;
 
         void Reload();
+        void Update(MessageEventArgs_410420 message);
     }
 }

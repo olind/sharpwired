@@ -52,7 +52,7 @@ namespace SharpWired {
         static void HandleError(object sender, ThreadExceptionEventArgs e) {
             MessageBox.Show("Oups! SharpWired crashed and we don't know why. Sorry!");
             //TODO: Fix error reporting
-            throw new Exception(e.Exception.Message);
+            throw e.Exception;
         }
     }
 }

@@ -56,7 +56,7 @@ namespace SharpWired.Model.Files {
             //run wired command LIST
             //set depth som variabel
             //säg till alla barn att lista sig med depth - 1
-            throw new NotImplementedException();
+            throw new NotImplementedException(Name + ": Folder.Reload() is not implemented.");
         }
 
         public virtual INode Get(string path) {
@@ -79,27 +79,67 @@ namespace SharpWired.Model.Files {
         }
 
         public void AddChildren(List<MessageEventArgs_410420> list) {
-            Children.Clear();
-            foreach (var message in list) {
-                ANode newNode = null;
-                if (message.FileType == FileType.FILE) {
-                    newNode = new File(message.FullPath, message.Created, message.Modified, message.Size);
-                } else if (message.FileType == FileType.FOLDER) {
-                    newNode = new Folder(message.FullPath, message.Created, message.Modified, message.Size);
-                } else if (message.FileType == FileType.UPLOADS) {
-                    //TODO: Why does this never get called? Even if we have an update folder on the server
-                    throw new NotImplementedException();
-                } else if (message.FileType == FileType.DROPBOX) {
-                    //TODO: Create DropBox
-                    newNode = new Folder(message.FullPath, message.Created, message.Modified, message.Size);
-                    Debug.WriteLine("MODEL:Folder -> AddChildren. Adding DropBox as Folder.");
-                }
-                Children.Add(newNode);
-            }
+        	List<INode> toBeRemoved = new List<INode>();
+        	
+        	foreach (var c in Children) {
+        		var found = false;
+        		foreach (var m in list) {
+        			if (c.FullPath == m.FullPath) {
+        				found = true;
+        				c.Update(m);
+        				break;
+        			}
+        		}
+        		if (!found)
+        			toBeRemoved.Add(c);
+        	}
+        	
+        	foreach (var c in toBeRemoved) {
+        		Children.Remove(c);
+        	}
+        	
+        	foreach (var m in list) {
+        		var found = false;
+        		foreach (var c in Children) {
+        			if (m.FullPath == c.FullPath) {
+        				found = true;
+        				break;
+        			}
+        		}
+        		if (!found)
+        			Add(m);
+        	}
 
             if (Updated != null) {
                 Updated(this);
             }
+        }
+        
+        private void Add(MessageEventArgs_410420 message) {
+       		switch (message.FileType) {
+            	case FileType.FILE:
+    				Children.Add(new File(message.FullPath, message.Created, message.Modified, message.Size));
+					break;
+				case FileType.FOLDER:
+					Children.Add(new Folder(message.FullPath, message.Created, message.Modified, message.Size));
+					break;
+				case FileType.UPLOADS:
+					//TODO: Why does this never get called? Even if we have an update folder on the server
+                	throw new NotImplementedException();
+                case FileType.DROPBOX:
+                	//TODO: Create DropBox
+                	Children.Add(new Folder(message.FullPath, message.Created, message.Modified, message.Size));
+                	Debug.WriteLine("MODEL:Folder -> WARNING! Adding DropBox as Folder.");
+                	break;
+            }
+        }
+        
+        public override void Update(MessageEventArgs_410420 message) {
+        	base.Update(message);
+        	Count = message.Size;
+        	
+        	if (Updated != null)
+        		Updated(this);
         }
     }
 }
