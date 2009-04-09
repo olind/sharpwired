@@ -9,9 +9,10 @@ namespace SharpWired.Model.Files {
             : base(path, created, modified) {
             Size = size;
         }
-
+        
         public override event UpdatedDelegate Updated;
-
+        public override event UpdatedDelegate Offline;
+        
         public override void Reload() {
             //FIXME: Run wired command STAT
             throw new NotImplementedException();
@@ -21,8 +22,17 @@ namespace SharpWired.Model.Files {
         	base.Update(message);
         	Size = message.Size;
         	
-        	if (Updated != null)
+        	if(Updated!=null){
         		Updated(this);
+        	}
+        }
+        
+        public override void OnOffline(){
+        	base.OnOffline();
+        	
+        	if(Offline != null){
+        		Offline(this);
+        	}
         }
     }
 }

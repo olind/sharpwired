@@ -14,10 +14,17 @@ namespace SharpWired.Gui.Files {
             Name = modelNode.FullPath; // Used only for searching the tree.
             PopulateFolder();
             modelNode.Updated += OnUpdated;
+            modelNode.Offline += OnOffline;
         }
 
         public void OnUpdated(INode modelNode) {
             PopulateFolder();
+        }
+        
+        public void OnOffline(INode modelNode) {
+        	Debug.WriteLine("GUI:Tree -> OnOffline: " + modelNode.FullPath);
+        	modelNode.Offline -= OnOffline;
+        	modelNode.Updated -= OnUpdated;
         }
 
         private void PopulateFolder() {
