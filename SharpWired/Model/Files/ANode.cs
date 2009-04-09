@@ -65,6 +65,7 @@ namespace SharpWired.Model.Files {
         public DateTime Modified { get; private set; }
 
         public abstract event UpdatedDelegate Updated;
+        public abstract event UpdatedDelegate Offline;
 
         public ANode(string path, DateTime created, DateTime modified) {
             Debug.WriteLine("MODEL:ANode -> Adding node: " + path);
@@ -102,5 +103,9 @@ namespace SharpWired.Model.Files {
 			Created = message.Created;
 			Modified = message.Modified;
 		}
+        
+        public virtual void OnOffline() {
+        	Debug.WriteLine("MODEL:ANode -> Going offline: " + this.FullPath);
+        }
     }
 }

@@ -45,8 +45,9 @@ namespace SharpWired.Model.Files {
 
             Children = new NodeChildren(this);
         }
-
+        
         public override event UpdatedDelegate Updated;
+        public override event UpdatedDelegate Offline;
 
         public override void Reload() {
             ConnectionManager.Commands.List(FullPath);
@@ -140,6 +141,15 @@ namespace SharpWired.Model.Files {
         	
         	if (Updated != null)
         		Updated(this);
+        }
+        
+        public override void OnOffline(){
+        	Children.ForEach(x => x.OnOffline());
+        	base.OnOffline();
+        	
+        	if(Offline != null){
+        		Offline(this);
+        	}
         }
     }
 }

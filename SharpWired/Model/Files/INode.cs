@@ -20,8 +20,10 @@ namespace SharpWired.Model.Files {
         DateTime Modified { get; }
 
         event UpdatedDelegate Updated;
+        event UpdatedDelegate Offline;
 
         void Reload();
         void Update(MessageEventArgs_410420 message);
+        void OnOffline();
     }
 }

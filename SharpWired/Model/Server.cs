@@ -99,6 +99,7 @@ namespace SharpWired.Model {
 
             PublicChat = null;
             News = null;
+            FileRoot.OnOffline();
             FileRoot = null;
 
             // TODO: Should probably null much more here (HeartBeat etc).
