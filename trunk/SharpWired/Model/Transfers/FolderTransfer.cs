@@ -1,5 +1,6 @@
 ﻿using System;
 using SharpWired.Model.Files;
+using System.Threading;
 
 namespace SharpWired.Model.Transfers {
     public class FolderTransfer : ModelBase, ITransfer {
@@ -19,6 +20,11 @@ namespace SharpWired.Model.Transfers {
 
         public event TransferDoneDelegate TransferDone;
 
+        private void OnNodeUpdated(INode node) {
+            Source.Updated -= OnNodeUpdated;
+            Download();
+        }
+
         public FolderTransfer(IFolder node, string destination) {
             Source = (INode)node;
             Destination = destination;
@@ -26,9 +32,15 @@ namespace SharpWired.Model.Transfers {
         }
 
         public void Start() {
-            //TODO: Get all file listings from source
-
+        	Source.Updated += OnNodeUpdated;
+            ConnectionManager.Commands.List(Source.FullPath);
+        }
+        
+        private void Download() {
             System.IO.Directory.CreateDirectory(Destination);
+            
+            //Thread.Sleep(1000);
+            
             if (TransferDone != null) {
                 TransferDone();
             }

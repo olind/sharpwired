@@ -31,9 +31,14 @@ namespace SharpWired.Gui.Transfers {
         }
 
         private void OnTransferDone() {
-            pauseButton.Enabled = false;
-            deleteButton.Enabled = false;
-            progressBar.Enabled = false;
+        	if (InvokeRequired) {
+                Func callback = OnTransferDone;
+                Invoke(callback, new object[] {});
+            } else {
+                pauseButton.Enabled = false;
+            	deleteButton.Enabled = false;
+            	progressBar.Enabled = false;
+            }
         }
 
         private void OnClicked(object sender, EventArgs e) {

@@ -18,6 +18,7 @@ namespace SharpWired.Model.Files {
         string FullPath { get; }
         DateTime Created { get; }
         DateTime Modified { get; }
+        DateTime LastRefreshed { get; }
 
         event UpdatedDelegate Updated;
         event UpdatedDelegate Offline;

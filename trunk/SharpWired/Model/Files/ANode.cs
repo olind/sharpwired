@@ -63,6 +63,7 @@ namespace SharpWired.Model.Files {
 
         public DateTime Created { get; private set; }
         public DateTime Modified { get; private set; }
+        public DateTime LastRefreshed { get; private set; }
 
         public abstract event UpdatedDelegate Updated;
         public abstract event UpdatedDelegate Offline;
@@ -102,6 +103,7 @@ namespace SharpWired.Model.Files {
         	
 			Created = message.Created;
 			Modified = message.Modified;
+			LastRefreshed = DateTime.Now;
 		}
         
         public virtual void OnOffline() {
