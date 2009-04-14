@@ -52,7 +52,6 @@ namespace SharpWired.Gui.Files {
 
         private void Download(INode node) {
             var entry = Controller.FileTransferController.AddDownload(node);
-            Thread.Sleep(10000);
             Controller.FileTransferController.StartDownload(entry);
         }     
     }

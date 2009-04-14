@@ -93,7 +93,6 @@ namespace SharpWired.Model.Transfers {
         }
 
         private void OnInterval() {
-            Debug.WriteLine("MODEL:FileTransfer -> OnInterval");
             Speed = Received - LastBytesReceived;
             AddToSpeedHistory(Speed);
             LastBytesReceived = Received;
