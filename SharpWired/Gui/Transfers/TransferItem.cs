@@ -13,7 +13,7 @@ namespace SharpWired.Gui.Transfers {
 
         public event ClickedArgs Clicked;
 
-        private bool frozen = true; //Stops repainting a paused/idle transfer
+        private bool frozen = false; //Stops repainting a paused/idle transfer
 
         public PrototypeTransferItem() {
             InitializeComponent();
@@ -35,9 +35,7 @@ namespace SharpWired.Gui.Transfers {
                 Func callback = OnTransferDone;
                 Invoke(callback, new object[] {});
             } else {
-                pauseButton.Enabled = false;
-            	deleteButton.Enabled = false;
-            	progressBar.Enabled = false;
+            	Repaint();
             }
         }
 
@@ -68,7 +66,17 @@ namespace SharpWired.Gui.Transfers {
         }
 
         internal void Repaint() {
-            if (transfer.Status == Status.Idle) {
+        	if (transfer.Status == Status.Done) {
+        		if(!frozen) {
+	        		info.Text = GuiUtil.FormatByte(transfer.Size);
+    	    		progressBar.Value = 1000;
+    	    		pauseButton.Enabled = false;
+            		deleteButton.Enabled = false;
+            		progressBar.Enabled = false;
+    	    		
+    	    		frozen = true;
+        		}
+        	} else if (transfer.Status == Status.Idle) {
                 if (!frozen) {
                     pauseButton.Image = IconHandler.Instance.MediaPlaybackStart;
                     pauseButton.Enabled = false;

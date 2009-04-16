@@ -13,7 +13,8 @@ namespace SharpWired.Model.Transfers {
     public enum Status {
         Pending,
         Idle,
-        Active
+        Active,
+        Done
     }
 
     public class FileTransfer : ModelBase, ITransfer {
@@ -132,6 +133,8 @@ namespace SharpWired.Model.Transfers {
         }
 
         private void OnDataReceivedDone() {
+        	Status = Status.Done;
+        	
             if (Socket != null) {
                 Debug.WriteLine("MODEL:FileTransfer -> OnDataReceiveDone");
                 Socket.DataReceivedDoneEvent -= OnDataReceivedDone;
