@@ -325,7 +325,6 @@ namespace SharpWired.Connection {
         /// <param name="password">The password to be sent</param>
         public void Pass(string password) {
             if (socket != null) {
-                // socket.SendMessage("PASS" + Utility.SP + Utility.HashPassword(password));
                 // Password is already hashed!
                 socket.SendMessage("PASS" + Utility.SP + password);
             }
@@ -398,7 +397,9 @@ namespace SharpWired.Connection {
         /// </summary>
         /// <param name="message">The message</param>
         public void Say(string message) {
-            Say(1, message);
+        	if (socket != null) {
+        		Say(1, message);
+        	}
         }
 
         /// <summary>Send a chat message</summary>

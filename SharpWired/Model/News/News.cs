@@ -33,31 +33,35 @@ using SharpWired.MessageEvents;
 namespace SharpWired.Model.News {
     /// <summary>Represents all the news posted on the server</summary>
     public class News {
-        #region Fields
 
         private readonly List<NewsMessageItem> newsList = new List<NewsMessageItem>();
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>Constructor</summary>
-        /// <param name="m"></param>
+        
+        /// <summary>Gets the news list. Sorted Descending (e.g. earliest post first).</summary>
+        public List<NewsMessageItem> NewsList {
+            get {
+                var l = new List<NewsMessageItem>(newsList);
+                l.Reverse();
+                return l;
+            }
+        }
+        
         public News(Messages m) {
             //All three are needed in order to sort the list
             m.NewsPostedEvent += OnNewsPosted;
             m.NewsEvent += OnNews;
             m.NewsDoneEvent += OnNewsDone;
         }
-
-        #endregion
-
-        #region Methods
+        
+        public delegate void NewsPostedDelegate(NewsMessageItem newsPost);
+        public delegate void NewsListingDoneDelegate(List<NewsMessageItem> newsListing);
+        /// <summary>Raised when a news post is received from the server</summary>
+        public event NewsPostedDelegate NewsPostedEvent;
+        /// <summary>Raised when the requested news listing (eg. in respons to NEWS) is done.</summary>
+        public event NewsListingDoneDelegate NewsListingDoneEvent;
 
         private void OnNewsPosted(MessageEventArgs_320322 message) {
             var n = new NewsMessageItem(message);
             if (!newsList.Contains(n)) {
-                //TODO: Verify that contains works
                 newsList.Add(n);
                 if (NewsPostedEvent != null) {
                     NewsPostedEvent(n);
@@ -68,7 +72,6 @@ namespace SharpWired.Model.News {
         private void OnNews(MessageEventArgs_320322 message) {
             var n = new NewsMessageItem(message);
             if (!newsList.Contains(n)) {
-                //TODO: Verify that contains works
                 newsList.Add(n);
             }
         }
@@ -78,30 +81,5 @@ namespace SharpWired.Model.News {
                 NewsListingDoneEvent(NewsList);
             }
         }
-
-        /// <summary>Gets the news list. Sorted Descending (e.g. earliest post first).</summary>
-        public List<NewsMessageItem> NewsList {
-            get {
-                var l = new List<NewsMessageItem>(newsList);
-                l.Reverse();
-                return l;
-            }
-        }
-
-        #endregion
-
-        #region Events & Listeners
-
-        public delegate void NewsPostedDelegate(NewsMessageItem newsPost);
-
-        public delegate void NewsListingDoneDelegate(List<NewsMessageItem> newsListing);
-
-        /// <summary>Raised when a news post is received from the server</summary>
-        public event NewsPostedDelegate NewsPostedEvent;
-
-        /// <summary>Raised when the requested news listing (eg. in respons to NEWS) is done.</summary>
-        public event NewsListingDoneDelegate NewsListingDoneEvent;
-
-        #endregion
     }
 }
