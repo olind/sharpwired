@@ -65,6 +65,9 @@ namespace SharpWired.Model.Transfers {
         
         public FolderTransfer(Transfers transfers, IFolder node, string destination) {
         	Transfers = transfers;
+        	
+        	
+        	
             Source = (INode)node;
             Destination = destination;
             Status = Status.Idle;
