@@ -60,10 +60,14 @@
     <Compile Include="Gui\GuiUtilTest.cs" />
     <Compile Include="Model\Files\FileTest.cs" />
     <Compile Include="Model\Files\FolderTest.cs" />
+    <Compile Include="Model\Transfers\FolderTransferTest.cs" />
     <Compile Include="Model\Users\NickColorTest.cs" />
     <Compile Include="UtilityTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>lib\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="NUnit.Framework">
       <HintPath>$(SharpDevelopBinPath)\Tools\NUnit\NUnit.Framework.dll</HintPath>
     </Reference>
@@ -84,6 +88,7 @@
       <Project>{85C03311-3C25-4EB5-97BA-FDC6F3C63005}</Project>
       <Name>SharpWired</Name>
     </ProjectReference>
+    <Folder Include="Model\Transfers" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
