@@ -1,7 +1,6 @@
 using SharpWired.MessageEvents;
 using System;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 using SharpWired.Model.Files;
 
 namespace SharpWired.Tests.Model.Files {

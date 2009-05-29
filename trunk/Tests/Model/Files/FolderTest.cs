@@ -1,8 +1,5 @@
-﻿using NUnit.Framework.SyntaxHelpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using SharpWired.MessageEvents;
 using SharpWired.Model.Files;
