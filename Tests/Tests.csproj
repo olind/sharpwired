@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9EFEC627-CCA8-402F-B2E0-68018E37748F}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -68,9 +68,6 @@
     <Reference Include="Moq">
       <HintPath>lib\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="NUnit.Framework">
-      <HintPath>$(SharpDevelopBinPath)\Tools\NUnit\NUnit.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\nunit.framework.dll</HintPath>
@@ -88,7 +85,6 @@
       <Project>{85C03311-3C25-4EB5-97BA-FDC6F3C63005}</Project>
       <Name>SharpWired</Name>
     </ProjectReference>
-    <Folder Include="Model\Transfers" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

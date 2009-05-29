@@ -1,8 +1,6 @@
 using SharpWired.Model.Files;
-using System;
 using Moq;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 using SharpWired.Model.Transfers;
 
 namespace SharpWired.Tests.Model.Transfers {
