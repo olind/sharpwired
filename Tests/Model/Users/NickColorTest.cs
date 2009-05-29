@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using SharpWired.Model.Users;
 using System.Drawing;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace SharpWired.Tests.Model.Users {
     [TestFixture]
