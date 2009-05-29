@@ -1,5 +1,5 @@
 ﻿namespace SharpWired.Model.Files {
-    public interface IFolder {
+    public interface IFolder : INode {
         long Count { get; }
         NodeChildren Children { get; }
 
