@@ -209,7 +209,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Content Include="SharpWired.cd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icons\Tango22px\folder.png" />
@@ -376,9 +375,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
-    <None Include="Properties\DataSources\SharpWired.Model.Transfers.Transfers.datasource" />
-    <None Include="Resources\process-stop.png" />
-    <None Include="Resources\media-playback-pause.png" />
     <Content Include="SharpWired_Program_Icon.ico" />
   </ItemGroup>
   <ItemGroup>
