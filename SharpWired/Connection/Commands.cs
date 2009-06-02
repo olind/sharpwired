@@ -36,7 +36,7 @@ namespace SharpWired.Connection {
     /// methods (that can be used from the GUI) and creates strings that are compatible
     /// with the Wired 1.1 protocol.
     /// </summary>
-    public class Commands {
+    public class Commands : ICommands {
         /// <summary>The socket this commands uses</summary>
         private readonly SecureSocket socket;
 

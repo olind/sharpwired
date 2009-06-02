@@ -72,6 +72,7 @@
     <Compile Include="Connection\Bookmarks\Bookmark.cs" />
     <Compile Include="Connection\Commands.cs" />
     <Compile Include="Connection\ConnectionException.cs" />
+    <Compile Include="Connection\ICommands.cs" />
     <Compile Include="Connection\Server.cs" />
     <Compile Include="Connection\Sockets\ConnectionManager.cs" />
     <Compile Include="Connection\Sockets\SecureSocket.cs" />

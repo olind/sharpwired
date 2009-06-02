@@ -33,7 +33,7 @@ namespace SharpWired.Model.Transfers {
 			if (node is IFile) {
 				return new FileTransfer((IFile)node, target, offset);
 			} else if (node is IFolder) {
-				return new FolderTransfer(this, (IFolder)node, target);
+				return new FolderTransfer(ConnectionManager.Commands, this, (IFolder)node, target);
 			}
 			throw new ArgumentException("Transfer was not of type IFile or IFolder.");
 		}
