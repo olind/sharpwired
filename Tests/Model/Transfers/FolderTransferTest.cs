@@ -62,13 +62,14 @@ namespace SharpWired.Tests.Model.Transfers {
 			Assert.That(transfer.Progress, Is.EqualTo(0.0));
 			Assert.That(transfer.Status, Is.EqualTo(Status.Pending));
 			
-			// TODO: Call OnNodeUpdated callback (doesn't work!)
-			//folder.Raise(x => x.Updated -= null, folder.Object);
-			
+			// TODO: Added missing Children setup. Test works. Not sure if we want some special Children expect?
+			folder.Setup(x => x.Children).Returns(new NodeChildren(null));
+			folder.Raise(x => x.Updated -= null, folder.Object);
+
 			// TODO: (överkurs) Wait for TransferDone callback
 			
-			//Assert.That(transfer.Progress, Is.EqualTo(1.0));
-			//Assert.That(transfer.Status, Is.EqualTo(Status.Done));
+			Assert.That(transfer.Progress, Is.EqualTo(1.0));
+			Assert.That(transfer.Status, Is.EqualTo(Status.Done));
 			
 			// TODO: VERIFY: Folder existis on disk
 			
