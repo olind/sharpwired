@@ -972,7 +972,7 @@ namespace SharpWired.Connection {
 
         // 516
         private void OnPermissionDeniedEvent(object sender, int messageId, string messageName, string message) {
-            Debug.WriteLine("Permission denied. ID: " + messageId + " : message: " + message);
+            Debug.WriteLine("CONNECTION:Messages -> WARNING! Permission denied. ID: " + messageId + " : message: " + message);
 
             if (PermissionDeniedEvent != null) {
                 var m = new MessageEventArgs_Messages(messageId, messageName, message);

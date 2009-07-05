@@ -126,7 +126,9 @@ namespace SharpWired.Model.Files {
 					break;
 				case FileType.UPLOADS:
 					//TODO: Why does this never get called? Even if we have an update folder on the server
-                	throw new NotImplementedException();
+                    Children.Add(new Folder(message.FullPath, message.Created, message.Modified, message.Size));
+                    Debug.WriteLine("MODEL:Folder -> WARNING! Adding Upload as Folder.");
+                    break;
                 case FileType.DROPBOX:
                 	//TODO: Create DropBox
                 	Children.Add(new Folder(message.FullPath, message.Created, message.Modified, message.Size));
