@@ -96,6 +96,9 @@
     <Compile Include="Gui\Chat\ChatUserContainer.Designer.cs">
       <DependentUpon>ChatUserContainer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Transfers\TransferMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MessageEvents\MessageEventArgs.cs" />
     <Compile Include="MessageEvents\MessageEventArgs_200.cs" />
     <Compile Include="MessageEvents\MessageEventArgs_201.cs" />
