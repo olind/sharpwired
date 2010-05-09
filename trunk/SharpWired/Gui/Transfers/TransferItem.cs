@@ -20,6 +20,7 @@ namespace SharpWired.Gui.Transfers {
         }
 
         public void Init(ITransfer t) {
+            this.ContextMenu = new TransferMenu(t);
             transfer = t;
             transfer.TransferDone += OnTransferDone;
             var icons = IconHandler.Instance;

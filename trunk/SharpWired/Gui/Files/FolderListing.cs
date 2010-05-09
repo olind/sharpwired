@@ -167,7 +167,9 @@ namespace SharpWired.Gui.Files {
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e) {
             var node = (WiredListNode) detailsListView.GetItemAt(e.X, e.Y);
-            if (node != null && node.ModelNode is Folder && NodeSelected != null) {
+            if (node == null) return;
+            
+            if (NodeSelected != null) {
                 NodeSelected(node.ModelNode);
             }
         }

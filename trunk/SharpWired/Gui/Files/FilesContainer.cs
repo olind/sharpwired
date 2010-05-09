@@ -66,6 +66,10 @@ namespace SharpWired.Gui.Files {
                 // Model update happens here:
                 Controller.FileListingController.ReloadFileList(folder);
             }
+            if(node is File)
+            {
+                Controller.FileTransferController.AddDownload(node);
+            }
         }
     }
 }

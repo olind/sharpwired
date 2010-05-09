@@ -26,10 +26,11 @@ namespace SharpWired.Controller {
             }
         }
 
-        public ITransfer AddDownload(INode node) {
+        public void AddDownload(INode node) {
             //TODO: File exists? Resume?
             var target = Path.Combine(defaultDownloadFolder, node.Name);
-            return Transfers.Add(node, target);
+            var transfer = Transfers.Add(node, target);
+            StartDownload(transfer);
         }
 
         public void StartDownload(ITransfer transfer) {
