@@ -50,7 +50,8 @@ namespace SharpWired.Gui.Files {
             var rootTreeViewIcons = new ImageList();
             rootTreeViewIcons.ColorDepth = ColorDepth.Depth32Bit;
             var iconHandler = IconHandler.Instance;
-            rootTreeViewIcons.Images.Add(iconHandler.GetFolderIconFromSystem());
+			//TODO: use tango icons
+            //rootTreeViewIcons.Images.Add(iconHandler.GetFolderIconFromSystem());
             rootTreeView.ImageList = rootTreeViewIcons;
         }
 
