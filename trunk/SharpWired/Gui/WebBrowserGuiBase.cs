@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -65,8 +65,16 @@ namespace SharpWired.Gui {
 
                 browserFooter = "</body></html>";
 
-                browser.DocumentText = browserHeader + browserFooter;
-                browserBody.Length = 0;
+				if (browser.Document != null) {
+	                browser.DocumentText = browserHeader + browserFooter;					
+	                if (browserBody != null) {
+	                	browserBody.Length = 0;
+					}
+				} else {
+					//TODO: When using mono there is something wrong with the
+					// 		browser making it fail when trying to write data to
+					//		it. 
+				}
             }
         }
     }
