@@ -36,9 +36,9 @@ using SharpWired.Controller;
 using SharpWired.Gui.About;
 using SharpWired.Gui.Bookmarks;
 using SharpWired.Model;
-using WiredControls.Containers.Forms;
-using WiredControls.ToolStripItems;
 using SharpWired.Gui.Resources.Icons;
+using SharpWired.Gui.Forms;
+using SharpWired.Gui.ToolStripItems;
 
 namespace SharpWired.Gui {
     /// <summary>The main GUI</summary>

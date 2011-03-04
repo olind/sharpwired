@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using WiredControls.Containers.Forms;
+using SharpWired.Gui.Forms;
 
 namespace SharpWired.Gui.About {
     internal partial class AboutBox : WiredForm {
