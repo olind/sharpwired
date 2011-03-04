@@ -119,7 +119,7 @@ namespace SharpWired.Connection.Sockets {
         /// <param name="message">The message to be sent (without any EOT).</param>
         public void SendMessage(string message) {
             if (sslStream != null && sslStream.CanWrite) {
-                if (message.StartsWith("ICON")) {
+                if (message.StartsWith("ICON") && message != "ICON 1") {
                     Debug.WriteLine("CONNECTION:SecureSocket -> Sending: '" + message.Substring(0, 30) + "...'");
                 } else {
                     Debug.WriteLine("CONNECTION:SecureSocket -> Sending: '" + message + "'");

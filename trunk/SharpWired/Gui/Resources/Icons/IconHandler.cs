@@ -38,118 +38,17 @@ using SharpWired.Utils;
 namespace SharpWired.Gui.Resources.Icons {
     /// <summary>Abstracts reading icon files from disk.</summary>
     internal class IconHandler {
-        #region Singelton
 
         private static readonly IconHandler sInstance = new IconHandler();
-        private const uint conFILE_ATTRIBUTE_NORMAL = 0x00000080;
-        private const uint conFILE_ATTRIBUTE_DIRECTORY = 0x00000010;
-
-        private enum EnumFileInfoFlags : uint {
-            /// get large icon
-            LARGEICON = 0x000000000,
-            /// get small icon
-            SMALLICON = 0x000000001,
-            /// get open icon
-            OPENICON = 0x000000002,
-            /// get shell size icon
-            SHELLICONSIZE = 0x000000004,
-            /// pszPath is a pidl
-            PIDL = 0x000000008,
-            /// use passed dwFileAttribute
-            USEFILEATTRIBUTES = 0x000000010,
-            /// apply the appropriate overlays
-            ADDOVERLAYS = 0x000000020,
-            /// get the index of the overlay
-            OVERLAYINDEX = 0x000000040,
-            /// get icon
-            ICON = 0x000000100,
-            /// get display name
-            DISPLAYNAME = 0x000000200,
-            /// get type name
-            TYPENAME = 0x000000400,
-            /// get attributes
-            ATTRIBUTES = 0x000000800,
-            /// get icon location
-            ICONLOCATION = 0x000001000,
-            /// return exe type
-            EXETYPE = 0x000002000,
-            /// get system icon index
-            SYSICONINDEX = 0x000004000,
-            /// put a link overlay on icon
-            LINKOVERLAY = 0x000008000,
-            /// show icon in selected state
-            SELECTED = 0x000010000,
-            /// get only specified attributes
-            ATTR_SPECIFIED = 0x000020000
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct ShellFileInfo {
-            public const int conNameSize = 80;
-            public IntPtr hIcon; // note to call DestroyIcon
-            public int iIndex;
-            public uint dwAttributes;
-
-            [MarshalAs(
-                UnmanagedType.ByValTStr,
-                SizeConst = conMAX_PATH)] public string szDisplayName;
-
-            [MarshalAs(
-                UnmanagedType.ByValTStr,
-                SizeConst = conNameSize)] public string szTypeName;
-        } ;
-
-        private const int conMAX_PATH = 260;
-
         /// <summary>Request the singelton instance.</summary>
         public static IconHandler Instance { get { return sInstance; } }
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>Constructs and sets iconFilePath. Read standard icons.</summary>
-        public IconHandler() {
-            // I think Application.StartupPath is a bit better really. The curetn
-            // dir can change independent of where the .exe file is.
-            // use Path.Combine to combine paths. That way we don'transfer have to know
-            // which char to use between the parts of the destination.
-            iconFilePath = Path.Combine(Application.StartupPath, "GUI");
-            iconFilePath = Path.Combine(iconFilePath, "Icons");
-
-            ReadStandardIcons();
-        }
-
-        /// <summary>Constructs and sets file source destination to given destination.</summary>
-        /// <param name="pIconFilePath">The destination where the icons reciedes.</param>
-        public IconHandler(string pIconFilePath) {
-            iconFilePath = pIconFilePath;
-        }
-
-        #endregion
-
-        #region Variables
 
         // This is a collection of the icons and their namings.
         private readonly Dictionary<string, Image> mIcons = new Dictionary<string, Image>();
 
         private readonly string iconFilePath;
-        private Image userImage;
-        private Image goHome;
-        private Image mediaPlaybackPause;
-        private Image mediaPlaybackStart;
-        private Image processStop;
-
-        #endregion
-
-        #region Properties
-
+        
         private string IconFilePath { get { return iconFilePath; } }
-        public Image GoHome { get { return goHome; } }
-        public Image UserImage { get { return userImage; } }
-        public Image MediaPlaybackPause { get { return mediaPlaybackPause; } }
-        public Image MediaPlaybackStart { get { return mediaPlaybackStart; } }
-        public Image ProcessStop { get { return processStop; } }
 
         /// <summary>Request the icon with this name.</summary>
         /// <param name="name">The name of the icon (not the filename!)</param>
@@ -173,16 +72,28 @@ namespace SharpWired.Gui.Resources.Icons {
         /// <returns>The icon or null.</returns>
         public Image this[Pair<string, string> nameAndFilePair] { get { return LoadAndStoreIcon(nameAndFilePair); } }
 
-        #endregion
+        public List<Image> GetAllIcons() { 
+            var iconList = new List<Image>();
+            foreach (var ic in IconList.Icons) {
+                var img = LoadAndStoreIcon(new Pair<string, string>(ic.Key, ic.Value.Value));
+                iconList.Add(img);
+            }
+            return iconList;
+        }
 
-        #region Methods
+        /// <summary>Constructs and sets iconFilePath. Read standard icons.</summary>
+        public IconHandler() {
+            iconFilePath = Path.Combine(Application.StartupPath, "GUI");
+            iconFilePath = Path.Combine(iconFilePath, "Icons");
+        }
 
-        #region Loading File and Storing Image
+        /// <summary>Constructs and sets file source destination to given destination.</summary>
+        /// <param name="pIconFilePath">The destination where the icons reciedes.</param>
+        public IconHandler(string pIconFilePath) {
+            iconFilePath = pIconFilePath;
+        }
 
-        /// <summary>
-        /// Tries to find icon in the dictionary. If it doesn'transfer exist
-        /// or is null, try to load it from the filename.
-        /// </summary>
+        /// <summary>Tries to find icon in the dictionary. If it doesn'transfer exist or is null, try to load it from the filename.</summary>
         /// <param name="nameAndFilePairs">The name and filename pair for the icon.</param>
         /// <returns>The icon or null.</returns>
         private Image LoadAndStoreIcon(Pair<string, string> nameAndFilePairs) {
@@ -236,8 +147,6 @@ namespace SharpWired.Gui.Resources.Icons {
             return null;
         }
 
-        #endregion
-
         /// <summary>Creates a hi quality image from the given fileName. Note the file must be located in the IconFilePath.</summary>
         /// <param name="fileName"></param>
         /// <returns>If succesful the imager is returned. Otherwise null is returned.</returns>
@@ -247,8 +156,7 @@ namespace SharpWired.Gui.Resources.Icons {
                 return Image.FromFile(file);
             } catch (Exception e) {
                 // TODO: Add to log instead.
-                Debug.WriteLine("Error loading image from file '"
-                                + fileName + "'.\n" + e);
+                Debug.WriteLine("Error loading image from file '" + fileName + "'.\n" + e);
                 return null;
             }
         }
@@ -261,19 +169,86 @@ namespace SharpWired.Gui.Resources.Icons {
         }
 
         /// <summary>Reads the most common icons from file.</summary>
-        private void ReadStandardIcons() {
-            //TODO: Use the IconList instead
-            userImage = CreateHiQualityIconImage("userImage.png");
-            goHome = CreateHiQualityIconImage("go-home.png");
+        //private void ReadStandardIcons() {    
+        //}
+        
+#region OBSOLETE: Used for reading icons from windows. Doesn't work in Mono. Instead I think we should use the Mono icons throughout
 
-            mediaPlaybackPause = CreateHiQualityIconImage("media-playback-pause.png");
-            mediaPlaybackStart = CreateHiQualityIconImage("media-playback-start.png");
-            processStop = CreateHiQualityIconImage("process-stop.png");
+        [Obsolete("Used for reading icons from windows. Doesn't work in Mono. Instead I think we should use the Mono icons throughout")]
+        private const uint conFILE_ATTRIBUTE_NORMAL = 0x00000080;
+        [Obsolete("Used for reading icons from windows. Doesn't work in Mono. Instead I think we should use the Mono icons throughout")]
+        private const uint conFILE_ATTRIBUTE_DIRECTORY = 0x00000010;
+
+        [Obsolete("Used for reading icons from windows. Doesn't work in Mono. Instead I think we should use the Mono icons throughout")]
+        private enum EnumFileInfoFlags : uint
+        {
+            /// get large icon
+            LARGEICON = 0x000000000,
+            /// get small icon
+            SMALLICON = 0x000000001,
+            /// get open icon
+            OPENICON = 0x000000002,
+            /// get shell size icon
+            SHELLICONSIZE = 0x000000004,
+            /// pszPath is a pidl
+            PIDL = 0x000000008,
+            /// use passed dwFileAttribute
+            USEFILEATTRIBUTES = 0x000000010,
+            /// apply the appropriate overlays
+            ADDOVERLAYS = 0x000000020,
+            /// get the index of the overlay
+            OVERLAYINDEX = 0x000000040,
+            /// get icon
+            ICON = 0x000000100,
+            /// get display name
+            DISPLAYNAME = 0x000000200,
+            /// get type name
+            TYPENAME = 0x000000400,
+            /// get attributes
+            ATTRIBUTES = 0x000000800,
+            /// get icon location
+            ICONLOCATION = 0x000001000,
+            /// return exe type
+            EXETYPE = 0x000002000,
+            /// get system icon index
+            SYSICONINDEX = 0x000004000,
+            /// put a link overlay on icon
+            LINKOVERLAY = 0x000008000,
+            /// show icon in selected state
+            SELECTED = 0x000010000,
+            /// get only specified attributes
+            ATTR_SPECIFIED = 0x000020000
         }
 
+        [Obsolete("Used for reading icons from windows. Doesn't work in Mono. Instead I think we should use the Mono icons throughout")]
+        [StructLayout(LayoutKind.Sequential)]
+        private struct ShellFileInfo
+        {
+            public const int conNameSize = 80;
+            public IntPtr hIcon; // note to call DestroyIcon
+            public int iIndex;
+            public uint dwAttributes;
+
+            [MarshalAs(
+                UnmanagedType.ByValTStr,
+                SizeConst = conMAX_PATH)]
+            public string szDisplayName;
+
+            [MarshalAs(
+                UnmanagedType.ByValTStr,
+                SizeConst = conNameSize)]
+            public string szTypeName;
+        } ;
+
+        [Obsolete("Used for reading icons from windows. Doesn't work in Mono. Instead I think we should use the Mono icons throughout")]
+        private const int conMAX_PATH = 260;
+
+
+        [Obsolete("Used for reading icons from windows. Doesn't work in Mono. Instead I think we should use the Mono icons throughout")]
         [DllImport("User32.dll")]
         private static extern int DestroyIcon(IntPtr hIcon);
 
+        [Obsolete("Used for reading icons from windows. Doesn't work in Mono. Instead I think we should use the Mono icons throughout")]
         [DllImport("Shell32.dll")]
         private static extern IntPtr SHGetFileInfo(
             string pszPath,
@@ -283,14 +258,19 @@ namespace SharpWired.Gui.Resources.Icons {
             uint uFlags
             );
 
+        [Obsolete("Used for reading icons from windows. Doesn't work in Mono. Instead I think we should use the Mono icons throughout")]
         public Image GetFileIconFromSystem(string fileName) {
             return GetSystemIcon(fileName, false);
         }
 
+        
+
+        [Obsolete("Used for reading icons from windows. Doesn't work in Mono. Instead I think we should use the Mono icons throughout")]
         public Image GetFolderIconFromSystem() {
             return GetSystemIcon("", true);
         }
 
+        [Obsolete("Used for reading icons from windows. Doesn't work in Mono. Instead I think we should use the Mono icons throughout")]
         private Image GetSystemIcon(string fileName, bool isFolder) {
             // Taken from:
             // http://www.dotnetjunkies.com/WebLog/malio/archive/2004/10/04/27603.aspx
@@ -327,7 +307,7 @@ namespace SharpWired.Gui.Resources.Icons {
 
             return icon.ToBitmap();
         }
-
-        #endregion
+#endregion
+    
     }
 }

@@ -68,7 +68,10 @@ namespace SharpWired.Gui.Files {
             var fileViewIcons = new ImageList();
             fileViewIcons.ColorDepth = ColorDepth.Depth32Bit;
             try {
-                fileViewIcons.Images.Add("FOLDER", iconHandler.GetFolderIconFromSystem());
+                foreach (var icon in iconHandler.GetAllIcons()) {
+                    fileViewIcons.Images.Add(icon);
+                }
+                
             } catch (Exception e) {
                 Debug.WriteLine("FileUserControl.cs | Failed to add images for rootTreView. Exception: " + e); //TODO: Throw exception
             }
@@ -126,9 +129,8 @@ namespace SharpWired.Gui.Files {
                             }
 
                             if (!detailsListView.SmallImageList.Images.ContainsKey(imageKey)) {
-                                detailsListView.SmallImageList.Images.Add(
-                                    imageKey,
-                                    iconHandler.GetFileIconFromSystem(child.Name));
+                                detailsListView.SmallImageList.Images.Add(imageKey, IconHandler.Instance[IconList.File]);
+                                Debug.WriteLine("GUI:FolderListing -> UpdateListView: Adding new imageKey " + imageKey);
                             }
 
                             AddToListView(child, imageKey);
@@ -144,7 +146,7 @@ namespace SharpWired.Gui.Files {
         private void AddToListView(INode child, string imageKey) {
             var wln = new WiredListNode(child);
             wln.ImageIndex = detailsListView.SmallImageList.Images.IndexOfKey(imageKey);
-            //wln.StateImageIndex = wln.Type;
+            Debug.WriteLine("       GUI:FolderListing -> AddToListView: Setting imageKey " + imageKey);
             wln.SubItems.Add(wln.Size);
             wln.SubItems.Add(wln.Created.ToString());
             wln.SubItems.Add(wln.Modified.ToString());

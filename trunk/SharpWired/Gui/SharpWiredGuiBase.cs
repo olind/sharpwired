@@ -36,7 +36,7 @@ namespace SharpWired.Gui {
     /// shared resources (e.g. model and controller) when inited.
     /// </summary>
     public class SharpWiredGuiBase : UserControl {
-        //I wanted to make this class abstract but then can'transfer the visual studio designer handle it...
+        //I wanted to make this class abstract but the the visual studio designer can't handle it?
 
         protected SharpWiredController Controller { get { return SharpWiredController.Instance; } }
         protected SharpWiredModel Model { get { return SharpWiredModel.Instance; } }

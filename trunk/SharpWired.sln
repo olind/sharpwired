@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2010
+# SharpDevelop 4.0.0.7070
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpWired", "SharpWired\SharpWired.csproj", "{85C03311-3C25-4EB5-97BA-FDC6F3C63005}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FEC0BECC-B654-4DEE-9919-74F52ECDDC92} = {FEC0BECC-B654-4DEE-9919-74F52ECDDC92}
