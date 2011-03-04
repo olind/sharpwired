@@ -68,8 +68,7 @@ namespace SharpWired.Gui.Files {
                 if (folder != "") {
                     b.Text = folder;
                 } else {
-                    var iconHandler = IconHandler.Instance;
-                    b.Image = iconHandler.GoHome;
+                    b.Image = IconHandler.Instance[IconList.GoHome];
                 }
 
                 b.MouseUp += OnMouseUp;

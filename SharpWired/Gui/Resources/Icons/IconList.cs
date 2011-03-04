@@ -34,35 +34,38 @@ namespace SharpWired.Gui.Resources.Icons {
     internal class IconList {
         private static readonly SortedDictionary<string, Pair<string, string>> sIcons = new SortedDictionary<string, Pair<string, string>>();
 
-        private static readonly Pair<string, string> sFile = new Pair<string, string>("File", "file.png");
-        private static readonly Pair<string, string> sFolderClosed = new Pair<string, string>("FolderClosed", "folderClosed.png");
-        private static readonly Pair<string, string> sUserImage = new Pair<string, string>("UserImage", "userImage.png");
+        private static readonly Pair<string, string> userImage = new Pair<string, string>("UserImage", "userImage.png");
+        private static readonly Pair<string, string> bookmark = new Pair<string, string>("Bookmark", "bookmark-new.ico");
+        private static readonly Pair<string, string> file = new Pair<string, string>("File", "format-justify-left.ico");
+        private static readonly Pair<string, string> folder = new Pair<string, string>("Folder", "folder.ico");
+        private static readonly Pair<string, string> folderOpen = new Pair<string, string>("FolderOpen", "folder-open.ico");
+        private static readonly Pair<string, string> goHome = new Pair<string, string>("GoHome", "go-home.ico");
+        private static readonly Pair<string, string> mediaPlaybackPause = new Pair<string, string>("MediaPlaybackPause", "media-playback-pause.ico");
+        private static readonly Pair<string, string> mediaPlaybackStart = new Pair<string, string>("MediaPlaybackStart", "media-playback-start.ico");
+        private static readonly Pair<string, string> processStop = new Pair<string, string>("ProcessStop", "process-stop.ico");
 
-        /// <summary>Request the file icon name and filename pair</summary>
-        public static Pair<string, string> File {
-            get { return sFile; }
-            //set { sFile = value; }
-        }
-
-        /// <summary>Request the folder closed icon and filename pair</summary>
-        public static Pair<string, string> FolderClosed {
-            get { return sFolderClosed; }
-            //set { sFolderClosed = value; }
-        }
-
-        /// <summary>Request the user image icon and filename pair</summary>
-        public static Pair<string, string> UserImage { get { return sUserImage; } }
+        public static Pair<string, string> UserImage { get { return userImage; } }
+        public static Pair<string, string> Bookmark { get { return bookmark; } }
+        public static Pair<string, string> File { get { return file; } }
+        public static Pair<string, string> Folder { get { return folder; } }
+        public static Pair<string, string> FolderOpen { get { return folderOpen; } }
+        public static Pair<string, string> GoHome { get { return goHome; } }
+        public static Pair<string, string> MediaPlaybackPause { get { return mediaPlaybackPause; } }
+        public static Pair<string, string> MediaPlaybackStart { get { return mediaPlaybackStart; } }
+        public static Pair<string, string> ProcessStop { get { return processStop; } }
 
         /// <summary>Gets the list of icon pairs.</summary>
         public static SortedDictionary<string, Pair<string, string>> Icons { get { return sIcons; } }
 
-        /// <summary>
-        /// Adds all the icon pairs to a list. Add your added properties to
-        /// this list!
-        /// </summary>
         static IconList() {
-            sIcons.Add(sFile.Key, sFile);
-            sIcons.Add(sFolderClosed.Key, sFolderClosed);
+            sIcons.Add(file.Key, file);
+            sIcons.Add(folder.Key, folder);
+            sIcons.Add(folderOpen.Key, folderOpen);
+            sIcons.Add(userImage.Key, userImage);
+            sIcons.Add(goHome.Key, goHome);
+            sIcons.Add(mediaPlaybackPause.Key, mediaPlaybackPause);
+            sIcons.Add(mediaPlaybackStart.Key, mediaPlaybackStart);
+            sIcons.Add(processStop.Key, processStop);
         }
     }
 }

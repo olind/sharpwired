@@ -23,9 +23,8 @@ namespace SharpWired.Gui.Transfers {
             this.ContextMenu = new TransferMenu(t);
             transfer = t;
             transfer.TransferDone += OnTransferDone;
-            var icons = IconHandler.Instance;
-            pauseButton.Image = icons.MediaPlaybackPause;
-            deleteButton.Image = icons.ProcessStop;
+            pauseButton.Image = IconHandler.Instance[IconList.MediaPlaybackPause];
+            deleteButton.Image = IconHandler.Instance[IconList.ProcessStop];
             fileName.Text = t.Source.Name;
             info.Text = "";
             Anchor = AnchorStyles.Left | AnchorStyles.Right;
@@ -79,7 +78,7 @@ namespace SharpWired.Gui.Transfers {
         		}
         	} else if (transfer.Status == Status.Idle) {
                 if (!frozen) {
-                    pauseButton.Image = IconHandler.Instance.MediaPlaybackStart;
+                    pauseButton.Image = IconHandler.Instance[IconList.MediaPlaybackStart];
                     pauseButton.Enabled = false;
 
                     info.Text = "Paused — " + GuiUtil.FormatByte(transfer.Received)

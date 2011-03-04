@@ -102,7 +102,7 @@ namespace SharpWired.Model {
 
             var c = ConnectionManager.Commands;
             c.Nick(ui.Nick);         //Required
-            c.Icon(1, ih.UserImage); //Optional
+            c.Icon(1, IconHandler.Instance[IconList.UserImage]); //Optional
             //STATUS                 //Optional TODO: Set status
             c.Client();              //Optional but highly recomended
 
