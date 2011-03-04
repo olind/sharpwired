@@ -10,7 +10,8 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharpWired</RootNamespace>
     <AssemblyName>SharpWired</AssemblyName>
-    <ApplicationIcon>SharpWired.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -400,7 +401,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
-    <Content Include="SharpWired.ico" />
     <Content Include="SharpWired_Program_Icon.ico" />
   </ItemGroup>
   <ItemGroup>
