@@ -95,8 +95,18 @@
     <Compile Include="Gui\Chat\ChatUserContainer.Designer.cs">
       <DependentUpon>ChatUserContainer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gui\ToolStripItems\AnimatedLoaderItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Gui\ToolStripItems\AnimatedLoaderItemResources.Designer.cs" />
     <Compile Include="Gui\Transfers\TransferMenu.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Gui\WiredForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gui\WiredForm.designer.cs">
+      <DependentUpon>WiredForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MessageEvents\MessageEventArgs.cs" />
     <Compile Include="MessageEvents\MessageEventArgs_200.cs" />
@@ -194,6 +204,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>UserList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Gui\ToolStripItems\AnimatedLoaderItem.resx">
+      <DependentUpon>AnimatedLoaderItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\ToolStripItems\AnimatedLoaderItemResources.resx" />
     <EmbeddedResource Include="Gui\Transfers\TransferContainer.resx">
       <DependentUpon>TransferContainer.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -206,6 +220,9 @@
       <DependentUpon>TransferList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Gui\WiredForm.resx">
+      <DependentUpon>WiredForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -216,6 +233,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Gui\ToolStripItems\FullCircle.pdn" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -374,6 +392,10 @@
     <Compile Include="Utils\Pair.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Gui\ToolStripItems\1-3.png" />
+    <Content Include="Gui\ToolStripItems\3-6.png" />
+    <Content Include="Gui\ToolStripItems\6-9.png" />
+    <Content Include="Gui\ToolStripItems\9-12.png" />
     <Content Include="LICENSE.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -402,12 +424,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WiredControls\WiredControls.csproj">
-      <Project>{FEC0BECC-B654-4DEE-9919-74F52ECDDC92}</Project>
-      <Name>WiredControls</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
