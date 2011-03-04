@@ -59,40 +59,5 @@ namespace SharpWired.Properties {
                 resourceCulture = value;
             }
         }
-        
-        internal static System.Drawing.Bitmap folder {
-            get {
-                object obj = ResourceManager.GetObject("folder", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap format_justify_left {
-            get {
-                object obj = ResourceManager.GetObject("format_justify_left", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap internet_group_chat {
-            get {
-                object obj = ResourceManager.GetObject("internet_group_chat", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap mail_send_receive {
-            get {
-                object obj = ResourceManager.GetObject("mail_send_receive", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap system_log_out {
-            get {
-                object obj = ResourceManager.GetObject("system_log_out", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

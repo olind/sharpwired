@@ -36,29 +36,38 @@ namespace SharpWired.Gui.Resources.Icons {
 
         private static readonly Pair<string, string> userImage = new Pair<string, string>("UserImage", "userImage.png");
         private static readonly Pair<string, string> bookmark = new Pair<string, string>("Bookmark", "bookmark-new.ico");
-        private static readonly Pair<string, string> file = new Pair<string, string>("File", "format-justify-left.ico");
+        private static readonly Pair<string, string> file = new Pair<string, string>("File", "file.ico");
+        private static readonly Pair<string, string> formatJustifyLeft = new Pair<string, string>("FormatJustifyLeft", "format-justify-left.ico");
         private static readonly Pair<string, string> folder = new Pair<string, string>("Folder", "folder.ico");
         private static readonly Pair<string, string> folderOpen = new Pair<string, string>("FolderOpen", "folder-open.ico");
         private static readonly Pair<string, string> goHome = new Pair<string, string>("GoHome", "go-home.ico");
         private static readonly Pair<string, string> mediaPlaybackPause = new Pair<string, string>("MediaPlaybackPause", "media-playback-pause.ico");
         private static readonly Pair<string, string> mediaPlaybackStart = new Pair<string, string>("MediaPlaybackStart", "media-playback-start.ico");
         private static readonly Pair<string, string> processStop = new Pair<string, string>("ProcessStop", "process-stop.ico");
+        private static readonly Pair<string, string> internetGroupChat = new Pair<string, string>("InternetGroupChat", "internet-group-chat.ico");
+        private static readonly Pair<string, string> mailSendReceive = new Pair<string, string>("MailSendReceive", "mail-send-receive.ico");
+        private static readonly Pair<string, string> systemLogOut = new Pair<string, string>("SystemLogOut", "system-log-out.ico");
 
         public static Pair<string, string> UserImage { get { return userImage; } }
         public static Pair<string, string> Bookmark { get { return bookmark; } }
         public static Pair<string, string> File { get { return file; } }
+        public static Pair<string, string> FormatJustifyLeft { get { return formatJustifyLeft; } }
         public static Pair<string, string> Folder { get { return folder; } }
         public static Pair<string, string> FolderOpen { get { return folderOpen; } }
         public static Pair<string, string> GoHome { get { return goHome; } }
         public static Pair<string, string> MediaPlaybackPause { get { return mediaPlaybackPause; } }
         public static Pair<string, string> MediaPlaybackStart { get { return mediaPlaybackStart; } }
         public static Pair<string, string> ProcessStop { get { return processStop; } }
+        public static Pair<string, string> InternetGroupChat { get {return internetGroupChat;}}
+        public static Pair<string, string> MailSendReceive { get {return mailSendReceive;}}
+        public static Pair<string, string> SystemLogOut { get { return systemLogOut; } }
 
         /// <summary>Gets the list of icon pairs.</summary>
         public static SortedDictionary<string, Pair<string, string>> Icons { get { return sIcons; } }
 
         static IconList() {
             sIcons.Add(file.Key, file);
+            sIcons.Add(formatJustifyLeft.Key, formatJustifyLeft);
             sIcons.Add(folder.Key, folder);
             sIcons.Add(folderOpen.Key, folderOpen);
             sIcons.Add(userImage.Key, userImage);

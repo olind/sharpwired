@@ -92,7 +92,7 @@
             // 
             this.iconPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
-            this.iconPictureBox.Image = global::SharpWired.Properties.Resources.format_justify_left;
+            
             this.iconPictureBox.InitialImage = null;
             this.iconPictureBox.Location = new System.Drawing.Point(9, 14);
             this.iconPictureBox.Name = "iconPictureBox";

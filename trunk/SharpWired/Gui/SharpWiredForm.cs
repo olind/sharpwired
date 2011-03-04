@@ -38,6 +38,7 @@ using SharpWired.Gui.Bookmarks;
 using SharpWired.Model;
 using WiredControls.Containers.Forms;
 using WiredControls.ToolStripItems;
+using SharpWired.Gui.Resources.Icons;
 
 namespace SharpWired.Gui {
     /// <summary>The main GUI</summary>
@@ -49,11 +50,16 @@ namespace SharpWired.Gui {
         private readonly List<ToolStripMenuItem> bookmarkItems = new List<ToolStripMenuItem>();
 
         /// <summary>Constructor</summary>
-        public SharpWiredForm(SharpWiredModel model,
-                              SharpWiredController sharpWiredController) {
+        public SharpWiredForm(SharpWiredModel model, SharpWiredController sharpWiredController) {
             this.model = model;
 
             InitializeComponent();
+
+            this.filesToolStripButton.Image = IconHandler.Instance[IconList.Folder];
+            this.newsToolStripButton.Image = IconHandler.Instance[IconList.FormatJustifyLeft];
+            this.publicChatToolStripButton.Image = IconHandler.Instance[IconList.InternetGroupChat];
+            this.transfersToolStripButton.Image = IconHandler.Instance[IconList.MailSendReceive];
+            this.ExitToolStripButton.Image = IconHandler.Instance[IconList.SystemLogOut];
 
             chatUserContainer.Init();
             newsContainer.Init();

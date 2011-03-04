@@ -17,6 +17,7 @@ namespace SharpWired.Gui.Transfers {
 
         public PrototypeTransferItem() {
             InitializeComponent();
+            this.iconPictureBox.Image = IconHandler.Instance[IconList.FormatJustifyLeft];
         }
 
         public void Init(ITransfer t) {

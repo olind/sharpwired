@@ -25,6 +25,7 @@
 #endregion
 
 using SharpWired.Gui.Chat;
+using SharpWired.Gui.Resources.Icons;
 namespace SharpWired.Gui
 {
     partial class SharpWiredForm
@@ -183,7 +184,6 @@ namespace SharpWired.Gui
             // 
             // publicChatToolStripButton
             // 
-            this.publicChatToolStripButton.Image = global::SharpWired.Properties.Resources.internet_group_chat;
             this.publicChatToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.publicChatToolStripButton.Name = "publicChatToolStripButton";
             this.publicChatToolStripButton.Size = new System.Drawing.Size(58, 26);
@@ -192,7 +192,6 @@ namespace SharpWired.Gui
             // 
             // newsToolStripButton
             // 
-            this.newsToolStripButton.Image = global::SharpWired.Properties.Resources.format_justify_left;
             this.newsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newsToolStripButton.Name = "newsToolStripButton";
             this.newsToolStripButton.Size = new System.Drawing.Size(62, 26);
@@ -201,7 +200,7 @@ namespace SharpWired.Gui
             // 
             // filesToolStripButton
             // 
-            this.filesToolStripButton.Image = global::SharpWired.Properties.Resources.folder;
+//            this.filesToolStripButton.Image = IconHandler.Instance[IconList.Folder]; // global::SharpWired.Properties.Resources.folder;
             this.filesToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.filesToolStripButton.Name = "filesToolStripButton";
             this.filesToolStripButton.Size = new System.Drawing.Size(56, 26);
@@ -210,7 +209,7 @@ namespace SharpWired.Gui
             // 
             // transfersToolStripButton
             // 
-            this.transfersToolStripButton.Image = global::SharpWired.Properties.Resources.mail_send_receive;
+            
             this.transfersToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.transfersToolStripButton.Name = "transfersToolStripButton";
             this.transfersToolStripButton.Size = new System.Drawing.Size(81, 26);
@@ -220,7 +219,7 @@ namespace SharpWired.Gui
             // ExitToolStripButton
             // 
             this.ExitToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.ExitToolStripButton.Image = global::SharpWired.Properties.Resources.system_log_out;
+            
             this.ExitToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ExitToolStripButton.Name = "ExitToolStripButton";
             this.ExitToolStripButton.Size = new System.Drawing.Size(51, 26);
